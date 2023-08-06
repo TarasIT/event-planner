@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import Sprite from "../../assest/images/sprite.svg";
+import { NewEventForm } from "../../components/NewEventForm/NewEventForm";
 import {
   Container,
   GoBackLink,
@@ -17,6 +18,7 @@ const CreateEvent: FC = (): JSX.Element => {
         Back
       </GoBackLink>
       <Title>Create new event</Title>
+      <NewEventForm/>
     </Container>
   );
 };
