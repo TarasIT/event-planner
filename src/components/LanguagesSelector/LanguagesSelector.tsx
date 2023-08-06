@@ -4,10 +4,10 @@ import {
   SvgLangIcon,
   LangList,
   LangItem,
-} from "./LanguagesBox.styled";
+} from "./LanguagesSelector.styled";
 import Sprite from "../../assest/images/sprite.svg";
 
-export const LanguagesBox: FC = (): JSX.Element => {
+export const LanguagesSelector: FC = (): JSX.Element => {
   const [isLangListOpened, setIsLangListOpened] = useState<boolean>(false);
   const [currentLang, setCurrentLang] = useState<string>("UA");
   const langBoxRef = useRef<HTMLDivElement | null>(null);
@@ -26,6 +26,11 @@ export const LanguagesBox: FC = (): JSX.Element => {
     }
   };
 
+  const handleLangChanging = (e: React.MouseEvent<HTMLParagraphElement>) => {
+    const target = e.target as HTMLParagraphElement;
+    setCurrentLang(target.id);
+  };
+
   return (
     <LangBox
       ref={langBoxRef}
@@ -40,13 +45,7 @@ export const LanguagesBox: FC = (): JSX.Element => {
           {langOptions.map((lang) => {
             return (
               <LangItem key={lang}>
-                <p
-                  id={lang}
-                  onClick={(e: React.MouseEvent<HTMLParagraphElement>) => {
-                    const target = e.target as HTMLParagraphElement;
-                    setCurrentLang(target.id);
-                  }}
-                >
+                <p id={lang} onClick={handleLangChanging}>
                   {lang}
                 </p>
               </LangItem>

@@ -1,33 +1,24 @@
 import React, { FC } from "react";
-import {
-  Container,
-  Header,
-  Link,
-  SearchBox,
-  SearchInput,
-  SearchLabel,
-  SvgSearchIcon,
-} from "./AppBar.styled";
-import Sprite from "../../assest/images/sprite.svg";
-import { LanguagesBox } from "../LanguagesBox/LanguagesBox";
+import { Container, Title, Menu, MenuItem } from "./AppBar.styled";
+import { CategoriesSelector } from "../CategoriesSelector/CategoriesSelector";
+import { FiltersSelector } from "../FiltersSelector/FiltersSelector";
+import { AddEventButton } from "../AddEventButton/AddEventButton";
 
 export const AppBar: FC = (): JSX.Element => {
   return (
-    <Header>
-      <Container>
-        <Link>Event Planner</Link>
-
-        <SearchBox>
-          <SearchLabel>
-            <SvgSearchIcon>
-              <use xlinkHref={`${Sprite}#icon-search`}></use>
-            </SvgSearchIcon>
-            <SearchInput type="text" placeholder="Search by keywords" />
-          </SearchLabel>
-        </SearchBox>
-
-        <LanguagesBox />
-      </Container>
-    </Header>
+    <Container>
+      <Title>My Events</Title>
+      <Menu>
+        <MenuItem>
+          <CategoriesSelector />
+        </MenuItem>
+        <MenuItem>
+          <FiltersSelector />
+        </MenuItem>
+        <MenuItem>
+          <AddEventButton />
+        </MenuItem>
+      </Menu>
+    </Container>
   );
 };
