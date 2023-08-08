@@ -8,6 +8,8 @@ interface CreateEventFormProps {
 
 export const CreateEventForm = styled.form`
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   height: 490px;
   padding-top: 40px;

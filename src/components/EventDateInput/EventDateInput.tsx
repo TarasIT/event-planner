@@ -18,9 +18,6 @@ export const EventDateInput: FC = (): JSX.Element => {
 
   return (
     <DateBox>
-      <SvgDateIcon onClick={handleSvgClick} isCalendarOpened={isCalendarOpened}>
-        <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
-      </SvgDateIcon>
       <InputName>Date</InputName>
       <DatePickerWrapper>
         <StyledDatePicker
@@ -77,6 +74,12 @@ export const EventDateInput: FC = (): JSX.Element => {
             </div>
           )}
         />
+        <SvgDateIcon
+          onClick={handleSvgClick}
+          isCalendarOpened={isCalendarOpened}
+        >
+          <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
+        </SvgDateIcon>
       </DatePickerWrapper>
     </DateBox>
   );

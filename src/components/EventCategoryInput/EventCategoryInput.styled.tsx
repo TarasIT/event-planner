@@ -85,6 +85,7 @@ export const CategoryList = styled.ul<CreateEventFormProps>`
   position: absolute;
   top: 74px;
   left: 0;
+  z-index: 1;
   width: 372px;
   flex-direction: column;
   justify-content: center;

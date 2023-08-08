@@ -69,7 +69,6 @@ export const InputName = styled.p`
 `;
 
 export const DateBox = styled.div`
-  position: relative;
   width: 372px;
 `;
 
@@ -118,6 +117,7 @@ export const SvgDateIcon = styled.svg<CreateEventFormProps>`
 `;
 
 export const DatePickerWrapper = styled.div<CreateEventFormProps>`
+  position: relative;
   .react-datepicker {
     display: flex;
     flex-direction: column;
