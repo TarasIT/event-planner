@@ -5,6 +5,7 @@ interface CreateEventFormProps {
   isLocationInputValid?: boolean;
   isLocationInputCompleted?: boolean;
 }
+
 export const SvgDeleteIcon = styled.svg<CreateEventFormProps>`
   position: absolute;
   top: 40px;
@@ -24,15 +25,16 @@ export const SvgDeleteIcon = styled.svg<CreateEventFormProps>`
     if (!locationInputValue || isLocationInputCompleted) return "#aca7c3";
   }};
 `;
+
 export const InputName = styled.p`
   display: block;
   margin-bottom: 8px;
 `;
 
-export const InvalidInputWarning = styled.path`
+export const InvalidInputWarning = styled.p`
   position: absolute;
   right: 19px;
-  bottom: -20px;
+  bottom: 0px;
 
   color: #ff2b77;
   text-align: right;
@@ -92,6 +94,7 @@ export const LocationLabel = styled.label`
   position: relative;
   display: block;
   width: 372px;
+  height: 100px;
 
   color: #7b61ff;
   font-family: Poppins;

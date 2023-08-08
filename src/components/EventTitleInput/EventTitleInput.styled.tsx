@@ -30,7 +30,7 @@ export const InputName = styled.p`
 export const InvalidInputWarning = styled.p`
   position: absolute;
   right: 19px;
-  bottom: -20px;
+  bottom: 0px;
 
   color: #ff2b77;
   text-align: right;
@@ -82,6 +82,7 @@ export const TitleLabel = styled.label`
   position: relative;
   display: block;
   width: 372px;
+  height: 100px;
   margin-bottom: 20px;
 
   color: #7b61ff;
