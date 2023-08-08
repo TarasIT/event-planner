@@ -85,7 +85,7 @@ export const PriorityList = styled.ul<CreateEventFormProps>`
   position: absolute;
   top: 74px;
   left: 0;
-  z-index: 1;
+  z-index: 2;
   width: 372px;
   flex-direction: column;
   justify-content: center;
