@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/event-planner/static/css/main.756348d7.css",
+    "main.js": "/event-planner/static/js/main.63637a33.js",
+    "static/js/202.4447fb67.chunk.js": "/event-planner/static/js/202.4447fb67.chunk.js",
+    "static/js/714.1022e2cd.chunk.js": "/event-planner/static/js/714.1022e2cd.chunk.js",
+    "static/css/44.3387ab20.chunk.css": "/event-planner/static/css/44.3387ab20.chunk.css",
+    "static/js/44.255699d1.chunk.js": "/event-planner/static/js/44.255699d1.chunk.js",
+    "static/media/main-bg-desktop.png": "/event-planner/static/media/main-bg-desktop.0af339545e2edf9cbedc.png",
+    "static/media/main-bg-tablet.png": "/event-planner/static/media/main-bg-tablet.6ee245e13bfa6c0dfcdf.png",
+    "static/media/main-bg-mobile.png": "/event-planner/static/media/main-bg-mobile.72cb5f32fe71023f1332.png",
+    "static/media/sprite.svg": "/event-planner/static/media/sprite.9e9e0d7aef8aff4a56eeeee2640f969f.svg",
+    "index.html": "/event-planner/index.html",
+    "main.756348d7.css.map": "/event-planner/static/css/main.756348d7.css.map",
+    "main.63637a33.js.map": "/event-planner/static/js/main.63637a33.js.map",
+    "202.4447fb67.chunk.js.map": "/event-planner/static/js/202.4447fb67.chunk.js.map",
+    "714.1022e2cd.chunk.js.map": "/event-planner/static/js/714.1022e2cd.chunk.js.map",
+    "44.3387ab20.chunk.css.map": "/event-planner/static/css/44.3387ab20.chunk.css.map",
+    "44.255699d1.chunk.js.map": "/event-planner/static/js/44.255699d1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.756348d7.css",
+    "static/js/main.63637a33.js"
+  ]
+}
