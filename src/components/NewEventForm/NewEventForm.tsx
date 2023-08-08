@@ -1,88 +1,76 @@
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
-import Sprite from "../../assest/images/sprite.svg";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
 import {
-  CreateEventForm,
-  Title,
-  TitleLabel,
-  TitleInput,
-  SvgDeleteIcon,
-  InvalidInputTitle,
-  SvgSelectIcon,
-} from "./NewEventForm.styled";
+  parseEventsFromLS,
+  saveEventToLS,
+} from "../../services/LocalStorageService";
+import { CreateEventForm } from "./NewEventForm.styled";
+import { NewEvent } from "../../types/types";
+import { EventTitleInput } from "../EventTitleInput/EventTitleInput";
+import { EventLocationInput } from "../EventLocationInput/EventLocationInput";
+import { EventDescriptionInput } from "../EventDescriptionInput/EventDescriptionInput";
+import { EventCategoryInput } from "../EventCategoryInput/EventCategoryInput";
+import { EventPriorityInput } from "../EventPriorityInput/EventPriorityInput";
+import { EventImageInput } from "../EventImageInput/EventImageInput";
+import { EventDateInput } from "../EventDateInput/EventDateInput";
 
 export const NewEventForm: FC = (): JSX.Element => {
-  const [titleInputValue, setTitleInputValue] = useState<string>("");
-  const [isTitleIputValid, setIsTitleIputValid] = useState<boolean>(true);
-  const [isTitleIputCompleted, setIsIputCompleted] = useState<boolean>(false);
-  const titleIputRef = useRef<HTMLInputElement | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [events, setEvents] = useState<NewEvent[]>([]);
+
+  const STORAGE_KEY = "events";
+
+  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelectedDate(e.target.value);
+  };
+
+  console.log("selectedDate", selectedDate);
+  console.log("events", events);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideTitleInput);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideTitleInput);
-    };
+    setEvents(parseEventsFromLS(STORAGE_KEY));
   }, []);
 
-  const handleClickOutsideTitleInput = (e: MouseEvent): void => {
-    if (titleIputRef.current !== e.target) {
-      setIsIputCompleted(true);
-    } else {
-      setIsIputCompleted(false);
-    }
-  };
+  useEffect(() => {
+    if (parseEventsFromLS(STORAGE_KEY).length > events.length) return;
+    saveEventToLS(STORAGE_KEY, events);
+  }, [events]);
 
-  const cleanTitleInput = (): void => {
-    setTitleInputValue("");
-    setIsTitleIputValid(true);
-  };
+  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
 
-  const validateIput = (inputValue: string): boolean => {
-    const hasComasAndDots = /[.,]/.test(inputValue);
-    if (hasComasAndDots) {
-      return false;
-    } else {
-      return true;
-    }
-  };
+    const newEvent = {
+      title: "title of event",
+      decription: "some description of new event",
+      date: selectedDate,
+      time: "time-of-new-event",
+      location: "some location",
+      category: "some category",
+      priority: "some priority",
+    };
 
-  const handleTitleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (!validateIput(e.target.value.trim())) {
-      setIsTitleIputValid(false);
-    } else {
-      setIsTitleIputValid(true);
-    }
-    setTitleInputValue(e.target.value.trim());
+    setEvents([...events, newEvent]);
+
+    form.reset();
   };
 
   return (
-    <CreateEventForm>
-      <TitleLabel>
-        <Title>Title</Title>
-        {/* <SvgSelectIcon>
-          <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
-        </SvgSelectIcon> */}
-        <SvgDeleteIcon
-          onClick={cleanTitleInput}
-          isTitleIputValid={isTitleIputValid}
-          titleInputValue={titleInputValue}
-        >
-          <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
-        </SvgDeleteIcon>
-        <TitleInput
-          type="text"
-          value={titleInputValue}
-          ref={titleIputRef}
-          isTitleIputCompleted={isTitleIputCompleted}
-          isTitleIputValid={isTitleIputValid}
-          onChange={handleTitleInputChange}
-          titleInputValue={titleInputValue}
-          placeholder="input"
-        />
-        {!isTitleIputValid && (
-          <InvalidInputTitle>Invalid input</InvalidInputTitle>
-        )}
-      </TitleLabel>
+    <CreateEventForm onSubmit={handleFormSubmit}>
+      {/* <EventTitleInput />
+      <EventDescriptionInput />
+      <EventLocationInput />
+      <EventCategoryInput />
+      <EventPriorityInput />
+      <EventImageInput /> */}
+      <EventDateInput />
+
+      {/* <input
+        type="date"
+        id="datePicker"
+        value={selectedDate}
+        onChange={handleDateChange}
+      />
+      <button type="submit">Submit form</button> */}
     </CreateEventForm>
   );
 };

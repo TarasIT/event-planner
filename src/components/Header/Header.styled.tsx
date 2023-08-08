@@ -12,7 +12,6 @@ export const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
   padding-top: 22px;
-  padding-left: 87px;
   background: #fefcff;
 
   ${css`

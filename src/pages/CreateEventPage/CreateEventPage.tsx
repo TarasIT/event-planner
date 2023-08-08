@@ -18,7 +18,7 @@ const CreateEvent: FC = (): JSX.Element => {
         Back
       </GoBackLink>
       <Title>Create new event</Title>
-      <NewEventForm/>
+      <NewEventForm />
     </Container>
   );
 };

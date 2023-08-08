@@ -34,6 +34,7 @@ export const LangList = styled.ul`
   position: absolute;
   top: 63px;
   left: 0;
+  z-index: 1;
   width: 69px;
   flex-direction: column;
   justify-content: center;

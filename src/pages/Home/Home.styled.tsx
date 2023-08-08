@@ -6,7 +6,6 @@ export const Container = styled.section`
   margin-left: auto;
   margin-right: auto;
   padding-top: 60px;
-  padding-left: 87px;
 
   ${css`
     @media screen and (max-width: 767px) {

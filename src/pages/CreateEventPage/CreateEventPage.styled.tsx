@@ -7,7 +7,6 @@ export const Container = styled.section`
   margin-left: auto;
   margin-right: auto;
   padding-top: 18px;
-  padding-left: 87px;
 
   ${css`
     @media screen and (max-width: 767px) {
@@ -75,6 +74,8 @@ export const SvgBackLinkIcon = styled.svg`
 `;
 
 export const Title = styled.h2`
+  margin-bottom: 25px;
+
   color: #3f3f3f;
   font-family: Poppins;
   font-size: 32px;
