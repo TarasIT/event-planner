@@ -23,9 +23,6 @@ export const NewEventForm: FC = (): JSX.Element => {
     setSelectedDate(e.target.value);
   };
 
-  console.log("selectedDate", selectedDate);
-  console.log("events", events);
-
   useEffect(() => {
     setEvents(parseEventsFromLS(STORAGE_KEY));
   }, []);
@@ -56,21 +53,13 @@ export const NewEventForm: FC = (): JSX.Element => {
 
   return (
     <CreateEventForm onSubmit={handleFormSubmit}>
-      {/* <EventTitleInput />
+      <EventTitleInput />
       <EventDescriptionInput />
       <EventLocationInput />
       <EventCategoryInput />
       <EventPriorityInput />
-      <EventImageInput /> */}
+      <EventImageInput />
       <EventDateInput />
-
-      {/* <input
-        type="date"
-        id="datePicker"
-        value={selectedDate}
-        onChange={handleDateChange}
-      />
-      <button type="submit">Submit form</button> */}
     </CreateEventForm>
   );
 };
