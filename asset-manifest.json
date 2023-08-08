@@ -1,9 +1,9 @@
 {
   "files": {
     "main.css": "/event-planner/static/css/main.756348d7.css",
-    "main.js": "/event-planner/static/js/main.9d821448.js",
+    "main.js": "/event-planner/static/js/main.634b5cb5.js",
     "static/js/202.4447fb67.chunk.js": "/event-planner/static/js/202.4447fb67.chunk.js",
-    "static/js/714.f968e58c.chunk.js": "/event-planner/static/js/714.f968e58c.chunk.js",
+    "static/js/714.116e4220.chunk.js": "/event-planner/static/js/714.116e4220.chunk.js",
     "static/css/44.3387ab20.chunk.css": "/event-planner/static/css/44.3387ab20.chunk.css",
     "static/js/44.255699d1.chunk.js": "/event-planner/static/js/44.255699d1.chunk.js",
     "static/media/main-bg-desktop.png": "/event-planner/static/media/main-bg-desktop.0af339545e2edf9cbedc.png",
@@ -12,14 +12,14 @@
     "static/media/sprite.svg": "/event-planner/static/media/sprite.9e9e0d7aef8aff4a56eeeee2640f969f.svg",
     "index.html": "/event-planner/index.html",
     "main.756348d7.css.map": "/event-planner/static/css/main.756348d7.css.map",
-    "main.9d821448.js.map": "/event-planner/static/js/main.9d821448.js.map",
+    "main.634b5cb5.js.map": "/event-planner/static/js/main.634b5cb5.js.map",
     "202.4447fb67.chunk.js.map": "/event-planner/static/js/202.4447fb67.chunk.js.map",
-    "714.f968e58c.chunk.js.map": "/event-planner/static/js/714.f968e58c.chunk.js.map",
+    "714.116e4220.chunk.js.map": "/event-planner/static/js/714.116e4220.chunk.js.map",
     "44.3387ab20.chunk.css.map": "/event-planner/static/css/44.3387ab20.chunk.css.map",
     "44.255699d1.chunk.js.map": "/event-planner/static/js/44.255699d1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.756348d7.css",
-    "static/js/main.9d821448.js"
+    "static/js/main.634b5cb5.js"
   ]
 }
