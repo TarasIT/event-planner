@@ -54,11 +54,11 @@ export const NewEventForm: FC = (): JSX.Element => {
   return (
     <CreateEventForm onSubmit={handleFormSubmit}>
       <EventTitleInput />
-      <EventDescriptionInput />
+      {/* <EventDescriptionInput />
       <EventLocationInput />
       <EventCategoryInput />
       <EventPriorityInput />
-      <EventImageInput />
+      <EventImageInput /> */}
       <EventDateInput />
     </CreateEventForm>
   );
