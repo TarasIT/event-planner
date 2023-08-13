@@ -31,6 +31,15 @@ export const CustomDatePicker = styled.div<CreateEventFormProps>`
   cursor: pointer;
   transition: color 300ms;
   border-color: ${({ selectedDate }) => (selectedDate ? "#7b61ff" : "#aca7c3")};
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      width: 240px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: 309px;
+    }
+  `}
 `;
 
 export const TextInput = styled.p<CreateEventFormProps>`
@@ -121,6 +130,15 @@ export const InputName = styled.p`
 
 export const DateBox = styled.div`
   width: 372px;
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      width: 240px;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: 309px;
+    }
+  `}
 `;
 
 export const DateInput = styled.div<CreateEventFormProps>`
@@ -169,8 +187,10 @@ export const DatePickerWrapper = styled.div<CreateEventFormProps>`
 
   ${css`
     @media screen and (max-width: 767px) {
+      width: 240px;
     }
     @media screen and (min-width: 768px) and (max-width: 1279px) {
+      width: 309px;
     }
   `}
 
@@ -250,31 +270,33 @@ export const DatePickerWrapper = styled.div<CreateEventFormProps>`
     line-height: 16px;
   }
 
-  .react-datepicker__day.react-datepicker__day--today
-    .react-datepicker__day--selected {
+  .react-datepicker__day--today.react-datepicker__day--selected {
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 0;
 
     color: ${({ selectedDate }) => (selectedDate ? "#fff" : "#7b61ff")};
-    text-align: center;
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 16px;
   }
 
-  .react-datepicker__day--keyboard-selected,
-  .react-datepicker__month-text--keyboard-selected,
-  .react-datepicker__quarter-text--keyboard-selected,
-  .react-datepicker__year-text--keyboard-selected {
+  .react-datepicker__day.react-datepicker__day--today {
+    color: #7b61ff;
+  }
+
+  .react-datepicker__day.react-datepicker__day--today.react-datepicker__day--selected,
+  .react-datepicker__day.react-datepicker__day--keyboard-selected {
+    color: #fff;
+  }
+
+  .react-datepicker__day--keyboard-selected {
     border-radius: 0;
+    background-color: #7b61ff;
+    transition: background-color 300ms;
   }
 
   .react-datepicker__day--selected:hover {
     background-color: #6243ff;
+    border-radius: 0;
   }
 
   .react-datepicker__day--keyboard-selected:hover,
@@ -282,27 +304,21 @@ export const DatePickerWrapper = styled.div<CreateEventFormProps>`
   .react-datepicker__quarter-text--keyboard-selected:hover,
   .react-datepicker__year-text--keyboard-selected:hover {
     border-radius: 0;
-    background-color: #bad9f1;
+    background-color: #6243ff;
   }
 
   .react-datepicker__day {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px;
-    height: 32px;
-    width: 100%;
     margin: 0;
     color: #3c3c3c80;
   }
 
   .react-datepicker__day--selected {
-    height: 32px;
-    width: 100%;
-    padding: 8px;
     border-radius: 0;
     background: #7b61ff;
-
+    transition: background-color 300ms;
     color: #fff;
     text-align: center;
     font-family: Inter;
@@ -310,5 +326,18 @@ export const DatePickerWrapper = styled.div<CreateEventFormProps>`
     font-style: normal;
     font-weight: 400;
     line-height: 16px;
+  }
+
+  .react-datepicker__day,
+  .react-datepicker__day--selected {
+    height: 32px;
+    width: 100%;
+    padding: 8px;
+
+    ${css`
+      @media screen and (max-width: 767px) {
+        width: 28.57px;
+      }
+    `}
   }
 `;

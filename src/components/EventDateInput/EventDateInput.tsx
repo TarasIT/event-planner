@@ -40,6 +40,11 @@ export const EventDateInput: FC = (): JSX.Element => {
     datePickerRef.current.setOpen(false);
   };
 
+  const handleDateCancel = (): void => {
+    setSelectedDate(null);
+    datePickerRef.current.setOpen(false);
+  };
+
   const CustomInput = forwardRef<HTMLDivElement, CustomInputProps>(
     ({ value, onClick }, ref) => {
       return (
@@ -72,7 +77,7 @@ export const EventDateInput: FC = (): JSX.Element => {
     <DatePickerWrapper>
       {children}
       <BtnsBox>
-        <CancelBtn type="button" onClick={() => setSelectedDate(null)}>
+        <CancelBtn type="button" onClick={handleDateCancel}>
           Cancel
         </CancelBtn>
         <ChooseBtn type="button" onClick={handleDateChoose}>
@@ -94,6 +99,7 @@ export const EventDateInput: FC = (): JSX.Element => {
         onCalendarOpen={() => setIsCalendarOpened(true)}
         showPopperArrow={false}
         useWeekdaysShort={true}
+        onSelect={(date: Date) => setSelectedDate(date)}
         shouldCloseOnSelect={false}
         popperModifiers={[
           {
