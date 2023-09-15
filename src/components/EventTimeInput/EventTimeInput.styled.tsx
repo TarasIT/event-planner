@@ -1,9 +1,8 @@
-import { Value } from "react-time-picker/dist/cjs/shared/types";
 import { css, keyframes, styled } from "styled-components";
 import { TimeSelector } from "../../styles/common.styled";
 
 interface TimePickerProps {
-  selectedTime?: Value;
+  selectedTime?: string;
   isTimePickerOpened?: boolean;
   isHourScrollUp?: boolean | string;
   isMinuteScrollUp?: boolean | string;

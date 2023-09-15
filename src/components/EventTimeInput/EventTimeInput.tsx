@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Value } from "react-time-picker/dist/cjs/shared/types";
 import {
   TimeBox,
   TimeInput,
@@ -32,7 +31,7 @@ const shouldForwardProp = (prop: string) => {
 };
 
 export const EventTimeInput: FC = (): JSX.Element => {
-  const [selectedTime, setSelectedTime] = useState<Value>();
+  const [selectedTime, setSelectedTime] = useState<string>();
   const [isTimePickerOpened, setIsTimePickerOpened] = useState<boolean>(false);
   const [selectedHour, setSelectedHour] = useState<number>(1);
   const [selectedMinute, setSelectedMinute] = useState<number>(0);
