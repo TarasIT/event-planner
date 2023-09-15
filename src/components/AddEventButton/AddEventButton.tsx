@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { AddEventLink, SvgButtonIcon } from "./AddEventButton.styled";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 
 export const AddEventButton: FC = (): JSX.Element => {
   return (

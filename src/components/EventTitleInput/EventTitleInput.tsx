@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 import {
   InputName,
   TitleLabel,

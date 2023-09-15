@@ -14,7 +14,7 @@ import {
   CancelBtn,
   BtnsBox,
 } from "./EventDateInput.styled";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 
 interface CalendarContainerProps {
   children: ReactNode;

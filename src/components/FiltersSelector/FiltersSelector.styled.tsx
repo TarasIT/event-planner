@@ -82,7 +82,7 @@ export const FilterList = styled.ul<FilterProps>`
   ${({ isFilterListOpened }) =>
     isFilterListOpened &&
     css`
-      animation: ${openCategories} 0.3s ease-out;
+      animation: ${openCategories} 300ms ease-out;
     `}
 `;
 

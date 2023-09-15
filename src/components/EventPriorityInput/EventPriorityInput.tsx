@@ -8,7 +8,7 @@ import {
   Priority,
   InputName,
 } from "./EventPriorityInput.styled";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 
 export const EventPriorityInput: FC = (): JSX.Element => {
   const [isPriorityListOpened, setIsPriorityListOpened] =

@@ -8,7 +8,7 @@ import {
   CategoryBox,
   InputName,
 } from "./EventCategoryInput.styled";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 
 export const EventCategoryInput: FC = (): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =

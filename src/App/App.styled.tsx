@@ -1,7 +1,7 @@
 import { styled, css } from "styled-components";
-import DesktopBg from "../assest/images/main-bg-desktop.png";
-import TabletBg from "../assest/images/main-bg-tablet.png";
-import MobileBg from "../assest/images/main-bg-mobile.png";
+import DesktopBg from "../assets/images/main-bg-desktop.png";
+import TabletBg from "../assets/images/main-bg-tablet.png";
+import MobileBg from "../assets/images/main-bg-mobile.png";
 
 export const Main = styled.main`
   background-image: url(${DesktopBg});

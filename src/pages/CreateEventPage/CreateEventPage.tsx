@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 import { NewEventForm } from "../../components/NewEventForm/NewEventForm";
 import {
   Container,

@@ -10,7 +10,7 @@ import {
   SvgUpIcon,
   SvgDownIcon,
 } from "./FiltersSelector.styled";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 
 export const FiltersSelector: FC = (): JSX.Element => {
   const [isFilterListOpened, setIsFilterListOpened] = useState<boolean>(false);

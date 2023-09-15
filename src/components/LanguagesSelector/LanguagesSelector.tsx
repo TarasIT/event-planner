@@ -5,7 +5,7 @@ import {
   LangList,
   LangItem,
 } from "./LanguagesSelector.styled";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 
 export const LanguagesSelector: FC = (): JSX.Element => {
   const [isLangListOpened, setIsLangListOpened] = useState<boolean>(false);

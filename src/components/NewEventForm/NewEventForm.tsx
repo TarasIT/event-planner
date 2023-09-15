@@ -12,6 +12,7 @@ import { EventCategoryInput } from "../EventCategoryInput/EventCategoryInput";
 import { EventPriorityInput } from "../EventPriorityInput/EventPriorityInput";
 import { EventImageInput } from "../EventImageInput/EventImageInput";
 import { EventDateInput } from "../EventDateInput/EventDateInput";
+import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
 
 export const NewEventForm: FC = (): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<string>("");
@@ -53,13 +54,15 @@ export const NewEventForm: FC = (): JSX.Element => {
 
   return (
     <CreateEventForm onSubmit={handleFormSubmit}>
-      <EventTitleInput />
+      {/* <EventTitleInput /> */}
+
       {/* <EventDescriptionInput />
       <EventLocationInput />
       <EventCategoryInput />
       <EventPriorityInput />
       <EventImageInput /> */}
-      <EventDateInput />
+      {/* <EventDateInput /> */}
+      <EventTimeInput />
     </CreateEventForm>
   );
 };

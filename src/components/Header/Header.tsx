@@ -8,7 +8,7 @@ import {
   SearchLabel,
   SvgSearchIcon,
 } from "./Header.styled";
-import Sprite from "../../assest/images/sprite.svg";
+import Sprite from "../../assets/images/sprite.svg";
 import { LanguagesSelector } from "../LanguagesSelector/LanguagesSelector";
 
 export const Header: FC = (): JSX.Element => {
