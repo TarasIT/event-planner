@@ -1,10 +1,21 @@
-import { css, styled } from "styled-components";
+import { css, keyframes, styled } from "styled-components";
 
-interface CreateEventFormProps {
+interface DatePickerProps {
   selectedDate?: Date | null;
   isCalendarOpened?: boolean;
   value?: Date | null;
 }
+
+const openDatePicker = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const SvgDecreaseMonthIcon = styled.svg`
   width: 20px;
@@ -17,7 +28,7 @@ export const SvgIncreaseMonthIcon = styled(SvgDecreaseMonthIcon)`
   transform: rotate(180deg);
 `;
 
-export const CustomDatePicker = styled.div<CreateEventFormProps>`
+export const CustomDatePicker = styled.div<DatePickerProps>`
   position: relative;
   display: flex;
   align-items: center;
@@ -42,7 +53,7 @@ export const CustomDatePicker = styled.div<CreateEventFormProps>`
   `}
 `;
 
-export const TextInput = styled.p<CreateEventFormProps>`
+export const TextInput = styled.p<DatePickerProps>`
   font-family: Poppins;
   font-size: 16px;
   font-style: normal;
@@ -54,8 +65,15 @@ export const TextInput = styled.p<CreateEventFormProps>`
     selectedDate ? "#3f3f3f" : isCalendarOpened ? "#7b61ff" : "#aca7c3"};
 `;
 
-export const ChooseBtn = styled.button<CreateEventFormProps>`
-  padding: 8px 16px;
+export const BtnsBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+`;
+
+export const ChooseBtn = styled.button<DatePickerProps>`
+  min-width: 110px;
+  min-height: 32px;
   border: none;
   border-radius: 4px;
   background: #7b61ff;
@@ -74,14 +92,9 @@ export const ChooseBtn = styled.button<CreateEventFormProps>`
   }
 `;
 
-export const BtnsBox = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-`;
-
-export const CancelBtn = styled.button<CreateEventFormProps>`
-  padding: 8px 16px;
+export const CancelBtn = styled.button<DatePickerProps>`
+  min-width: 75px;
+  min-height: 32px;
   border-radius: 4px;
   border: 1px solid #7b61ff;
   background: #fff;
@@ -101,7 +114,7 @@ export const CancelBtn = styled.button<CreateEventFormProps>`
   }
 `;
 
-export const SvgDateIcon = styled.svg<CreateEventFormProps>`
+export const SvgDateIcon = styled.svg<DatePickerProps>`
   position: absolute;
   bottom: 16px;
   right: 12px;
@@ -141,7 +154,7 @@ export const DateBox = styled.div`
   `}
 `;
 
-export const DateInput = styled.div<CreateEventFormProps>`
+export const DateInput = styled.div<DatePickerProps>`
   position: relative;
   display: flex;
   align-items: center;
@@ -172,18 +185,24 @@ export const DateInput = styled.div<CreateEventFormProps>`
   `}
 `;
 
-export const DatePickerWrapper = styled.div<CreateEventFormProps>`
+export const DatePickerWrapper = styled.div<DatePickerProps>`
   position: relative;
-
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-
   width: 372px;
   padding: 20px;
   border-radius: 11px;
   background: #fff;
   box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.07);
+
+  ${({ isCalendarOpened, selectedDate }) => {
+    if (isCalendarOpened && !selectedDate) {
+      return css`
+        animation: ${openDatePicker} 300ms;
+      `;
+    }
+  }}
 
   ${css`
     @media screen and (max-width: 767px) {

@@ -42,17 +42,6 @@ const openTimePicker = keyframes`
   }
 `;
 
-const closeTimePicker = keyframes`
-  100% {
-    opacity: 0;
-    transform: translateY(0px);
-  }
-  0% {
-    opacity: 1;
-    transform: translateY(-8px);
-  }
-`;
-
 export const TimePicker = styled.ul<TimePickerProps>`
   position: absolute;
   top: 64px;

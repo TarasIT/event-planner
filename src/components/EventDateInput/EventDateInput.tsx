@@ -15,6 +15,7 @@ import {
   BtnsBox,
 } from "./EventDateInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
+import { StyleSheetManager } from "styled-components";
 
 interface CalendarContainerProps {
   children: ReactNode;
@@ -28,6 +29,12 @@ interface CustomInputProps {
 interface PopperStateProps {
   state: { styles: { popper: { padding: string } } };
 }
+
+const shouldForwardProp = (prop: string) => {
+  return (
+    prop !== "selectedDate" && prop !== "isCalendarOpened" && prop !== "value"
+  );
+};
 
 export const EventDateInput: FC = (): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -46,7 +53,7 @@ export const EventDateInput: FC = (): JSX.Element => {
   };
 
   const CustomInput = forwardRef<HTMLDivElement, CustomInputProps>(
-    ({ value, onClick }, ref) => {
+    ({ value, onClick }, ref): JSX.Element => {
       return (
         <CustomDatePicker
           selectedDate={selectedDate}
@@ -74,7 +81,10 @@ export const EventDateInput: FC = (): JSX.Element => {
   const CalendarContainer: FC<CalendarContainerProps> = ({
     children,
   }): JSX.Element => (
-    <DatePickerWrapper>
+    <DatePickerWrapper
+      isCalendarOpened={isCalendarOpened}
+      selectedDate={selectedDate}
+    >
       {children}
       <BtnsBox>
         <CancelBtn type="button" onClick={handleDateCancel}>
@@ -88,73 +98,78 @@ export const EventDateInput: FC = (): JSX.Element => {
   );
 
   return (
-    <DateBox>
-      <InputName>Date</InputName>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <DateBox>
+        <InputName>Date</InputName>
 
-      <DatePicker
-        ref={datePickerRef}
-        selected={selectedDate}
-        isCalendarOpened={isCalendarOpened}
-        onCalendarClose={() => setIsCalendarOpened(false)}
-        onCalendarOpen={() => setIsCalendarOpened(true)}
-        showPopperArrow={false}
-        useWeekdaysShort={true}
-        onSelect={(date: Date) => setSelectedDate(date)}
-        shouldCloseOnSelect={false}
-        popperModifiers={[
-          {
-            name: "offset",
-            options: {
-              offset: [0, 8],
+        <DatePicker
+          ref={datePickerRef}
+          selected={selectedDate}
+          isCalendarOpened={isCalendarOpened}
+          onCalendarClose={() => setIsCalendarOpened(false)}
+          onCalendarOpen={() => {
+            setIsCalendarOpened(true);
+            setSelectedDate(null);
+          }}
+          showPopperArrow={false}
+          useWeekdaysShort={true}
+          onSelect={(date: Date) => setSelectedDate(date)}
+          shouldCloseOnSelect={false}
+          popperModifiers={[
+            {
+              name: "offset",
+              options: {
+                offset: [0, 8],
+              },
             },
-          },
-          {
-            name: "applyPadding",
-            enabled: true,
-            phase: "beforeWrite",
-            fn: ({ state }: PopperStateProps) => {
-              state.styles.popper.padding = "0";
+            {
+              name: "applyPadding",
+              enabled: true,
+              phase: "beforeWrite",
+              fn: ({ state }: PopperStateProps) => {
+                state.styles.popper.padding = "0";
+              },
             },
-          },
-        ]}
-        calendarContainer={CalendarContainer}
-        customInput={<CustomInput value={selectedDate} />}
-        renderCustomHeader={({
-          date,
-          decreaseMonth,
-          increaseMonth,
-          prevMonthButtonDisabled,
-          nextMonthButtonDisabled,
-        }: {
-          date: Date;
-          decreaseMonth: () => void;
-          increaseMonth: () => void;
-          prevMonthButtonDisabled: boolean;
-          nextMonthButtonDisabled: boolean;
-        }) => (
-          <div className="custom-header">
-            <SvgDecreaseMonthIcon
-              onClick={decreaseMonth}
-              className="custom-arrow"
-            >
-              <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
-            </SvgDecreaseMonthIcon>
-            <span className="custom-month-year">
-              {date.toLocaleDateString("en-US", {
-                month: "long",
-                year: "numeric",
-              })}
-            </span>
+          ]}
+          calendarContainer={CalendarContainer}
+          customInput={<CustomInput value={selectedDate} />}
+          renderCustomHeader={({
+            date,
+            decreaseMonth,
+            increaseMonth,
+            prevMonthButtonDisabled,
+            nextMonthButtonDisabled,
+          }: {
+            date: Date;
+            decreaseMonth: () => void;
+            increaseMonth: () => void;
+            prevMonthButtonDisabled: boolean;
+            nextMonthButtonDisabled: boolean;
+          }) => (
+            <div className="custom-header">
+              <SvgDecreaseMonthIcon
+                onClick={decreaseMonth}
+                className="custom-arrow"
+              >
+                <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
+              </SvgDecreaseMonthIcon>
+              <span className="custom-month-year">
+                {date.toLocaleDateString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })}
+              </span>
 
-            <SvgIncreaseMonthIcon
-              onClick={increaseMonth}
-              className="custom-arrow"
-            >
-              <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
-            </SvgIncreaseMonthIcon>
-          </div>
-        )}
-      />
-    </DateBox>
+              <SvgIncreaseMonthIcon
+                onClick={increaseMonth}
+                className="custom-arrow"
+              >
+                <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
+              </SvgIncreaseMonthIcon>
+            </div>
+          )}
+        />
+      </DateBox>
+    </StyleSheetManager>
   );
 };
