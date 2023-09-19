@@ -80,7 +80,13 @@ export const EventTimeInput: FC = (): JSX.Element => {
       if (isDayHalfScrollUp === true || !isDayHalfScrollUp) {
         setTimeout(() => setIsDayHalfScrollUp("pending"), 300);
       }
-      if (selectedHour && selectedMinute && selectedDayHalf) {
+      if (
+        isTimePickerOpened &&
+        (selectedHour ||
+          selectedMinute ||
+          selectedMinute === 0 ||
+          selectedDayHalf)
+      ) {
         setSelectedTime(
           `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
             .toString()
@@ -89,6 +95,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
       }
     },
     [
+      isTimePickerOpened,
       isHourScrollUp,
       isMinuteScrollUp,
       isDayHalfScrollUp,
@@ -127,6 +134,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
         }
       });
     }
+
     if (target.name === "minute") {
       setSelectedMinute((value: number) => {
         if (e.deltaY > 0) {
@@ -138,6 +146,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
         }
       });
     }
+
     if (target.name === "dayHalf") {
       setSelectedDayHalf((value: string) => {
         if (e.deltaY > 0) {
