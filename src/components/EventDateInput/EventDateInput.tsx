@@ -113,7 +113,6 @@ export const EventDateInput: FC = (): JSX.Element => {
           }}
           showPopperArrow={false}
           useWeekdaysShort={true}
-          onSelect={(date: Date) => setSelectedDate(date)}
           shouldCloseOnSelect={false}
           popperModifiers={[
             {

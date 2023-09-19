@@ -17,6 +17,24 @@ const openDatePicker = keyframes`
   }
 `;
 
+const inputArrowUp = keyframes`
+  0% {
+    transform: rotate(-90deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+`;
+
+const inputArrowDown = keyframes`
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+`;
+
 export const SvgDecreaseMonthIcon = styled.svg`
   width: 20px;
   height: 20px;
@@ -123,9 +141,19 @@ export const SvgDateIcon = styled.svg<DatePickerProps>`
   height: 24px;
   fill: #7b61ff;
   cursor: pointer;
-  transition: transform 300ms;
-  transform: ${({ isCalendarOpened }) =>
-    isCalendarOpened ? "rotate(90deg)" : "rotate(-90deg)"};
+  transform: rotate(-90deg);
+
+  ${({ isCalendarOpened }) => {
+    return isCalendarOpened
+      ? css`
+          animation: ${inputArrowUp} 300ms;
+          animation-fill-mode: forwards;
+        `
+      : css`
+          animation: ${inputArrowDown} 300ms;
+          animation-fill-mode: forwards;
+        `;
+  }}
 `;
 
 export const InputName = styled.p`
