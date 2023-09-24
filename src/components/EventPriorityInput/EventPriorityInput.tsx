@@ -9,6 +9,11 @@ import {
   InputName,
 } from "./EventPriorityInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return prop !== "isPriorityListOpened";
+};
 
 export const EventPriorityInput: FC = (): JSX.Element => {
   const [isPriorityListOpened, setIsPriorityListOpened] =
@@ -41,35 +46,37 @@ export const EventPriorityInput: FC = (): JSX.Element => {
   };
 
   return (
-    <PriorityBox>
-      <InputName>Priority</InputName>
-      <PriorityInput
-        ref={priorityInputRef}
-        onClick={() => setIsPriorityListOpened(!isPriorityListOpened)}
-        isPriorityListOpened={isPriorityListOpened}
-      >
-        <p>
-          {currentPriority && !isPriorityListOpened
-            ? currentPriority
-            : "Select"}
-        </p>
-        <SvgPriorityIcon isPriorityListOpened={isPriorityListOpened}>
-          <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
-        </SvgPriorityIcon>
-        {isPriorityListOpened && (
-          <PriorityList isPriorityListOpened={isPriorityListOpened}>
-            {priorityOptions.map((priority) => {
-              return (
-                <PriorityItem key={priority}>
-                  <Priority id={priority} onClick={handlePriorityChanging}>
-                    {priority}
-                  </Priority>
-                </PriorityItem>
-              );
-            })}
-          </PriorityList>
-        )}
-      </PriorityInput>
-    </PriorityBox>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <PriorityBox>
+        <InputName>Priority</InputName>
+        <PriorityInput
+          ref={priorityInputRef}
+          onClick={() => setIsPriorityListOpened(!isPriorityListOpened)}
+          isPriorityListOpened={isPriorityListOpened}
+        >
+          <p>
+            {currentPriority && !isPriorityListOpened
+              ? currentPriority
+              : "Select"}
+          </p>
+          <SvgPriorityIcon isPriorityListOpened={isPriorityListOpened}>
+            <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
+          </SvgPriorityIcon>
+          {isPriorityListOpened && (
+            <PriorityList isPriorityListOpened={isPriorityListOpened}>
+              {priorityOptions.map((priority) => {
+                return (
+                  <PriorityItem key={priority}>
+                    <Priority id={priority} onClick={handlePriorityChanging}>
+                      {priority}
+                    </Priority>
+                  </PriorityItem>
+                );
+              })}
+            </PriorityList>
+          )}
+        </PriorityInput>
+      </PriorityBox>
+    </StyleSheetManager>
   );
 };

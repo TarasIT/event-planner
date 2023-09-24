@@ -7,6 +7,15 @@ import {
   SvgDeleteIcon,
   InvalidInputWarning,
 } from "./EventLocationInput.styled";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return (
+    prop !== "locationInputValue" &&
+    prop !== "isLocationInputValid" &&
+    prop !== "isLocationInputCompleted"
+  );
+};
 
 export const EventLocationInput: FC = (): JSX.Element => {
   const [locationInputValue, setLocationInputValue] = useState<string>("");
@@ -58,28 +67,30 @@ export const EventLocationInput: FC = (): JSX.Element => {
   };
 
   return (
-    <LocationLabel>
-      <InputName>Location</InputName>
-      <SvgDeleteIcon
-        onClick={cleanLocationInput}
-        isLocationInputValid={isLocationInputValid}
-        locationInputValue={locationInputValue}
-      >
-        <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
-      </SvgDeleteIcon>
-      <LocationInput
-        type="text"
-        value={locationInputValue}
-        ref={locationInputRef}
-        isLocationInputCompleted={isLocationInputCompleted}
-        isLocationInputValid={isLocationInputValid}
-        onChange={handleLocationInputChange}
-        locationInputValue={locationInputValue}
-        placeholder="input"
-      />
-      {!isLocationInputValid && (
-        <InvalidInputWarning>Invalid input</InvalidInputWarning>
-      )}
-    </LocationLabel>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <LocationLabel>
+        <InputName>Location</InputName>
+        <SvgDeleteIcon
+          onClick={cleanLocationInput}
+          isLocationInputValid={isLocationInputValid}
+          locationInputValue={locationInputValue}
+        >
+          <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
+        </SvgDeleteIcon>
+        <LocationInput
+          type="text"
+          value={locationInputValue}
+          ref={locationInputRef}
+          isLocationInputCompleted={isLocationInputCompleted}
+          isLocationInputValid={isLocationInputValid}
+          onChange={handleLocationInputChange}
+          locationInputValue={locationInputValue}
+          placeholder="input"
+        />
+        {!isLocationInputValid && (
+          <InvalidInputWarning>Invalid input</InvalidInputWarning>
+        )}
+      </LocationLabel>
+    </StyleSheetManager>
   );
 };

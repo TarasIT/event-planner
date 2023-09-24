@@ -7,6 +7,11 @@ import {
   SvgDeleteIcon,
   ImageInputWrapper,
 } from "./EventImageInput.styled";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return prop !== "imageInputValue" && prop !== "isImageInputCompleted";
+};
 
 export const EventImageInput: FC = (): JSX.Element => {
   const [imageInputValue, setImageInputValue] = useState<string>("");
@@ -39,35 +44,37 @@ export const EventImageInput: FC = (): JSX.Element => {
   };
 
   return (
-    <ImageLabel>
-      <InputName
-        imageInputValue={imageInputValue}
-        isImageInputCompleted={isImageInputCompleted}
-      >
-        Add picture
-      </InputName>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <ImageLabel>
+        <InputName
+          imageInputValue={imageInputValue}
+          isImageInputCompleted={isImageInputCompleted}
+        >
+          Add picture
+        </InputName>
 
-      <ImageInputWrapper
-        isImageInputCompleted={isImageInputCompleted}
-        imageInputValue={imageInputValue}
-      >
-        <label>{imageInputValue ? imageInputValue : "input"}</label>
-        <ImageInput
-          type="file"
-          accept="image/*"
-          value={imageInputValue}
-          ref={imageInputRef}
+        <ImageInputWrapper
           isImageInputCompleted={isImageInputCompleted}
           imageInputValue={imageInputValue}
-          onChange={handleImageInputChange}
-        />
-        <SvgDeleteIcon
-          onClick={cleanImageInput}
-          imageInputValue={imageInputValue}
         >
-          <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
-        </SvgDeleteIcon>
-      </ImageInputWrapper>
-    </ImageLabel>
+          <label>{imageInputValue ? imageInputValue : "input"}</label>
+          <ImageInput
+            type="file"
+            accept="image/*"
+            value={imageInputValue}
+            ref={imageInputRef}
+            isImageInputCompleted={isImageInputCompleted}
+            imageInputValue={imageInputValue}
+            onChange={handleImageInputChange}
+          />
+          <SvgDeleteIcon
+            onClick={cleanImageInput}
+            imageInputValue={imageInputValue}
+          >
+            <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
+          </SvgDeleteIcon>
+        </ImageInputWrapper>
+      </ImageLabel>
+    </StyleSheetManager>
   );
 };

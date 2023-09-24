@@ -9,6 +9,11 @@ import {
   InputName,
 } from "./EventCategoryInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return prop !== "isCategoryListOpened";
+};
 
 export const EventCategoryInput: FC = (): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =
@@ -49,35 +54,37 @@ export const EventCategoryInput: FC = (): JSX.Element => {
   };
 
   return (
-    <CategoryBox>
-      <InputName>Category</InputName>
-      <CategoryInput
-        ref={categoryInputRef}
-        onClick={() => setIsCategoryListOpened(!isCategoryListOpened)}
-        isCategoryListOpened={isCategoryListOpened}
-      >
-        <p>
-          {currentCategory && !isCategoryListOpened
-            ? currentCategory
-            : "Select"}
-        </p>
-        <SvgCategoryIcon isCategoryListOpened={isCategoryListOpened}>
-          <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
-        </SvgCategoryIcon>
-        {isCategoryListOpened && (
-          <CategoryList isCategoryListOpened={isCategoryListOpened}>
-            {categoryOptions.map((category) => {
-              return (
-                <CategoryItem key={category}>
-                  <Category id={category} onClick={handleCategoryChanging}>
-                    {category}
-                  </Category>
-                </CategoryItem>
-              );
-            })}
-          </CategoryList>
-        )}
-      </CategoryInput>
-    </CategoryBox>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <CategoryBox>
+        <InputName>Category</InputName>
+        <CategoryInput
+          ref={categoryInputRef}
+          onClick={() => setIsCategoryListOpened(!isCategoryListOpened)}
+          isCategoryListOpened={isCategoryListOpened}
+        >
+          <p>
+            {currentCategory && !isCategoryListOpened
+              ? currentCategory
+              : "Select"}
+          </p>
+          <SvgCategoryIcon isCategoryListOpened={isCategoryListOpened}>
+            <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
+          </SvgCategoryIcon>
+          {isCategoryListOpened && (
+            <CategoryList isCategoryListOpened={isCategoryListOpened}>
+              {categoryOptions.map((category) => {
+                return (
+                  <CategoryItem key={category}>
+                    <Category id={category} onClick={handleCategoryChanging}>
+                      {category}
+                    </Category>
+                  </CategoryItem>
+                );
+              })}
+            </CategoryList>
+          )}
+        </CategoryInput>
+      </CategoryBox>
+    </StyleSheetManager>
   );
 };

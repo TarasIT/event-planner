@@ -6,6 +6,13 @@ import {
   DescriptionLabel,
   SvgDeleteIcon,
 } from "./EventDescriptionInput.styled";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return (
+    prop !== "descriptionInputValue" && prop !== "isDescriptionInputCompleted"
+  );
+};
 
 export const EventDescriptionInput: FC = (): JSX.Element => {
   const [descriptionInputValue, setDescriptionInputValue] =
@@ -41,23 +48,25 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
   };
 
   return (
-    <DescriptionLabel>
-      <InputName>Description</InputName>
-      <SvgDeleteIcon
-        onClick={cleanDescriptionInput}
-        descriptionInputValue={descriptionInputValue}
-      >
-        <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
-      </SvgDeleteIcon>
-      <DescriptionTextArea
-        value={descriptionInputValue}
-        ref={descriptionTextAreaRef}
-        isDescriptionInputCompleted={isDescriptionInputCompleted}
-        onChange={handleDescriptionInputChange}
-        descriptionInputValue={descriptionInputValue}
-        rows={4}
-        placeholder="input"
-      />
-    </DescriptionLabel>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <DescriptionLabel>
+        <InputName>Description</InputName>
+        <SvgDeleteIcon
+          onClick={cleanDescriptionInput}
+          descriptionInputValue={descriptionInputValue}
+        >
+          <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
+        </SvgDeleteIcon>
+        <DescriptionTextArea
+          value={descriptionInputValue}
+          ref={descriptionTextAreaRef}
+          isDescriptionInputCompleted={isDescriptionInputCompleted}
+          onChange={handleDescriptionInputChange}
+          descriptionInputValue={descriptionInputValue}
+          rows={4}
+          placeholder="input"
+        />
+      </DescriptionLabel>
+    </StyleSheetManager>
   );
 };

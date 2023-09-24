@@ -7,6 +7,15 @@ import {
   SvgDeleteIcon,
   InvalidInputWarning,
 } from "./EventTitleInput.styled";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return (
+    prop !== "titleInputValue" &&
+    prop !== "isTitleInputValid" &&
+    prop !== "isTitleInputCompleted"
+  );
+};
 
 export const EventTitleInput: FC = (): JSX.Element => {
   const [titleInputValue, setTitleInputValue] = useState<string>("");
@@ -55,28 +64,30 @@ export const EventTitleInput: FC = (): JSX.Element => {
   };
 
   return (
-    <TitleLabel>
-      <InputName>Title</InputName>
-      <SvgDeleteIcon
-        onClick={cleanTitleInput}
-        isTitleInputValid={isTitleInputValid}
-        titleInputValue={titleInputValue}
-      >
-        <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
-      </SvgDeleteIcon>
-      <TitleInput
-        type="text"
-        value={titleInputValue}
-        ref={titleInputRef}
-        isTitleInputCompleted={isTitleInputCompleted}
-        isTitleInputValid={isTitleInputValid}
-        onChange={handleTitleInputChange}
-        titleInputValue={titleInputValue}
-        placeholder="input"
-      />
-      {!isTitleInputValid && (
-        <InvalidInputWarning>Invalid input</InvalidInputWarning>
-      )}
-    </TitleLabel>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <TitleLabel>
+        <InputName>Title</InputName>
+        <SvgDeleteIcon
+          onClick={cleanTitleInput}
+          isTitleInputValid={isTitleInputValid}
+          titleInputValue={titleInputValue}
+        >
+          <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
+        </SvgDeleteIcon>
+        <TitleInput
+          type="text"
+          value={titleInputValue}
+          ref={titleInputRef}
+          isTitleInputCompleted={isTitleInputCompleted}
+          isTitleInputValid={isTitleInputValid}
+          onChange={handleTitleInputChange}
+          titleInputValue={titleInputValue}
+          placeholder="input"
+        />
+        {!isTitleInputValid && (
+          <InvalidInputWarning>Invalid input</InvalidInputWarning>
+        )}
+      </TitleLabel>
+    </StyleSheetManager>
   );
 };
