@@ -155,11 +155,11 @@ export const FiltersSelector: FC = (): JSX.Element => {
                 >
                   <Filter>by {filter}</Filter>
                   {index % 2 === 0 ? (
-                    <SvgUpIcon>
+                    <SvgUpIcon isActive={filterIndex === index}>
                       <use xlinkHref={`${Sprite}#icon-arrow`}></use>
                     </SvgUpIcon>
                   ) : (
-                    <SvgDownIcon>
+                    <SvgDownIcon isActive={filterIndex === index}>
                       <use xlinkHref={`${Sprite}#icon-arrow`}></use>
                     </SvgDownIcon>
                   )}

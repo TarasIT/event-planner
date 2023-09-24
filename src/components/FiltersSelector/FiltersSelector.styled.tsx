@@ -1,7 +1,7 @@
 import { styled, css, keyframes } from "styled-components";
 
 interface FilterProps {
-  isFilterListOpened: boolean;
+  isFilterListOpened?: boolean;
   currentFilter?: string;
   isActive?: boolean;
 }
@@ -87,25 +87,37 @@ export const FilterList = styled.ul<FilterProps>`
     `}
 `;
 
-export const SvgUpIcon = styled.svg`
+export const SvgUpIcon = styled.svg<FilterProps>`
   width: 24px;
   height: 24px;
   transition: rotate(-90deg);
   stroke: #aca7c3;
   transition: stroke 300ms;
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      stroke: #7b61ff;
+    `}
 
   ${FilterBox}:hover > & {
     stroke: #7b61ff;
   }
 `;
 
-export const SvgDownIcon = styled.svg`
+export const SvgDownIcon = styled.svg<FilterProps>`
   width: 24px;
   height: 24px;
   transition: rotate(-90deg);
   stroke: #aca7c3;
   transition: stroke 300ms;
   transform: rotate(180deg);
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      stroke: #7b61ff;
+    `}
 
   ${FilterBox}:hover > & {
     stroke: #7b61ff;
