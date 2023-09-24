@@ -11,23 +11,40 @@ import {
   SvgDownIcon,
 } from "./FiltersSelector.styled";
 import Sprite from "../../assets/images/sprite.svg";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return (
+    prop !== "isFilterListOpened" &&
+    prop !== "currentFilter" &&
+    prop !== "isActive"
+  );
+};
 
 export const FiltersSelector: FC = (): JSX.Element => {
   const [isFilterListOpened, setIsFilterListOpened] = useState<boolean>(false);
   const [currentFilter, setCurrentFilter] = useState<string>("");
+  const [filterIndex, setFilterIndex] = useState<number>();
   const [isCurrentIconUp, setIsCurrentIconUp] = useState<boolean>(false);
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const [isOptionVisible, setIsOptionVisible] = useState<boolean>(false);
   const filterBoxRef = useRef<HTMLDivElement | null>(null);
-  const filterOptions: string[] = ["name", "data", "priority"];
+  const filterOptions: string[] = [
+    "name",
+    "name",
+    "data",
+    "data",
+    "priority",
+    "priority",
+  ];
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
-    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       window.removeEventListener("resize", handleWindowResize);
-      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -46,18 +63,23 @@ export const FiltersSelector: FC = (): JSX.Element => {
 
   const handleFilterChanging = (e: React.MouseEvent<HTMLLIElement>): void => {
     const currentTarget = e.currentTarget as HTMLLIElement;
+    setFilterIndex(Number(currentTarget.id));
 
-    if (currentTarget.id.includes("up")) setIsCurrentIconUp(true);
-    if (!currentTarget.id.includes("up")) setIsCurrentIconUp(false);
+    if (Number(currentTarget.id) % 2 === 0) {
+      setIsCurrentIconUp(true);
+    } else {
+      setIsCurrentIconUp(false);
+    }
 
-    switch (currentTarget.id.split("/")[0]) {
-      case filterOptions[0]:
-        if (currentFilter === "A-Z") setCurrentFilter("Z-A");
-        if (currentFilter !== "A-Z") setCurrentFilter("A-Z");
+    switch (Number(currentTarget.id)) {
+      case 0:
+        setCurrentFilter("A-Z");
         return;
-
+      case 1:
+        setCurrentFilter("Z-A");
+        return;
       default:
-        return setCurrentFilter(currentTarget.id.split("/")[0]);
+        return setCurrentFilter(filterOptions[Number(currentTarget.id)]);
     }
   };
 
@@ -90,53 +112,63 @@ export const FiltersSelector: FC = (): JSX.Element => {
   };
 
   return (
-    <FilterBox
-      ref={filterBoxRef}
-      onTransitionEnd={handleTransitionEnd}
-      isFilterListOpened={isFilterListOpened}
-      currentFilter={currentFilter}
-      onClick={onFilterBoxClick}
-    >
-      <CurrentFilter isFilterListOpened={isFilterListOpened}>
-        Sort by {isOptionVisible && currentFilter}
-      </CurrentFilter>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <FilterBox
+        ref={filterBoxRef}
+        onTransitionEnd={handleTransitionEnd}
+        isFilterListOpened={isFilterListOpened}
+        currentFilter={currentFilter}
+        onClick={onFilterBoxClick}
+      >
+        <CurrentFilter isFilterListOpened={isFilterListOpened}>
+          Sort by {isOptionVisible && currentFilter}
+        </CurrentFilter>
 
-      {viewportWidth >= 768 && !currentFilter ? (
-        <SvgFilterIcon isFilterListOpened={isFilterListOpened}>
-          <use xlinkHref={`${Sprite}#icon-filters-2`}></use>
-        </SvgFilterIcon>
-      ) : (
-        viewportWidth >= 768 && changeCurrentIcon()
-      )}
+        {viewportWidth >= 768 && !currentFilter ? (
+          <SvgFilterIcon isFilterListOpened={isFilterListOpened}>
+            <use xlinkHref={`${Sprite}#icon-filters-2`}></use>
+          </SvgFilterIcon>
+        ) : (
+          viewportWidth >= 768 && changeCurrentIcon()
+        )}
 
-      {viewportWidth <= 767 && (
-        <SvgFilterIcon isFilterListOpened={isFilterListOpened}>
-          <use xlinkHref={`${Sprite}#icon-filters-2`}></use>
-        </SvgFilterIcon>
-      )}
+        {viewportWidth <= 767 && (
+          <SvgFilterIcon
+            isFilterListOpened={isFilterListOpened}
+            currentFilter={currentFilter}
+          >
+            <use xlinkHref={`${Sprite}#icon-filters-2`}></use>
+          </SvgFilterIcon>
+        )}
 
-      {isFilterListOpened && (
-        <FilterList isFilterListOpened={isFilterListOpened}>
-          {filterOptions.map((filter) => {
-            return (
-              <Fragment key={nanoid()}>
-                <FilterItem id={filter + "/up"} onClick={handleFilterChanging}>
+        {isFilterListOpened && (
+          <FilterList isFilterListOpened={isFilterListOpened}>
+            {filterOptions.map((filter, index) => {
+              return (
+                <FilterItem
+                  key={nanoid()}
+                  id={index.toString()}
+                  onClick={handleFilterChanging}
+                  currentFilter={currentFilter}
+                  isActive={filterIndex === index}
+                  isFilterListOpened={isFilterListOpened}
+                >
                   <Filter>by {filter}</Filter>
-                  <SvgUpIcon>
-                    <use xlinkHref={`${Sprite}#icon-arrow`}></use>
-                  </SvgUpIcon>
+                  {index % 2 === 0 ? (
+                    <SvgUpIcon>
+                      <use xlinkHref={`${Sprite}#icon-arrow`}></use>
+                    </SvgUpIcon>
+                  ) : (
+                    <SvgDownIcon>
+                      <use xlinkHref={`${Sprite}#icon-arrow`}></use>
+                    </SvgDownIcon>
+                  )}
                 </FilterItem>
-                <FilterItem id={filter} onClick={handleFilterChanging}>
-                  <Filter>by {filter}</Filter>
-                  <SvgDownIcon>
-                    <use xlinkHref={`${Sprite}#icon-arrow`}></use>
-                  </SvgDownIcon>
-                </FilterItem>
-              </Fragment>
-            );
-          })}
-        </FilterList>
-      )}
-    </FilterBox>
+              );
+            })}
+          </FilterList>
+        )}
+      </FilterBox>
+    </StyleSheetManager>
   );
 };

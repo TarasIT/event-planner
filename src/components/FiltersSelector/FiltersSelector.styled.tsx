@@ -3,7 +3,19 @@ import { styled, css, keyframes } from "styled-components";
 interface FilterProps {
   isFilterListOpened: boolean;
   currentFilter?: string;
+  isActive?: boolean;
 }
+
+const openFilters = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const FilterBox = styled.div<FilterProps>`
   position: relative;
@@ -47,17 +59,6 @@ export const FilterBox = styled.div<FilterProps>`
   `}
 `;
 
-const openCategories = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 export const FilterList = styled.ul<FilterProps>`
   position: absolute;
   top: 57px;
@@ -82,7 +83,7 @@ export const FilterList = styled.ul<FilterProps>`
   ${({ isFilterListOpened }) =>
     isFilterListOpened &&
     css`
-      animation: ${openCategories} 300ms ease-out;
+      animation: ${openFilters} 300ms ease-out;
     `}
 `;
 
@@ -113,16 +114,9 @@ export const SvgDownIcon = styled.svg`
 
 export const Filter = styled.p`
   width: 100%;
-
-  color: #aca7c3;
-  font-family: Poppins;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
 `;
 
-export const FilterItem = styled.li`
+export const FilterItem = styled.li<FilterProps>`
   display: flex;
   align-items: center;
   padding-top: 8px;
@@ -132,9 +126,24 @@ export const FilterItem = styled.li`
   border-bottom: 1px solid;
   border-bottom-color: #aca7c3;
 
+  color: #aca7c3;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      color: #7b61ff;
+      border-bottom-color: #7b61ff;
+    `}
+
   &:last-child {
     border-bottom: none;
   }
+
   &:hover {
     border-bottom-color: #7b61ff;
   }
@@ -188,4 +197,10 @@ export const SvgFilterIcon = styled.svg<FilterProps>`
   ${FilterBox}:hover > & {
     stroke: #7b61ff;
   }
+
+  ${css<FilterProps>`
+    @media screen and (max-width: 767px) {
+      stroke: ${({ currentFilter }) => (currentFilter ? "#7b61ff" : "#3f3f3f")};
+    }
+  `}
 `;
