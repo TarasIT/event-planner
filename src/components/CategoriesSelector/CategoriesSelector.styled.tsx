@@ -3,6 +3,7 @@ import { styled, css, keyframes } from "styled-components";
 interface CategoryProps {
   isCategoryListOpened?: boolean;
   currentCategory?: string;
+  isActive?: boolean;
 }
 
 export const CategoryBox = styled.div<CategoryProps>`
@@ -91,11 +92,25 @@ export const CategoryList = styled.ul<CategoryProps>`
   `}
 `;
 
-export const CategoryItem = styled.li`
+export const CategoryItem = styled.li<CategoryProps>`
   display: flex;
   align-items: center;
   padding-top: 4px;
   border-bottom: 1px solid #aca7c3;
+
+  color: #aca7c3;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      color: #7b61ff;
+      border-bottom-color: #7b61ff;
+    `}
 
   &:last-child {
     border-bottom: none;
@@ -147,7 +162,7 @@ export const SvgCategoryIcon = styled.svg<CategoryProps>`
   ${css<CategoryProps>`
     @media screen and (max-width: 767px) {
       stroke: ${({ currentCategory }) =>
-        currentCategory ? "#7b61ff" : "#3f3f3f"};
+        currentCategory ? "#7b61ff" : "#3f3f3f"}};
     }
   `}
 `;
@@ -158,13 +173,6 @@ export const Category = styled.p`
   padding-bottom: 8px;
   padding-left: 24px;
   padding-right: 24px;
-
-  color: #aca7c3;
-  font-family: Poppins;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
 
   &:hover {
     color: #7b61ff;

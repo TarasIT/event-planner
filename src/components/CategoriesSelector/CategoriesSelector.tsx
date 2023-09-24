@@ -8,6 +8,11 @@ import {
   Category,
 } from "./CategoriesSelector.styled";
 import Sprite from "../../assets/images/sprite.svg";
+import { StyleSheetManager } from "styled-components";
+
+const shouldForwardProp = (prop: string) => {
+  return prop !== "isCategoryListOpened" && prop !== "currentCategory";
+};
 
 export const CategoriesSelector: FC = (): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =
@@ -70,34 +75,40 @@ export const CategoriesSelector: FC = (): JSX.Element => {
   };
 
   return (
-    <CategoryBox
-      ref={categoryBoxRef}
-      isCategoryListOpened={isCategoryListOpened}
-      onClick={onCategoryBoxClick}
-    >
-      <CurrentCategory isCategoryListOpened={isCategoryListOpened}>
-        {currentCategory ? currentCategory : defaultCategory}
-      </CurrentCategory>
-      <SvgCategoryIcon isCategoryListOpened={isCategoryListOpened}>
-        <use xlinkHref={`${Sprite}#icon-filters-3`}></use>
-      </SvgCategoryIcon>
-      {isCategoryListOpened && (
-        <CategoryList isCategoryListOpened={isCategoryListOpened}>
-          {categoryOptions.map((category) => {
-            return (
-              <CategoryItem
-                key={category}
-                id={category}
-                onMouseEnter={onCategoryMouseEnter}
-                onMouseLeave={onCategoryMouseLeave}
-                onClick={handleCategoryChanging}
-              >
-                <Category>{category}</Category>
-              </CategoryItem>
-            );
-          })}
-        </CategoryList>
-      )}
-    </CategoryBox>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <CategoryBox
+        ref={categoryBoxRef}
+        isCategoryListOpened={isCategoryListOpened}
+        onClick={onCategoryBoxClick}
+      >
+        <CurrentCategory isCategoryListOpened={isCategoryListOpened}>
+          {currentCategory ? currentCategory : defaultCategory}
+        </CurrentCategory>
+        <SvgCategoryIcon
+          isCategoryListOpened={isCategoryListOpened}
+          currentCategory={currentCategory}
+        >
+          <use xlinkHref={`${Sprite}#icon-filters-3`}></use>
+        </SvgCategoryIcon>
+        {isCategoryListOpened && (
+          <CategoryList isCategoryListOpened={isCategoryListOpened}>
+            {categoryOptions.map((category) => {
+              return (
+                <CategoryItem
+                  key={category}
+                  id={category}
+                  onMouseEnter={onCategoryMouseEnter}
+                  onMouseLeave={onCategoryMouseLeave}
+                  onClick={handleCategoryChanging}
+                  isActive={category === currentCategory}
+                >
+                  <Category>{category}</Category>
+                </CategoryItem>
+              );
+            })}
+          </CategoryList>
+        )}
+      </CategoryBox>
+    </StyleSheetManager>
   );
 };
