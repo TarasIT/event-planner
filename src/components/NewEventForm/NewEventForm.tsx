@@ -3,7 +3,11 @@ import {
   parseEventsFromLS,
   saveEventToLS,
 } from "../../services/LocalStorageService";
-import { CreateEventForm } from "./NewEventForm.styled";
+import {
+  AddEventButton,
+  CreateEventForm,
+  Container,
+} from "./NewEventForm.styled";
 import { NewEvent } from "../../types/types";
 import { EventTitleInput } from "../EventTitleInput/EventTitleInput";
 import { EventLocationInput } from "../EventLocationInput/EventLocationInput";
@@ -15,14 +19,9 @@ import { EventDateInput } from "../EventDateInput/EventDateInput";
 import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
 
 export const NewEventForm: FC = (): JSX.Element => {
-  const [selectedDate, setSelectedDate] = useState<string>("");
   const [events, setEvents] = useState<NewEvent[]>([]);
 
   const STORAGE_KEY = "events";
-
-  const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSelectedDate(e.target.value);
-  };
 
   useEffect(() => {
     setEvents(parseEventsFromLS(STORAGE_KEY));
@@ -40,7 +39,7 @@ export const NewEventForm: FC = (): JSX.Element => {
     const newEvent = {
       title: "title of event",
       decription: "some description of new event",
-      date: selectedDate,
+      date: "some date",
       time: "time-of-new-event",
       location: "some location",
       category: "some category",
@@ -54,14 +53,19 @@ export const NewEventForm: FC = (): JSX.Element => {
 
   return (
     <CreateEventForm onSubmit={handleFormSubmit}>
-      <EventTitleInput />
-      <EventDescriptionInput />
-      <EventLocationInput />
-      <EventCategoryInput />
-      <EventPriorityInput />
-      <EventImageInput />
-      <EventDateInput />
-      <EventTimeInput />
+      <Container>
+        <EventTitleInput />
+        <EventDescriptionInput />
+        <EventDateInput />
+        <EventTimeInput />
+        <EventLocationInput />
+        <EventCategoryInput />
+        <EventImageInput />
+        <EventPriorityInput />
+      </Container>
+      <AddEventButton>
+        <span>Add event</span>
+      </AddEventButton>
     </CreateEventForm>
   );
 };
