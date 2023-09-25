@@ -9,7 +9,7 @@ import {
   SvgSearchIcon,
 } from "./Header.styled";
 import Sprite from "../../assets/images/sprite.svg";
-import { LanguagesSelector } from "../LanguagesSelector/LanguagesSelector";
+import { LanguagesSelector } from "../../components/LanguagesSelector/LanguagesSelector";
 
 export const Header: FC = (): JSX.Element => {
   return (
