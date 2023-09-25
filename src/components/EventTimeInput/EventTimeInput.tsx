@@ -236,7 +236,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <TimeBox>
-        <InputName>Time</InputName>
+        <InputName>Select time</InputName>
         <TimeInput
           ref={timeInputRef}
           onClick={() => setIsTimePickerOpened(!isTimePickerOpened)}

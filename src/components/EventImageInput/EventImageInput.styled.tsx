@@ -63,7 +63,6 @@ export const ImageLabel = styled.label`
   position: relative;
   display: block;
   width: 372px;
-  margin-bottom: 20px;
 
   color: #aca7c3;
   font-family: Poppins;

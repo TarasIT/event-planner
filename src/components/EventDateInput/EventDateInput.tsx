@@ -100,7 +100,7 @@ export const EventDateInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <DateBox>
-        <InputName>Date</InputName>
+        <InputName>Select date</InputName>
 
         <DatePicker
           ref={datePickerRef}

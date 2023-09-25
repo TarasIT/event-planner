@@ -34,7 +34,7 @@ export const InputName = styled.p`
 export const InvalidInputWarning = styled.p`
   position: absolute;
   right: 19px;
-  bottom: 0px;
+  bottom: -20px;
 
   color: #ff2b77;
   text-align: right;
@@ -94,7 +94,6 @@ export const LocationLabel = styled.label`
   position: relative;
   display: block;
   width: 372px;
-  height: 100px;
 
   color: #7b61ff;
   font-family: Poppins;

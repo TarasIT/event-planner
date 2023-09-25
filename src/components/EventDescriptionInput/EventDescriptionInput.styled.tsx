@@ -30,6 +30,7 @@ export const DescriptionTextArea = styled.textarea<CreateEventFormProps>`
   align-items: center;
 
   width: 100%;
+  height: 156px;
   padding: 16px 12px;
   border-radius: 8px;
   border: 1px solid;
@@ -63,7 +64,6 @@ export const DescriptionLabel = styled.label`
   position: relative;
   display: block;
   width: 372px;
-  height: 156px;
 
   color: #7b61ff;
   font-family: Poppins;

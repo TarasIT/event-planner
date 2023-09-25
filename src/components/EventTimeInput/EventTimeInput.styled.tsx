@@ -46,6 +46,8 @@ export const TimePicker = styled.ul<TimePickerProps>`
   position: absolute;
   top: 64px;
   left: 0;
+  z-index: 1;
+  translate: -1px;
 
   display: flex;
   flex-direction: column;
@@ -202,7 +204,6 @@ export const SvgTimeIcon = styled.svg<TimePickerProps>`
   position: absolute;
   bottom: 16px;
   right: 12px;
-  z-index: 1;
   width: 24px;
   height: 24px;
   fill: #7b61ff;
