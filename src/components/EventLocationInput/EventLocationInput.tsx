@@ -9,6 +9,10 @@ import {
 } from "./EventLocationInput.styled";
 import { StyleSheetManager } from "styled-components";
 
+interface LocationInputProps {
+  setLocation: (location: string) => void;
+}
+
 const shouldForwardProp = (prop: string) => {
   return (
     prop !== "locationInputValue" &&
@@ -17,7 +21,9 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventLocationInput: FC = (): JSX.Element => {
+export const EventLocationInput: FC<LocationInputProps> = ({
+  setLocation,
+}): JSX.Element => {
   const [locationInputValue, setLocationInputValue] = useState<string>("");
   const [isLocationInputValid, setIsLocationInputValid] =
     useState<boolean>(true);
@@ -53,16 +59,19 @@ export const EventLocationInput: FC = (): JSX.Element => {
   const handleLocationInputChange = (
     e: ChangeEvent<HTMLInputElement>
   ): void => {
-    if (!validateInput(e.target.value.trim())) {
+    const trimmedLocation = e.target.value.trim();
+    if (!validateInput(trimmedLocation)) {
       setIsLocationInputValid(false);
     } else {
       setIsLocationInputValid(true);
     }
-    setLocationInputValue(e.target.value.trim());
+    setLocationInputValue(trimmedLocation);
+    setLocation(trimmedLocation);
   };
 
   const cleanLocationInput = (): void => {
     setLocationInputValue("");
+    setLocation("");
     setIsLocationInputValid(true);
   };
 

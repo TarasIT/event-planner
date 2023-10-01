@@ -20,6 +20,10 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 
+interface TimeInputProps {
+  setTime: (time: string) => void;
+}
+
 const shouldForwardProp = (prop: string) => {
   return (
     prop !== "selectedTime" &&
@@ -30,7 +34,9 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventTimeInput: FC = (): JSX.Element => {
+export const EventTimeInput: FC<TimeInputProps> = ({
+  setTime,
+}): JSX.Element => {
   const [selectedTime, setSelectedTime] = useState<string>();
   const [isTimePickerOpened, setIsTimePickerOpened] = useState<boolean>(false);
   const [selectedHour, setSelectedHour] = useState<number>(1);
@@ -88,6 +94,11 @@ export const EventTimeInput: FC = (): JSX.Element => {
           selectedDayHalf)
       ) {
         setSelectedTime(
+          `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
+            .toString()
+            .padStart(2, "0")} ${selectedDayHalf}`
+        );
+        setTime(
           `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
             .toString()
             .padStart(2, "0")} ${selectedDayHalf}`

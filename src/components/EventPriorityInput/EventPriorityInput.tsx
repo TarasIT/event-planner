@@ -11,11 +11,17 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 
+interface PriorityInputProps {
+  setPriority: (priority: string) => void;
+}
+
 const shouldForwardProp = (prop: string) => {
   return prop !== "isPriorityListOpened";
 };
 
-export const EventPriorityInput: FC = (): JSX.Element => {
+export const EventPriorityInput: FC<PriorityInputProps> = ({
+  setPriority,
+}): JSX.Element => {
   const [isPriorityListOpened, setIsPriorityListOpened] =
     useState<boolean>(false);
   const [currentPriority, setCurrentPriority] = useState<string>("Select");
@@ -43,6 +49,7 @@ export const EventPriorityInput: FC = (): JSX.Element => {
   ) => {
     const target = e.target as HTMLParagraphElement;
     setCurrentPriority(target.id);
+    setPriority(target.id);
   };
 
   return (

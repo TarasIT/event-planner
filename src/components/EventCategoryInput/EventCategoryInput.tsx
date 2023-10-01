@@ -11,11 +11,17 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 
+interface CategotyInputProps {
+  setCategory: (category: string) => void;
+}
+
 const shouldForwardProp = (prop: string) => {
   return prop !== "isCategoryListOpened";
 };
 
-export const EventCategoryInput: FC = (): JSX.Element => {
+export const EventCategoryInput: FC<CategotyInputProps> = ({
+  setCategory,
+}): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>("Select");
@@ -51,6 +57,7 @@ export const EventCategoryInput: FC = (): JSX.Element => {
   ) => {
     const target = e.target as HTMLParagraphElement;
     setCurrentCategory(target.id);
+    setCategory(target.id);
   };
 
   return (

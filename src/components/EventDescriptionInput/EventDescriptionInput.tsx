@@ -8,13 +8,19 @@ import {
 } from "./EventDescriptionInput.styled";
 import { StyleSheetManager } from "styled-components";
 
+interface DescriptionInputProps {
+  setDescription: (description: string) => void;
+}
+
 const shouldForwardProp = (prop: string) => {
   return (
     prop !== "descriptionInputValue" && prop !== "isDescriptionInputCompleted"
   );
 };
 
-export const EventDescriptionInput: FC = (): JSX.Element => {
+export const EventDescriptionInput: FC<DescriptionInputProps> = ({
+  setDescription,
+}): JSX.Element => {
   const [descriptionInputValue, setDescriptionInputValue] =
     useState<string>("");
   const [isDescriptionInputCompleted, setIsDescriptionInputCompleted] =
@@ -41,10 +47,12 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
     e: ChangeEvent<HTMLTextAreaElement>
   ): void => {
     setDescriptionInputValue(e.target.value.trim());
+    setDescription(e.target.value.trim());
   };
 
   const cleanDescriptionInput = (): void => {
     setDescriptionInputValue("");
+    setDescription("");
   };
 
   return (

@@ -17,6 +17,10 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 
+interface DateInputProps {
+  setDate: (date: string) => void;
+}
+
 interface CalendarContainerProps {
   children: ReactNode;
 }
@@ -36,7 +40,9 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventDateInput: FC = (): JSX.Element => {
+export const EventDateInput: FC<DateInputProps> = ({
+  setDate,
+}): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isCalendarOpened, setIsCalendarOpened] = useState<boolean>(false);
   const datePickerRef = useRef<typeof DatePicker>();
@@ -44,6 +50,13 @@ export const EventDateInput: FC = (): JSX.Element => {
   const handleDateChoose = (): void => {
     const choosenDate = datePickerRef.current.state.preSelection;
     setSelectedDate(choosenDate);
+    const inputDate = new Date(choosenDate);
+
+    const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+    const day = String(inputDate.getDate()).padStart(2, "0");
+    const year = String(inputDate.getFullYear());
+
+    setDate(`${month}/${day}/${year}`);
     datePickerRef.current.setOpen(false);
   };
 

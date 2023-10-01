@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import { nanoid } from "nanoid";
 import {
   parseEventsFromLS,
   saveEventToLS,
@@ -20,6 +21,13 @@ import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
 
 export const NewEventForm: FC = (): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
+  const [title, setTitle] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const [priority, setPriority] = useState<string>("");
 
   const STORAGE_KEY = "events";
 
@@ -34,19 +42,21 @@ export const NewEventForm: FC = (): JSX.Element => {
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
+    const form = e.currentTarget as HTMLFormElement;
 
-    const newEvent = {
-      title: "title of event",
-      decription: "some description of new event",
-      date: "some date",
-      time: "time-of-new-event",
-      location: "some location",
-      category: "some category",
-      priority: "some priority",
-    };
-
-    setEvents([...events, newEvent]);
+    setEvents([
+      ...events,
+      {
+        id: nanoid(),
+        title,
+        description,
+        date,
+        time,
+        location,
+        category,
+        priority,
+      },
+    ]);
 
     form.reset();
   };
@@ -54,14 +64,14 @@ export const NewEventForm: FC = (): JSX.Element => {
   return (
     <CreateEventForm onSubmit={handleFormSubmit}>
       <Container>
-        <EventTitleInput />
-        <EventDescriptionInput />
-        <EventDateInput />
-        <EventTimeInput />
-        <EventLocationInput />
-        <EventCategoryInput />
+        <EventTitleInput setTitle={setTitle} />
+        <EventDescriptionInput setDescription={setDescription} />
+        <EventDateInput setDate={setDate} />
+        <EventTimeInput setTime={setTime} />
+        <EventLocationInput setLocation={setLocation} />
+        <EventCategoryInput setCategory={setCategory} />
         <EventImageInput />
-        <EventPriorityInput />
+        <EventPriorityInput setPriority={setPriority} />
       </Container>
       <AddEventButton>
         <span>Add event</span>

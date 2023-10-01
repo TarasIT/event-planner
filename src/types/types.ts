@@ -1,7 +1,7 @@
 export interface NewEvent {
   id?: string;
   title: string;
-  decription: string;
+  description: string;
   date: string;
   time: string;
   location: string;

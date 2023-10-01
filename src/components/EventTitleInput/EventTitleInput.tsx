@@ -9,6 +9,10 @@ import {
 } from "./EventTitleInput.styled";
 import { StyleSheetManager } from "styled-components";
 
+interface TitleInputProps {
+  setTitle: (title: string) => void;
+}
+
 const shouldForwardProp = (prop: string) => {
   return (
     prop !== "titleInputValue" &&
@@ -17,7 +21,9 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventTitleInput: FC = (): JSX.Element => {
+export const EventTitleInput: FC<TitleInputProps> = ({
+  setTitle,
+}): JSX.Element => {
   const [titleInputValue, setTitleInputValue] = useState<string>("");
   const [isTitleInputValid, setIsTitleInputValid] = useState<boolean>(true);
   const [isTitleInputCompleted, setIsTitleInputCompleted] =
@@ -42,6 +48,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
 
   const cleanTitleInput = (): void => {
     setTitleInputValue("");
+    setTitle("");
     setIsTitleInputValid(true);
   };
 
@@ -55,12 +62,14 @@ export const EventTitleInput: FC = (): JSX.Element => {
   };
 
   const handleTitleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    if (!validateInput(e.target.value.trim())) {
+    const trimmedValue = e.target.value.trim();
+    if (!validateInput(trimmedValue)) {
       setIsTitleInputValid(false);
     } else {
       setIsTitleInputValid(true);
     }
-    setTitleInputValue(e.target.value.trim());
+    setTitleInputValue(trimmedValue);
+    setTitle(trimmedValue);
   };
 
   return (
@@ -76,6 +85,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
         </SvgDeleteIcon>
         <TitleInput
           type="text"
+          name="title"
           value={titleInputValue}
           ref={titleInputRef}
           isTitleInputCompleted={isTitleInputCompleted}
