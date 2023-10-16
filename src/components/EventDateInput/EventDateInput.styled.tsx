@@ -3,7 +3,6 @@ import { css, keyframes, styled } from "styled-components";
 interface DatePickerProps {
   selectedDate?: Date | null;
   isCalendarOpened?: boolean;
-  value?: Date | null;
 }
 
 const openDatePicker = keyframes`
@@ -123,6 +122,7 @@ export const SvgDateIcon = styled.svg<DatePickerProps>`
   height: 24px;
   fill: #7b61ff;
   cursor: pointer;
+  pointer-events: none;
   transition: transform 300ms;
   transform: ${({ isCalendarOpened }) =>
     isCalendarOpened ? "rotate(90deg)" : "rotate(-90deg)"};

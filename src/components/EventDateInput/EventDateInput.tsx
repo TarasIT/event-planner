@@ -1,13 +1,4 @@
-import React, {
-  FC,
-  MouseEventHandler,
-  ReactNode,
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, ReactNode, forwardRef, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -35,7 +26,6 @@ interface CalendarContainerProps {
 }
 
 interface CustomInputProps {
-  value: Date | null;
   onClick?: () => void;
 }
 
@@ -54,41 +44,8 @@ export const EventDateInput: FC<DateInputProps> = ({
 }): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isCalendarOpened, setIsCalendarOpened] = useState<boolean>(false);
-  const [isDateAnimated, setIsDateAnimated] = useState<boolean>(false);
 
   const datePickerRef = useRef<typeof DatePicker>();
-  const datePickerTextInputRef = useRef<HTMLParagraphElement>(null);
-  const datePickerIconInputRef = useRef<SVGSVGElement>(null);
-
-  // console.log("datePickerRef.current.input", datePickerRef.current);
-  // console.log(isDateAnimated);
-  // useEffect(() => {
-  //   const handleDateClick = (event: MouseEvent) => {
-  //     const target = event.target as HTMLElement;
-
-  //     if (
-  //       target.id === datePickerRef.current.id ||
-  //       target.id === datePickerTextInputRef.current?.id ||
-  //       target.id === datePickerIconInputRef.current?.id
-  //     ) {
-  //       // if (isDateAnimated) return;
-  //       setIsDateAnimated(true);
-  //     } else {
-  //       // if (!isDateAnimated) return;
-  //       setIsDateAnimated(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("click", handleDateClick);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleDateClick);
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!isDateAnimated) return;
-  // }, [isDateAnimated]);
 
   const handleDateChoose = (): void => {
     const choosenDate = datePickerRef.current.state.preSelection;
@@ -98,9 +55,16 @@ export const EventDateInput: FC<DateInputProps> = ({
     const month = String(inputDate.getMonth() + 1).padStart(2, "0");
     const year = String(inputDate.getFullYear());
 
-    setSelectedDate(new Date(`${day}/${month}/${year}`));
-    setDate(`${day}.${month}`);
-    datePickerRef.current.setOpen(false);
+    if (
+      inputDate.getDate() === parseInt(day, 10) &&
+      inputDate.getMonth() + 1 === parseInt(month, 10)
+    ) {
+      setSelectedDate(inputDate);
+      setDate(`${day}/${month}/${year}`);
+      datePickerRef.current.setOpen(false);
+    } else {
+      console.error("Invalid day or month value");
+    }
   };
 
   const handleDateCancel = (): void => {
@@ -109,21 +73,25 @@ export const EventDateInput: FC<DateInputProps> = ({
   };
 
   const CustomInput = forwardRef<HTMLDivElement, CustomInputProps>(
-    ({ value, onClick }, ref): JSX.Element => {
+    ({ onClick }, ref): JSX.Element => {
+      let formattedDate = "";
+
+      if (selectedDate) {
+        const day = String(selectedDate.getDate()).padStart(2, "0");
+        const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+        const year = String(selectedDate.getFullYear());
+
+        formattedDate = `${day}/${month}/${year}`;
+      }
+
       return (
-        <CustomDatePicker
-          id="date-picker"
-          selectedDate={selectedDate}
-          onClick={onClick}
-          ref={datePickerRef}
-        >
+        <CustomDatePicker selectedDate={selectedDate} onClick={onClick}>
           <TextInput
-            id="date-picker-text"
             selectedDate={selectedDate}
             isCalendarOpened={isCalendarOpened}
           >
-            {value
-              ? value.toString()
+            {selectedDate
+              ? `${formattedDate}`
               : isCalendarOpened
               ? "Select Date"
               : "input"}
@@ -135,22 +103,24 @@ export const EventDateInput: FC<DateInputProps> = ({
 
   const CalendarContainer: FC<CalendarContainerProps> = ({
     children,
-  }): JSX.Element => (
-    <DatePickerWrapper
-      isCalendarOpened={isCalendarOpened}
-      selectedDate={selectedDate}
-    >
-      {children}
-      <BtnsBox>
-        <CancelBtn type="button" onClick={handleDateCancel}>
-          Cancel
-        </CancelBtn>
-        <ChooseBtn type="button" onClick={handleDateChoose}>
-          Choose date
-        </ChooseBtn>
-      </BtnsBox>
-    </DatePickerWrapper>
-  );
+  }): JSX.Element => {
+    return (
+      <DatePickerWrapper
+        isCalendarOpened={isCalendarOpened}
+        selectedDate={selectedDate}
+      >
+        {children}
+        <BtnsBox>
+          <CancelBtn type="button" onClick={handleDateCancel}>
+            Cancel
+          </CancelBtn>
+          <ChooseBtn type="button" onClick={handleDateChoose}>
+            Choose date
+          </ChooseBtn>
+        </BtnsBox>
+      </DatePickerWrapper>
+    );
+  };
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
@@ -158,6 +128,7 @@ export const EventDateInput: FC<DateInputProps> = ({
         <InputName>Select date</InputName>
 
         <DatePicker
+          ref={datePickerRef}
           selected={selectedDate}
           isCalendarOpened={isCalendarOpened}
           onCalendarClose={() => setIsCalendarOpened(false)}
@@ -185,7 +156,7 @@ export const EventDateInput: FC<DateInputProps> = ({
             },
           ]}
           calendarContainer={CalendarContainer}
-          customInput={<CustomInput value={selectedDate} />}
+          customInput={<CustomInput />}
           renderCustomHeader={({
             date,
             decreaseMonth,
@@ -222,7 +193,7 @@ export const EventDateInput: FC<DateInputProps> = ({
             </div>
           )}
         />
-        <SvgDateIcon id="date-picker-icon" isCalendarOpened={isCalendarOpened}>
+        <SvgDateIcon isCalendarOpened={isCalendarOpened}>
           <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
         </SvgDateIcon>
       </DateBox>
