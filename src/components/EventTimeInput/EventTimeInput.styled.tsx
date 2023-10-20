@@ -209,6 +209,7 @@ export const SvgTimeIcon = styled.svg<TimePickerProps>`
   fill: #7b61ff;
   cursor: pointer;
   transition: transform 300ms;
+  pointer-events: none;
   transform: ${({ isTimePickerOpened }) =>
     isTimePickerOpened ? "rotate(90deg)" : "rotate(-90deg)"};
 `;

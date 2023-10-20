@@ -60,7 +60,7 @@ export const EventDateInput: FC<DateInputProps> = ({
       inputDate.getMonth() + 1 === parseInt(month, 10)
     ) {
       setSelectedDate(inputDate);
-      setDate(`${day}/${month}/${year}`);
+      setDate(`${day}.${month}`);
       datePickerRef.current.setOpen(false);
     } else {
       console.error("Invalid day or month value");

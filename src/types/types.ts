@@ -6,5 +6,6 @@ export interface NewEvent {
   time: string;
   location: string;
   category: string;
+  image?: string;
   priority: string;
 }

@@ -101,7 +101,7 @@ export const EventTimeInput: FC<TimeInputProps> = ({
         setTime(
           `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
             .toString()
-            .padStart(2, "0")} ${selectedDayHalf}`
+            .padStart(2, "0")}`
         );
       }
     },

@@ -9,12 +9,19 @@ import {
 } from "./EventImageInput.styled";
 import { StyleSheetManager } from "styled-components";
 
+interface ImageInputProps {
+  setImage: (image: string) => void;
+}
+
 const shouldForwardProp = (prop: string) => {
-  return prop !== "imageInputValue" && prop !== "isImageInputCompleted";
+  return prop !== "imageBase64" && prop !== "isImageInputCompleted";
 };
 
-export const EventImageInput: FC = (): JSX.Element => {
-  const [imageInputValue, setImageInputValue] = useState<string>("");
+export const EventImageInput: FC<ImageInputProps> = ({
+  setImage,
+}): JSX.Element => {
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageBase64, setImageBase64] = useState<string>("");
   const [isImageInputCompleted, setIsImageInputCompleted] =
     useState<boolean>(false);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
@@ -35,19 +42,27 @@ export const EventImageInput: FC = (): JSX.Element => {
     }
   };
 
-  const cleanImageInput = (): void => {
-    setImageInputValue("");
-  };
-
   const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setImageInputValue(e.target.value.trim());
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          setImageBase64(reader.result);
+          setImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <ImageLabel>
         <InputName
-          imageInputValue={imageInputValue}
+          imageBase64={imageBase64}
           isImageInputCompleted={isImageInputCompleted}
         >
           Add picture
@@ -55,21 +70,22 @@ export const EventImageInput: FC = (): JSX.Element => {
 
         <ImageInputWrapper
           isImageInputCompleted={isImageInputCompleted}
-          imageInputValue={imageInputValue}
+          imageBase64={imageBase64}
         >
-          <label>{imageInputValue ? imageInputValue : "input"}</label>
-          <ImageInput
-            type="file"
-            accept="image/*"
-            value={imageInputValue}
-            ref={imageInputRef}
-            isImageInputCompleted={isImageInputCompleted}
-            imageInputValue={imageInputValue}
-            onChange={handleImageInputChange}
-          />
+          <label>
+            input
+            <ImageInput
+              type="file"
+              accept="image/*"
+              ref={imageInputRef}
+              isImageInputCompleted={isImageInputCompleted}
+              imageBase64={imageBase64}
+              onChange={handleImageInputChange}
+            />
+          </label>
           <SvgDeleteIcon
-            onClick={cleanImageInput}
-            imageInputValue={imageInputValue}
+            onClick={() => setImageBase64("")}
+            imageBase64={imageBase64}
           >
             <use xlinkHref={`${Sprite}#icon-cross-small`}></use>
           </SvgDeleteIcon>

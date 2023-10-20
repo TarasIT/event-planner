@@ -6,12 +6,18 @@ export const Container = styled.div`
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 40px;
 
   ${css`
     @media screen and (max-width: 767px) {
       & {
         justify-content: space-between;
         width: 100%;
+      }
+    }
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      & {
+        margin-bottom: 96px;
       }
     }
   `}

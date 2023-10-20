@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { Main } from "./App.styled";
 import { Header } from "../layouts/Header/Header";
 import Home from "../pages/Home/Home";
+import EventDetailsPage from "../pages/EventDetailsPage/EventDetailsPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 
 const HomePage: LazyExoticComponent<FC> = lazy(
@@ -21,6 +22,7 @@ const App: FC = (): JSX.Element => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/create-event" element={<CreateEventPage />} />
+            <Route path="/event-details" element={<EventDetailsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

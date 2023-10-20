@@ -93,6 +93,7 @@ export const EventTitleInput: FC<TitleInputProps> = ({
           onChange={handleTitleInputChange}
           titleInputValue={titleInputValue}
           placeholder="input"
+          required
         />
         {!isTitleInputValid && (
           <InvalidInputWarning>Invalid input</InvalidInputWarning>

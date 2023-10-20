@@ -95,6 +95,7 @@ export const EventLocationInput: FC<LocationInputProps> = ({
           onChange={handleLocationInputChange}
           locationInputValue={locationInputValue}
           placeholder="input"
+          required
         />
         {!isLocationInputValid && (
           <InvalidInputWarning>Invalid input</InvalidInputWarning>

@@ -1,4 +1,5 @@
-import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import React, { FC, FormEvent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { nanoid } from "nanoid";
 import {
   parseEventsFromLS,
@@ -27,7 +28,10 @@ export const NewEventForm: FC = (): JSX.Element => {
   const [time, setTime] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [category, setCategory] = useState<string>("");
+  const [image, setImage] = useState<string>("");
   const [priority, setPriority] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const STORAGE_KEY = "events";
 
@@ -40,11 +44,11 @@ export const NewEventForm: FC = (): JSX.Element => {
     saveEventToLS(STORAGE_KEY, events);
   }, [events]);
 
-  const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
 
-    setEvents([
+    await setEvents([
       ...events,
       {
         id: nanoid(),
@@ -54,15 +58,17 @@ export const NewEventForm: FC = (): JSX.Element => {
         time,
         location,
         category,
+        image,
         priority,
       },
     ]);
 
     form.reset();
+    navigate("/");
   };
 
   return (
-    <CreateEventForm onSubmit={handleFormSubmit}>
+    <CreateEventForm onSubmit={handleFormSubmit} encType="multipart/form-data">
       <Container>
         <EventTitleInput setTitle={setTitle} />
         <EventDescriptionInput setDescription={setDescription} />
@@ -70,7 +76,7 @@ export const NewEventForm: FC = (): JSX.Element => {
         <EventTimeInput setTime={setTime} />
         <EventLocationInput setLocation={setLocation} />
         <EventCategoryInput setCategory={setCategory} />
-        <EventImageInput />
+        <EventImageInput setImage={setImage} />
         <EventPriorityInput setPriority={setPriority} />
       </Container>
       <AddEventButton>

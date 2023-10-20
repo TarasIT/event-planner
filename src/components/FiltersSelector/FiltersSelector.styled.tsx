@@ -19,6 +19,7 @@ const openFilters = keyframes`
 
 export const FilterBox = styled.div<FilterProps>`
   position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;

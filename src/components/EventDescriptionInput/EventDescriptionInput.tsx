@@ -46,8 +46,8 @@ export const EventDescriptionInput: FC<DescriptionInputProps> = ({
   const handleDescriptionInputChange = (
     e: ChangeEvent<HTMLTextAreaElement>
   ): void => {
-    setDescriptionInputValue(e.target.value.trim());
-    setDescription(e.target.value.trim());
+    setDescriptionInputValue(e.target.value);
+    setDescription(e.target.value);
   };
 
   const cleanDescriptionInput = (): void => {

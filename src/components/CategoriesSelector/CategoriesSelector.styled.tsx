@@ -8,6 +8,7 @@ interface CategoryProps {
 
 export const CategoryBox = styled.div<CategoryProps>`
   position: relative;
+  z-index: 1;
   top: 0;
   left: 0;
   display: flex;
