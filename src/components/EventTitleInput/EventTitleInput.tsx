@@ -8,9 +8,11 @@ import {
   InvalidInputWarning,
 } from "./EventTitleInput.styled";
 import { StyleSheetManager } from "styled-components";
+import { NewEvent } from "../../types/types";
 
 interface TitleInputProps {
   setTitle: (title: string) => void;
+  event: NewEvent;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -23,6 +25,7 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventTitleInput: FC<TitleInputProps> = ({
   setTitle,
+  event,
 }): JSX.Element => {
   const [titleInputValue, setTitleInputValue] = useState<string>("");
   const [isTitleInputValid, setIsTitleInputValid] = useState<boolean>(true);
@@ -32,11 +35,17 @@ export const EventTitleInput: FC<TitleInputProps> = ({
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (event && event.title) {
+      setTitleInputValue(event.title);
+      setTitle(event.title);
+    }
+  }, [event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (titleInputRef.current !== e.target) {
@@ -62,14 +71,15 @@ export const EventTitleInput: FC<TitleInputProps> = ({
   };
 
   const handleTitleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const trimmedValue = e.target.value.trim();
-    if (!validateInput(trimmedValue)) {
+    const title = e.target.value;
+
+    if (!validateInput(title)) {
       setIsTitleInputValid(false);
     } else {
       setIsTitleInputValid(true);
     }
-    setTitleInputValue(trimmedValue);
-    setTitle(trimmedValue);
+    setTitleInputValue(title);
+    setTitle(title);
   };
 
   return (

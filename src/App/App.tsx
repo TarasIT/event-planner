@@ -22,7 +22,8 @@ const App: FC = (): JSX.Element => {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/create-event" element={<CreateEventPage />} />
-            <Route path="/event-details" element={<EventDetailsPage />} />
+            <Route path="/edit-event/:id" element={<CreateEventPage />} />
+            <Route path="/event-details/:id" element={<EventDetailsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>

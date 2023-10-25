@@ -10,9 +10,11 @@ import {
 } from "./EventPriorityInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
+import { NewEvent } from "../../types/types";
 
 interface PriorityInputProps {
   setPriority: (priority: string) => void;
+  event: NewEvent;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -21,6 +23,7 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventPriorityInput: FC<PriorityInputProps> = ({
   setPriority,
+  event,
 }): JSX.Element => {
   const [isPriorityListOpened, setIsPriorityListOpened] =
     useState<boolean>(false);
@@ -34,6 +37,13 @@ export const EventPriorityInput: FC<PriorityInputProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (event && event.priority) {
+      setPriority(event.priority);
+      setCurrentPriority(event.priority);
+    }
+  }, [event, setCurrentPriority]);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (

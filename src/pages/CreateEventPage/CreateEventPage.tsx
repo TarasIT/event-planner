@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useParams } from "react-router-dom";
 import Sprite from "../../assets/images/sprite.svg";
 import { NewEventForm } from "../../components/NewEventForm/NewEventForm";
 import {
@@ -9,6 +10,8 @@ import {
 } from "./CreateEventPage.styled";
 
 const CreateEvent: FC = (): JSX.Element => {
+  const { id } = useParams();
+
   return (
     <Container>
       <GoBackLink to="/">
@@ -17,7 +20,7 @@ const CreateEvent: FC = (): JSX.Element => {
         </SvgBackLinkIcon>
         Back
       </GoBackLink>
-      <Title>Create new event</Title>
+      <Title>{id ? "Edit event" : "Create new event"}</Title>
       <NewEventForm />
     </Container>
   );

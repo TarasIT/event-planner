@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import {
   Container,
   AppHeader,
-  Title,
+  HomeLink,
   SearchBox,
   SearchInput,
   SearchLabel,
@@ -15,7 +15,7 @@ export const Header: FC = (): JSX.Element => {
   return (
     <AppHeader>
       <Container>
-        <Title>Event Planner</Title>
+        <HomeLink to="/">Event Planner</HomeLink>
 
         <SearchBox>
           <SearchLabel>

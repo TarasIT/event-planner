@@ -19,9 +19,11 @@ import {
 } from "../EventTimeInput/EventTimeInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
+import { NewEvent } from "../../types/types";
 
 interface TimeInputProps {
   setTime: (time: string) => void;
+  event: NewEvent;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -36,6 +38,7 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventTimeInput: FC<TimeInputProps> = ({
   setTime,
+  event,
 }): JSX.Element => {
   const [selectedTime, setSelectedTime] = useState<string>();
   const [isTimePickerOpened, setIsTimePickerOpened] = useState<boolean>(false);
@@ -75,46 +78,48 @@ export const EventTimeInput: FC<TimeInputProps> = ({
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (isHourScrollUp === true || !isHourScrollUp) {
-        setTimeout(() => setIsHourScrollUp("pending"), 300);
-      }
-      if (isMinuteScrollUp === true || !isMinuteScrollUp) {
-        setTimeout(() => setIsMinuteScrollUp("pending"), 300);
-      }
-      if (isDayHalfScrollUp === true || !isDayHalfScrollUp) {
-        setTimeout(() => setIsDayHalfScrollUp("pending"), 300);
-      }
-      if (
-        isTimePickerOpened &&
-        (selectedHour ||
-          selectedMinute ||
-          selectedMinute === 0 ||
-          selectedDayHalf)
-      ) {
-        setSelectedTime(
-          `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
-            .toString()
-            .padStart(2, "0")} ${selectedDayHalf}`
-        );
-        setTime(
-          `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
-            .toString()
-            .padStart(2, "0")}`
-        );
-      }
-    },
-    [
-      isTimePickerOpened,
-      isHourScrollUp,
-      isMinuteScrollUp,
-      isDayHalfScrollUp,
-      selectedHour,
-      selectedMinute,
-      selectedDayHalf,
-    ] as const
-  );
+  useEffect(() => {
+    if (isHourScrollUp === true || !isHourScrollUp) {
+      setTimeout(() => setIsHourScrollUp("pending"), 300);
+    }
+    if (isMinuteScrollUp === true || !isMinuteScrollUp) {
+      setTimeout(() => setIsMinuteScrollUp("pending"), 300);
+    }
+    if (isDayHalfScrollUp === true || !isDayHalfScrollUp) {
+      setTimeout(() => setIsDayHalfScrollUp("pending"), 300);
+    }
+    if (
+      isTimePickerOpened &&
+      (selectedHour ||
+        selectedMinute ||
+        selectedMinute === 0 ||
+        selectedDayHalf)
+    ) {
+      setSelectedTime(
+        `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
+          .toString()
+          .padStart(2, "0")} ${selectedDayHalf}`
+      );
+      setTime(
+        `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
+          .toString()
+          .padStart(2, "0")} ${selectedDayHalf}`
+      );
+    }
+    if (event && event.time) {
+      setTime(event.time);
+      setSelectedTime(event.time);
+    }
+  }, [
+    isTimePickerOpened,
+    isHourScrollUp,
+    isMinuteScrollUp,
+    isDayHalfScrollUp,
+    selectedHour,
+    selectedMinute,
+    selectedDayHalf,
+    event,
+  ]);
 
   const handleKeydown = (e: KeyboardEvent): void => {
     if (e.key === "Escape") setIsTimePickerOpened(false);

@@ -1,4 +1,5 @@
 import { css, styled } from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export const AppHeader = styled.header`
   border-bottom: 1px solid #7b61ff;
@@ -37,7 +38,7 @@ export const Container = styled.div`
   `}
 `;
 
-export const Title = styled.h1`
+export const HomeLink = styled(NavLink)`
   height: 33px;
   padding-top: 7px;
   font-family: Alata;

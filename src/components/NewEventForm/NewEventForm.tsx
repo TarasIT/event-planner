@@ -1,9 +1,11 @@
 import React, { FC, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { nanoid } from "nanoid";
 import {
   parseEventsFromLS,
   saveEventToLS,
+  updateEventInLS,
 } from "../../services/LocalStorageService";
 import {
   AddEventButton,
@@ -32,8 +34,9 @@ export const NewEventForm: FC = (): JSX.Element => {
   const [priority, setPriority] = useState<string>("");
 
   const navigate = useNavigate();
-
+  const { id } = useParams();
   const STORAGE_KEY = "events";
+  const event = events.filter((event) => event.id === id)[0];
 
   useEffect(() => {
     setEvents(parseEventsFromLS(STORAGE_KEY));
@@ -48,10 +51,24 @@ export const NewEventForm: FC = (): JSX.Element => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
 
-    await setEvents([
-      ...events,
-      {
-        id: nanoid(),
+    if (!id) {
+      await setEvents([
+        ...events,
+        {
+          id: nanoid(),
+          title,
+          description,
+          date,
+          time,
+          location,
+          category,
+          image,
+          priority,
+        },
+      ]);
+    } else {
+      await updateEventInLS(STORAGE_KEY, {
+        id,
         title,
         description,
         date,
@@ -60,8 +77,8 @@ export const NewEventForm: FC = (): JSX.Element => {
         category,
         image,
         priority,
-      },
-    ]);
+      });
+    }
 
     form.reset();
     navigate("/");
@@ -70,17 +87,17 @@ export const NewEventForm: FC = (): JSX.Element => {
   return (
     <CreateEventForm onSubmit={handleFormSubmit} encType="multipart/form-data">
       <Container>
-        <EventTitleInput setTitle={setTitle} />
-        <EventDescriptionInput setDescription={setDescription} />
-        <EventDateInput setDate={setDate} />
-        <EventTimeInput setTime={setTime} />
-        <EventLocationInput setLocation={setLocation} />
-        <EventCategoryInput setCategory={setCategory} />
-        <EventImageInput setImage={setImage} />
-        <EventPriorityInput setPriority={setPriority} />
+        <EventTitleInput event={event} setTitle={setTitle} />
+        <EventDescriptionInput event={event} setDescription={setDescription} />
+        <EventDateInput event={event} setDate={setDate} />
+        <EventTimeInput event={event} setTime={setTime} />
+        <EventLocationInput event={event} setLocation={setLocation} />
+        <EventCategoryInput event={event} setCategory={setCategory} />
+        <EventImageInput event={event} setImage={setImage} />
+        <EventPriorityInput event={event} setPriority={setPriority} />
       </Container>
       <AddEventButton>
-        <span>Add event</span>
+        <span>{id ? "Save" : "Add event"}</span>
       </AddEventButton>
     </CreateEventForm>
   );

@@ -8,9 +8,11 @@ import {
   ImageInputWrapper,
 } from "./EventImageInput.styled";
 import { StyleSheetManager } from "styled-components";
+import { NewEvent } from "../../types/types";
 
 interface ImageInputProps {
   setImage: (image: string) => void;
+  event: NewEvent;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -19,6 +21,7 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventImageInput: FC<ImageInputProps> = ({
   setImage,
+  event,
 }): JSX.Element => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageBase64, setImageBase64] = useState<string>("");
@@ -33,6 +36,13 @@ export const EventImageInput: FC<ImageInputProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (event && event.image) {
+      setImage(event.image);
+      setImageBase64(event.image);
+    }
+  }, [event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (imageInputRef.current !== e.target) {

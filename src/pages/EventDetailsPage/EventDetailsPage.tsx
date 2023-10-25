@@ -5,6 +5,7 @@ import {
   GoBackLink,
   SvgBackLinkIcon,
 } from "./EventDetailsPage.styled";
+import { EventDetailsCard } from "../../components/EventDetailsCard/EventDetailsCard";
 
 const EventDetailsPage: FC = (): JSX.Element => {
   return (
@@ -15,6 +16,7 @@ const EventDetailsPage: FC = (): JSX.Element => {
         </SvgBackLinkIcon>
         Back
       </GoBackLink>
+      <EventDetailsCard />
     </Container>
   );
 };

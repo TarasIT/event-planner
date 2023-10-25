@@ -10,9 +10,11 @@ import {
 } from "./EventCategoryInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
+import { NewEvent } from "../../types/types";
 
 interface CategotyInputProps {
   setCategory: (category: string) => void;
+  event: NewEvent;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -21,6 +23,7 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventCategoryInput: FC<CategotyInputProps> = ({
   setCategory,
+  event,
 }): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =
     useState<boolean>(false);
@@ -42,6 +45,13 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (event && event.category) {
+      setCurrentCategory(event.category);
+      setCategory(event.category);
+    }
+  }, [event]);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (

@@ -8,9 +8,11 @@ import {
   InvalidInputWarning,
 } from "./EventLocationInput.styled";
 import { StyleSheetManager } from "styled-components";
+import { NewEvent } from "../../types/types";
 
 interface LocationInputProps {
   setLocation: (location: string) => void;
+  event: NewEvent;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -23,6 +25,7 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventLocationInput: FC<LocationInputProps> = ({
   setLocation,
+  event,
 }): JSX.Element => {
   const [locationInputValue, setLocationInputValue] = useState<string>("");
   const [isLocationInputValid, setIsLocationInputValid] =
@@ -38,6 +41,13 @@ export const EventLocationInput: FC<LocationInputProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (event && event.location) {
+      setLocation(event.location);
+      setLocationInputValue(event.location);
+    }
+  }, [event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (locationInputRef.current !== e.target) {
@@ -59,14 +69,14 @@ export const EventLocationInput: FC<LocationInputProps> = ({
   const handleLocationInputChange = (
     e: ChangeEvent<HTMLInputElement>
   ): void => {
-    const trimmedLocation = e.target.value.trim();
-    if (!validateInput(trimmedLocation)) {
+    const location = e.target.value;
+    if (!validateInput(location)) {
       setIsLocationInputValid(false);
     } else {
       setIsLocationInputValid(true);
     }
-    setLocationInputValue(trimmedLocation);
-    setLocation(trimmedLocation);
+    setLocationInputValue(location);
+    setLocation(location);
   };
 
   const cleanLocationInput = (): void => {

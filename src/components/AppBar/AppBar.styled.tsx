@@ -23,7 +23,7 @@ export const Container = styled.div`
   `}
 `;
 
-export const Title = styled.h2`
+export const Title = styled.h1`
   margin-right: auto;
 
   color: #3f3f3f;

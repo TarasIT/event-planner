@@ -7,9 +7,11 @@ import {
   SvgDeleteIcon,
 } from "./EventDescriptionInput.styled";
 import { StyleSheetManager } from "styled-components";
+import { NewEvent } from "../../types/types";
 
 interface DescriptionInputProps {
   setDescription: (description: string) => void;
+  event: NewEvent;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -20,6 +22,7 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventDescriptionInput: FC<DescriptionInputProps> = ({
   setDescription,
+  event,
 }): JSX.Element => {
   const [descriptionInputValue, setDescriptionInputValue] =
     useState<string>("");
@@ -34,6 +37,13 @@ export const EventDescriptionInput: FC<DescriptionInputProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (event && event.description) {
+      setDescription(event.description);
+      setDescriptionInputValue(event.description);
+    }
+  }, [event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (descriptionTextAreaRef.current !== e.target) {

@@ -19,17 +19,20 @@ import { parseEventsFromLS } from "../../services/LocalStorageService";
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
 
-const shouldForwardProp = (prop: string) => {
-  return prop !== "priority";
-};
+const shouldForwardProp = (prop: string) => prop !== "priority";
 
 export const EventsList: FC = (): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
   const STORAGE_KEY = "events";
 
-  useEffect(() => {
-    setEvents(parseEventsFromLS(STORAGE_KEY));
-  }, []);
+  useEffect(() => setEvents(parseEventsFromLS(STORAGE_KEY)), []);
+
+  const transformDate = (date: string) => {
+    const inputDate = new Date(date);
+    const day = String(inputDate.getDate()).padStart(2, "0");
+    const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+    return `${day}.${month}`;
+  };
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
@@ -59,7 +62,8 @@ export const EventsList: FC = (): JSX.Element => {
                     <DateTimeLocationContainer>
                       {(date || time) && (
                         <DateAndTime>
-                          {date && date} {time && "at"} {time && time}
+                          {date && transformDate(date)} {time && "at"}{" "}
+                          {time && time}
                         </DateAndTime>
                       )}
                       {location && <Location>{location}</Location>}
@@ -70,7 +74,7 @@ export const EventsList: FC = (): JSX.Element => {
                     {description && <Description>{description}</Description>}
                   </TitleDescriptionContainer>
                   <EventDetailsBox>
-                    <EventDetailsBtn to="/event-details">
+                    <EventDetailsBtn to={`/event-details/${id}`}>
                       More info
                     </EventDetailsBtn>
                   </EventDetailsBox>

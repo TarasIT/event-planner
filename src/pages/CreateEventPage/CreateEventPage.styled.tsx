@@ -73,7 +73,7 @@ export const SvgBackLinkIcon = styled.svg`
   }
 `;
 
-export const Title = styled.h2`
+export const Title = styled.h1`
   margin-bottom: 25px;
 
   color: #3f3f3f;
