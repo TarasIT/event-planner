@@ -6,12 +6,12 @@ import {
   LangItem,
 } from "./LanguagesSelector.styled";
 import Sprite from "../../assets/images/sprite.svg";
+import { languages } from "../../data/languages";
 
 export const LanguagesSelector: FC = (): JSX.Element => {
   const [isLangListOpened, setIsLangListOpened] = useState<boolean>(false);
   const [currentLang, setCurrentLang] = useState<string>("UA");
   const langBoxRef = useRef<HTMLDivElement | null>(null);
-  const langOptions: string[] = ["UA", "EN"];
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -42,7 +42,7 @@ export const LanguagesSelector: FC = (): JSX.Element => {
       </SvgLangIcon>
       {isLangListOpened && (
         <LangList>
-          {langOptions.map((lang) => {
+          {languages.map((lang) => {
             return (
               <LangItem key={lang}>
                 <p id={lang} onClick={handleLangChanging}>

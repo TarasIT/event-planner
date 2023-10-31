@@ -11,6 +11,7 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { categories } from "../../data/categories";
 
 interface CategotyInputProps {
   setCategory: (category: string) => void;
@@ -29,15 +30,6 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>("Select");
   const categoryInputRef = useRef<HTMLDivElement | null>(null);
-  const categoryOptions: string[] = [
-    "Art",
-    "Music",
-    "Business",
-    "Conference",
-    "Workshop",
-    "Party",
-    "Sport",
-  ];
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -89,7 +81,7 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
           </SvgCategoryIcon>
           {isCategoryListOpened && (
             <CategoryList isCategoryListOpened={isCategoryListOpened}>
-              {categoryOptions.map((category) => {
+              {categories.map((category) => {
                 return (
                   <CategoryItem key={category}>
                     <Category id={category} onClick={handleCategoryChanging}>

@@ -2,7 +2,6 @@ import React, { lazy, Suspense, FC, LazyExoticComponent } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Main } from "./App.styled";
 import { Header } from "../layouts/Header/Header";
-import Home from "../pages/Home/Home";
 import EventDetailsPage from "../pages/EventDetailsPage/EventDetailsPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 

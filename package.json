@@ -4,9 +4,10 @@
   "private": true,
   "homepage": "https://tarasit.github.io/event-planner",
   "dependencies": {
-    "@redux-devtools/extension": "^3.2.5",
-    "@reduxjs/toolkit": "^1.9.5",
+    "@mobx-devtools/tools": "^0.0.4",
     "mobx": "^6.10.2",
+    "mobx-react": "^9.0.1",
+    "mobx-react-devtools": "^6.1.1",
     "nanoid": "^4.0.2",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
@@ -16,8 +17,6 @@
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.1",
     "react-scripts": "^5.0.1",
-    "redux": "^4.2.1",
-    "redux-persist": "^6.0.0",
     "styled-components": "^6.0.4"
   },
   "scripts": {

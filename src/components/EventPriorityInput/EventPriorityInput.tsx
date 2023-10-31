@@ -11,6 +11,7 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { priorities } from "../../data/priorities";
 
 interface PriorityInputProps {
   setPriority: (priority: string) => void;
@@ -29,7 +30,6 @@ export const EventPriorityInput: FC<PriorityInputProps> = ({
     useState<boolean>(false);
   const [currentPriority, setCurrentPriority] = useState<string>("Select");
   const priorityInputRef = useRef<HTMLDivElement | null>(null);
-  const priorityOptions: string[] = ["High", "Medium", "Low"];
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -81,7 +81,7 @@ export const EventPriorityInput: FC<PriorityInputProps> = ({
           </SvgPriorityIcon>
           {isPriorityListOpened && (
             <PriorityList isPriorityListOpened={isPriorityListOpened}>
-              {priorityOptions.map((priority) => {
+              {priorities.map((priority) => {
                 return (
                   <PriorityItem key={priority}>
                     <Priority id={priority} onClick={handlePriorityChanging}>

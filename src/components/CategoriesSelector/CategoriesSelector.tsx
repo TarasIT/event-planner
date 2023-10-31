@@ -9,26 +9,24 @@ import {
 } from "./CategoriesSelector.styled";
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
+import { categories } from "../../data/categories";
+import { observer } from "mobx-react";
+import categoryFilter from "../../stores/categoryFilter";
 
 const shouldForwardProp = (prop: string) => {
-  return prop !== "isCategoryListOpened" && prop !== "currentCategory";
+  return (
+    prop !== "isCategoryListOpened" &&
+    prop !== "currentCategory" &&
+    prop !== "isActive"
+  );
 };
 
-export const CategoriesSelector: FC = (): JSX.Element => {
+export const CategoriesSelector: FC = observer((): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>();
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
-  const categoryOptions: string[] = [
-    "Art",
-    "Music",
-    "Business",
-    "Conference",
-    "Workshop",
-    "Party",
-    "Sport",
-  ];
   const defaultCategory = "Category";
 
   useEffect(() => {
@@ -40,6 +38,10 @@ export const CategoriesSelector: FC = (): JSX.Element => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    categoryFilter.checkCategoriesFilterOpened(isCategoryListOpened);
+  }, [isCategoryListOpened]);
 
   const handleWindowResize = (): void => {
     setViewportWidth(window.innerWidth);
@@ -72,6 +74,9 @@ export const CategoriesSelector: FC = (): JSX.Element => {
 
   const onCategoryBoxClick = (): void => {
     setIsCategoryListOpened(!isCategoryListOpened);
+    if (currentCategory) {
+      categoryFilter.getCurrentCategory(currentCategory);
+    }
   };
 
   return (
@@ -92,7 +97,7 @@ export const CategoriesSelector: FC = (): JSX.Element => {
         </SvgCategoryIcon>
         {isCategoryListOpened && (
           <CategoryList isCategoryListOpened={isCategoryListOpened}>
-            {categoryOptions.map((category) => {
+            {categories.map((category) => {
               return (
                 <CategoryItem
                   key={category}
@@ -111,4 +116,4 @@ export const CategoriesSelector: FC = (): JSX.Element => {
       </CategoryBox>
     </StyleSheetManager>
   );
-};
+});

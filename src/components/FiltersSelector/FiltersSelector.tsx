@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import {
   FilterBox,
@@ -12,6 +12,7 @@ import {
 } from "./FiltersSelector.styled";
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
+import { filters } from "../../data/filters";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -29,14 +30,6 @@ export const FiltersSelector: FC = (): JSX.Element => {
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const [isOptionVisible, setIsOptionVisible] = useState<boolean>(false);
   const filterBoxRef = useRef<HTMLDivElement | null>(null);
-  const filterOptions: string[] = [
-    "name",
-    "name",
-    "data",
-    "data",
-    "priority",
-    "priority",
-  ];
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
@@ -79,7 +72,7 @@ export const FiltersSelector: FC = (): JSX.Element => {
         setCurrentFilter("Z-A");
         return;
       default:
-        return setCurrentFilter(filterOptions[Number(currentTarget.id)]);
+        return setCurrentFilter(filters[Number(currentTarget.id)]);
     }
   };
 
@@ -143,7 +136,7 @@ export const FiltersSelector: FC = (): JSX.Element => {
 
         {isFilterListOpened && (
           <FilterList isFilterListOpened={isFilterListOpened}>
-            {filterOptions.map((filter, index) => {
+            {filters.map((filter, index) => {
               return (
                 <FilterItem
                   key={nanoid()}

@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
+import { observer } from "mobx-react";
 import {
   EventCardsList,
   BackgroundContainer,
@@ -15,17 +16,32 @@ import {
   EventDetailsBtn,
   EventDetailsBox,
 } from "./EventsList.styled";
-import { parseEventsFromLS } from "../../services/LocalStorageService";
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
+import eventsStore from "../../stores/eventsStore";
+import categoryFilter from "../../stores/categoryFilter";
 
 const shouldForwardProp = (prop: string) => prop !== "priority";
 
-export const EventsList: FC = (): JSX.Element => {
+export const EventsList: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
-  const STORAGE_KEY = "events";
+  const KEY = process.env.REACT_APP_STORAGE_KEY!;
 
-  useEffect(() => setEvents(parseEventsFromLS(STORAGE_KEY)), []);
+  const currentCategory = categoryFilter.currentCategory;
+  const isCategoryFilterOpened = categoryFilter.isOpened;
+
+  useEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
+
+  useEffect(() => {
+    if (currentCategory && !isCategoryFilterOpened) {
+      const filteredEventsByCategory = events.filter(
+        ({ category }) => category === currentCategory
+      );
+      setEvents(filteredEventsByCategory);
+    } else {
+      setEvents(eventsStore.getEvents(KEY));
+    }
+  }, [isCategoryFilterOpened, currentCategory]);
 
   const transformDate = (date: string) => {
     const inputDate = new Date(date);
@@ -86,4 +102,4 @@ export const EventsList: FC = (): JSX.Element => {
       )}
     </StyleSheetManager>
   );
-};
+});

@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { observer } from "mobx-react";
 import {
   BackgroundContainer,
   Category,
@@ -14,25 +15,20 @@ import {
   EventButtonsBox,
   EditEventBtn,
 } from "./EventDetailsCard.styled";
-import {
-  parseEventsFromLS,
-  deleteEventFromLS,
-} from "../../services/LocalStorageService";
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
+import eventsStore from "../../stores/eventsStore";
 
 const shouldForwardProp = (prop: string) => {
   return prop !== "priority" && prop !== "image";
 };
 
-export const EventDetailsCard: FC = (): JSX.Element => {
+export const EventDetailsCard: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
-  const STORAGE_KEY = "events";
   const { id } = useParams();
+  const KEY = process.env.REACT_APP_STORAGE_KEY!;
 
-  useEffect(() => {
-    setEvents(parseEventsFromLS(STORAGE_KEY));
-  }, []);
+  useEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
 
   const event: NewEvent = events.filter((event) => event.id === id)[0];
 
@@ -80,7 +76,7 @@ export const EventDetailsCard: FC = (): JSX.Element => {
           </EditEventBtn>
           <DeleteEventBtn
             type="button"
-            onClick={() => deleteEventFromLS(STORAGE_KEY, id)}
+            onClick={() => id && eventsStore.deleteEvent(KEY, id)}
             to={`/`}
           >
             Delete Event
@@ -89,4 +85,4 @@ export const EventDetailsCard: FC = (): JSX.Element => {
       </EventCard>
     </StyleSheetManager>
   );
-};
+});

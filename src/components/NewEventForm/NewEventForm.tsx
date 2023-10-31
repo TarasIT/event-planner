@@ -1,12 +1,8 @@
 import React, { FC, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { observer } from "mobx-react";
 import { nanoid } from "nanoid";
-import {
-  parseEventsFromLS,
-  saveEventToLS,
-  updateEventInLS,
-} from "../../services/LocalStorageService";
 import {
   AddEventButton,
   CreateEventForm,
@@ -21,8 +17,9 @@ import { EventPriorityInput } from "../EventPriorityInput/EventPriorityInput";
 import { EventImageInput } from "../EventImageInput/EventImageInput";
 import { EventDateInput } from "../EventDateInput/EventDateInput";
 import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
+import eventsStore from "../../stores/eventsStore";
 
-export const NewEventForm: FC = (): JSX.Element => {
+export const NewEventForm: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
   const [title, setTitle] = useState<string>("");
   const [date, setDate] = useState<string>("");
@@ -35,16 +32,14 @@ export const NewEventForm: FC = (): JSX.Element => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const STORAGE_KEY = "events";
+  const KEY = process.env.REACT_APP_STORAGE_KEY!;
   const event = events.filter((event) => event.id === id)[0];
 
-  useEffect(() => {
-    setEvents(parseEventsFromLS(STORAGE_KEY));
-  }, []);
+  useEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
 
   useEffect(() => {
-    if (parseEventsFromLS(STORAGE_KEY).length > events.length) return;
-    saveEventToLS(STORAGE_KEY, events);
+    if (eventsStore.getEvents(KEY).length > events.length) return;
+    eventsStore.saveEvents(KEY, events);
   }, [events]);
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -67,7 +62,7 @@ export const NewEventForm: FC = (): JSX.Element => {
         },
       ]);
     } else {
-      await updateEventInLS(STORAGE_KEY, {
+      await eventsStore.updateEvents(KEY, {
         id,
         title,
         description,
@@ -101,4 +96,4 @@ export const NewEventForm: FC = (): JSX.Element => {
       </AddEventButton>
     </CreateEventForm>
   );
-};
+});

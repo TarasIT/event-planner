@@ -8,11 +8,11 @@ export const parseEventsFromLS = (key: string) => {
   }
 };
 
-export const saveEventToLS = (key: string, newEvent: NewEvent[]) => {
+export const saveEventToLS = (key: string, newEvents: NewEvent[]) => {
   try {
-    return localStorage.setItem(key, JSON.stringify(newEvent));
+    return localStorage.setItem(key, JSON.stringify(newEvents));
   } catch (error: unknown) {
-    console.error("Set state error: ", (error as ErrorEvent).message);
+    console.error("Set event error: ", (error as ErrorEvent).message);
   }
 };
 
