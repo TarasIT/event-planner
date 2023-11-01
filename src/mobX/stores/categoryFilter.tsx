@@ -1,7 +1,8 @@
 import { observable, action, makeAutoObservable } from "mobx";
 
 class CategoryFilter {
-  @observable currentCategory: string = "";
+  @observable
+  currentCategory: string = "";
   isOpened: boolean = false;
 
   constructor() {

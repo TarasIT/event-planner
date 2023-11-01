@@ -17,7 +17,7 @@ import {
 } from "./EventDetailsCard.styled";
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
-import eventsStore from "../../stores/eventsStore";
+import eventsStore from "../../mobX/stores/eventsStore";
 
 const shouldForwardProp = (prop: string) => {
   return prop !== "priority" && prop !== "image";

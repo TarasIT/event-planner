@@ -1,8 +1,9 @@
 import { observable, action, makeAutoObservable } from "mobx";
-import { NewEvent } from "../types/types";
+import { NewEvent } from "../../types/types";
 
 class EventsStore {
-  @observable events: NewEvent[] = [];
+  @observable
+  events: NewEvent[] = [];
 
   constructor() {
     makeAutoObservable(this);

@@ -17,7 +17,7 @@ import { EventPriorityInput } from "../EventPriorityInput/EventPriorityInput";
 import { EventImageInput } from "../EventImageInput/EventImageInput";
 import { EventDateInput } from "../EventDateInput/EventDateInput";
 import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
-import eventsStore from "../../stores/eventsStore";
+import eventsStore from "../../mobX/stores/eventsStore";
 
 export const NewEventForm: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);

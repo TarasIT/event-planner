@@ -11,7 +11,7 @@ import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 import { categories } from "../../data/categories";
 import { observer } from "mobx-react";
-import categoryFilter from "../../stores/categoryFilter";
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -27,6 +27,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
   const [currentCategory, setCurrentCategory] = useState<string>();
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
+  const { categoryFilter } = useStore();
   const defaultCategory = "Category";
 
   useEffect(() => {
@@ -74,9 +75,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
 
   const onCategoryBoxClick = (): void => {
     setIsCategoryListOpened(!isCategoryListOpened);
-    if (currentCategory) {
-      categoryFilter.getCurrentCategory(currentCategory);
-    }
+    if (currentCategory) categoryFilter.getCurrentCategory(currentCategory);
   };
 
   return (

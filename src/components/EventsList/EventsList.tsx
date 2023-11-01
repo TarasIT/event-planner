@@ -18,14 +18,14 @@ import {
 } from "./EventsList.styled";
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
-import eventsStore from "../../stores/eventsStore";
-import categoryFilter from "../../stores/categoryFilter";
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => prop !== "priority";
 
 export const EventsList: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
   const KEY = process.env.REACT_APP_STORAGE_KEY!;
+  const { categoryFilter, eventsStore } = useStore();
 
   const currentCategory = categoryFilter.currentCategory;
   const isCategoryFilterOpened = categoryFilter.isOpened;
