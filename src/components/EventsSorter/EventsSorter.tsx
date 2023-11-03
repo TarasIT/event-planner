@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
+import { StyleSheetManager } from "styled-components";
 import {
   SorterBox,
   SvgSorterIcon,
@@ -11,9 +12,8 @@ import {
   SvgDownIcon,
 } from "./EventsSorter.styled";
 import Sprite from "../../assets/images/sprite.svg";
-import { StyleSheetManager } from "styled-components";
-import { sorters } from "../../data/sorters";
 import { useStore } from "../../hooks/useStore";
+import { sorters } from "../../data/sorters";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -29,8 +29,10 @@ export const EventsSorter: FC = (): JSX.Element => {
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const [isOptionVisible, setIsOptionVisible] = useState<boolean>(false);
   const sorterBoxRef = useRef<HTMLDivElement | null>(null);
-
   const { eventsSorter } = useStore();
+
+  const doubledSorters: string[] = [];
+  sorters.forEach((el) => doubledSorters.push(el, el));
 
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
@@ -74,7 +76,7 @@ export const EventsSorter: FC = (): JSX.Element => {
         setCurrentSorter("Z-A");
         return;
       default:
-        return setCurrentSorter(sorters[Number(currentTarget.id)]);
+        return setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
     }
   };
 
@@ -138,7 +140,7 @@ export const EventsSorter: FC = (): JSX.Element => {
 
         {isSorterOpened && (
           <SorterList isSorterOpened={isSorterOpened}>
-            {sorters.map((sorter, index) => {
+            {doubledSorters.map((sorter, index) => {
               return (
                 <SorterItem
                   key={nanoid()}
