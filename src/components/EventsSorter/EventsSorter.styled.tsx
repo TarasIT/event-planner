@@ -1,12 +1,12 @@
 import { styled, css, keyframes } from "styled-components";
 
-interface FilterProps {
-  isFilterListOpened?: boolean;
-  currentFilter?: string;
+interface SorterProps {
+  isSorterOpened?: boolean;
+  currentSorter?: string;
   isActive?: boolean;
 }
 
-const openFilters = keyframes`
+const openSorter = keyframes`
   0% {
     opacity: 0;
     transform: translateY(-8px);
@@ -17,50 +17,49 @@ const openFilters = keyframes`
   }
 `;
 
-export const FilterBox = styled.div<FilterProps>`
+export const SorterBox = styled.div<SorterProps>`
   position: relative;
   z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
-  width: ${({ isFilterListOpened, currentFilter }) =>
-    isFilterListOpened ? "170px" : currentFilter ? "170px" : "129px"};
+  width: ${({ isSorterOpened, currentSorter }) =>
+    isSorterOpened ? "170px" : currentSorter ? "170px" : "129px"};
   padding-top: 16px;
   padding-bottom: 16px;
-  padding-left: ${({ isFilterListOpened, currentFilter }) =>
-    isFilterListOpened ? "24px" : currentFilter ? "12px" : "16px"};
-  padding-right: ${({ isFilterListOpened, currentFilter }) =>
-    isFilterListOpened ? "24px" : currentFilter ? "12px" : "16px"};
+  padding-left: ${({ isSorterOpened, currentSorter }) =>
+    isSorterOpened ? "24px" : currentSorter ? "12px" : "16px"};
+  padding-right: ${({ isSorterOpened, currentSorter }) =>
+    isSorterOpened ? "24px" : currentSorter ? "12px" : "16px"};
   border: none;
   border-radius: 8px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
-  border-bottom-left-radius: ${({ isFilterListOpened }) =>
-    isFilterListOpened ? "0" : "8px"};
-  border-bottom-right-radius: ${({ isFilterListOpened }) =>
-    isFilterListOpened ? "0" : "8px"};
+  border-bottom-left-radius: ${({ isSorterOpened }) =>
+    isSorterOpened ? "0" : "8px"};
+  border-bottom-right-radius: ${({ isSorterOpened }) =>
+    isSorterOpened ? "0" : "8px"};
   cursor: pointer;
   transition-property: width padding-left padding-right color;
   transition-duration: 300ms;
 
   background: #fff;
-  box-shadow: ${({ isFilterListOpened }) =>
-    isFilterListOpened ? "none" : "2px 4px 9px 0px rgba(166, 141, 174, 0.28)"};
+  box-shadow: ${({ isSorterOpened }) =>
+    isSorterOpened ? "none" : "2px 4px 9px 0px rgba(166, 141, 174, 0.28)"};
 
-  ${css<FilterProps>`
+  ${css<SorterProps>`
     @media screen and (max-width: 767px) {
-      width: ${({ isFilterListOpened }) =>
-        isFilterListOpened ? "170px" : "56px"};
+      width: ${({ isSorterOpened }) => (isSorterOpened ? "170px" : "56px")};
       padding-left: 16px;
       padding-right: 16px;
-      box-shadow: ${({ isFilterListOpened }) =>
-        isFilterListOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
+      box-shadow: ${({ isSorterOpened }) =>
+        isSorterOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
     }
   `}
 `;
 
-export const FilterList = styled.ul<FilterProps>`
+export const SorterList = styled.ul<SorterProps>`
   position: absolute;
   top: 57px;
   left: 0;
@@ -74,21 +73,21 @@ export const FilterList = styled.ul<FilterProps>`
   border-top: 1px solid #aca7c3;
   background: #fff;
 
-  ${css<FilterProps>`
+  ${css<SorterProps>`
     @media screen and (max-width: 767px) {
-      box-shadow: ${({ isFilterListOpened }) =>
-        isFilterListOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
+      box-shadow: ${({ isSorterOpened }) =>
+        isSorterOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
     }
   `}
 
-  ${({ isFilterListOpened }) =>
-    isFilterListOpened &&
+  ${({ isSorterOpened }) =>
+    isSorterOpened &&
     css`
-      animation: ${openFilters} 300ms ease-out;
+      animation: ${openSorter} 300ms ease-out;
     `}
 `;
 
-export const SvgUpIcon = styled.svg<FilterProps>`
+export const SvgUpIcon = styled.svg<SorterProps>`
   width: 24px;
   height: 24px;
   transition: rotate(-90deg);
@@ -101,12 +100,12 @@ export const SvgUpIcon = styled.svg<FilterProps>`
       stroke: #7b61ff;
     `}
 
-  ${FilterBox}:hover > & {
+  ${SorterBox}:hover > & {
     stroke: #7b61ff;
   }
 `;
 
-export const SvgDownIcon = styled.svg<FilterProps>`
+export const SvgDownIcon = styled.svg<SorterProps>`
   width: 24px;
   height: 24px;
   transition: rotate(-90deg);
@@ -120,16 +119,16 @@ export const SvgDownIcon = styled.svg<FilterProps>`
       stroke: #7b61ff;
     `}
 
-  ${FilterBox}:hover > & {
+  ${SorterBox}:hover > & {
     stroke: #7b61ff;
   }
 `;
 
-export const Filter = styled.p`
+export const Sorter = styled.p`
   width: 100%;
 `;
 
-export const FilterItem = styled.li<FilterProps>`
+export const SorterItem = styled.li<SorterProps>`
   display: flex;
   align-items: center;
   padding-top: 8px;
@@ -161,7 +160,7 @@ export const FilterItem = styled.li<FilterProps>`
     border-bottom-color: #7b61ff;
   }
 
-  &:hover > ${Filter} {
+  &:hover > ${Sorter} {
     color: #7b61ff;
   }
 
@@ -170,7 +169,7 @@ export const FilterItem = styled.li<FilterProps>`
   }
 `;
 
-export const CurrentFilter = styled.p<FilterProps>`
+export const CurrentSorter = styled.p<SorterProps>`
   color: #3f3f3f;
   font-family: Poppins;
   font-size: 16px;
@@ -179,41 +178,38 @@ export const CurrentFilter = styled.p<FilterProps>`
   line-height: 100%;
   transition: color 300ms;
 
-  color: ${({ isFilterListOpened }) =>
-    isFilterListOpened ? "#7b61ff" : "#3F3F3F"};
+  color: ${({ isSorterOpened }) => (isSorterOpened ? "#7b61ff" : "#3F3F3F")};
 
   &:hover {
     color: #7b61ff;
   }
 
-  ${FilterBox}:hover > & {
+  ${SorterBox}:hover > & {
     color: #7b61ff;
   }
 
-  ${css<FilterProps>`
+  ${css<SorterProps>`
     @media screen and (max-width: 767px) {
-      display: ${({ isFilterListOpened }) =>
-        isFilterListOpened ? "block" : "none"};
+      display: ${({ isSorterOpened }) => (isSorterOpened ? "block" : "none")};
     }
   `}
 `;
 
-export const SvgFilterIcon = styled.svg<FilterProps>`
+export const SvgSorterIcon = styled.svg<SorterProps>`
   width: 24px;
   height: 24px;
   transition: rotate(-90deg);
-  stroke: ${({ isFilterListOpened }) =>
-    isFilterListOpened ? "#7b61ff" : "#3F3F3F"};
+  stroke: ${({ isSorterOpened }) => (isSorterOpened ? "#7b61ff" : "#3F3F3F")};
 
   transition: stroke 300ms;
 
-  ${FilterBox}:hover > & {
+  ${SorterBox}:hover > & {
     stroke: #7b61ff;
   }
 
-  ${css<FilterProps>`
+  ${css<SorterProps>`
     @media screen and (max-width: 767px) {
-      stroke: ${({ currentFilter }) => (currentFilter ? "#7b61ff" : "#3f3f3f")};
+      stroke: ${({ currentSorter }) => (currentSorter ? "#7b61ff" : "#3f3f3f")};
     }
   `}
 `;

@@ -6,4 +6,5 @@ export const categories: string[] = [
   "Workshop",
   "Party",
   "Sport",
+  "All",
 ];

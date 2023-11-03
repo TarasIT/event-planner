@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Container, Title, Menu, MenuItem } from "./AppBar.styled";
 import { CategoriesSelector } from "../CategoriesSelector/CategoriesSelector";
-import { FiltersSelector } from "../FiltersSelector/FiltersSelector";
+import { EventsSorter } from "../EventsSorter/EventsSorter";
 import { AddEventButton } from "../AddEventButton/AddEventButton";
 
 export const AppBar: FC = (): JSX.Element => {
@@ -13,7 +13,7 @@ export const AppBar: FC = (): JSX.Element => {
           <CategoriesSelector />
         </MenuItem>
         <MenuItem>
-          <FiltersSelector />
+          <EventsSorter />
         </MenuItem>
         <MenuItem>
           <AddEventButton />

@@ -15,7 +15,7 @@
 <symbol id="icon-cross-small" viewBox="0 0 32 32">
 <path fill="none" stroke="#none" style="stroke: var(--color1, #none)" stroke-linejoin="round" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2" d="M21.333 10.667l-10.667 10.667M10.667 10.667l10.667 10.667"></path>
 </symbol>
-<symbol id="icon-filters-2" viewBox="0 0 32 32">
+<symbol id="icon-sorters-2" viewBox="0 0 32 32">
 <path fill="none" stroke="#none" style="stroke: var(--color1, #none)" stroke-linejoin="miter" stroke-linecap="round" stroke-miterlimit="4" stroke-width="2" d="M18.667 6.667c0-1.473-1.194-2.667-2.667-2.667s-2.667 1.194-2.667 2.667v0M18.667 6.667c0 1.473-1.194 2.667-2.667 2.667s-2.667-1.194-2.667-2.667v0M18.667 6.667h8M13.333 6.667h-8M21.333 16c0 1.473 1.194 2.667 2.667 2.667s2.667-1.194 2.667-2.667v0c0-1.473-1.194-2.667-2.667-2.667s-2.667 1.194-2.667 2.667v0zM21.333 16h-16M10.667 25.333c0-1.473-1.194-2.667-2.667-2.667s-2.667 1.194-2.667 2.667v0c0 1.473 1.194 2.667 2.667 2.667s2.667-1.194 2.667-2.667v0zM10.667 25.333h16"></path>
 </symbol>
 <symbol id="icon-filters-3" viewBox="0 0 32 32">

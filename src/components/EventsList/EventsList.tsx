@@ -16,43 +16,76 @@ import {
   EventDetailsBtn,
   EventDetailsBox,
 } from "./EventsList.styled";
-import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
 import { useStore } from "../../hooks/useStore";
+import { NewEvent } from "../../types/types";
+import { transformDate } from "../../services/dateTransform";
+
+interface PriorityLevel {
+  Low: number;
+  Medium: number;
+  High: number;
+  [key: string]: number;
+}
 
 const shouldForwardProp = (prop: string) => prop !== "priority";
 
 export const EventsList: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
   const KEY = process.env.REACT_APP_STORAGE_KEY!;
-  const { categoryFilter, eventsStore } = useStore();
+
+  const { categoryFilter, eventsStore, eventsSorter } = useStore();
 
   const currentCategory = categoryFilter.currentCategory;
   const isCategoryFilterOpened = categoryFilter.isOpened;
+  const currentSorter = eventsSorter.currentSorter;
+  const isSorterIncreased = eventsSorter.isSorterIncreased;
 
   useEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
 
   useEffect(() => {
-    if (currentCategory && !isCategoryFilterOpened) {
-      const filteredEventsByCategory = events.filter(
-        ({ category }) => category === currentCategory
-      );
-      setEvents(filteredEventsByCategory);
-    } else {
-      setEvents(eventsStore.getEvents(KEY));
-    }
-  }, [isCategoryFilterOpened, currentCategory]);
+    currentCategory && !isCategoryFilterOpened
+      ? setEvents(events.filter(({ category }) => category === currentCategory))
+      : currentCategory !== "All" && setEvents(eventsStore.getEvents(KEY));
 
-  const transformDate = (date: string) => {
-    const inputDate = new Date(date);
-    const day = String(inputDate.getDate()).padStart(2, "0");
-    const month = String(inputDate.getMonth() + 1).padStart(2, "0");
-    return `${day}.${month}`;
-  };
+    if (currentCategory === "All") setEvents(eventsStore.getEvents(KEY));
+  }, [currentCategory, isCategoryFilterOpened]);
+
+  (() => {
+    const priorityLevel: PriorityLevel = { Low: 0, Medium: 1, High: 2 };
+
+    switch (currentSorter) {
+      case "A-Z":
+        return events.sort((a, b) => b.title.localeCompare(a.title));
+      case "Z-A":
+        return events.sort((a, b) => a.title.localeCompare(b.title));
+
+      case "date":
+        return isSorterIncreased
+          ? events.sort(
+              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+            )
+          : events.sort(
+              (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+            );
+
+      case "priority":
+        return isSorterIncreased
+          ? events.sort(
+              (a, b) => priorityLevel[b.priority] - priorityLevel[a.priority]
+            )
+          : events.sort(
+              (a, b) => priorityLevel[a.priority] - priorityLevel[b.priority]
+            );
+
+      default:
+        return events;
+    }
+  })();
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-      {events.length !== 0 && (
+      {events.length !== 0 ? (
         <EventCardsList>
           {events.map(
             ({
@@ -99,6 +132,8 @@ export const EventsList: FC = observer((): JSX.Element => {
             }
           )}
         </EventCardsList>
+      ) : (
+        <h2>No events found :(</h2>
       )}
     </StyleSheetManager>
   );

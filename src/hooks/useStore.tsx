@@ -1,18 +1,5 @@
-import { createContext, useContext } from "react";
-import eventsStore from "../mobX/stores/eventsStore";
-import categoryFilter from "../mobX/stores/categoryFilter";
-
-interface StoreContextProps {
-  eventsStore: typeof eventsStore;
-  categoryFilter: typeof categoryFilter;
-}
-
-const store: StoreContextProps = {
-  eventsStore,
-  categoryFilter,
-};
-
-export const StoreContext = createContext<StoreContextProps>(store);
+import { useContext } from "react";
+import { StoreContext } from "../mobX/context";
 
 export const useStore = () => {
   const context = useContext(StoreContext);

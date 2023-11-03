@@ -68,11 +68,6 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     setCurrentCategory(currentTarget.id);
   };
 
-  const onCategoryMouseLeave = (): void => {
-    if (viewportWidth <= 1279) return;
-    setCurrentCategory(defaultCategory);
-  };
-
   const onCategoryBoxClick = (): void => {
     setIsCategoryListOpened(!isCategoryListOpened);
     if (currentCategory) categoryFilter.getCurrentCategory(currentCategory);
@@ -102,7 +97,6 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
                   key={category}
                   id={category}
                   onMouseEnter={onCategoryMouseEnter}
-                  onMouseLeave={onCategoryMouseLeave}
                   onClick={handleCategoryChanging}
                   isActive={category === currentCategory}
                 >
