@@ -9,6 +9,7 @@ import {
 } from "./EventImageInput.styled";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { useTranslation } from "react-i18next";
 
 interface ImageInputProps {
   setImage: (image: string) => void;
@@ -23,11 +24,11 @@ export const EventImageInput: FC<ImageInputProps> = ({
   setImage,
   event,
 }): JSX.Element => {
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageBase64, setImageBase64] = useState<string>("");
   const [isImageInputCompleted, setIsImageInputCompleted] =
     useState<boolean>(false);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -56,7 +57,6 @@ export const EventImageInput: FC<ImageInputProps> = ({
     const file = e.target.files && e.target.files[0];
 
     if (file) {
-      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
@@ -75,7 +75,7 @@ export const EventImageInput: FC<ImageInputProps> = ({
           imageBase64={imageBase64}
           isImageInputCompleted={isImageInputCompleted}
         >
-          Add picture
+          {t("pictureInput")}
         </InputName>
 
         <ImageInputWrapper
@@ -83,7 +83,7 @@ export const EventImageInput: FC<ImageInputProps> = ({
           imageBase64={imageBase64}
         >
           <label>
-            input
+            {t("formInputPlaceholder")}
             <ImageInput
               type="file"
               accept="image/*"

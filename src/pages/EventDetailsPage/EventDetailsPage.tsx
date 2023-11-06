@@ -1,23 +1,14 @@
 import React, { FC } from "react";
-import Sprite from "../../assets/images/sprite.svg";
-import {
-  Container,
-  GoBackLink,
-  SvgBackLinkIcon,
-} from "./EventDetailsPage.styled";
+import { BackLinkToHomePage } from "../../components/BackLinkToHomePage/BackLinkToHomePage";
 import { EventDetailsCard } from "../../components/EventDetailsCard/EventDetailsCard";
+import { MainLayout } from "../../layouts/MainLayout/MainLayout";
 
 const EventDetailsPage: FC = (): JSX.Element => {
   return (
-    <Container>
-      <GoBackLink to="/">
-        <SvgBackLinkIcon>
-          <use xlinkHref={`${Sprite}#icon-arrow-left`}></use>
-        </SvgBackLinkIcon>
-        Back
-      </GoBackLink>
+    <MainLayout>
+      <BackLinkToHomePage />
       <EventDetailsCard />
-    </Container>
+    </MainLayout>
   );
 };
 

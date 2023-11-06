@@ -8,6 +8,7 @@ import {
 } from "./EventDescriptionInput.styled";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { useTranslation } from "react-i18next";
 
 interface DescriptionInputProps {
   setDescription: (description: string) => void;
@@ -29,6 +30,7 @@ export const EventDescriptionInput: FC<DescriptionInputProps> = ({
   const [isDescriptionInputCompleted, setIsDescriptionInputCompleted] =
     useState<boolean>(false);
   const descriptionTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -68,7 +70,7 @@ export const EventDescriptionInput: FC<DescriptionInputProps> = ({
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <DescriptionLabel>
-        <InputName>Description</InputName>
+        <InputName>{t("descriptionInput")}</InputName>
         <SvgDeleteIcon
           onClick={cleanDescriptionInput}
           descriptionInputValue={descriptionInputValue}
@@ -82,7 +84,7 @@ export const EventDescriptionInput: FC<DescriptionInputProps> = ({
           onChange={handleDescriptionInputChange}
           descriptionInputValue={descriptionInputValue}
           rows={4}
-          placeholder="input"
+          placeholder={t("formInputPlaceholder")}
         />
       </DescriptionLabel>
     </StyleSheetManager>

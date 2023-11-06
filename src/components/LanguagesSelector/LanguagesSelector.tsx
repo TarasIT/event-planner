@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   LangBox,
   SvgLangIcon,
@@ -13,12 +14,20 @@ export const LanguagesSelector: FC = (): JSX.Element => {
   const [currentLang, setCurrentLang] = useState<string>("UA");
   const langBoxRef = useRef<HTMLDivElement | null>(null);
 
+  const { i18n } = useTranslation();
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    currentLang === "EN"
+      ? i18n.changeLanguage("en")
+      : i18n.changeLanguage(currentLang.toLowerCase());
+  }, [currentLang]);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (langBoxRef.current && !langBoxRef.current.contains(e.target as Node)) {

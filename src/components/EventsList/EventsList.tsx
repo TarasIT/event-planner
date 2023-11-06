@@ -1,5 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useState } from "react";
 import { observer } from "mobx-react";
+import { StyleSheetManager } from "styled-components";
 import {
   EventCardsList,
   BackgroundContainer,
@@ -16,10 +17,10 @@ import {
   EventDetailsBtn,
   EventDetailsBox,
 } from "./EventsList.styled";
-import { StyleSheetManager } from "styled-components";
 import { useStore } from "../../hooks/useStore";
 import { NewEvent } from "../../types/types";
 import { transformDate } from "../../services/dateTransform";
+import { useTranslation } from "react-i18next";
 
 interface PriorityLevel {
   Low: number;
@@ -35,31 +36,30 @@ export const EventsList: FC = observer((): JSX.Element => {
   const KEY = process.env.REACT_APP_STORAGE_KEY!;
 
   const { categoryFilter, eventsStore, eventsSorter } = useStore();
+  const { t } = useTranslation();
 
   const currentCategory = categoryFilter.currentCategory;
   const isCategoryFilterOpened = categoryFilter.isOpened;
   const currentSorter = eventsSorter.currentSorter;
   const isSorterIncreased = eventsSorter.isSorterIncreased;
 
-  useEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
+  useLayoutEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
 
   useEffect(() => {
     currentCategory && !isCategoryFilterOpened
       ? setEvents(events.filter(({ category }) => category === currentCategory))
-      : currentCategory !== "All" && setEvents(eventsStore.getEvents(KEY));
+      : setEvents(eventsStore.getEvents(KEY));
 
     if (currentCategory === "All") setEvents(eventsStore.getEvents(KEY));
   }, [currentCategory, isCategoryFilterOpened]);
 
   (() => {
     const priorityLevel: PriorityLevel = { Low: 0, Medium: 1, High: 2 };
-
     switch (currentSorter) {
       case "A-Z":
         return events.sort((a, b) => b.title.localeCompare(a.title));
       case "Z-A":
         return events.sort((a, b) => a.title.localeCompare(b.title));
-
       case "date":
         return isSorterIncreased
           ? events.sort(
@@ -68,7 +68,6 @@ export const EventsList: FC = observer((): JSX.Element => {
           : events.sort(
               (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
             );
-
       case "priority":
         return isSorterIncreased
           ? events.sort(
@@ -77,7 +76,6 @@ export const EventsList: FC = observer((): JSX.Element => {
           : events.sort(
               (a, b) => priorityLevel[a.priority] - priorityLevel[b.priority]
             );
-
       default:
         return events;
     }
@@ -103,15 +101,21 @@ export const EventsList: FC = observer((): JSX.Element => {
                 <EventCard key={id}>
                   <BackgroundContainer image={image}>
                     <CategoryContainer>
-                      {category && <Category>{category}</Category>}
+                      {category && (
+                        <Category>
+                          {t(`categories.${category}`.toLowerCase())}
+                        </Category>
+                      )}
                       {priority && (
-                        <Priority priority={priority}>{priority}</Priority>
+                        <Priority priority={priority}>
+                          {t(`priorities.${priority}`.toLowerCase())}
+                        </Priority>
                       )}
                     </CategoryContainer>
                     <DateTimeLocationContainer>
                       {(date || time) && (
                         <DateAndTime>
-                          {date && transformDate(date)} {time && "at"}{" "}
+                          {date && transformDate(date)} {time && t("at")}{" "}
                           {time && time}
                         </DateAndTime>
                       )}
@@ -124,7 +128,7 @@ export const EventsList: FC = observer((): JSX.Element => {
                   </TitleDescriptionContainer>
                   <EventDetailsBox>
                     <EventDetailsBtn to={`/event-details/${id}`}>
-                      More info
+                      {t("moreInfoBtn")}
                     </EventDetailsBtn>
                   </EventDetailsBox>
                 </EventCard>

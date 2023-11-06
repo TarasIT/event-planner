@@ -4,6 +4,7 @@ interface SorterProps {
   isSorterOpened?: boolean;
   currentSorter?: string;
   isActive?: boolean;
+  currentLang?: string;
 }
 
 const openSorter = keyframes`
@@ -24,8 +25,14 @@ export const SorterBox = styled.div<SorterProps>`
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
-  width: ${({ isSorterOpened, currentSorter }) =>
-    isSorterOpened ? "170px" : currentSorter ? "170px" : "129px"};
+  width: ${({ isSorterOpened, currentSorter, currentLang }) => {
+    if (isSorterOpened || currentLang === "en") return "170px";
+    if (currentSorter && currentSorter.length > 4 && currentLang === "ua") {
+      return "220px";
+    } else {
+      return "180px";
+    }
+  }};
   padding-top: 16px;
   padding-bottom: 16px;
   padding-left: ${({ isSorterOpened, currentSorter }) =>
@@ -125,6 +132,7 @@ export const SvgDownIcon = styled.svg<SorterProps>`
 `;
 
 export const Sorter = styled.p`
+  display: inline-block;
   width: 100%;
 `;
 

@@ -18,6 +18,8 @@ import {
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
 import eventsStore from "../../mobX/stores/eventsStore";
+import { transformDate } from "../../services/dateTransform";
+import { useTranslation } from "react-i18next";
 
 const shouldForwardProp = (prop: string) => {
   return prop !== "priority" && prop !== "image";
@@ -26,6 +28,7 @@ const shouldForwardProp = (prop: string) => {
 export const EventDetailsCard: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
   const { id } = useParams();
+  const { t } = useTranslation();
   const KEY = process.env.REACT_APP_STORAGE_KEY!;
 
   useEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
@@ -45,13 +48,6 @@ export const EventDetailsCard: FC = observer((): JSX.Element => {
     priority,
   } = event;
 
-  const transformDate = (date: string) => {
-    const inputDate = new Date(date);
-    const day = String(inputDate.getDate()).padStart(2, "0");
-    const month = String(inputDate.getMonth() + 1).padStart(2, "0");
-    return `${day}.${month}`;
-  };
-
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       {title && <Title>{title}</Title>}
@@ -60,26 +56,32 @@ export const EventDetailsCard: FC = observer((): JSX.Element => {
 
         {description && <Description>{description}</Description>}
         <InfoBox>
-          {category && <Category>{category}</Category>}
-          {priority && <Priority priority={priority}>{priority}</Priority>}
+          {category && (
+            <Category>{t(`categories.${category}`.toLowerCase())}</Category>
+          )}
+          {priority && (
+            <Priority priority={priority}>
+              {t(`priorities.${priority}`.toLowerCase())}
+            </Priority>
+          )}
           {location && <Location>{location}</Location>}{" "}
           {(date || time) && (
             <DateAndTime>
-              {date && transformDate(date)} {time && "at"} {time && time}
+              {date && transformDate(date)} {time && t("at")} {time && time}
             </DateAndTime>
           )}
         </InfoBox>
 
         <EventButtonsBox>
           <EditEventBtn type="button" to={`/edit-event/${id}`}>
-            Edit
+            {t("editEventBtn")}
           </EditEventBtn>
           <DeleteEventBtn
             type="button"
             onClick={() => id && eventsStore.deleteEvent(KEY, id)}
             to={`/`}
           >
-            Delete Event
+            {t("deleteEventBtn")}
           </DeleteEventBtn>
         </EventButtonsBox>
       </EventCard>

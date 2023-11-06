@@ -9,6 +9,7 @@ import {
 } from "./EventLocationInput.styled";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { useTranslation } from "react-i18next";
 
 interface LocationInputProps {
   setLocation: (location: string) => void;
@@ -33,6 +34,7 @@ export const EventLocationInput: FC<LocationInputProps> = ({
   const [isLocationInputCompleted, setIsLocationInputCompleted] =
     useState<boolean>(false);
   const locationInputRef = useRef<HTMLInputElement | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -88,7 +90,7 @@ export const EventLocationInput: FC<LocationInputProps> = ({
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <LocationLabel>
-        <InputName>Location</InputName>
+        <InputName>{t("locationInput")}</InputName>
         <SvgDeleteIcon
           onClick={cleanLocationInput}
           isLocationInputValid={isLocationInputValid}
@@ -104,7 +106,7 @@ export const EventLocationInput: FC<LocationInputProps> = ({
           isLocationInputValid={isLocationInputValid}
           onChange={handleLocationInputChange}
           locationInputValue={locationInputValue}
-          placeholder="input"
+          placeholder={t("formInputPlaceholder")}
           required
         />
         {!isLocationInputValid && (

@@ -1,28 +1,21 @@
 import React, { FC } from "react";
 import { useParams } from "react-router-dom";
-import Sprite from "../../assets/images/sprite.svg";
+import { BackLinkToHomePage } from "../../components/BackLinkToHomePage/BackLinkToHomePage";
 import { NewEventForm } from "../../components/NewEventForm/NewEventForm";
-import {
-  Container,
-  GoBackLink,
-  SvgBackLinkIcon,
-  Title,
-} from "./CreateEventPage.styled";
+import { Title } from "./CreateEventPage.styled";
+import { MainLayout } from "../../layouts/MainLayout/MainLayout";
+import { useTranslation } from "react-i18next";
 
 const CreateEvent: FC = (): JSX.Element => {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   return (
-    <Container>
-      <GoBackLink to="/">
-        <SvgBackLinkIcon>
-          <use xlinkHref={`${Sprite}#icon-arrow-left`}></use>
-        </SvgBackLinkIcon>
-        Back
-      </GoBackLink>
-      <Title>{id ? "Edit event" : "Create new event"}</Title>
+    <MainLayout>
+      <BackLinkToHomePage />
+      <Title>{id ? t("editEventTitle") : t("createEventTitle")}</Title>
       <NewEventForm />
-    </Container>
+    </MainLayout>
   );
 };
 

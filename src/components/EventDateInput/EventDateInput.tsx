@@ -24,6 +24,7 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { useTranslation } from "react-i18next";
 
 interface DateInputProps {
   setDate: (date: string) => void;
@@ -54,8 +55,8 @@ export const EventDateInput: FC<DateInputProps> = ({
 }): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isCalendarOpened, setIsCalendarOpened] = useState<boolean>(false);
-
   const datePickerRef = useRef<typeof DatePicker>();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (event && event.date) {
@@ -109,8 +110,8 @@ export const EventDateInput: FC<DateInputProps> = ({
             {selectedDate
               ? `${formattedDate}`
               : isCalendarOpened
-              ? "Select Date"
-              : "input"}
+              ? t("selectDate")
+              : t("formInputPlaceholder")}
           </TextInput>
         </CustomDatePicker>
       );
@@ -128,10 +129,10 @@ export const EventDateInput: FC<DateInputProps> = ({
         {children}
         <BtnsBox>
           <CancelBtn type="button" onClick={handleDateCancel}>
-            Cancel
+            {t("cancelDateBtn")}
           </CancelBtn>
           <ChooseBtn type="button" onClick={handleDateChoose}>
-            Choose date
+            {t("chooseDateBtn")}
           </ChooseBtn>
         </BtnsBox>
       </DatePickerWrapper>
@@ -141,11 +142,12 @@ export const EventDateInput: FC<DateInputProps> = ({
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <DateBox>
-        <InputName>Select date</InputName>
+        <InputName>{t("dateInput")}</InputName>
 
         <DatePicker
           ref={datePickerRef}
           selected={selectedDate}
+          formatWeekDay={(day: string): string => t(`weekDays.${day}`)}
           isCalendarOpened={isCalendarOpened}
           onCalendarClose={() => setIsCalendarOpened(false)}
           onCalendarOpen={() => {
@@ -153,7 +155,6 @@ export const EventDateInput: FC<DateInputProps> = ({
             setSelectedDate(null);
           }}
           showPopperArrow={false}
-          useWeekdaysShort={true}
           shouldCloseOnSelect={false}
           popperModifiers={[
             {
@@ -194,12 +195,16 @@ export const EventDateInput: FC<DateInputProps> = ({
                 <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
               </SvgDecreaseMonthIcon>
               <span className="custom-month-year">
-                {date.toLocaleDateString("en-US", {
-                  month: "long",
-                  year: "numeric",
-                })}
+                {i18n.language === "en"
+                  ? date.toLocaleDateString("en-US", {
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : date.toLocaleDateString("uk-UA", {
+                      month: "long",
+                      year: "numeric",
+                    })}
               </span>
-
               <SvgIncreaseMonthIcon
                 onClick={increaseMonth}
                 className="custom-arrow"

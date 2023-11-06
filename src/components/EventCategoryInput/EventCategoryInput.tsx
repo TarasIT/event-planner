@@ -12,23 +12,23 @@ import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
 import { categories } from "../../data/categories";
+import { useTranslation } from "react-i18next";
 
 interface CategotyInputProps {
   setCategory: (category: string) => void;
   event: NewEvent;
 }
 
-const shouldForwardProp = (prop: string) => {
-  return prop !== "isCategoryListOpened";
-};
+const shouldForwardProp = (prop: string) => prop !== "isCategoryListOpened";
 
 export const EventCategoryInput: FC<CategotyInputProps> = ({
   setCategory,
   event,
 }): JSX.Element => {
+  const { t } = useTranslation();
   const [isCategoryListOpened, setIsCategoryListOpened] =
     useState<boolean>(false);
-  const [currentCategory, setCurrentCategory] = useState<string>("Select");
+  const [currentCategory, setCurrentCategory] = useState<string>("");
   const categoryInputRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
     }
   }, [event]);
 
-  const handleClickOutside = (e: MouseEvent) => {
+  const handleClickOutside = (e: MouseEvent): void => {
     if (
       categoryInputRef.current &&
       !categoryInputRef.current.contains(e.target as Node)
@@ -56,7 +56,7 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
 
   const handleCategoryChanging = (
     e: React.MouseEvent<HTMLParagraphElement>
-  ) => {
+  ): void => {
     const target = e.target as HTMLParagraphElement;
     setCurrentCategory(target.id);
     setCategory(target.id);
@@ -65,7 +65,7 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <CategoryBox>
-        <InputName>Category</InputName>
+        <InputName>{t("categoryInput")}</InputName>
         <CategoryInput
           ref={categoryInputRef}
           onClick={() => setIsCategoryListOpened(!isCategoryListOpened)}
@@ -73,23 +73,25 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
         >
           <p>
             {currentCategory && !isCategoryListOpened
-              ? currentCategory
-              : "Select"}
+              ? t(`categories.${currentCategory}`.toLowerCase())
+              : t("select")}
           </p>
           <SvgCategoryIcon isCategoryListOpened={isCategoryListOpened}>
             <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
           </SvgCategoryIcon>
           {isCategoryListOpened && (
             <CategoryList isCategoryListOpened={isCategoryListOpened}>
-              {categories.map((category) => {
-                return (
-                  <CategoryItem key={category}>
-                    <Category id={category} onClick={handleCategoryChanging}>
-                      {category}
-                    </Category>
-                  </CategoryItem>
-                );
-              })}
+              {categories
+                .filter((category) => category !== "All")
+                .map((category) => {
+                  return (
+                    <CategoryItem key={category}>
+                      <Category id={category} onClick={handleCategoryChanging}>
+                        {t(`categories.${category.toLowerCase()}`)}
+                      </Category>
+                    </CategoryItem>
+                  );
+                })}
             </CategoryList>
           )}
         </CategoryInput>

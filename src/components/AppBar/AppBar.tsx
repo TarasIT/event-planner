@@ -3,11 +3,14 @@ import { Container, Title, Menu, MenuItem } from "./AppBar.styled";
 import { CategoriesSelector } from "../CategoriesSelector/CategoriesSelector";
 import { EventsSorter } from "../EventsSorter/EventsSorter";
 import { AddEventButton } from "../AddEventButton/AddEventButton";
+import { useTranslation } from "react-i18next";
 
 export const AppBar: FC = (): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <Container>
-      <Title>My Events</Title>
+      <Title>{t("homePageTitle")}</Title>
       <Menu>
         <MenuItem>
           <CategoriesSelector />

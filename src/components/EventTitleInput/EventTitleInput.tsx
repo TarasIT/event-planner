@@ -9,6 +9,7 @@ import {
 } from "./EventTitleInput.styled";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { useTranslation } from "react-i18next";
 
 interface TitleInputProps {
   setTitle: (title: string) => void;
@@ -32,6 +33,7 @@ export const EventTitleInput: FC<TitleInputProps> = ({
   const [isTitleInputCompleted, setIsTitleInputCompleted] =
     useState<boolean>(false);
   const titleInputRef = useRef<HTMLInputElement | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -85,7 +87,7 @@ export const EventTitleInput: FC<TitleInputProps> = ({
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <TitleLabel>
-        <InputName>Title</InputName>
+        <InputName>{t("titleInput")}</InputName>
         <SvgDeleteIcon
           onClick={cleanTitleInput}
           isTitleInputValid={isTitleInputValid}
@@ -102,7 +104,7 @@ export const EventTitleInput: FC<TitleInputProps> = ({
           isTitleInputValid={isTitleInputValid}
           onChange={handleTitleInputChange}
           titleInputValue={titleInputValue}
-          placeholder="input"
+          placeholder={t("formInputPlaceholder")}
           required
         />
         {!isTitleInputValid && (

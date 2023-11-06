@@ -10,19 +10,25 @@ import {
 } from "./Header.styled";
 import Sprite from "../../assets/images/sprite.svg";
 import { LanguagesSelector } from "../../components/LanguagesSelector/LanguagesSelector";
+import { useTranslation } from "react-i18next";
 
 export const Header: FC = (): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <AppHeader>
       <Container>
-        <HomeLink to="/">Event Planner</HomeLink>
+        <HomeLink to="/">{t("appTitle")}</HomeLink>
 
         <SearchBox>
           <SearchLabel>
             <SvgSearchIcon>
               <use xlinkHref={`${Sprite}#icon-search`}></use>
             </SvgSearchIcon>
-            <SearchInput type="text" placeholder="Search by keywords" />
+            <SearchInput
+              type="text"
+              placeholder={t("searchInputPlaceholdder")}
+            />
           </SearchLabel>
         </SearchBox>
 

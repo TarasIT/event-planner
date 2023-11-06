@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import { StyleSheetManager } from "styled-components";
+import { useTranslation } from "react-i18next";
 import {
   SorterBox,
   SvgSorterIcon,
@@ -17,7 +18,10 @@ import { sorters } from "../../data/sorters";
 
 const shouldForwardProp = (prop: string) => {
   return (
-    prop !== "isSorterOpened" && prop !== "currentSorter" && prop !== "isActive"
+    prop !== "isSorterOpened" &&
+    prop !== "currentSorter" &&
+    prop !== "isActive" &&
+    prop !== "currentLang"
   );
 };
 
@@ -29,6 +33,7 @@ export const EventsSorter: FC = (): JSX.Element => {
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const [isOptionVisible, setIsOptionVisible] = useState<boolean>(false);
   const sorterBoxRef = useRef<HTMLDivElement | null>(null);
+  const { t, i18n } = useTranslation();
   const { eventsSorter } = useStore();
 
   const doubledSorters: string[] = [];
@@ -108,6 +113,19 @@ export const EventsSorter: FC = (): JSX.Element => {
     );
   };
 
+  const switchSorter = (): string => {
+    switch (currentSorter) {
+      case "":
+        return "";
+      case "A-Z":
+        return t("sorters.correctAlphabetOrder");
+      case "Z-A":
+        return t("sorters.reverseAlphabetOrder");
+      default:
+        return t(`sorters.${currentSorter}`);
+    }
+  };
+
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <SorterBox
@@ -115,10 +133,11 @@ export const EventsSorter: FC = (): JSX.Element => {
         onTransitionEnd={handleTransitionEnd}
         isSorterOpened={isSorterOpened}
         currentSorter={currentSorter}
+        currentLang={i18n.language}
         onClick={onSorterBoxClick}
       >
         <CurrentSorter isSorterOpened={isSorterOpened}>
-          Sort by {isOptionVisible && currentSorter}
+          {t("sorters.sortBy")} {isOptionVisible && switchSorter()}
         </CurrentSorter>
 
         {viewportWidth >= 768 && !currentSorter ? (
@@ -150,7 +169,9 @@ export const EventsSorter: FC = (): JSX.Element => {
                   isActive={sorterIndex === index}
                   isSorterOpened={isSorterOpened}
                 >
-                  <Sorter>by {sorter}</Sorter>
+                  <Sorter>
+                    {t("sorters.by")} {t(`sorters.${sorter}`)}
+                  </Sorter>
                   {index % 2 === 0 ? (
                     <SvgUpIcon isActive={sorterIndex === index}>
                       <use xlinkHref={`${Sprite}#icon-arrow`}></use>

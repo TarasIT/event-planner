@@ -18,6 +18,7 @@ import { EventImageInput } from "../EventImageInput/EventImageInput";
 import { EventDateInput } from "../EventDateInput/EventDateInput";
 import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
 import eventsStore from "../../mobX/stores/eventsStore";
+import { useTranslation } from "react-i18next";
 
 export const NewEventForm: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
@@ -29,6 +30,7 @@ export const NewEventForm: FC = observer((): JSX.Element => {
   const [category, setCategory] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const [priority, setPriority] = useState<string>("");
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -92,7 +94,7 @@ export const NewEventForm: FC = observer((): JSX.Element => {
         <EventPriorityInput event={event} setPriority={setPriority} />
       </Container>
       <AddEventButton>
-        <span>{id ? "Save" : "Add event"}</span>
+        <span>{id ? t("saveEventBtn") : t("addEventBtn")}</span>
       </AddEventButton>
     </CreateEventForm>
   );

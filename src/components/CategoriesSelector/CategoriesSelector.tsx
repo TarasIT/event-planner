@@ -1,4 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheetManager } from "styled-components";
 import {
   CategoryBox,
   SvgCategoryIcon,
@@ -8,7 +10,6 @@ import {
   Category,
 } from "./CategoriesSelector.styled";
 import Sprite from "../../assets/images/sprite.svg";
-import { StyleSheetManager } from "styled-components";
 import { categories } from "../../data/categories";
 import { observer } from "mobx-react";
 import { useStore } from "../../hooks/useStore";
@@ -28,6 +29,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
   const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
   const { categoryFilter } = useStore();
+  const { t } = useTranslation();
   const defaultCategory = "Category";
 
   useEffect(() => {
@@ -44,9 +46,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     categoryFilter.checkCategoriesFilterOpened(isCategoryListOpened);
   }, [isCategoryListOpened]);
 
-  const handleWindowResize = (): void => {
-    setViewportWidth(window.innerWidth);
-  };
+  const handleWindowResize = (): void => setViewportWidth(window.innerWidth);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (
@@ -81,7 +81,9 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
         onClick={onCategoryBoxClick}
       >
         <CurrentCategory isCategoryListOpened={isCategoryListOpened}>
-          {currentCategory ? currentCategory : defaultCategory}
+          {currentCategory
+            ? t(`categories.${currentCategory.toLowerCase()}`)
+            : t("categories.defaultCategory")}
         </CurrentCategory>
         <SvgCategoryIcon
           isCategoryListOpened={isCategoryListOpened}
@@ -100,7 +102,9 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
                   onClick={handleCategoryChanging}
                   isActive={category === currentCategory}
                 >
-                  <Category>{category}</Category>
+                  <Category>
+                    {t(`categories.${category.toLowerCase()}`)}
+                  </Category>
                 </CategoryItem>
               );
             })}

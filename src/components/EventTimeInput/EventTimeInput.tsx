@@ -20,6 +20,8 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
+import { useTranslation } from "react-i18next";
+import { morning, evening } from "../../data/dayHalf";
 
 interface TimeInputProps {
   setTime: (time: string) => void;
@@ -40,11 +42,12 @@ export const EventTimeInput: FC<TimeInputProps> = ({
   setTime,
   event,
 }): JSX.Element => {
+  const { t } = useTranslation();
   const [selectedTime, setSelectedTime] = useState<string>();
   const [isTimePickerOpened, setIsTimePickerOpened] = useState<boolean>(false);
   const [selectedHour, setSelectedHour] = useState<number>(1);
   const [selectedMinute, setSelectedMinute] = useState<number>(0);
-  const [selectedDayHalf, setSelectedDayHalf] = useState<string>("AM");
+  const [selectedDayHalf, setSelectedDayHalf] = useState<string>(morning);
   const [isHourScrollUp, setIsHourScrollUp] = useState<boolean | string>(
     "pending"
   );
@@ -136,10 +139,10 @@ export const EventTimeInput: FC<TimeInputProps> = ({
   };
 
   const handleScroll = (e: WheelEvent): void => {
-    e.preventDefault();
     const target = e.target as HTMLInputElement;
 
     if (target.name === "hour") {
+      e.preventDefault();
       setSelectedHour((value: number) => {
         if (e.deltaY > 0) {
           setIsHourScrollUp(false);
@@ -152,6 +155,7 @@ export const EventTimeInput: FC<TimeInputProps> = ({
     }
 
     if (target.name === "minute") {
+      e.preventDefault();
       setSelectedMinute((value: number) => {
         if (e.deltaY > 0) {
           setIsMinuteScrollUp(false);
@@ -164,13 +168,14 @@ export const EventTimeInput: FC<TimeInputProps> = ({
     }
 
     if (target.name === "dayHalf") {
+      e.preventDefault();
       setSelectedDayHalf((value: string) => {
         if (e.deltaY > 0) {
           setIsDayHalfScrollUp(false);
-          return value === "AM" ? "PM" : "AM";
+          return value === morning ? evening : morning;
         } else {
           setIsDayHalfScrollUp(true);
-          return value === "AM" ? "PM" : "AM";
+          return value === morning ? evening : morning;
         }
       });
     }
@@ -235,15 +240,15 @@ export const EventTimeInput: FC<TimeInputProps> = ({
       if (target.name === "dayHalf") {
         if (delta > touchDeltaY && touchDeltaY % scrollSensitivity === 0) {
           setIsDayHalfScrollUp(true);
-          selectedDayHalf === "AM"
-            ? setSelectedDayHalf("PM")
-            : setSelectedDayHalf("AM");
+          selectedDayHalf === morning
+            ? setSelectedDayHalf(evening)
+            : setSelectedDayHalf(morning);
         }
         if (delta < touchDeltaY && touchDeltaY % scrollSensitivity === 0) {
           setIsDayHalfScrollUp(false);
-          selectedDayHalf === "AM"
-            ? setSelectedDayHalf("PM")
-            : setSelectedDayHalf("AM");
+          selectedDayHalf === morning
+            ? setSelectedDayHalf(evening)
+            : setSelectedDayHalf(morning);
         }
       }
     }
@@ -252,7 +257,7 @@ export const EventTimeInput: FC<TimeInputProps> = ({
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <TimeBox>
-        <InputName>Select time</InputName>
+        <InputName>{t("timeInput")}</InputName>
         <TimeInput
           ref={timeInputRef}
           onClick={() => setIsTimePickerOpened(!isTimePickerOpened)}
@@ -264,9 +269,9 @@ export const EventTimeInput: FC<TimeInputProps> = ({
             isTimePickerOpened={isTimePickerOpened}
           >
             {isTimePickerOpened
-              ? "Select Time"
+              ? t("selectTime")
               : !selectedTime
-              ? "input"
+              ? t("formInputPlaceholder")
               : selectedTime}
           </TextInput>
           <SvgTimeIcon
@@ -368,7 +373,9 @@ export const EventTimeInput: FC<TimeInputProps> = ({
                       : (selectedMinute + 1).toString().padStart(2, "0")}
                   </Minute>
                 </UnchoosenTime>
-                <DayHalf>{selectedDayHalf === "AM" ? "PM" : "AM"}</DayHalf>
+                <DayHalf>
+                  {selectedDayHalf === morning ? evening : morning}
+                </DayHalf>
               </TimeItem>
             </TimePicker>
           )}

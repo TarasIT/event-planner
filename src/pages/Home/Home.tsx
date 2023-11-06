@@ -1,14 +1,14 @@
 import React, { FC } from "react";
 import { AppBar } from "../../components/AppBar/AppBar";
-import { Container } from "./Home.styled";
 import { EventsList } from "../../components/EventsList/EventsList";
+import { MainLayout } from "../../layouts/MainLayout/MainLayout";
 
 const Home: FC = (): JSX.Element => {
   return (
-    <Container>
+    <MainLayout>
       <AppBar />
       <EventsList />
-    </Container>
+    </MainLayout>
   );
 };
 

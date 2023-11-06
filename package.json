@@ -5,6 +5,9 @@
   "homepage": "https://tarasit.github.io/event-planner",
   "dependencies": {
     "@mobx-devtools/tools": "^0.0.4",
+    "@types/i18next": "^13.0.0",
+    "@types/react-i18next": "^8.1.0",
+    "i18next": "^23.6.0",
     "mobx": "^6.10.2",
     "mobx-react": "^9.0.1",
     "mobx-react-devtools": "^6.1.1",
@@ -14,6 +17,7 @@
     "react-datepicker": "^4.16.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-i18next": "^13.3.1",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.1",
     "react-scripts": "^5.0.1",
