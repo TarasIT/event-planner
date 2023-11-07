@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import React, { ChangeEvent, FC } from "react";
+import _ from "lodash";
 import {
   Container,
   AppHeader,
@@ -11,9 +12,16 @@ import {
 import Sprite from "../../assets/images/sprite.svg";
 import { LanguagesSelector } from "../../components/LanguagesSelector/LanguagesSelector";
 import { useTranslation } from "react-i18next";
+import { useStore } from "../../hooks/useStore";
 
 export const Header: FC = (): JSX.Element => {
   const { t } = useTranslation();
+  const { eventsSearch } = useStore();
+
+  const handleInputChange = _.debounce((e: ChangeEvent<HTMLInputElement>) => {
+    eventsSearch.getUserQuery(e.target.value.trim().toLowerCase());
+    console.log(e.target.value);
+  }, 300);
 
   return (
     <AppHeader>
@@ -27,6 +35,7 @@ export const Header: FC = (): JSX.Element => {
             </SvgSearchIcon>
             <SearchInput
               type="text"
+              onChange={handleInputChange}
               placeholder={t("searchInputPlaceholdder")}
             />
           </SearchLabel>

@@ -35,23 +35,30 @@ export const EventsList: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
   const KEY = process.env.REACT_APP_STORAGE_KEY!;
 
-  const { categoryFilter, eventsStore, eventsSorter } = useStore();
+  const { categoryFilter, eventsStore, eventsSorter, eventsSearch } =
+    useStore();
   const { t } = useTranslation();
 
   const currentCategory = categoryFilter.currentCategory;
+  const filteredEventsByCategory = categoryFilter.filterEventsByCategory();
   const isCategoryFilterOpened = categoryFilter.isOpened;
+
   const currentSorter = eventsSorter.currentSorter;
   const isSorterIncreased = eventsSorter.isSorterIncreased;
+
+  const userQuery = eventsSearch.searchQuery;
+  const filteredEventsByQuery = eventsSearch.filterEventsByQuery();
 
   useLayoutEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
 
   useEffect(() => {
     currentCategory && !isCategoryFilterOpened
-      ? setEvents(events.filter(({ category }) => category === currentCategory))
+      ? setEvents(filteredEventsByCategory)
       : setEvents(eventsStore.getEvents(KEY));
-
     if (currentCategory === "All") setEvents(eventsStore.getEvents(KEY));
-  }, [currentCategory, isCategoryFilterOpened]);
+
+    if (userQuery) setEvents(filteredEventsByQuery);
+  }, [currentCategory, isCategoryFilterOpened, eventsSearch.searchQuery]);
 
   (() => {
     const priorityLevel: PriorityLevel = { Low: 0, Medium: 1, High: 2 };
@@ -137,7 +144,7 @@ export const EventsList: FC = observer((): JSX.Element => {
           )}
         </EventCardsList>
       ) : (
-        <h2>No events found :(</h2>
+        <h2>{t("noEventsFound")} :(</h2>
       )}
     </StyleSheetManager>
   );
