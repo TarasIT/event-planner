@@ -2,6 +2,7 @@
   "appTitle": "Планувальник подій",
   "searchInputPlaceholdder": "Пошук за ключовим словом",
   "homePageTitle": "Мої події",
+  "noEventsFound": "Жодної події не знайдено",
   "addNewEventBtn": "Додати Нову Подію",
   "categories": {
     "art": "Мистецтво",
