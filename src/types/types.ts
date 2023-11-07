@@ -1,11 +1,12 @@
 export interface NewEvent {
-  id?: string;
+  id: string;
   title: string;
   description: string;
   date: string;
   time: string;
   location: string;
   category: string;
-  image?: string;
+  image: string;
   priority: string;
+  [key: string]: string;
 }
