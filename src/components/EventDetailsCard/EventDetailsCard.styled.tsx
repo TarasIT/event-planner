@@ -1,5 +1,8 @@
 import { css, styled } from "styled-components";
-import DefaultImage from "../../assets/images/default-vertical.jpg";
+import DesktopDefaultImg from "../../assets/images/default-horizontal.jpg";
+import DesktopDefaultImg2x from "../../assets/images/default-horizontal-2x.jpg";
+import MobileDefaultImg from "../../assets/images/default-vertical.jpg";
+import MobileDefaultImg2x from "../../assets/images/default-vertical-2x.jpg";
 import { NavLink } from "react-router-dom";
 
 interface EventProps {
@@ -44,15 +47,37 @@ export const BackgroundContainer = styled.div<EventProps>`
   border-top-left-radius: 8px;
 
   background-image: ${({ image }) => {
-    return image ? `url(${image})` : `url(${DefaultImage})`;
+    return image ? `url(${image})` : `url(${DesktopDefaultImg})`;
   }};
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
 
   ${css`
+    @media screen (min-device-pixel-ratio: 2),
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi),
+      (min-resolution: 2dppx) {
+      & {
+        background-image: url(${DesktopDefaultImg2x});
+      }
+    }
+  `}
+
+  ${css`
     @media screen and (max-width: 767px) {
-      border-radius: 8px;
+      & {
+        border-radius: 8px;
+        background-image: url(${MobileDefaultImg});
+      }
+      @media screen (min-device-pixel-ratio: 2),
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi),
+        (min-resolution: 2dppx) {
+        & {
+          background-image: url(${MobileDefaultImg2x});
+        }
+      }
     }
   `}
 `;

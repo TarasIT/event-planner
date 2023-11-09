@@ -20,7 +20,6 @@ export const Header: FC = (): JSX.Element => {
 
   const handleInputChange = _.debounce((e: ChangeEvent<HTMLInputElement>) => {
     eventsSearch.getUserQuery(e.target.value.trim().toLowerCase());
-    console.log(e.target.value);
   }, 300);
 
   return (

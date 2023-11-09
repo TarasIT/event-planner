@@ -16,6 +16,7 @@ import {
   TitleDescriptionContainer,
   EventDetailsBtn,
   EventDetailsBox,
+  NoEventsFoundTitle,
 } from "./EventsList.styled";
 import { useStore } from "../../hooks/useStore";
 import { NewEvent } from "../../types/types";
@@ -144,7 +145,9 @@ export const EventsList: FC = observer((): JSX.Element => {
           )}
         </EventCardsList>
       ) : (
-        <h2>{t("noEventsFound")} :(</h2>
+        <NoEventsFoundTitle>
+          {currentCategory || userQuery ? t("noEventsFound") : t("firstEvent")}
+        </NoEventsFoundTitle>
       )}
     </StyleSheetManager>
   );

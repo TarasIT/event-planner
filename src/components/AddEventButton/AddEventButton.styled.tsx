@@ -6,7 +6,6 @@ export const AddEventLink = styled(NavLink)`
   justify-content: space-between;
   align-items: center;
 
-  width: 193px;
   padding-top: 16px;
   padding-bottom: 16px;
   padding-left: 21px;

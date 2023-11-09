@@ -26,12 +26,30 @@ export const SorterBox = styled.div<SorterProps>`
   align-items: center;
   align-self: stretch;
   width: ${({ isSorterOpened, currentSorter, currentLang }) => {
-    if (isSorterOpened || currentLang === "en") return "170px";
-    if (currentSorter && currentSorter.length > 4 && currentLang === "ua") {
-      return "220px";
-    } else {
+    if (!isSorterOpened && currentLang === "ua" && !currentSorter)
       return "180px";
-    }
+    if (!isSorterOpened && currentLang === "en" && !currentSorter)
+      return "130px";
+
+    if (isSorterOpened && currentLang === "ua") return "200px";
+
+    if (
+      !isSorterOpened &&
+      currentLang === "ua" &&
+      currentSorter &&
+      currentSorter.length <= 4
+    )
+      return "210px";
+
+    if (
+      !isSorterOpened &&
+      currentLang === "ua" &&
+      currentSorter &&
+      currentSorter.length > 4
+    )
+      return "255px";
+
+    return "170px";
   }};
   padding-top: 16px;
   padding-bottom: 16px;

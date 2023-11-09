@@ -2,8 +2,9 @@
   "appTitle": "Планувальник подій",
   "searchInputPlaceholdder": "Пошук за ключовим словом",
   "homePageTitle": "Мої події",
-  "noEventsFound": "Жодної події не знайдено",
-  "addNewEventBtn": "Додати Нову Подію",
+  "firstEvent": "У Вас немає подій. Створіть свою першу подію.",
+  "noEventsFound": "Подій не знайдено :(",
+  "addNewEventBtn": "Додати нову подію",
   "categories": {
     "art": "Мистецтво",
     "music": "Музика",
@@ -60,6 +61,6 @@
   "at": "у",
   "moreInfoBtn": "Подробиці",
   "editEventBtn": "Редагувати",
-  "deleteEventBtn": "Видалити Подію",
+  "deleteEventBtn": "Видалити подію",
   "noPageFound": "Вибачте, ми не змогли знайти цю сторінку"
 }

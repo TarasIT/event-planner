@@ -25,6 +25,16 @@ export const EventCardsList = styled.ul`
   `}
 `;
 
+export const NoEventsFoundTitle = styled.h2`
+  margin-top: 20vh;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+`;
+
 export const EventDetailsBox = styled.div`
   position: absolute;
   right: 0;

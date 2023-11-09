@@ -2,7 +2,8 @@
   "appTitle": "Event Planner",
   "searchInputPlaceholdder": "Search by keywords",
   "homePageTitle": "My events",
-  "noEventsFound": "No events found",
+  "firstEvent": "You don't have events. Create your first one.",
+  "noEventsFound": "No events :(",
   "addNewEventBtn": "Add New Event",
     "categories": {
     "art": "Art",

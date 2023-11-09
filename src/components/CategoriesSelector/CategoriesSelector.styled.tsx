@@ -6,6 +6,17 @@ interface CategoryProps {
   isActive?: boolean;
 }
 
+const openCategories = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 export const CategoryBox = styled.div<CategoryProps>`
   position: relative;
   z-index: 1;
@@ -16,7 +27,7 @@ export const CategoryBox = styled.div<CategoryProps>`
   align-items: center;
   align-self: stretch;
   min-width: ${({ isCategoryListOpened }) =>
-    isCategoryListOpened ? "158px" : "148px"};
+    isCategoryListOpened ? "185px" : "158px"};
   padding: 16px;
   border: none;
   border-radius: 8px;
@@ -52,17 +63,6 @@ export const CategoryBox = styled.div<CategoryProps>`
     }
     }
   `}
-`;
-
-const openCategories = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 `;
 
 export const CategoryList = styled.ul<CategoryProps>`
