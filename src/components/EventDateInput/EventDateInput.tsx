@@ -25,11 +25,8 @@ import Sprite from "../../assets/images/sprite.svg";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
 import { useTranslation } from "react-i18next";
-
-interface DateInputProps {
-  setDate: (date: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
+import { useParams } from "react-router-dom";
 
 interface CalendarContainerProps {
   children: ReactNode;
@@ -49,19 +46,21 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventDateInput: FC<DateInputProps> = ({
-  setDate,
-  event,
-}): JSX.Element => {
+export const EventDateInput: FC = (): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isCalendarOpened, setIsCalendarOpened] = useState<boolean>(false);
   const datePickerRef = useRef<typeof DatePicker>();
   const { t, i18n } = useTranslation();
+  const { setFormValues, eventsStore } = useStore();
+  const { id } = useParams();
+
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     if (event && event.date) {
       setSelectedDate(new Date(event.date));
-      setDate(event.date);
+      setFormValues.setDate(event.date);
     }
   }, [event]);
 
@@ -77,7 +76,7 @@ export const EventDateInput: FC<DateInputProps> = ({
       inputDate.getMonth() + 1 === parseInt(month, 10)
     ) {
       setSelectedDate(inputDate);
-      setDate(inputDate.toString());
+      setFormValues.setDate(inputDate.toString());
       datePickerRef.current.setOpen(false);
     } else {
       console.error("Invalid day or month value");

@@ -1,4 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { StyleSheetManager } from "styled-components";
+import { useTranslation } from "react-i18next";
 import Sprite from "../../assets/images/sprite.svg";
 import {
   InputName,
@@ -6,14 +9,8 @@ import {
   DescriptionLabel,
   SvgDeleteIcon,
 } from "./EventDescriptionInput.styled";
-import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
-import { useTranslation } from "react-i18next";
-
-interface DescriptionInputProps {
-  setDescription: (description: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -21,16 +18,18 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventDescriptionInput: FC<DescriptionInputProps> = ({
-  setDescription,
-  event,
-}): JSX.Element => {
+export const EventDescriptionInput: FC = (): JSX.Element => {
   const [descriptionInputValue, setDescriptionInputValue] =
     useState<string>("");
   const [isDescriptionInputCompleted, setIsDescriptionInputCompleted] =
     useState<boolean>(false);
   const descriptionTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { t } = useTranslation();
+  const { setFormValues, eventsStore } = useStore();
+  const { id } = useParams();
+
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -42,7 +41,7 @@ export const EventDescriptionInput: FC<DescriptionInputProps> = ({
 
   useEffect(() => {
     if (event && event.description) {
-      setDescription(event.description);
+      setFormValues.setDescription(event.description);
       setDescriptionInputValue(event.description);
     }
   }, [event]);
@@ -59,12 +58,12 @@ export const EventDescriptionInput: FC<DescriptionInputProps> = ({
     e: ChangeEvent<HTMLTextAreaElement>
   ): void => {
     setDescriptionInputValue(e.target.value);
-    setDescription(e.target.value);
+    setFormValues.setDescription(e.target.value);
   };
 
   const cleanDescriptionInput = (): void => {
     setDescriptionInputValue("");
-    setDescription("");
+    setFormValues.setDescription("");
   };
 
   return (

@@ -1,4 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { StyleSheetManager } from "styled-components";
+import { useTranslation } from "react-i18next";
 import {
   CategoryInput,
   SvgCategoryIcon,
@@ -9,27 +12,23 @@ import {
   InputName,
 } from "./EventCategoryInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
-import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
 import { categories } from "../../data/categories";
-import { useTranslation } from "react-i18next";
-
-interface CategotyInputProps {
-  setCategory: (category: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => prop !== "isCategoryListOpened";
 
-export const EventCategoryInput: FC<CategotyInputProps> = ({
-  setCategory,
-  event,
-}): JSX.Element => {
+export const EventCategoryInput: FC = (): JSX.Element => {
   const { t } = useTranslation();
   const [isCategoryListOpened, setIsCategoryListOpened] =
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const categoryInputRef = useRef<HTMLDivElement | null>(null);
+  const { setFormValues, eventsStore } = useStore();
+  const { id } = useParams();
+
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -41,7 +40,7 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
   useEffect(() => {
     if (event && event.category) {
       setCurrentCategory(event.category);
-      setCategory(event.category);
+      setFormValues.setCategory(event.category);
     }
   }, [event]);
 
@@ -59,7 +58,7 @@ export const EventCategoryInput: FC<CategotyInputProps> = ({
   ): void => {
     const target = e.target as HTMLParagraphElement;
     setCurrentCategory(target.id);
-    setCategory(target.id);
+    setFormValues.setCategory(target.id);
   };
 
   return (

@@ -1,4 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { StyleSheetManager } from "styled-components";
 import {
   PriorityBox,
   PriorityInput,
@@ -9,27 +12,23 @@ import {
   InputName,
 } from "./EventPriorityInput.styled";
 import Sprite from "../../assets/images/sprite.svg";
-import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
 import { priorities } from "../../data/priorities";
-import { useTranslation } from "react-i18next";
-
-interface PriorityInputProps {
-  setPriority: (priority: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => prop !== "isPriorityListOpened";
 
-export const EventPriorityInput: FC<PriorityInputProps> = ({
-  setPriority,
-  event,
-}): JSX.Element => {
+export const EventPriorityInput: FC = (): JSX.Element => {
   const { t } = useTranslation();
   const [isPriorityListOpened, setIsPriorityListOpened] =
     useState<boolean>(false);
   const [currentPriority, setCurrentPriority] = useState<string>("");
   const priorityInputRef = useRef<HTMLDivElement | null>(null);
+  const { setFormValues, eventsStore } = useStore();
+  const { id } = useParams();
+
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -40,7 +39,7 @@ export const EventPriorityInput: FC<PriorityInputProps> = ({
 
   useEffect(() => {
     if (event && event.priority) {
-      setPriority(event.priority);
+      setFormValues.setPriority(event.priority);
       setCurrentPriority(event.priority);
     }
   }, [event]);
@@ -59,7 +58,7 @@ export const EventPriorityInput: FC<PriorityInputProps> = ({
   ): void => {
     const target = e.target as HTMLParagraphElement;
     setCurrentPriority(target.id);
-    setPriority(target.id);
+    setFormValues.setPriority(target.id);
   };
 
   return (

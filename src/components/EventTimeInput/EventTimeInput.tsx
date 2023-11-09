@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   TimeBox,
   TimeInput,
@@ -22,11 +23,7 @@ import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
 import { useTranslation } from "react-i18next";
 import { morning, evening } from "../../data/dayHalf";
-
-interface TimeInputProps {
-  setTime: (time: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -38,10 +35,7 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventTimeInput: FC<TimeInputProps> = ({
-  setTime,
-  event,
-}): JSX.Element => {
+export const EventTimeInput: FC = (): JSX.Element => {
   const { t } = useTranslation();
   const [selectedTime, setSelectedTime] = useState<string>();
   const [isTimePickerOpened, setIsTimePickerOpened] = useState<boolean>(false);
@@ -63,6 +57,11 @@ export const EventTimeInput: FC<TimeInputProps> = ({
   const timeInputRef = useRef<HTMLDivElement | null>(null);
   const textInputRef = useRef<HTMLParagraphElement | null>(null);
   const svgInputRef = useRef<SVGSVGElement | null>(null);
+
+  const { id } = useParams();
+  const { setFormValues, eventsStore } = useStore();
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     window.addEventListener("click", handleClick);
@@ -103,14 +102,14 @@ export const EventTimeInput: FC<TimeInputProps> = ({
           .toString()
           .padStart(2, "0")} ${selectedDayHalf}`
       );
-      setTime(
+      setFormValues.setTime(
         `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
           .toString()
           .padStart(2, "0")} ${selectedDayHalf}`
       );
     }
     if (event && event.time) {
-      setTime(event.time);
+      setFormValues.setTime(event.time);
       setSelectedTime(event.time);
     }
   }, [

@@ -11,7 +11,7 @@ import { languages } from "../../data/languages";
 
 export const LanguagesSelector: FC = (): JSX.Element => {
   const [isLangListOpened, setIsLangListOpened] = useState<boolean>(false);
-  const [currentLang, setCurrentLang] = useState<string>("UA");
+  const [currentLang, setCurrentLang] = useState<string>("EN");
   const langBoxRef = useRef<HTMLDivElement | null>(null);
 
   const { i18n } = useTranslation();

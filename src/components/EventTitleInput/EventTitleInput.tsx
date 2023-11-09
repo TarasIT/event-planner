@@ -1,4 +1,6 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Sprite from "../../assets/images/sprite.svg";
 import {
   InputName,
@@ -9,12 +11,7 @@ import {
 } from "./EventTitleInput.styled";
 import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
-import { useTranslation } from "react-i18next";
-
-interface TitleInputProps {
-  setTitle: (title: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -24,16 +21,18 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventTitleInput: FC<TitleInputProps> = ({
-  setTitle,
-  event,
-}): JSX.Element => {
+export const EventTitleInput: FC = (): JSX.Element => {
   const [titleInputValue, setTitleInputValue] = useState<string>("");
   const [isTitleInputValid, setIsTitleInputValid] = useState<boolean>(true);
   const [isTitleInputCompleted, setIsTitleInputCompleted] =
     useState<boolean>(false);
   const titleInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
+  const { id } = useParams();
+  const { setFormValues, eventsStore } = useStore();
+
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -45,7 +44,7 @@ export const EventTitleInput: FC<TitleInputProps> = ({
   useEffect(() => {
     if (event && event.title) {
       setTitleInputValue(event.title);
-      setTitle(event.title);
+      setFormValues.setTitle(event.title);
     }
   }, [event]);
 
@@ -59,7 +58,7 @@ export const EventTitleInput: FC<TitleInputProps> = ({
 
   const cleanTitleInput = (): void => {
     setTitleInputValue("");
-    setTitle("");
+    setFormValues.setTitle("");
     setIsTitleInputValid(true);
   };
 
@@ -81,7 +80,7 @@ export const EventTitleInput: FC<TitleInputProps> = ({
       setIsTitleInputValid(true);
     }
     setTitleInputValue(title);
-    setTitle(title);
+    setFormValues.setTitle(title);
   };
 
   return (

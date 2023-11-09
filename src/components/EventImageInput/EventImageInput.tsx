@@ -1,4 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { StyleSheetManager } from "styled-components";
+import { useTranslation } from "react-i18next";
 import Sprite from "../../assets/images/sprite.svg";
 import {
   InputName,
@@ -7,28 +10,24 @@ import {
   SvgDeleteIcon,
   ImageInputWrapper,
 } from "./EventImageInput.styled";
-import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
-import { useTranslation } from "react-i18next";
-
-interface ImageInputProps {
-  setImage: (image: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => {
   return prop !== "imageBase64" && prop !== "isImageInputCompleted";
 };
 
-export const EventImageInput: FC<ImageInputProps> = ({
-  setImage,
-  event,
-}): JSX.Element => {
+export const EventImageInput: FC = (): JSX.Element => {
   const [imageBase64, setImageBase64] = useState<string>("");
   const [isImageInputCompleted, setIsImageInputCompleted] =
     useState<boolean>(false);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
+  const { setFormValues, eventsStore } = useStore();
+  const { id } = useParams();
+
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -40,7 +39,7 @@ export const EventImageInput: FC<ImageInputProps> = ({
 
   useEffect(() => {
     if (event && event.image) {
-      setImage(event.image);
+      setFormValues.setImage(event.image);
       setImageBase64(event.image);
     }
   }, [event]);
@@ -61,7 +60,7 @@ export const EventImageInput: FC<ImageInputProps> = ({
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
           setImageBase64(reader.result);
-          setImage(reader.result);
+          setFormValues.setImage(reader.result);
         }
       };
       reader.readAsDataURL(file);

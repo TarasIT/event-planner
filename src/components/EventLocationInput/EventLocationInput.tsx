@@ -1,4 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { StyleSheetManager } from "styled-components";
+import { useTranslation } from "react-i18next";
 import Sprite from "../../assets/images/sprite.svg";
 import {
   InputName,
@@ -7,14 +10,8 @@ import {
   SvgDeleteIcon,
   InvalidInputWarning,
 } from "./EventLocationInput.styled";
-import { StyleSheetManager } from "styled-components";
 import { NewEvent } from "../../types/types";
-import { useTranslation } from "react-i18next";
-
-interface LocationInputProps {
-  setLocation: (location: string) => void;
-  event: NewEvent;
-}
+import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -24,10 +21,7 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventLocationInput: FC<LocationInputProps> = ({
-  setLocation,
-  event,
-}): JSX.Element => {
+export const EventLocationInput: FC = (): JSX.Element => {
   const [locationInputValue, setLocationInputValue] = useState<string>("");
   const [isLocationInputValid, setIsLocationInputValid] =
     useState<boolean>(true);
@@ -35,6 +29,11 @@ export const EventLocationInput: FC<LocationInputProps> = ({
     useState<boolean>(false);
   const locationInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
+  const { setFormValues, eventsStore } = useStore();
+  const { id } = useParams();
+
+  let event: NewEvent | null = null;
+  if (id) event = eventsStore.getEventById(id);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -46,7 +45,7 @@ export const EventLocationInput: FC<LocationInputProps> = ({
 
   useEffect(() => {
     if (event && event.location) {
-      setLocation(event.location);
+      setFormValues.setLocation(event.location);
       setLocationInputValue(event.location);
     }
   }, [event]);
@@ -78,12 +77,12 @@ export const EventLocationInput: FC<LocationInputProps> = ({
       setIsLocationInputValid(true);
     }
     setLocationInputValue(location);
-    setLocation(location);
+    setFormValues.setLocation(location);
   };
 
   const cleanLocationInput = (): void => {
     setLocationInputValue("");
-    setLocation("");
+    setFormValues.setLocation("");
     setIsLocationInputValid(true);
   };
 

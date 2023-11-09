@@ -1,5 +1,4 @@
 import { observable, action, makeAutoObservable } from "mobx";
-import { NewEvent } from "../../types/types";
 import eventsStore from "./eventsStore";
 
 class CategoryFilter {

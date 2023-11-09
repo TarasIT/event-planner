@@ -3,7 +3,7 @@ import { NewEvent } from "../../types/types";
 
 class EventsStore {
   @observable
-  events: NewEvent[] = [];
+  event: NewEvent | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -13,14 +13,22 @@ class EventsStore {
   getEvents(key: string): NewEvent[] {
     try {
       const events = localStorage.getItem(key);
-      if (events) {
-        return JSON.parse(events) as NewEvent[];
-      } else {
-        return [];
-      }
+      return events ? (JSON.parse(events) as NewEvent[]) : [];
     } catch (error: unknown) {
       console.error("Get events error: ", (error as Error).message);
       return [];
+    }
+  }
+
+  @action
+  getEventById(id: string): NewEvent | null {
+    try {
+      const KEY = process.env.REACT_APP_STORAGE_KEY!;
+      const events = this.getEvents(KEY);
+      return id && events ? events.filter((event) => event.id === id)[0] : null;
+    } catch (error: unknown) {
+      console.error("Get event error: ", (error as Error).message);
+      return null;
     }
   }
 

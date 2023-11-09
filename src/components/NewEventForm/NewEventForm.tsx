@@ -17,25 +17,16 @@ import { EventPriorityInput } from "../EventPriorityInput/EventPriorityInput";
 import { EventImageInput } from "../EventImageInput/EventImageInput";
 import { EventDateInput } from "../EventDateInput/EventDateInput";
 import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
-import eventsStore from "../../mobX/stores/eventsStore";
 import { useTranslation } from "react-i18next";
+import { useStore } from "../../hooks/useStore";
 
 export const NewEventForm: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
-  const [title, setTitle] = useState<string>("");
-  const [date, setDate] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [time, setTime] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [image, setImage] = useState<string>("");
-  const [priority, setPriority] = useState<string>("");
   const { t } = useTranslation();
-
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { setFormValues, eventsStore } = useStore();
   const KEY = process.env.REACT_APP_STORAGE_KEY!;
-  const event = events.filter((event) => event.id === id)[0];
 
   useEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
 
@@ -53,27 +44,27 @@ export const NewEventForm: FC = observer((): JSX.Element => {
         ...events,
         {
           id: nanoid(),
-          title,
-          description,
-          date,
-          time,
-          location,
-          category,
-          image,
-          priority,
+          title: setFormValues.title,
+          description: setFormValues.description,
+          date: setFormValues.date,
+          time: setFormValues.time,
+          location: setFormValues.location,
+          category: setFormValues.category,
+          image: setFormValues.image,
+          priority: setFormValues.priority,
         },
       ]);
     } else {
       await eventsStore.updateEvents(KEY, {
         id,
-        title,
-        description,
-        date,
-        time,
-        location,
-        category,
-        image,
-        priority,
+        title: setFormValues.title,
+        description: setFormValues.description,
+        date: setFormValues.date,
+        time: setFormValues.time,
+        location: setFormValues.location,
+        category: setFormValues.category,
+        image: setFormValues.image,
+        priority: setFormValues.priority,
       });
     }
 
@@ -84,14 +75,14 @@ export const NewEventForm: FC = observer((): JSX.Element => {
   return (
     <CreateEventForm onSubmit={handleFormSubmit} encType="multipart/form-data">
       <Container>
-        <EventTitleInput event={event} setTitle={setTitle} />
-        <EventDescriptionInput event={event} setDescription={setDescription} />
-        <EventDateInput event={event} setDate={setDate} />
-        <EventTimeInput event={event} setTime={setTime} />
-        <EventLocationInput event={event} setLocation={setLocation} />
-        <EventCategoryInput event={event} setCategory={setCategory} />
-        <EventImageInput event={event} setImage={setImage} />
-        <EventPriorityInput event={event} setPriority={setPriority} />
+        <EventTitleInput />
+        <EventDescriptionInput />
+        <EventDateInput />
+        <EventTimeInput />
+        <EventLocationInput />
+        <EventCategoryInput />
+        <EventImageInput />
+        <EventPriorityInput />
       </Container>
       <AddEventButton>
         <span>{id ? t("saveEventBtn") : t("addEventBtn")}</span>
