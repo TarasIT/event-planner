@@ -65,9 +65,9 @@ export const EventsList: FC = observer((): JSX.Element => {
     const priorityLevel: PriorityLevel = { Low: 0, Medium: 1, High: 2 };
     switch (currentSorter) {
       case "A-Z":
-        return events.sort((a, b) => b.title.localeCompare(a.title));
-      case "Z-A":
         return events.sort((a, b) => a.title.localeCompare(b.title));
+      case "Z-A":
+        return events.sort((a, b) => b.title.localeCompare(a.title));
       case "date":
         return isSorterIncreased
           ? events.sort(
