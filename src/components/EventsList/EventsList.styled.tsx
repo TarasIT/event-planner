@@ -1,5 +1,6 @@
 import { css, styled } from "styled-components";
 import DefaultImage from "../../assets/images/default-vertical.jpg";
+import DefaultImage2x from "../../assets/images/default-vertical-2x.jpg";
 import { NavLink } from "react-router-dom";
 
 interface EventProps {
@@ -111,6 +112,17 @@ export const BackgroundContainer = styled.div<EventProps>`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
+
+  ${css`
+    @media screen (min-device-pixel-ratio: 2),
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi),
+      (min-resolution: 2dppx) {
+      & {
+        background-image: url(${DefaultImage2x});
+      }
+    }
+  `}
 `;
 
 export const CategoryContainer = styled.div`
