@@ -35,6 +35,17 @@ export const NewEventForm: FC = observer((): JSX.Element => {
     eventsStore.saveEvents(KEY, events);
   }, [events]);
 
+  const resetFormInputs = (): void => {
+    setFormValues.setTitle("");
+    setFormValues.setDescription("");
+    setFormValues.setDate("");
+    setFormValues.setTime("");
+    setFormValues.setLocation("");
+    setFormValues.setCategory("");
+    setFormValues.setImage("");
+    setFormValues.setPriority("");
+  };
+
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget as HTMLFormElement;
@@ -68,7 +79,7 @@ export const NewEventForm: FC = observer((): JSX.Element => {
       });
     }
 
-    form.reset();
+    resetFormInputs();
     navigate("/");
   };
 
