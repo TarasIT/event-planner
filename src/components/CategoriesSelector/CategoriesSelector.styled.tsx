@@ -55,7 +55,7 @@ export const CategoryBox = styled.div<CategoryProps>`
     @media screen and (max-width: 767px) {
       position: absolute;
       z-index: ${({ isCategoryListOpened }) =>
-        isCategoryListOpened ? "1" : "0"};
+        isCategoryListOpened ? "2" : "0"};
       min-width: ${({ isCategoryListOpened }) =>
         isCategoryListOpened ? "158px" : "56px"};
       box-shadow: ${({ isCategoryListOpened }) =>
@@ -82,7 +82,7 @@ export const CategoryList = styled.ul<CategoryProps>`
   ${({ isCategoryListOpened }) =>
     isCategoryListOpened &&
     css`
-      animation: ${openCategories} 300ms ease-out;
+      animation: ${openCategories} 300ms ease;
     `}
 
   ${css<CategoryProps>`

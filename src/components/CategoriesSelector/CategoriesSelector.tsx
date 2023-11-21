@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
+import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
 import {
@@ -11,7 +12,6 @@ import {
 } from "./CategoriesSelector.styled";
 import Sprite from "../../assets/images/sprite.svg";
 import { categories } from "../../data/categories";
-import { observer } from "mobx-react";
 import { useStore } from "../../hooks/useStore";
 
 const shouldForwardProp = (prop: string) => {
@@ -26,18 +26,13 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>();
-  const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
   const { categoryFilter } = useStore();
   const { t } = useTranslation();
-  const defaultCategory = "Category";
 
   useEffect(() => {
-    window.addEventListener("resize", handleWindowResize);
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
-      window.removeEventListener("resize", handleWindowResize);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
@@ -46,31 +41,39 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     categoryFilter.checkCategoriesFilterOpened(isCategoryListOpened);
   }, [isCategoryListOpened]);
 
-  const handleWindowResize = (): void => setViewportWidth(window.innerWidth);
-
   const handleClickOutside = (e: MouseEvent): void => {
     if (
       categoryBoxRef.current &&
       !categoryBoxRef.current.contains(e.target as Node)
     ) {
       setIsCategoryListOpened(false);
+      categoryFilter.currentCategory !== currentCategory &&
+        setCurrentCategory(categoryFilter.currentCategory);
     }
   };
 
   const handleCategoryChanging = (e: React.MouseEvent<HTMLLIElement>): void => {
-    const currentTarget = e.currentTarget as HTMLLIElement;
-    setCurrentCategory(currentTarget.id);
+    if (e.type === "mouseenter") {
+      const currentTarget = e.currentTarget as HTMLLIElement;
+      setCurrentCategory(currentTarget.id);
+    }
+    if (e.type === "mouseleave") {
+      categoryFilter.currentCategory !== currentCategory &&
+        setCurrentCategory(categoryFilter.currentCategory);
+    }
   };
 
-  const onCategoryMouseEnter = (e: React.MouseEvent<HTMLLIElement>): void => {
-    if (viewportWidth <= 1279) return;
+  const onCategoryClick = (
+    e: React.MouseEvent<HTMLLIElement | HTMLDivElement>
+  ): void => {
     const currentTarget = e.currentTarget as HTMLLIElement;
-    setCurrentCategory(currentTarget.id);
-  };
 
-  const onCategoryBoxClick = (): void => {
+    if (currentTarget && currentTarget.id) {
+      setCurrentCategory(currentTarget.id);
+      categoryFilter.getCurrentCategory(currentTarget.id);
+    }
+
     setIsCategoryListOpened(!isCategoryListOpened);
-    if (currentCategory) categoryFilter.getCurrentCategory(currentCategory);
   };
 
   return (
@@ -78,7 +81,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
       <CategoryBox
         ref={categoryBoxRef}
         isCategoryListOpened={isCategoryListOpened}
-        onClick={onCategoryBoxClick}
+        onClick={onCategoryClick}
       >
         <CurrentCategory isCategoryListOpened={isCategoryListOpened}>
           {currentCategory
@@ -98,8 +101,9 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
                 <CategoryItem
                   key={category}
                   id={category}
-                  onMouseEnter={onCategoryMouseEnter}
-                  onClick={handleCategoryChanging}
+                  onMouseEnter={handleCategoryChanging}
+                  onMouseLeave={handleCategoryChanging}
+                  onClick={onCategoryClick}
                   isActive={category === currentCategory}
                 >
                   <Category>
