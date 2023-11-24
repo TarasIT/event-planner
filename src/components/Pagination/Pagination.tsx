@@ -17,10 +17,12 @@ const shouldForwardProp = (prop: string) => prop !== "isActive";
 
 export const Pagination: FC = observer((): JSX.Element => {
   const [pagination, setPagination] = useState<(number | string)[]>();
-  const { paginationStore, categoryFilter } = useStore();
+  const { paginationStore } = useStore();
 
   const currentPage = paginationStore.currentPage;
   const totalPages = paginationStore.totalPages;
+  const eventsPerPage = paginationStore.eventsPerPage;
+  const currentEventsAmount = totalPages * eventsPerPage;
 
   useEffect(() => {
     setPagination(paginationStore.pagination);
@@ -34,7 +36,7 @@ export const Pagination: FC = observer((): JSX.Element => {
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-      {pagination && pagination.length !== 0 ? (
+      {currentEventsAmount > eventsPerPage ? (
         <PagesList>
           <PageItem
             isActive={false}
@@ -47,21 +49,22 @@ export const Pagination: FC = observer((): JSX.Element => {
               <use xlinkHref={`${Sprite}#icon-chevron-left`}></use>
             </SvgDecreasePage>
           </PageItem>
-          {pagination.map((page) => {
-            return (
-              <PageItem
-                key={nanoid()}
-                onClick={() => onPageClick(page)}
-                isActive={page === currentPage}
-              >
-                {typeof page === "number" ? (
-                  <Page href="#!">{page}</Page>
-                ) : (
-                  <Ellipsis>{page}</Ellipsis>
-                )}
-              </PageItem>
-            );
-          })}
+          {pagination &&
+            pagination.map((page) => {
+              return (
+                <PageItem
+                  key={nanoid()}
+                  onClick={() => onPageClick(page)}
+                  isActive={page === currentPage}
+                >
+                  {typeof page === "number" ? (
+                    <Page href="#!">{page}</Page>
+                  ) : (
+                    <Ellipsis>{page}</Ellipsis>
+                  )}
+                </PageItem>
+              );
+            })}
           <PageItem
             isActive={false}
             onClick={() => {
