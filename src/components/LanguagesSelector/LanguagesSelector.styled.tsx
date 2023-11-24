@@ -1,4 +1,19 @@
-import { styled } from "styled-components";
+import { styled, keyframes, css } from "styled-components";
+
+interface LanguagesProps {
+  isLangListOpened: boolean;
+}
+
+const openLanguages = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 export const LangBox = styled.div`
   position: relative;
@@ -23,14 +38,16 @@ export const LangBox = styled.div`
   line-height: 100%;
 `;
 
-export const SvgLangIcon = styled.svg`
+export const SvgLangIcon = styled.svg<LanguagesProps>`
   width: 24px;
   height: 24px;
-  transform: rotate(-90deg);
   fill: #3f3f3f;
+  transition: transform 300ms;
+  transform: ${({ isLangListOpened }) =>
+    isLangListOpened ? "rotate(90deg)" : "rotate(-90deg)"};
 `;
 
-export const LangList = styled.ul`
+export const LangList = styled.ul<LanguagesProps>`
   position: absolute;
   top: 63px;
   left: 0;
@@ -45,6 +62,12 @@ export const LangList = styled.ul`
   background: #fff;
 
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
+
+  ${({ isLangListOpened }) =>
+    isLangListOpened &&
+    css`
+      animation: ${openLanguages} 300ms ease;
+    `}
 `;
 
 export const LangItem = styled.li`
