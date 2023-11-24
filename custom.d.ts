@@ -18,10 +18,6 @@ declare module "react-datepicker" {
   export default content;
 }
 
-declare module "lodash" {
-  const content: any;
-  export default content;
-}
 
 
 

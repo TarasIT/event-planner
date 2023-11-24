@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
-import _ from "lodash";
 import {
   Container,
   AppHeader,
