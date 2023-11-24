@@ -1,5 +1,6 @@
 import { observable, action, makeAutoObservable } from "mobx";
 import eventsStore from "./eventsStore";
+import { NewEvent } from "../../types/types";
 
 class CategoryFilter {
   @observable
@@ -18,13 +19,10 @@ class CategoryFilter {
     this.isOpened = isCategoryListOpened;
   }
 
-  @action filterEventsByCategory() {
-    const KEY = process.env.REACT_APP_STORAGE_KEY!;
-    const events = eventsStore.getEvents(KEY);
-
-    return events
-      ? events.filter(({ category }) => category === this.currentCategory)
-      : [];
+  @action filterEventsByCategory(): NewEvent[] {
+    return eventsStore
+      .getEvents(process.env.REACT_APP_STORAGE_KEY!)
+      .filter(({ category }) => category === this.currentCategory);
   }
 }
 

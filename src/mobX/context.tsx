@@ -4,6 +4,7 @@ import eventsStore from "./stores/eventsStore";
 import eventsSorter from "./stores/eventsSorter";
 import eventsSearch from "./stores/eventsSearch";
 import setFormValues from "./stores/setFormValues";
+import paginationStore from "./stores/paginationStore";
 
 interface StoreContextProps {
   eventsStore: typeof eventsStore;
@@ -11,6 +12,7 @@ interface StoreContextProps {
   eventsSorter: typeof eventsSorter;
   eventsSearch: typeof eventsSearch;
   setFormValues: typeof setFormValues;
+  paginationStore: typeof paginationStore;
 }
 
 interface StoreProviderProps {
@@ -23,6 +25,7 @@ const store: StoreContextProps = {
   eventsSorter,
   eventsSearch,
   setFormValues,
+  paginationStore,
 };
 
 export const StoreContext = createContext<StoreContextProps>(store);

@@ -17,27 +17,22 @@ class EventsSearch {
   }
 
   @action
-  filterEventsByQuery(): NewEvent[] {
-    const KEY = process.env.REACT_APP_STORAGE_KEY!;
-    const events = eventsStore.getEvents(KEY);
+  filterEventsByQuery(events: NewEvent[]): NewEvent[] {
+    if (!this.searchQuery) return events;
 
-    if (events) {
-      return events.filter((event: NewEvent) => {
-        const eventsValues = Object.keys(event)
-          .filter((key) => key !== "id" && key !== "image")
-          .map((key) => {
-            if (key === "date") {
-              const dayAndMonth = transformDate(event[key]);
-              const year = new Date(event[key]).getFullYear().toString();
-              return dayAndMonth + "." + year;
-            }
-            return event[key].toString().toLowerCase();
-          });
-        return eventsValues.some((value) => value.includes(this.searchQuery));
-      });
-    } else {
-      return [];
-    }
+    return events.filter((event: NewEvent) => {
+      const eventsValues = Object.keys(event)
+        .filter((key) => key !== "id" && key !== "image")
+        .map((key) => {
+          if (key === "date") {
+            const dayAndMonth = transformDate(event[key]);
+            const year = new Date(event[key]).getFullYear().toString();
+            return dayAndMonth + "." + year;
+          }
+          return event[key].toString().toLowerCase();
+        });
+      return eventsValues.some((value) => value.includes(this.searchQuery));
+    });
   }
 }
 

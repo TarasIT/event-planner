@@ -18,9 +18,12 @@ export const Header: FC = (): JSX.Element => {
   const { t } = useTranslation();
   const { eventsSearch } = useStore();
 
-  const handleInputChange = _.debounce((e: ChangeEvent<HTMLInputElement>) => {
-    eventsSearch.getUserQuery(e.target.value.trim().toLowerCase());
-  }, 300);
+  const handleInputChange = _.debounce(
+    (e: ChangeEvent<HTMLInputElement>): void => {
+      eventsSearch.getUserQuery(e.target.value.trim().toLowerCase());
+    },
+    300
+  );
 
   return (
     <AppHeader>
