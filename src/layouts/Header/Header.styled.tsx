@@ -1,6 +1,10 @@
 import { css, styled } from "styled-components";
 import { NavLink } from "react-router-dom";
 
+interface QueryProps {
+  query: string;
+}
+
 export const AppHeader = styled.header`
   border-bottom: 1px solid #7b61ff;
 `;
@@ -111,4 +115,16 @@ export const SvgSearchIcon = styled.svg`
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
+`;
+
+export const SvgDeleteIcon = styled.svg<QueryProps>`
+  display: ${({ query }) => (query ? "block" : "none")};
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  stroke: #7b61ff;
+  cursor: pointer;
 `;
