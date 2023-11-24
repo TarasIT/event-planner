@@ -13,6 +13,7 @@ export const EventCardsList = styled.ul`
   grid-template-columns: 302px 302px 302px 302px;
   column-gap: 24px;
   row-gap: 40px;
+  margin-bottom: 32px;
 
   ${css`
     @media screen and (min-width: 768px) and (max-width: 1279px) {

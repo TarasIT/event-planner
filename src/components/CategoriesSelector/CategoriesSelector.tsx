@@ -27,7 +27,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>();
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
-  const { categoryFilter } = useStore();
+  const { categoryFilter, paginationStore } = useStore();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -73,6 +73,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
       categoryFilter.getCurrentCategory(currentTarget.id);
     }
 
+    paginationStore.updateCurrentPage(1);
     setIsCategoryListOpened(!isCategoryListOpened);
   };
 

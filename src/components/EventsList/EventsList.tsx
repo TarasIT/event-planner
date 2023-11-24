@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useLayoutEffect, useState } from "react";
 import { observer } from "mobx-react";
+import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
 import {
   EventCardsList,
@@ -21,73 +22,68 @@ import {
 import { useStore } from "../../hooks/useStore";
 import { NewEvent } from "../../types/types";
 import { transformDate } from "../../services/dateTransform";
-import { useTranslation } from "react-i18next";
-
-interface PriorityLevel {
-  Low: number;
-  Medium: number;
-  High: number;
-  [key: string]: number;
-}
+import paginationStore from "../../mobX/stores/paginationStore";
 
 const shouldForwardProp = (prop: string) => prop !== "priority";
 
 export const EventsList: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
-  const KEY = process.env.REACT_APP_STORAGE_KEY!;
-
+  const { t } = useTranslation();
   const { categoryFilter, eventsStore, eventsSorter, eventsSearch } =
     useStore();
-  const { t } = useTranslation();
+
+  const allEvents = eventsStore.getEvents(process.env.REACT_APP_STORAGE_KEY!);
+
+  const currentPage = paginationStore.currentPage;
 
   const currentCategory = categoryFilter.currentCategory;
-  const filteredEventsByCategory = categoryFilter.filterEventsByCategory();
-  const isCategoryFilterOpened = categoryFilter.isOpened;
+  const eventsByCategory = categoryFilter.filterEventsByCategory();
+
+  const userQuery = eventsSearch.searchQuery;
 
   const currentSorter = eventsSorter.currentSorter;
   const isSorterIncreased = eventsSorter.isSorterIncreased;
 
-  const userQuery = eventsSearch.searchQuery;
-  const filteredEventsByQuery = eventsSearch.filterEventsByQuery();
+  const isCategory = (currentCategory && currentCategory !== "All") as boolean;
 
-  useLayoutEffect(() => setEvents(eventsStore.getEvents(KEY)), []);
+  const areCategoriesAll = (!currentCategory ||
+    currentCategory === "All") as boolean;
 
-  useEffect(() => {
-    currentCategory && !isCategoryFilterOpened
-      ? setEvents(filteredEventsByCategory)
-      : setEvents(eventsStore.getEvents(KEY));
-    if (currentCategory === "All") setEvents(eventsStore.getEvents(KEY));
+  const displayEvents = (events: NewEvent[]): NewEvent[] => {
+    return paginationStore.displayEventsPerPage(events);
+  };
 
-    if (userQuery) setEvents(filteredEventsByQuery);
-  }, [currentCategory, isCategoryFilterOpened, eventsSearch.searchQuery]);
+  const searchEvents = (events: NewEvent[]): NewEvent[] => {
+    return eventsSearch.filterEventsByQuery(events);
+  };
 
-  (() => {
-    const priorityLevel: PriorityLevel = { Low: 0, Medium: 1, High: 2 };
-    switch (currentSorter) {
-      case "A-Z":
-        return events.sort((a, b) => a.title.localeCompare(b.title));
-      case "Z-A":
-        return events.sort((a, b) => b.title.localeCompare(a.title));
-      case "date":
-        return isSorterIncreased
-          ? events.sort(
-              (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-            )
-          : events.sort(
-              (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-            );
-      case "priority":
-        return isSorterIncreased
-          ? events.sort(
-              (a, b) => priorityLevel[b.priority] - priorityLevel[a.priority]
-            )
-          : events.sort(
-              (a, b) => priorityLevel[a.priority] - priorityLevel[b.priority]
-            );
-      default:
-        return events;
-    }
-  })();
+  const sortEvents = (events: NewEvent[]): NewEvent[] => {
+    return eventsSorter.sortEvents(events);
+  };
+
+  useLayoutEffect(() => {
+    if (areCategoriesAll && !userQuery) setEvents(displayEvents(allEvents));
+
+    if (isCategory && !userQuery) setEvents(displayEvents(eventsByCategory));
+
+    if (areCategoriesAll && userQuery)
+      setEvents(displayEvents(searchEvents(allEvents)));
+
+    if (isCategory && userQuery)
+      setEvents(displayEvents(searchEvents(eventsByCategory)));
+
+    if (currentSorter && isCategory && (!userQuery || userQuery))
+      setEvents(displayEvents(sortEvents(searchEvents(eventsByCategory))));
+
+    if (currentSorter && areCategoriesAll && (!userQuery || userQuery))
+      setEvents(displayEvents(sortEvents(searchEvents(allEvents))));
+  }, [
+    currentCategory,
+    userQuery,
+    currentSorter,
+    isSorterIncreased,
+    currentPage,
+  ]);
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
