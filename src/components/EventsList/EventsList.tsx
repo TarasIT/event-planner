@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useState } from "react";
+import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
@@ -22,30 +22,35 @@ import {
 import { useStore } from "../../hooks/useStore";
 import { NewEvent } from "../../types/types";
 import { transformDate } from "../../services/dateTransform";
-import paginationStore from "../../mobX/stores/paginationStore";
 
-const shouldForwardProp = (prop: string) => prop !== "priority";
+const shouldForwardProp = (prop: string) => {
+  return prop !== "image" && prop !== "priority" && prop !== "isPageIncreased";
+};
 
 export const EventsList: FC = observer((): JSX.Element => {
   const [events, setEvents] = useState<NewEvent[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [isPageIncreased, setIsPageIncreased] = useState<boolean | string>(
+    "pending"
+  );
   const { t } = useTranslation();
-  const { categoryFilter, eventsStore, eventsSorter, eventsSearch } =
-    useStore();
+  const {
+    categoryFilter,
+    eventsStore,
+    eventsSorter,
+    eventsSearch,
+    paginationStore,
+  } = useStore();
+  const prevPage = useRef<number>();
 
   const allEvents = eventsStore.getEvents(process.env.REACT_APP_STORAGE_KEY!);
-
   const currentPage = paginationStore.currentPage;
-
   const currentCategory = categoryFilter.currentCategory;
   const eventsByCategory = categoryFilter.filterEventsByCategory();
-
   const userQuery = eventsSearch.searchQuery;
-
   const currentSorter = eventsSorter.currentSorter;
   const isSorterIncreased = eventsSorter.isSorterIncreased;
-
   const isCategory = (currentCategory && currentCategory !== "All") as boolean;
-
   const areCategoriesAll = (!currentCategory ||
     currentCategory === "All") as boolean;
 
@@ -77,18 +82,31 @@ export const EventsList: FC = observer((): JSX.Element => {
 
     if (currentSorter && areCategoriesAll && (!userQuery || userQuery))
       setEvents(displayEvents(sortEvents(searchEvents(allEvents))));
+
+    setPage(currentPage);
+    prevPage.current = page;
+
+    if (prevPage.current < currentPage) setIsPageIncreased(true);
+    if (prevPage.current > currentPage) setIsPageIncreased(false);
+
+    if (isPageIncreased === true || !isPageIncreased) {
+      setTimeout(() => setIsPageIncreased("pending"), 300);
+    }
   }, [
     currentCategory,
     userQuery,
     currentSorter,
     isSorterIncreased,
     currentPage,
+    isPageIncreased,
   ]);
+
+  console.log("isPageIncreased", isPageIncreased);
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       {events.length !== 0 ? (
-        <EventCardsList>
+        <EventCardsList isPageIncreased={isPageIncreased}>
           {events.map(
             ({
               id,

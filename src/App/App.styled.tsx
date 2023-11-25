@@ -8,7 +8,6 @@ import MobileBg2x from "../assets/images/main-bg-mobile-2x.jpg";
 
 export const Main = styled.main`
   background-image: url(${DesktopBg});
-  background-size: auto;
   background-repeat: no-repeat;
   background-position: center 0;
 
@@ -58,7 +57,6 @@ export const Main = styled.main`
 
 export const Container = styled.section`
   width: 1280px;
-  height: 100vh;
   margin-left: auto;
   margin-right: auto;
   padding-top: 60px;

@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import { css, styled, keyframes } from "styled-components";
 import DefaultImage from "../../assets/images/default-vertical.jpg";
 import DefaultImage2x from "../../assets/images/default-vertical-2x.jpg";
 import { NavLink } from "react-router-dom";
@@ -6,9 +6,32 @@ import { NavLink } from "react-router-dom";
 interface EventProps {
   image?: string;
   priority?: string;
+  isPageIncreased?: boolean | string;
 }
 
-export const EventCardsList = styled.ul`
+const slideInFromRight = keyframes`
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  `;
+
+const slideInFromLeft = keyframes`
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  `;
+
+export const EventCardsList = styled.ul<EventProps>`
   display: grid;
   grid-template-columns: 302px 302px 302px 302px;
   column-gap: 24px;
@@ -25,6 +48,18 @@ export const EventCardsList = styled.ul`
       row-gap: 24px;
     }
   `}
+  ${({ isPageIncreased }) => {
+    if (isPageIncreased === true) {
+      return css`
+        animation: ${slideInFromRight} 300ms;
+      `;
+    }
+    if (!isPageIncreased) {
+      return css`
+        animation: ${slideInFromLeft} 300ms;
+      `;
+    }
+  }}
 `;
 
 export const NoEventsFoundTitle = styled.h2`
@@ -46,20 +81,23 @@ export const EventDetailsBox = styled.div`
   justify-content: end;
   align-items: center;
 
+  width: 100%;
   padding-top: 8px;
   padding-bottom: 16px;
   padding-left: 16px;
   padding-right: 16px;
+  border-radius: 12px;
 
-  transition: opacity 300ms, bottom 300ms;
+  background: #fff;
   opacity: 0;
+  transition: opacity 300ms, bottom 300ms;
 `;
 
 export const TitleDescriptionContainer = styled.div`
-  min-height: 144px;
   width: 100%;
   padding: 16px;
   margin-bottom: 0px;
+  border-radius: 12px;
   background-color: white;
   transition: margin-bottom 300ms;
 `;

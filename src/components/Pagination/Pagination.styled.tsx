@@ -13,7 +13,6 @@ export const PagesList = styled.ul`
   padding: 10px;
   border-radius: 8px;
 
-  background: #fff;
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
   ${css`

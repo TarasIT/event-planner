@@ -4,7 +4,7 @@ import { NewEvent } from "../../types/types";
 class PaginationStore {
   @observable
   currentPage: number = 1;
-  eventsPerPage: number = 8;
+  eventsPerPage: number = 4;
   totalPages: number = 1;
   pagination: (number | string)[] = [];
 

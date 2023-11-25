@@ -2,7 +2,6 @@ import { css, styled } from "styled-components";
 
 export const MainContainer = styled.section`
   width: 1280px;
-  height: 100vh;
   margin-left: auto;
   margin-right: auto;
   padding-top: 18px;
