@@ -6,7 +6,7 @@ The Event Planner Next.js app is a TypeScript-based application that enables use
 
 ## Features
 
-1. Create Events: Users can easily create new events by providing detailed descriptions and specifying /relevant details.
+1. Create Events: Users can easily create new events by providing detailed descriptions and specifying relevant details.
 
 2. Manage and Edit Events: The app allows users to efficiently manage and edit their events, ensuring flexibility and ease of use.
 
