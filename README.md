@@ -1,9 +1,10 @@
-#Event Planner App
+# Event Planner App
 
-##Description
+## Description
+
 The Event Planner Next.js app is a TypeScript-based application that enables users to seamlessly create, manage, and edit events with detailed descriptions. The app offers a user-friendly interface for organizing events across various categories such as Art, Music, Business, Conference, Workshop, Party, Sport, and All.
 
-##Features
+## Features
 
 1. Create Events: Users can easily create new events by providing detailed descriptions and specifying /relevant details.
 
@@ -15,15 +16,16 @@ The Event Planner Next.js app is a TypeScript-based application that enables use
 
 5. Search by Keyword: The app includes a powerful search functionality that allows users to find specific events by entering keywords, making it easy to locate relevant information.
 
-##Technologies Used
-\*Next.js: The app is built using the Next.js framework for a seamless and efficient development experience.
+## Technologies Used
 
-\*TypeScript: TypeScript is used to add static typing to the application, enhancing code quality and development speed.
+- Next.js: The app is built using the Next.js framework for a seamless and efficient development experience.
 
-\*React: The app utilizes React for building a modular and interactive user interface.
+- TypeScript: TypeScript is used to add static typing to the application, enhancing code quality and development speed.
 
-\*MobX: MobX is employed for state management, ensuring a reactive and efficient data flow within the application.
+- React: The app utilizes React for building a modular and interactive user interface.
 
-\*Styled Components: Styled Components is used for styling, providing a flexible and maintainable way to manage component styles.
+- MobX: MobX is employed for state management, ensuring a reactive and efficient data flow within the application.
+
+- Styled Components: Styled Components is used for styling, providing a flexible and maintainable way to manage component styles.
 
 Happy event planning! 🎉
