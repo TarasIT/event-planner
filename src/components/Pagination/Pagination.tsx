@@ -1,4 +1,5 @@
 import React, { FC, Fragment, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import { nanoid } from "nanoid";
 import { StyleSheetManager } from "styled-components";
@@ -17,7 +18,11 @@ const shouldForwardProp = (prop: string) => prop !== "isActive";
 
 export const Pagination: FC = observer((): JSX.Element => {
   const [pagination, setPagination] = useState<(number | string)[]>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { paginationStore } = useStore();
+
+  const navigate = useNavigate();
+  const pageFromQuery = searchParams.get("page");
 
   const currentPage = paginationStore.currentPage;
   const totalPages = paginationStore.totalPages;
@@ -25,8 +30,22 @@ export const Pagination: FC = observer((): JSX.Element => {
   const currentEventsAmount = totalPages * eventsPerPage;
 
   useEffect(() => {
+    if (pageFromQuery && Number(pageFromQuery) !== 1 && currentPage === 1) {
+      navigate(`?page=${pageFromQuery}`);
+      paginationStore.updateCurrentPage(Number(pageFromQuery));
+    } else {
+      currentPage && currentEventsAmount > eventsPerPage
+        ? navigate(`?page=${currentPage}`)
+        : navigate("");
+    }
     setPagination(paginationStore.pagination);
-  }, [paginationStore.pagination]);
+  }, [
+    pageFromQuery,
+    currentPage,
+    currentEventsAmount,
+    eventsPerPage,
+    paginationStore.pagination,
+  ]);
 
   const onPageClick = (page: string | number): void => {
     if (typeof page === "number" && currentPage !== page) {
@@ -58,7 +77,7 @@ export const Pagination: FC = observer((): JSX.Element => {
                   isActive={page === currentPage}
                 >
                   {typeof page === "number" ? (
-                    <Page href="#!">{page}</Page>
+                    <Page>{page}</Page>
                   ) : (
                     <Ellipsis>{page}</Ellipsis>
                   )}

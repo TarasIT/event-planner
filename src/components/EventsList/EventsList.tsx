@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { FC, useLayoutEffect, useRef, useState } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
@@ -100,8 +100,6 @@ export const EventsList: FC = observer((): JSX.Element => {
     currentPage,
     isPageIncreased,
   ]);
-
-  console.log("isPageIncreased", isPageIncreased);
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>

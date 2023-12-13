@@ -48,6 +48,7 @@ export const EventCardsList = styled.ul<EventProps>`
       row-gap: 24px;
     }
   `}
+
   ${({ isPageIncreased }) => {
     if (isPageIncreased === true) {
       return css`
