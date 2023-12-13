@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#Event Planner App
 
-## Getting Started
+##Description
+The Event Planner Next.js app is a TypeScript-based application that enables users to seamlessly create, manage, and edit events with detailed descriptions. The app offers a user-friendly interface for organizing events across various categories such as Art, Music, Business, Conference, Workshop, Party, Sport, and All.
 
-First, run the development server:
+##Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. Create Events: Users can easily create new events by providing detailed descriptions and specifying /relevant details.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Manage and Edit Events: The app allows users to efficiently manage and edit their events, ensuring flexibility and ease of use.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Filter by Categories: Events can be filtered based on predefined categories, including Art, Music, Business, Conference, Workshop, Party, Sport, and All. This feature helps users find events that align with their interests.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Sort Events: Users can sort events based on different criteria such as date, name, and priority, enabling efficient organization and retrieval of information.
 
-## Learn More
+5. Search by Keyword: The app includes a powerful search functionality that allows users to find specific events by entering keywords, making it easy to locate relevant information.
 
-To learn more about Next.js, take a look at the following resources:
+##Technologies Used
+\*Next.js: The app is built using the Next.js framework for a seamless and efficient development experience.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+\*TypeScript: TypeScript is used to add static typing to the application, enhancing code quality and development speed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+\*React: The app utilizes React for building a modular and interactive user interface.
 
-## Deploy on Vercel
+\*MobX: MobX is employed for state management, ensuring a reactive and efficient data flow within the application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+\*Styled Components: Styled Components is used for styling, providing a flexible and maintainable way to manage component styles.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Happy event planning! 🎉
