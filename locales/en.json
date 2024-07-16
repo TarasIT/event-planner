@@ -1,11 +1,19 @@
 {
   "appTitle": "Event Planner",
+  "login": "Login",
+  "signup": "Sign Up",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "longName": "Name is too long",
+  "invalidEmail": "Email is not valid",
+  "shortPassword": "Password is too short",
   "searchInputPlaceholdder": "Search by keywords",
   "homePageTitle": "My events",
   "firstEvent": "You don't have events. Create the first one.",
   "noEventsFound": "No events :(",
   "addNewEventBtn": "Add New Event",
-    "categories": {
+  "categories": {
     "art": "Art",
     "music": "Music",
     "business": "Business",

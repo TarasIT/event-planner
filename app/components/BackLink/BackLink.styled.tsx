@@ -3,12 +3,16 @@
 import { css, styled } from "styled-components";
 import { GoArrowLeft } from "react-icons/go";
 
+export const Back = styled.span`
+  display: block;
+  height: 20px;
+`;
+
 export const GoBackLink = styled.a`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  width: 100px;
 
-  width: 67px;
   margin-bottom: 17px;
 
   color: #7b61ff;
@@ -40,6 +44,7 @@ export const GoBackLink = styled.a`
 export const SvgBackLinkIcon = styled(GoArrowLeft)`
   width: 24px;
   height: 24px;
+  margin-right: 5px;
   color: #7b61ff;
 
   ${GoBackLink}:hover > &,

@@ -1,5 +1,13 @@
 {
   "appTitle": "Планувальник",
+  "login": "Увійти",
+  "signup": "Реєстрація",
+  "name": "Ім'я",
+  "email": "Пошта",
+  "password": "Пароль",
+  "longName": "Задовге ім'я",
+  "invalidEmail": "Некорректна пошта",
+  "shortPassword": "Закороткий пароль",
   "searchInputPlaceholdder": "Пошук за ключовим словом",
   "homePageTitle": "Мої події",
   "firstEvent": "У Вас немає подій. Створіть свою першу подію.",

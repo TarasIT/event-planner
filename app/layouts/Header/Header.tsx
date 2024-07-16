@@ -13,6 +13,7 @@ import {
   SearchIcon,
   DeleteIcon,
 } from "./Header.styled";
+import { AuthSelector } from "../../components/AuthSelector/AuthSelector";
 import { LanguagesSelector } from "../../components/LanguagesSelector/LanguagesSelector";
 import { useStore } from "../../mobX/useStore";
 import { alata, poppins } from "@/app/assets/fonts";
@@ -45,7 +46,7 @@ const Header: FC = (): JSX.Element => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <AppHeader>
         <Container>
-          <HomeLink href="/" className={alata.className}>
+          {/* <HomeLink href="/" className={alata.className}>
             {t("appTitle")}
           </HomeLink>
 
@@ -61,9 +62,10 @@ const Header: FC = (): JSX.Element => {
               />
               <DeleteIcon query={query} />
             </SearchLabel>
-          </SearchBox>
+          </SearchBox> */}
 
           <LanguagesSelector />
+          <AuthSelector />
         </Container>
       </AppHeader>
     </StyleSheetManager>
