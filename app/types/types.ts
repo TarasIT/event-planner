@@ -10,3 +10,9 @@ export interface NewEvent {
   priority: string;
   [key: string]: string;
 }
+
+export interface User {
+  name?: string;
+  email: string;
+  password: string;
+}

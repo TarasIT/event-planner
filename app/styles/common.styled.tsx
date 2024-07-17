@@ -1,6 +1,7 @@
 "use client";
 
-import { styled } from "styled-components";
+import { ImSpinner9 } from "react-icons/im";
+import { css, keyframes, styled } from "styled-components";
 
 export const TimeSelector = styled.input`
   display: flex;
@@ -38,4 +39,79 @@ export const DeleteIconBox = styled(SvgContainer)`
   top: 40px;
   right: 12px;
   cursor: pointer;
+`;
+
+const spinAnimation = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+export const Spinner = styled(ImSpinner9)`
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  animation: ${spinAnimation} 1s linear infinite;
+`;
+
+export const AuthForm = styled.form`
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-row-gap: 20px;
+  justify-content: center;
+  align-items: center;
+
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-radius: 8px;
+  width: 460px;
+
+  background: #fff;
+  box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      width: 300px;
+    }
+  `}
+`;
+
+export const AuthBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 193px;
+  height: 56px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 8px;
+  border: none;
+
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  background: #7b61ff;
+  box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
+  cursor: pointer;
+  transition: background 300ms;
+
+  &:hover {
+    background: #6243ff;
+  }
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      width: 240px;
+    }
+  `}
 `;

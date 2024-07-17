@@ -11,7 +11,6 @@ import {
   SvgDeleteIcon,
   InvalidInputWarning,
 } from "./EmailInput.styled";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { DeleteIconBox } from "@/app/styles/common.styled";
@@ -31,11 +30,7 @@ export const EmailInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { id } = useParams();
-  const { setFormValues, eventsStore } = useStore();
-
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
+  const { setAuthCredentials } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -45,11 +40,10 @@ export const EmailInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (event && event.title) {
-      setEmailInputValue(event.title);
-      setFormValues.setTitle(event.title);
+    if (emailInputValue && !setAuthCredentials.email) {
+      setEmailInputValue("");
     }
-  }, [event]);
+  }, [emailInputValue, setAuthCredentials.email]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (nameInputRef.current !== e.target) {
@@ -61,7 +55,7 @@ export const EmailInput: FC = (): JSX.Element => {
 
   const cleanEmailInput = (): void => {
     setEmailInputValue("");
-    setFormValues.setTitle("");
+    setAuthCredentials.setEmail("");
     setIsEmailInputValid(true);
   };
 
@@ -71,15 +65,15 @@ export const EmailInput: FC = (): JSX.Element => {
   };
 
   const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const title = e.target.value;
+    const email = e.target.value;
 
-    if (!validateInput(title)) {
+    if (!validateInput(email)) {
       setIsEmailInputValid(false);
     } else {
       setIsEmailInputValid(true);
     }
-    setEmailInputValue(title);
-    setFormValues.setTitle(title);
+    setEmailInputValue(email);
+    setAuthCredentials.setEmail(email);
   };
 
   return (

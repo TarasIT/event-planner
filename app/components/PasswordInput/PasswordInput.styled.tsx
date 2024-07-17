@@ -13,19 +13,31 @@ interface CreateEventFormProps {
 export const SvgShowPasswordIcon = styled(IoMdEye)`
   position: absolute;
   bottom: 28px;
-  right: -40px;
+  right: -34px;
   transition: transform;
   transform: translateY(50%);
   cursor: pointer;
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      right: -28px;
+    }
+  `}
 `;
 
 export const SvgHidePasswordIcon = styled(IoMdEyeOff)`
   position: absolute;
   bottom: 28px;
-  right: -40px;
+  right: -34px;
   transition: transform;
   transform: translateY(50%);
   cursor: pointer;
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      right: -28px;
+    }
+  `}
 `;
 
 export const SvgDeleteIcon = styled(RxCross2)<CreateEventFormProps>`

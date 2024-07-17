@@ -1,7 +1,6 @@
 "use client";
 
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
 import {
@@ -11,7 +10,6 @@ import {
   SvgDeleteIcon,
   InvalidInputWarning,
 } from "./NameInput.styled";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { DeleteIconBox } from "@/app/styles/common.styled";
@@ -31,11 +29,7 @@ export const NameInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { id } = useParams();
-  const { setFormValues, eventsStore } = useStore();
-
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
+  const { setAuthCredentials } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -45,11 +39,10 @@ export const NameInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (event && event.title) {
-      setNameInputValue(event.title);
-      setFormValues.setTitle(event.title);
+    if (nameInputValue && !setAuthCredentials.name) {
+      setNameInputValue("");
     }
-  }, [event]);
+  }, [nameInputValue, setAuthCredentials.name]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (nameInputRef.current !== e.target) {
@@ -61,7 +54,7 @@ export const NameInput: FC = (): JSX.Element => {
 
   const cleanNameInput = (): void => {
     setNameInputValue("");
-    setFormValues.setTitle("");
+    setAuthCredentials.setName("");
     setIsNameInputValid(true);
   };
 
@@ -74,15 +67,15 @@ export const NameInput: FC = (): JSX.Element => {
   };
 
   const handleNameInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const title = e.target.value;
+    const name = e.target.value;
 
-    if (!validateInput(title)) {
+    if (!validateInput(name)) {
       setIsNameInputValid(false);
     } else {
       setIsNameInputValid(true);
     }
-    setNameInputValue(title);
-    setFormValues.setTitle(title);
+    setNameInputValue(name);
+    setAuthCredentials.setName(name);
   };
 
   return (

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
 import {
@@ -13,7 +12,6 @@ import {
   SvgShowPasswordIcon,
   SvgHidePasswordIcon,
 } from "./PasswordInput.styled";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { DeleteIconBox } from "@/app/styles/common.styled";
@@ -35,11 +33,7 @@ export const PasswordInput: FC = (): JSX.Element => {
   const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { id } = useParams();
-  const { setFormValues, eventsStore } = useStore();
-
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
+  const { setAuthCredentials } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -49,11 +43,10 @@ export const PasswordInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (event && event.title) {
-      setPasswordInputValue(event.title);
-      setFormValues.setTitle(event.title);
+    if (passwordInputValue && !setAuthCredentials.password) {
+      setPasswordInputValue("");
     }
-  }, [event]);
+  }, [passwordInputValue, setAuthCredentials.password]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (nameInputRef.current !== e.target) {
@@ -65,7 +58,7 @@ export const PasswordInput: FC = (): JSX.Element => {
 
   const cleanPasswordInput = (): void => {
     setPasswordInputValue("");
-    setFormValues.setTitle("");
+    setAuthCredentials.setPassword("");
     setIsPasswordInputValid(true);
   };
 
@@ -88,7 +81,7 @@ export const PasswordInput: FC = (): JSX.Element => {
       setIsPasswordInputValid(true);
     }
     setPasswordInputValue(password);
-    setFormValues.setTitle(password);
+    setAuthCredentials.setPassword(password);
   };
 
   return (
