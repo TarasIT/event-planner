@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, FormEvent, useState } from "react";
+import React, { FC, FormEvent } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../mobX/useStore";
@@ -11,22 +11,12 @@ import { PasswordInput } from "../PasswordInput/PasswordInput";
 import { AuthBtn, AuthForm, Spinner } from "@/app/styles/common.styled";
 
 export const SignupForm: FC = observer((): JSX.Element => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { t } = useTranslation();
-  const { authStore, setAuthCredentials } = useStore();
+  const { authStore } = useStore();
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
     await authStore.signup();
-    setIsLoading(false);
-    resetFormInputs();
-  };
-
-  const resetFormInputs = (): void => {
-    setAuthCredentials.setName("");
-    setAuthCredentials.setEmail("");
-    setAuthCredentials.setPassword("");
   };
 
   return (
@@ -35,7 +25,7 @@ export const SignupForm: FC = observer((): JSX.Element => {
       <EmailInput />
       <PasswordInput />
       <AuthBtn type="submit" className={poppins.className}>
-        {isLoading ? <Spinner /> : t("signup")}
+        {authStore.isLoading ? <Spinner /> : t("signup")}
       </AuthBtn>
     </AuthForm>
   );
