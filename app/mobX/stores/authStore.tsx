@@ -5,21 +5,61 @@ import setAuthCredentials from "./setAuthCredentials";
 
 class AuthStore {
   @observable
-  user: User | null = null;
+  userId: string | null = null;
+  token: null | string = null;
+  isLoggedIn: boolean = false;
+  isLoading: boolean = false;
+  error: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
+    this.loadToken();
+  }
+
+  @action
+  setLoading(isLoading: boolean) {
+    this.isLoading = isLoading;
+  }
+
+  @action
+  loadToken() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      this.token = token;
+      this.isLoggedIn = true;
+      this.getUser();
+    }
+  }
+
+  @action
+  saveToken(token: string) {
+    this.token = token;
+    localStorage.setItem("token", token);
+  }
+
+  @action
+  clearToken() {
+    this.token = null;
+    localStorage.removeItem("token");
+  }
+
+  @action
+  resetAuthForm() {
+    setAuthCredentials.setName("");
+    setAuthCredentials.setEmail("");
+    setAuthCredentials.setPassword("");
   }
 
   @action
   async signup() {
+    const credentials: User = {
+      name: setAuthCredentials.name,
+      email: setAuthCredentials.email,
+      password: setAuthCredentials.password,
+    };
+    this.setLoading(true);
+    this.error = null;
     try {
-      const credentials: User = {
-        name: setAuthCredentials.name,
-        email: setAuthCredentials.email,
-        password: setAuthCredentials.password,
-      };
-
       const response = await fetch(
         "https://event-planner-api.onrender.com/api/users/auth/signup",
         {
@@ -30,26 +70,31 @@ class AuthStore {
           body: JSON.stringify(credentials),
         }
       );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
       const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to sign up.");
+      }
       toast.success(data.message);
     } catch (error) {
-      console.error(error as string);
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.resetAuthForm();
+      this.setLoading(false);
     }
   }
 
   @action
   async login() {
+    const credentials: User = {
+      email: setAuthCredentials.email,
+      password: setAuthCredentials.password,
+    };
+    this.setLoading(true);
+    this.isLoggedIn = false;
+    this.error = null;
     try {
-      const credentials: User = {
-        email: setAuthCredentials.email,
-        password: setAuthCredentials.password,
-      };
-
       const response = await fetch(
         "https://event-planner-api.onrender.com/api/users/auth/login",
         {
@@ -60,15 +105,78 @@ class AuthStore {
           body: JSON.stringify(credentials),
         }
       );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
       const data = await response.json();
-      toast.success(data.token);
-    } catch (error) {
-      console.error(error as string);
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to log in.");
+      }
+      this.token = data.token;
+      this.saveToken(data.token);
+      this.isLoggedIn = true;
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.resetAuthForm();
+      this.setLoading(false);
+    }
+  }
+
+  async getUser() {
+    this.setLoading(true);
+    this.error = null;
+    try {
+      const response = await fetch(
+        "https://event-planner-api.onrender.com/api/users/current",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to get user.");
+      }
+      this.userId = data.id;
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.resetAuthForm();
+      this.setLoading(false);
+    }
+  }
+
+  async logout() {
+    this.setLoading(true);
+    this.error = null;
+    try {
+      const response = await fetch(
+        "https://event-planner-api.onrender.com/api/users/auth/logout",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to logout.");
+      }
+      this.clearToken();
+      this.isLoggedIn = false;
+      this.userId = null;
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.resetAuthForm();
+      this.setLoading(false);
     }
   }
 }
