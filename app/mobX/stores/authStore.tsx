@@ -13,16 +13,17 @@ class AuthStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadToken();
+    if (typeof window !== "undefined") this.loadToken();
   }
 
   @action
-  setLoading(isLoading: boolean) {
+  setLoading(isLoading: boolean): void {
     this.isLoading = isLoading;
   }
 
   @action
-  loadToken() {
+  loadToken(): void {
+    if (typeof window === "undefined") return;
     const token = localStorage.getItem("token");
     if (token) {
       this.token = token;
@@ -32,19 +33,21 @@ class AuthStore {
   }
 
   @action
-  saveToken(token: string) {
+  saveToken(token: string): void {
+    if (typeof window === "undefined") return;
     this.token = token;
     localStorage.setItem("token", token);
   }
 
   @action
-  clearToken() {
+  clearToken(): void {
+    if (typeof window === "undefined") return;
     this.token = null;
     localStorage.removeItem("token");
   }
 
   @action
-  resetAuthForm() {
+  resetAuthForm(): void {
     setAuthCredentials.setName("");
     setAuthCredentials.setEmail("");
     setAuthCredentials.setPassword("");
