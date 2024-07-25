@@ -5,15 +5,16 @@ import { GoSearch } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
 
-interface QueryProps {
-  query: string;
+interface HeaderProps {
+  query?: string;
+  isLoggedIn?: boolean;
 }
 
 export const AppHeader = styled.header`
   border-bottom: 1px solid #7b61ff;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<HeaderProps>`
   position: relative;
   display: flex;
   width: 1280px;
@@ -26,7 +27,7 @@ export const Container = styled.div`
   ${css`
     @media screen and (max-width: 767px) {
       & {
-        justify-content: space-between;
+        flex-wrap: wrap;
         min-height: 168px;
         width: 320px;
         padding-top: 24px;
@@ -46,9 +47,10 @@ export const Container = styled.div`
   `}
 `;
 
-export const HomeLink = styled(Link)`
-  height: 33px;
+export const HomeLink = styled(Link)<HeaderProps>`
+  width: 100%;
   padding-top: 7px;
+  margin-right: auto;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
@@ -59,15 +61,13 @@ export const HomeLink = styled(Link)`
 
 export const SearchBox = styled.div`
   margin-left: auto;
-  margin-right: 24px;
 
   ${css`
-    @media screen and (max-width: 767px) {
-      position: absolute;
-      top: 96px;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-right: auto;
+    @media screen and (min-width: 767px) and (max-width: 1279px) {
+      margin-right: 12px;
+    }
+    @media screen and (min-width: 1279px) {
+      margin-right: 24px;
     }
   `}
 `;
@@ -92,7 +92,7 @@ export const SearchIcon = styled(GoSearch)`
   }
 `;
 
-export const DeleteIcon = styled(RxCross2)<QueryProps>`
+export const DeleteIcon = styled(RxCross2)<HeaderProps>`
   display: ${({ query }) => (query ? "block" : "none")};
   position: absolute;
   top: 50%;

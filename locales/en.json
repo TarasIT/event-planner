@@ -10,6 +10,8 @@
   "shortPassword": "Password is too short",
   "searchInputPlaceholdder": "Search by keywords",
   "homePageTitle": "My events",
+  "profile": "Profile",
+  "menu": "Menu",
   "firstEvent": "You don't have events. Create the first one.",
   "noEventsFound": "No events :(",
   "addNewEventBtn": "Add New Event",

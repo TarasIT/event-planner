@@ -1,4 +1,5 @@
 import { observable, action, makeAutoObservable } from "mobx";
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import type { User } from "../../types/types";
 import setAuthCredentials from "./setAuthCredentials";
@@ -13,7 +14,7 @@ class AuthStore {
 
   constructor() {
     makeAutoObservable(this);
-    if (typeof window !== "undefined") this.loadToken();
+    this.loadToken();
   }
 
   @action
@@ -22,28 +23,34 @@ class AuthStore {
   }
 
   @action
+  setLoggedIn(isLoggedIn: boolean): void {
+    this.isLoggedIn = isLoggedIn;
+  }
+
+  @action
   loadToken(): void {
-    if (typeof window === "undefined") return;
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (token) {
       this.token = token;
-      this.isLoggedIn = true;
-      this.getUser();
+      this.setLoggedIn(true);
+      // this.getUser();
     }
   }
 
   @action
   saveToken(token: string): void {
-    if (typeof window === "undefined") return;
     this.token = token;
-    localStorage.setItem("token", token);
+    Cookies.set("token", token, {
+      expires: 7,
+      // secure: true,
+      sameSite: "strict",
+    });
   }
 
   @action
   clearToken(): void {
-    if (typeof window === "undefined") return;
     this.token = null;
-    localStorage.removeItem("token");
+    Cookies.remove("token", { path: "/" });
   }
 
   @action
@@ -54,7 +61,7 @@ class AuthStore {
   }
 
   @action
-  async signup() {
+  async signup(): Promise<void> {
     const credentials: User = {
       name: setAuthCredentials.name,
       email: setAuthCredentials.email,
@@ -89,13 +96,14 @@ class AuthStore {
   }
 
   @action
-  async login() {
+  async login(): Promise<void> {
     const credentials: User = {
       email: setAuthCredentials.email,
       password: setAuthCredentials.password,
     };
     this.setLoading(true);
-    this.isLoggedIn = false;
+    this.setLoggedIn(false);
+    this.token = null;
     this.error = null;
     try {
       const response = await fetch(
@@ -112,9 +120,8 @@ class AuthStore {
       if (!response.ok) {
         throw new Error(data.error || "Failed to log in.");
       }
-      this.token = data.token;
       this.saveToken(data.token);
-      this.isLoggedIn = true;
+      this.setLoggedIn(true);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       toast.error(errorMessage);
@@ -125,7 +132,8 @@ class AuthStore {
     }
   }
 
-  async getUser() {
+  @action
+  async getUser(): Promise<void> {
     this.setLoading(true);
     this.error = null;
     try {
@@ -148,12 +156,12 @@ class AuthStore {
       toast.error(errorMessage);
       this.error = errorMessage;
     } finally {
-      this.resetAuthForm();
       this.setLoading(false);
     }
   }
 
-  async logout() {
+  @action
+  async logout(): Promise<void> {
     this.setLoading(true);
     this.error = null;
     try {
@@ -168,17 +176,16 @@ class AuthStore {
       );
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.error || "Failed to logout.");
+        throw new Error("Failed to logout.");
       }
       this.clearToken();
-      this.isLoggedIn = false;
+      this.setLoggedIn(false);
       this.userId = null;
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       toast.error(errorMessage);
       this.error = errorMessage;
     } finally {
-      this.resetAuthForm();
       this.setLoading(false);
     }
   }

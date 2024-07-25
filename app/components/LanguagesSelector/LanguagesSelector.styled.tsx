@@ -4,7 +4,7 @@ import { styled, keyframes, css } from "styled-components";
 import { FaChevronDown } from "react-icons/fa6";
 
 interface LanguagesProps {
-  isLangListOpened: boolean;
+  isLangListOpened?: boolean;
 }
 
 const openLanguages = keyframes`
@@ -23,8 +23,19 @@ export const LangBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 69px;
+  min-width: 69px;
   height: 48px;
+  margin-right: 24px;
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      margin-right: auto;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      margin-right: 12px;
+    }
+  `}
+
   padding: 12px 4px 12px 12px;
   border: none;
   border-radius: 8px;

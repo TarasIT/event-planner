@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { styled, keyframes, css } from "styled-components";
-import { GrLogin } from "react-icons/gr";
-import { FcGoogle } from "react-icons/fc";
+import { LuLogOut } from "react-icons/lu";
 
-interface AuthProps {
-  isAuthSelectorOpened?: boolean;
+interface MenuProps {
+  isMenuSelectorOpened?: boolean;
   currentLang?: string;
+  isLoggedIn?: boolean;
 }
 
-const openAuthList = keyframes`
+const openMenuList = keyframes`
   0% {
     opacity: 0;
     transform: translateY(-8px);
@@ -21,7 +21,15 @@ const openAuthList = keyframes`
   }
 `;
 
-export const AuthSelectorBox = styled.div<AuthProps>`
+export const MenuTitle = styled.p<MenuProps>`
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+export const MenuSelectorBox = styled.div<MenuProps>`
   position: relative;
   display: flex;
   align-items: center;
@@ -35,31 +43,35 @@ export const AuthSelectorBox = styled.div<AuthProps>`
   background-color: #7b61ff;
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  transition: color, background-color, min-width 300ms;
+  transition: min-width 300ms, background-color 300ms;
+
+  ${css`
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      & {
+        min-width: 50px;
+      }
+    }
+  `}
 
   &:hover,
   &:focus {
-    color: #7b61ff;
     background-color: #6243ff;
   }
 `;
 
-export const OpenAuthSelectorIcon = styled(GrLogin)<AuthProps>`
-  color: #fff;
-  transition-property: color;
-  transition-duration: 300ms;
-
-  ${AuthSelectorBox}:hover &,
-  ${AuthSelectorBox}:focus & {
-    color: #fff;
-  }
-`;
-
-export const AuthSelectorList = styled.ul<AuthProps>`
+export const MenuSelectorList = styled.ul<MenuProps>`
   position: absolute;
   top: 63px;
-  left: 0;
-  z-index: 1;
+
+  ${css`
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      & {
+        left: -50px;
+      }
+    }
+  `}
+
+  z-index: 2;
   width: ${({ currentLang }) => (currentLang === "en" ? "100px" : "117px")};
   flex-direction: column;
   justify-content: center;
@@ -71,14 +83,14 @@ export const AuthSelectorList = styled.ul<AuthProps>`
 
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  ${({ isAuthSelectorOpened }) =>
-    isAuthSelectorOpened &&
+  ${({ isMenuSelectorOpened }) =>
+    isMenuSelectorOpened &&
     css`
-      animation: ${openAuthList} 300ms ease;
+      animation: ${openMenuList} 300ms ease;
     `}
 `;
 
-export const AuthItem = styled.li`
+export const MenuItem = styled.li`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -103,11 +115,11 @@ export const AuthItem = styled.li`
   }
 `;
 
-export const GoogleIcon = styled(FcGoogle)``;
+export const LogoutIcon = styled(LuLogOut)``;
 
-export const AuthLink = styled(Link)`
+export const MenuLink = styled(Link)`
   ${({ id }) =>
-    id === "google" &&
+    id === "logout" &&
     css`
       display: flex;
       justify-content: center;
@@ -118,12 +130,5 @@ export const AuthLink = styled(Link)`
       border-top-right-radius: 5px;
       border-bottom-left-radius: 5px;
       border-bottom-right-radius: 5px;
-
-      transition: background-color 300ms;
-
-      &:hover,
-      &:focus {
-        background-color: #6243ff6f;
-      }
     `}
 `;

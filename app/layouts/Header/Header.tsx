@@ -17,13 +17,16 @@ import { AuthSelector } from "../../components/AuthSelector/AuthSelector";
 import { LanguagesSelector } from "../../components/LanguagesSelector/LanguagesSelector";
 import { useStore } from "../../mobX/useStore";
 import { alata, poppins } from "@/app/assets/fonts";
+import { MenuSelector } from "@/app/components/MenuSelector/MenuSelector";
+import { observer } from "mobx-react";
 
-const shouldForwardProp = (prop: string) => prop !== "query";
+const shouldForwardProp = (prop: string) =>
+  prop !== "isLoggedIn" && prop !== "query";
 
-const Header: FC = (): JSX.Element => {
+const Header: FC = observer((): JSX.Element => {
   const [query, setQuery] = useState<string>("");
   const { t } = useTranslation();
-  const { eventsSearch } = useStore();
+  const { authStore, eventsSearch } = useStore();
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -46,30 +49,36 @@ const Header: FC = (): JSX.Element => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <AppHeader>
         <Container>
-          {/* <HomeLink href="/" className={alata.className}>
+          <HomeLink
+            href="/"
+            isLoggedIn={authStore.isLoggedIn}
+            className={alata.className}
+          >
             {t("appTitle")}
           </HomeLink>
 
-          <SearchBox>
-            <SearchLabel>
-              <SearchIcon />
-              <SearchInput
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder={t("searchInputPlaceholdder")}
-                className={poppins.className}
-              />
-              <DeleteIcon query={query} />
-            </SearchLabel>
-          </SearchBox> */}
+          {authStore.isLoggedIn && (
+            <SearchBox>
+              <SearchLabel>
+                <SearchIcon />
+                <SearchInput
+                  type="text"
+                  value={query}
+                  onChange={handleInputChange}
+                  placeholder={t("searchInputPlaceholdder")}
+                  className={poppins.className}
+                />
+                <DeleteIcon query={query} />
+              </SearchLabel>
+            </SearchBox>
+          )}
 
           <LanguagesSelector />
-          <AuthSelector />
+          {authStore.isLoggedIn ? <MenuSelector /> : <AuthSelector />}
         </Container>
       </AppHeader>
     </StyleSheetManager>
   );
-};
+});
 
 export default Header;

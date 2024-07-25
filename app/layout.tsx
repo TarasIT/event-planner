@@ -5,7 +5,12 @@ import "./styles/globals.css";
 import Section from "./layouts/Section/Section";
 import Main from "./layouts/Main/Main";
 import Header from "./layouts/Header/Header";
-import StyledComponentsRegistry from "@/app/lib/registry";
+import TokenLoader from "./components/TokenLoader/TokenLoader";
+import dynamic from "next/dynamic";
+
+const StyledComponentsRegistry = dynamic(() => import("@/app/lib/registry"), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: "Event planner",
@@ -22,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
+          <TokenLoader />
           <Header />
           <Main>
             <Section>{children}</Section>

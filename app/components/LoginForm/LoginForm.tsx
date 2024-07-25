@@ -8,14 +8,18 @@ import { poppins } from "@/app/assets/fonts";
 import { EmailInput } from "../EmailInput/EmailInput";
 import { PasswordInput } from "../PasswordInput/PasswordInput";
 import { AuthBtn, AuthForm, Spinner } from "@/app/styles/common.styled";
+import { useRouter } from "next/navigation";
 
 export const LoginForm: FC = observer((): JSX.Element => {
   const { t } = useTranslation();
   const { authStore } = useStore();
+  const router = useRouter();
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await authStore.login();
+    console.log("isLoggedIn in login form", authStore.isLoggedIn);
+    router.push("/home");
   };
 
   return (

@@ -12,13 +12,16 @@ import {
 import { languages } from "../../data/languages";
 import { poppins } from "@/app/assets/fonts";
 import { SvgContainer } from "@/app/styles/common.styled";
+import { useStore } from "@/app/mobX/useStore";
 
-const shouldForwardProp = (prop: string) => prop !== "isLangListOpened";
+const shouldForwardProp = (prop: string) =>
+  prop !== "isLoggedIn" && prop !== "isLangListOpened";
 
 export const LanguagesSelector: FC = (): JSX.Element => {
   const [isLangListOpened, setIsLangListOpened] = useState<boolean>(false);
   const [currentLang, setCurrentLang] = useState<string>("EN");
   const langBoxRef = useRef<HTMLDivElement | null>(null);
+  const { authStore } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
