@@ -171,6 +171,7 @@ class AuthStore {
           method: "POST",
           headers: {
             Authorization: `Bearer ${this.token}`,
+            "Content-type": "application/json",
           },
         }
       );

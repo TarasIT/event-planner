@@ -12,25 +12,42 @@ export function middleware(request: NextRequest): NextResponse {
 
   const queryToken = url.searchParams.get("token");
 
+  let response;
+
   if (queryToken && !isProtectedPath) {
-    const redirectResponse = NextResponse.redirect(homeUrl.toString(), 302);
-    redirectResponse.cookies.set("token", queryToken, {
+    response = NextResponse.redirect(homeUrl.toString(), 302);
+    response.cookies.set("token", queryToken, {
       maxAge: 3600,
     });
     url.searchParams.delete("token");
-    return redirectResponse;
+  } else {
+    const cookieToken = request.cookies.get("token");
+
+    switch (true) {
+      case cookieToken && !isProtectedPath:
+        response = NextResponse.redirect(homeUrl);
+        break;
+      case !cookieToken && isProtectedPath:
+        response = NextResponse.redirect(startUrl);
+        break;
+      default:
+        response = NextResponse.next();
+        break;
+    }
   }
 
-  const cookieToken = request.cookies.get("token");
+  response.headers.set("Access-Control-Allow-Credentials", "true");
+  response.headers.set("Access-Control-Allow-Origin", "*");
+  response.headers.set(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  response.headers.set(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Content-Type, Accept, Authorization"
+  );
 
-  switch (true) {
-    case cookieToken && !isProtectedPath:
-      return NextResponse.redirect(homeUrl);
-    case !cookieToken && isProtectedPath:
-      return NextResponse.redirect(startUrl);
-    default:
-      return NextResponse.next();
-  }
+  return response;
 }
 
 export const config = {
