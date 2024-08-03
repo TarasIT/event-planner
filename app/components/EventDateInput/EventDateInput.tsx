@@ -31,6 +31,7 @@ import {
 import { poppins } from "@/app/assets/fonts";
 import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
+import { toast } from "react-toastify";
 
 interface CalendarContainerProps {
   children: ReactNode;
@@ -51,57 +52,77 @@ const shouldForwardProp = (prop: string) => {
 };
 
 export const EventDateInput: FC = (): JSX.Element => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | string | null>(null);
   const [isCalendarOpened, setIsCalendarOpened] = useState<boolean>(false);
-  const datePickerRef = useRef<typeof DatePicker>();
+  const datePickerRef = useRef<DatePicker>();
   const { t, i18n } = useTranslation();
   const { setFormValues, eventsStore } = useStore();
   const { id } = useParams();
 
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
+  // let event: NewEvent | null = null;
+  // if (id) event = eventsStore.getEventById(id as string);
 
-  useEffect(() => {
-    if (event && event.date) {
-      setSelectedDate(new Date(event.date));
-      setFormValues.setDate(event.date);
-    }
-  }, [event && event.date]);
+  // useEffect(() => {
+  // if (id) eventsStore.getEventById(id as string);
+  // setSelectedDate(date);
+  // }, []);
 
-  const handleDateChoose = (): void => {
-    const choosenDate = datePickerRef.current.state.preSelection;
-    const inputDate = new Date(choosenDate);
+  // useEffect(() => {
+  // if (id) eventsStore.getEventById(id as string);
+  // if (event && event.date) {
+  // setSelectedDate(new Date(event.date));
+  // setFormValues.setDate(selectedDate);
 
-    const day = String(inputDate.getDate()).padStart(2, "0");
-    const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+  // }
+  // }, [selectedDate]);
 
-    if (
-      inputDate.getDate() === parseInt(day, 10) &&
-      inputDate.getMonth() + 1 === parseInt(month, 10)
-    ) {
-      setSelectedDate(inputDate);
-      setFormValues.setDate(inputDate.toString());
-      datePickerRef.current.setOpen(false);
-    } else {
-      console.error("Invalid day or month value");
+  // const handleDateChoose = (): void => {
+  //   if (datePickerRef.current) {
+  //     const choosenDate = datePickerRef.current.state.preSelection;
+  //     const inputDate = new Date(choosenDate);
+
+  //     const day = String(inputDate.getDate()).padStart(2, "0");
+  //     const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+
+  //     if (
+  //       inputDate.getDate() === parseInt(day, 10) &&
+  //       inputDate.getMonth() + 1 === parseInt(month, 10)
+  //     ) {
+  //       setSelectedDate(inputDate);
+  //       datePickerRef.current.setOpen(false);
+  //     } else {
+  //       toast.error("Invalid day or month value");
+  //     }
+  //   } else {
+  //     toast.error("DatePicker reference is not defined");
+  //   }
+  // };
+
+  const handleDateChange = (date: Date | null): void => {
+    if (date) {
+      setSelectedDate(date);
+      setFormValues.setDate(date.toISOString().split("T")[0]); // Format the date if needed
     }
   };
 
   const handleDateCancel = (): void => {
     setSelectedDate(null);
-    datePickerRef.current.setOpen(false);
+    datePickerRef.current && datePickerRef.current.setOpen(false);
   };
 
   const CustomInput = forwardRef<HTMLDivElement, CustomInputProps>(
     ({ onClick }, ref): JSX.Element => {
       let formattedDate = "";
 
-      if (selectedDate) {
+      if (selectedDate && typeof selectedDate !== "string") {
         const day = String(selectedDate.getDate()).padStart(2, "0");
         const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
         const year = String(selectedDate.getFullYear());
 
         formattedDate = `${day}/${month}/${year}`;
+        setFormValues.setDate(formattedDate);
+      } else {
+        setFormValues.setDate(selectedDate as string);
       }
 
       return (
@@ -142,7 +163,14 @@ export const EventDateInput: FC = (): JSX.Element => {
           </CancelBtn>
           <ChooseBtn
             type="button"
-            onClick={handleDateChoose}
+            onClick={() => {
+              if (selectedDate) {
+                setSelectedDate(selectedDate);
+                if (datePickerRef.current) {
+                  datePickerRef.current.setOpen(false);
+                }
+              }
+            }}
             className={poppins.className}
           >
             {t("chooseDateBtn")}
@@ -159,7 +187,8 @@ export const EventDateInput: FC = (): JSX.Element => {
 
         <DatePicker
           ref={datePickerRef}
-          selected={selectedDate}
+          onChange={handleDateChange}
+          selected={selectedDate as Date | null}
           formatWeekDay={(day: string): string => t(`weekDays.${day}`)}
           isCalendarOpened={isCalendarOpened}
           onCalendarClose={() => setIsCalendarOpened(false)}

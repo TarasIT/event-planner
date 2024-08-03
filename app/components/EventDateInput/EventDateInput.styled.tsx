@@ -6,7 +6,7 @@ import { FaChevronDown } from "react-icons/fa6";
 import { SvgContainer } from "@/app/styles/common.styled";
 
 interface DatePickerProps {
-  selectedDate?: Date | null;
+  selectedDate?: Date | string | null;
   isCalendarOpened?: boolean;
 }
 

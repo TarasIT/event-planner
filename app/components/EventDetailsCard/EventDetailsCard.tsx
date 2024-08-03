@@ -20,7 +20,6 @@ import {
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
 import eventsStore from "../../mobX/stores/eventsStore";
-import { transformDate } from "../../services/dateTransform";
 import { useTranslation } from "react-i18next";
 import { poppins } from "@/app/assets/fonts";
 
@@ -74,7 +73,7 @@ export const EventDetailsCard: FC = observer((): JSX.Element => {
           {location && <Location>{location}</Location>}{" "}
           {(date || time) && (
             <DateAndTime className={poppins.className}>
-              {date && transformDate(date)} {time && t("at")} {time && time}
+              {date} {time && t("at")} {time && time}
             </DateAndTime>
           )}
         </InfoBox>
