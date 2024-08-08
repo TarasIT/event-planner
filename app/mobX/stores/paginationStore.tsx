@@ -68,6 +68,11 @@ class PaginationStore {
       this.setPagination(last_page, current_page);
     }
   }
+
+  @action
+  setCurrentPage = (currentPage: number | null): void => {
+    this.currentPage = currentPage;
+  };
 }
 
 const paginationStore = new PaginationStore();

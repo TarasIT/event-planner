@@ -1,7 +1,7 @@
 "use client";
 
 import React, { FC, Fragment, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { observer } from "mobx-react";
 import { nanoid } from "nanoid";
 import { StyleSheetManager } from "styled-components";
@@ -16,10 +16,9 @@ import {
 } from "./Pagination.styled";
 import { SvgContainer } from "@/app/styles/common.styled";
 import { poppins } from "@/app/assets/fonts";
-import { EventsLinks, EventsMeta } from "@/app/types/types";
-import eventsStore from "@/app/mobX/stores/eventsStore";
+import { EventsMeta } from "@/app/types/types";
 import { toast } from "react-toastify";
-import { createURL } from "@/app/services/createURL";
+import { createQueryString } from "@/app/services/createQueryString";
 
 const shouldForwardProp = (prop: string) => prop !== "isActive";
 
@@ -30,77 +29,58 @@ interface PaginationProps {
 
 export const Pagination: FC<PaginationProps> = observer(
   ({ meta, error }): JSX.Element => {
-    const [currentPage, setCurrentPage] = useState<number | null>(
-      meta && meta.current_page
-    );
-    const [prevPage, setPrevPage] = useState<number | null>(1);
-    const [nextPage, setNextPage] = useState<number | null>(2);
-    const [lastPage, setLastPage] = useState<number | null>(
-      meta && meta.last_page
-    );
+    const [currentPage, setCurrentPage] = useState<number | null>(null);
+    const [lastPage, setLastPage] = useState<number | null>(null);
     const [pagination, setPagination] = useState<(number | "...")[] | null>();
-    const searchParams = useSearchParams();
     const { paginationStore } = useStore();
 
     const router = useRouter();
-    const pageFromURL = searchParams.get("page");
 
     useEffect(() => {
-      if (meta) paginationStore.setPaginationData(meta);
+      if (meta) {
+        paginationStore.setPaginationData(meta);
+        setLastPage(paginationStore.lastPage);
+        setCurrentPage(paginationStore.currentPage);
+        setPagination(paginationStore.pagination);
+
+        if (meta.last_page < meta.current_page) {
+          router.push(`?${createQueryString()}`);
+        }
+      }
       if (error) toast.error(error);
-    }, []);
+    }, [meta, error, router.push]);
 
-    useEffect(() => {
-      const { currentPage, nextPage, prevPage, lastPage, pagination } =
-        paginationStore;
-      setCurrentPage(currentPage);
-      setPrevPage(prevPage);
-      setNextPage(nextPage);
-      setLastPage(lastPage);
-      setPagination(pagination);
-    }, [
-      paginationStore.nextPage,
-      paginationStore.prevPage,
-      paginationStore.currentPage,
-      paginationStore.lastPage,
-      paginationStore.pagination,
-    ]);
+    const onPrevPageClick = (): void => {
+      if (currentPage && currentPage === 1) return;
+      if (currentPage) {
+        paginationStore.setCurrentPage(currentPage - 1);
+        router.push(`?${createQueryString()}`);
+      }
+    };
 
-    // const currentPage = paginationStore.currentPage;
-    // const totalPages = paginationStore.totalPages;
-    // const eventsPerPage = paginationStore.eventsPerPage;
-    // const currentEventsAmount = totalPages * eventsPerPage;
+    const onNextPageClick = (): void => {
+      if (currentPage && currentPage === lastPage) return;
+      if (currentPage) {
+        paginationStore.setCurrentPage(currentPage + 1);
+        router.push(`?${createQueryString()}`);
+      }
+    };
 
-    // useEffect(() => {
-    //   if (pageFromURL && Number(pageFromURL) !== 1 && currentPage === 1) {
-    //     router.push(`?page=${pageFromURL}`);
-    //     paginationStore.setCurrentPage(Number(pageFromURL));
-    //   } else {
-    //     currentPage && currentEventsAmount > eventsPerPage
-    //       ? router.push(`?page=${currentPage}`)
-    //       : router.push("");
-    //   }
-    //   setPagination(paginationStore.pagination);
-    // }, [
-    //   pageFromURL,
-    //   currentPage,
-    //   currentEventsAmount,
-    //   eventsPerPage,
-    //   paginationStore.pagination,
-    // ]);
+    const onPageClick = (page: number | "..."): void => {
+      if (currentPage && currentPage === page) return;
+      if (typeof page === "number") {
+        paginationStore.setCurrentPage(page);
+        router.push(`?${createQueryString()}`);
+      }
+    };
 
     return (
       <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-        {lastPage && lastPage >= 1 ? (
+        {lastPage && lastPage > 1 ? (
           <PagesList>
             <PageItem
               isActive={currentPage !== 1}
-              onClick={() => {
-                if (currentPage === prevPage) return;
-                if (prevPage) {
-                  eventsStore.getEvents(createURL({ page: prevPage }));
-                }
-              }}
+              onClick={onPrevPageClick}
               className={poppins.className}
             >
               <SvgContainer>
@@ -118,10 +98,7 @@ export const Pagination: FC<PaginationProps> = observer(
                 return (
                   <PageItem
                     key={nanoid()}
-                    onClick={() => {
-                      if (typeof page === "number")
-                        eventsStore.getEvents(createURL({ page: page }));
-                    }}
+                    onClick={() => onPageClick(page)}
                     isActive={page === currentPage}
                   >
                     {typeof page === "number" ? (
@@ -134,11 +111,7 @@ export const Pagination: FC<PaginationProps> = observer(
               })}
             <PageItem
               isActive={currentPage !== lastPage}
-              onClick={() => {
-                if (currentPage === lastPage) return;
-                if (nextPage)
-                  eventsStore.getEvents(createURL({ page: nextPage }));
-              }}
+              onClick={onNextPageClick}
             >
               <SvgIncreasePage isActive={currentPage !== lastPage} />
             </PageItem>
