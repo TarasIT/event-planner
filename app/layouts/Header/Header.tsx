@@ -19,6 +19,8 @@ import { useStore } from "../../mobX/useStore";
 import { alata, poppins } from "@/app/assets/fonts";
 import { MenuSelector } from "@/app/components/MenuSelector/MenuSelector";
 import { observer } from "mobx-react";
+import { createQueryString } from "@/app/services/createQueryString";
+import { useRouter } from "next/navigation";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isLoggedIn" && prop !== "query";
@@ -26,15 +28,20 @@ const shouldForwardProp = (prop: string) =>
 const Header: FC = observer((): JSX.Element => {
   const [query, setQuery] = useState<string>("");
   const { t } = useTranslation();
-  const { authStore, eventsSearch } = useStore();
+  const { authStore, eventsSearch, eventsStore } = useStore();
+
+  const router = useRouter();
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
-    const debouncedEventsSearch = (): void => eventsSearch.getUserQuery(query);
+    const debouncedEventsSearch = (): void => {
+      eventsSearch.setSearchQuery(query);
+      router.push(createQueryString());
+    };
 
     const delayedSearch = (): void => {
       clearTimeout(timeoutId);
-      timeoutId = setTimeout(debouncedEventsSearch, 300);
+      timeoutId = setTimeout(debouncedEventsSearch, 500);
     };
     delayedSearch();
 
@@ -68,7 +75,7 @@ const Header: FC = observer((): JSX.Element => {
                   placeholder={t("searchInputPlaceholdder")}
                   className={poppins.className}
                 />
-                <DeleteIcon query={query} />
+                <DeleteIcon onClick={() => setQuery("")} query={query} />
               </SearchLabel>
             </SearchBox>
           )}
