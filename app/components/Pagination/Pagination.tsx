@@ -44,7 +44,7 @@ export const Pagination: FC<PaginationProps> = observer(
         setPagination(paginationStore.pagination);
 
         if (meta.last_page < meta.current_page) {
-          router.push(`?${createQueryString()}`);
+          router.push(createQueryString());
         }
       }
       if (error) toast.error(error);
@@ -54,7 +54,7 @@ export const Pagination: FC<PaginationProps> = observer(
       if (currentPage && currentPage === 1) return;
       if (currentPage) {
         paginationStore.setCurrentPage(currentPage - 1);
-        router.push(`?${createQueryString()}`);
+        router.push(createQueryString());
       }
     };
 
@@ -62,7 +62,7 @@ export const Pagination: FC<PaginationProps> = observer(
       if (currentPage && currentPage === lastPage) return;
       if (currentPage) {
         paginationStore.setCurrentPage(currentPage + 1);
-        router.push(`?${createQueryString()}`);
+        router.push(createQueryString());
       }
     };
 
@@ -70,7 +70,7 @@ export const Pagination: FC<PaginationProps> = observer(
       if (currentPage && currentPage === page) return;
       if (typeof page === "number") {
         paginationStore.setCurrentPage(page);
-        router.push(`?${createQueryString()}`);
+        router.push(createQueryString());
       }
     };
 
