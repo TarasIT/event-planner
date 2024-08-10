@@ -4,24 +4,24 @@ import { css, styled } from "styled-components";
 import { RxCross2 } from "react-icons/rx";
 
 interface CreateEventFormProps {
-  imageBase64?: string;
+  image?: File | Blob | null;
   isImageInputCompleted?: boolean;
 }
 
 export const SvgDeleteIcon = styled(RxCross2)<CreateEventFormProps>`
   transition: color 300ms;
-  color: ${({ imageBase64, isImageInputCompleted }) => {
-    if (imageBase64) return "#7b61ff";
-    if (!imageBase64 || isImageInputCompleted) return "#aca7c3";
+  color: ${({ image, isImageInputCompleted }) => {
+    if (image) return "#7b61ff";
+    if (!image || isImageInputCompleted) return "#aca7c3";
   }};
 `;
 
 export const InputName = styled.p<CreateEventFormProps>`
   display: block;
   margin-bottom: 8px;
-  color: ${({ imageBase64, isImageInputCompleted }) => {
-    if (imageBase64) return "#7b61ff";
-    if (!imageBase64 || isImageInputCompleted) return "#aca7c3";
+  color: ${({ image, isImageInputCompleted }) => {
+    if (image) return "#7b61ff";
+    if (!image || isImageInputCompleted) return "#aca7c3";
   }};
 `;
 
@@ -38,17 +38,17 @@ export const ImageInputWrapper = styled.div<CreateEventFormProps>`
   padding: 16px 12px;
   border-radius: 8px;
   border: 1px solid;
-  border-color: ${({ imageBase64, isImageInputCompleted }) => {
-    if (imageBase64) return "#7b61ff";
-    if (!imageBase64 || isImageInputCompleted) return "#aca7c3";
+  border-color: ${({ image, isImageInputCompleted }) => {
+    if (image) return "#7b61ff";
+    if (!image || isImageInputCompleted) return "#aca7c3";
   }};
   transition: border-color 300ms;
   cursor: pointer;
 
   & > label {
-    color: ${({ imageBase64, isImageInputCompleted }) => {
-      if (imageBase64) return "#3F3F3F";
-      if (!imageBase64 || isImageInputCompleted) return "#aca7c3";
+    color: ${({ image, isImageInputCompleted }) => {
+      if (image) return "#3F3F3F";
+      if (!image || isImageInputCompleted) return "#aca7c3";
     }};
     font-size: 16px;
     font-style: normal;

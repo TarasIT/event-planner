@@ -6,32 +6,11 @@ import DefaultImage2x from "../../assets/images/default-vertical-2x.jpg";
 import Link from "next/link";
 
 interface EventProps {
-  image?: string;
+  picture?: string;
   priority?: string;
-  isPageIncreased?: boolean | string;
+  isLoading?: boolean;
+  description?: string | null;
 }
-
-const slideInFromRight = keyframes`
-    0% {
-      opacity: 0;
-      transform: translateX(100%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  `;
-
-const slideInFromLeft = keyframes`
-    0% {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  `;
 
 export const EventCardsList = styled.ul<EventProps>`
   display: grid;
@@ -39,6 +18,7 @@ export const EventCardsList = styled.ul<EventProps>`
   column-gap: 24px;
   row-gap: 40px;
   margin-bottom: 32px;
+  background-color: #fff;
 
   ${css`
     @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -50,19 +30,6 @@ export const EventCardsList = styled.ul<EventProps>`
       row-gap: 24px;
     }
   `}
-
-  ${({ isPageIncreased }) => {
-    if (isPageIncreased === true) {
-      return css`
-        animation: ${slideInFromRight} 300ms;
-      `;
-    }
-    if (!isPageIncreased) {
-      return css`
-        animation: ${slideInFromLeft} 300ms;
-      `;
-    }
-  }}
 `;
 
 export const NoEventsFoundTitle = styled.h2`
@@ -74,8 +41,8 @@ export const NoEventsFoundTitle = styled.h2`
   line-height: 20px;
 `;
 
-export const EventDetailsBox = styled.div`
-  position: absolute;
+export const EventDetailsBox = styled.div<EventProps>`
+  position: ${({ description }) => (description ? "absolute" : "static")};
   right: 0;
   bottom: -20px;
 
@@ -100,7 +67,6 @@ export const TitleDescriptionContainer = styled.div`
   padding: 16px;
   margin-bottom: 0px;
   border-radius: 12px;
-  background-color: white;
   transition: margin-bottom 300ms;
 `;
 
@@ -147,8 +113,8 @@ export const BackgroundContainer = styled.div<EventProps>`
   border-top-right-radius: 12px;
   border-top-left-radius: 12px;
 
-  background-image: ${({ image }) => {
-    return image ? `url(${image})` : `url(${DefaultImage.src})`;
+  background-image: ${({ picture }) => {
+    return picture ? `url(${picture})` : `url(${DefaultImage.src})`;
   }};
   background-repeat: no-repeat;
   background-size: cover;
@@ -160,7 +126,7 @@ export const BackgroundContainer = styled.div<EventProps>`
       (min-resolution: 192dpi),
       (min-resolution: 2dppx) {
       & {
-        background-image: url(${DefaultImage2x.src});
+        background-picture: url(${DefaultImage2x.src});
       }
     }
   `}
