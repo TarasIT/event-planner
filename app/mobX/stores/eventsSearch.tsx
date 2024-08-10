@@ -12,27 +12,8 @@ class EventsSearch {
   }
 
   @action
-  getUserQuery(query: string): void {
+  setSearchQuery(query: string): void {
     this.searchQuery = query;
-  }
-
-  @action
-  filterEventsByQuery(events: NewEvent[]): NewEvent[] {
-    if (!this.searchQuery) return events;
-
-    return events.filter((event: NewEvent) => {
-      const eventsValues = Object.keys(event)
-        .filter((key) => key !== "id" && key !== "image")
-        .map((key) => {
-          if (key === "date") {
-            const dayAndMonth = transformDate(event[key]);
-            const year = new Date(event[key]).getFullYear().toString();
-            return dayAndMonth + "." + year;
-          }
-          return event[key].toString().toLowerCase();
-        });
-      return eventsValues.some((value) => value.includes(this.searchQuery));
-    });
   }
 }
 

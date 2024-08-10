@@ -5,26 +5,39 @@ interface QueryParams {
   search?: string | null;
   category?: string | null;
   sort?: string | null;
+  ascending?: boolean | null;
 }
 
 export const createQueryString = (): string => {
-  const { paginationStore, eventsSearch, eventsStore } = useStore();
+  const {
+    paginationStore,
+    eventsSearch,
+    eventsSorter,
+    eventsStore,
+    categoryFilter,
+  } = useStore();
   eventsStore.setLoading(true);
 
   const { searchQuery } = eventsSearch;
   const { currentPage, lastPage } = paginationStore;
+  const { currentCategory } = categoryFilter;
+  const { currentSorter, isSorterIncreased } = eventsSorter;
 
-  let page: number | null = null;
-
-  if (currentPage && lastPage) {
-    page = searchQuery && lastPage !== currentPage ? 1 : currentPage;
-  }
+  let page = searchQuery && lastPage !== currentPage ? 1 : currentPage;
+  let category =
+    !currentCategory || currentCategory === "All" ? null : currentCategory;
+  let sorter =
+    currentSorter === "A-Z" || currentSorter === "Z-A"
+      ? "title"
+      : currentSorter;
+  let isSorterAscending = !sorter ? null : isSorterIncreased;
 
   const params: QueryParams = {
     page: page,
     search: searchQuery,
-    // category: null,
-    // sort: null,
+    category: category,
+    sort: sorter,
+    ascending: isSorterAscending,
   };
 
   const filteredQuery = Object.fromEntries(
@@ -34,5 +47,5 @@ export const createQueryString = (): string => {
   );
 
   const queryString = new URLSearchParams(filteredQuery);
-  return queryString.toString();
+  return `?${queryString.toString().toLowerCase()}`;
 };

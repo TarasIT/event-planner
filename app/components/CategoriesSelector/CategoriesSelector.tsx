@@ -15,6 +15,8 @@ import {
 import { categories } from "../../data/categories";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
+import { createQueryString } from "@/app/services/createQueryString";
+import { useRouter } from "next/navigation";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -31,6 +33,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
   const { categoryFilter, paginationStore } = useStore();
   const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -72,10 +75,9 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
 
     if (currentTarget && currentTarget.id) {
       setCurrentCategory(currentTarget.id);
-      categoryFilter.getCurrentCategory(currentTarget.id);
+      categoryFilter.setCurrentCategory(currentTarget.id);
+      router.push(createQueryString());
     }
-
-    paginationStore.updateCurrentPage(1);
     setIsCategoryListOpened(!isCategoryListOpened);
   };
 

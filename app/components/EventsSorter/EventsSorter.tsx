@@ -18,6 +18,8 @@ import { useStore } from "../../mobX/useStore";
 import { sorters } from "../../data/sorters";
 import { poppins } from "@/app/assets/fonts";
 import { SvgContainer } from "@/app/styles/common.styled";
+import { createQueryString } from "@/app/services/createQueryString";
+import { useRouter } from "next/navigation";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -38,6 +40,7 @@ export const EventsSorter: FC = (): JSX.Element => {
   const sorterBoxRef = useRef<HTMLDivElement | null>(null);
   const { t, i18n } = useTranslation();
   const { eventsSorter } = useStore();
+  const router = useRouter();
 
   const doubledSorters: string[] = [];
   sorters.forEach((el) => doubledSorters.push(el, el));
@@ -54,8 +57,9 @@ export const EventsSorter: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    eventsSorter.checkIsSorterIncreased(isSorterIncreased);
-    eventsSorter.getCurrentSorter(currentSorter);
+    eventsSorter.setIsSorterIncreased(isSorterIncreased);
+    eventsSorter.setCurrentSorter(currentSorter);
+    router.push(createQueryString());
   }, [isSorterIncreased, currentSorter]);
 
   const handleClickOutside = (e: MouseEvent): void => {
@@ -80,12 +84,12 @@ export const EventsSorter: FC = (): JSX.Element => {
     switch (Number(currentTarget.id)) {
       case 0:
         setCurrentSorter("A-Z");
-        return;
+        break;
       case 1:
         setCurrentSorter("Z-A");
-        return;
+        break;
       default:
-        return setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
+        setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
     }
   };
 
