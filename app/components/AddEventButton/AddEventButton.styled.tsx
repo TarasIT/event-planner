@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { css, styled } from "styled-components";
 import { BsPlusLg } from "react-icons/bs";
 
-export const AddEventLink = styled(Link)`
+export const AddEventBtn = styled.button`
   display: flex;
   justify-content: space-between;
   align-items: center;
