@@ -27,7 +27,9 @@ export const EventImageInput: FC = (): JSX.Element => {
   const [picture, setPicture] = useState<string | File | Blob>();
   const [isImageInputCompleted, setIsImageInputCompleted] =
     useState<boolean>(false);
-  const [isImagePrepared, setIsImagePrepared] = useState<boolean | "pending">();
+  const [isImagePrepared, setIsImagePrepared] = useState<boolean | "pending">(
+    "pending"
+  );
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
   const { setFormValues, eventsStore } = useStore();
