@@ -6,7 +6,7 @@ import MobileDefaultImg from "../../assets/images/default-vertical.jpg";
 import MobileDefaultImg2x from "../../assets/images/default-vertical-2x.jpg";
 
 interface EventProps {
-  image?: string;
+  picture?: string | File | Blob | undefined;
   priority?: string;
 }
 
@@ -46,8 +46,8 @@ export const BackgroundContainer = styled.div<EventProps>`
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
 
-  background-image: ${({ image }) => {
-    return image ? `url(${image})` : `url(${DesktopDefaultImg.src})`;
+  background-image: ${({ picture }) => {
+    return picture ? `url(${picture})` : `url(${DesktopDefaultImg.src})`;
   }};
   background-repeat: no-repeat;
   background-size: cover;
@@ -225,15 +225,16 @@ export const Description = styled.p`
   `}
 `;
 
-export const DeleteEventBtn = styled(Link)`
+export const DeleteEventBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 32px;
   padding: 8px 16px;
   border-radius: 4px;
-
+  border: none;
   background: #7b61ff;
+  cursor: pointer;
 
   color: #fff;
   text-align: center;
