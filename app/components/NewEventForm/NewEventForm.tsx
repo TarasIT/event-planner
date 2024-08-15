@@ -3,7 +3,6 @@
 import React, { FC, FormEvent, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { observer } from "mobx-react";
-import { nanoid } from "nanoid";
 import { useTranslation } from "react-i18next";
 import {
   AddEventButton,
@@ -21,85 +20,91 @@ import { EventDateInput } from "../EventDateInput/EventDateInput";
 import { EventTimeInput } from "../EventTimeInput/EventTimeInput";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
+import { toast } from "react-toastify";
+import { removeEmptyFields } from "@/app/services/removeEmptyFields";
+import { Spinner } from "@/app/styles/common.styled";
 
-export const NewEventForm: FC = observer((): JSX.Element => {
-  const [events, setEvents] = useState<NewEvent[]>([]);
-  const { t } = useTranslation();
-  const { id } = useParams();
-  const router = useRouter();
-  const { setFormValues, eventsStore } = useStore();
-  const KEY = process.env.NEXT_PUBLIC_STORAGE_KEY!;
-  const parsedEvents = eventsStore.getEvents(KEY);
+interface UpdateEventProps {
+  eventForUpdate: NewEvent | null | undefined;
+  error: string | null | undefined;
+}
 
-  useEffect(() => setEvents(parsedEvents), []);
+export const NewEventForm: FC<UpdateEventProps> = observer(
+  ({ eventForUpdate, error }): JSX.Element => {
+    const [event, setEvent] = useState<NewEvent | null>(null);
+    const { t } = useTranslation();
+    const { id } = useParams();
+    const router = useRouter();
+    const { setFormValues, eventsStore } = useStore();
 
-  useEffect(() => {
-    if (parsedEvents.length > events.length) return;
-    eventsStore.saveEvents(KEY, events);
-  }, [events, parsedEvents]);
+    useEffect(() => {
+      eventsStore.setEvent(eventForUpdate);
+      toast.error(error);
+      eventsStore.setLoading(false);
+    }, [eventForUpdate, error]);
 
-  const resetFormInputs = (): void => {
-    setFormValues.setTitle("");
-    setFormValues.setDescription("");
-    setFormValues.setDate("");
-    setFormValues.setTime("");
-    setFormValues.setLocation("");
-    setFormValues.setCategory("");
-    setFormValues.setImage("");
-    setFormValues.setPriority("");
-  };
-
-  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!id) {
-      await setEvents([
-        ...events,
-        {
-          id: nanoid(),
-          title: setFormValues.title,
-          description: setFormValues.description,
-          date: setFormValues.date,
-          time: setFormValues.time,
-          location: setFormValues.location,
-          category: setFormValues.category,
-          image: setFormValues.image,
-          priority: setFormValues.priority,
-        },
-      ]);
-    } else {
-      await eventsStore.updateEvents(KEY, {
-        id: id as string,
+    useEffect(() => {
+      setEvent({
         title: setFormValues.title,
         description: setFormValues.description,
-        date: setFormValues.date,
+        date: setFormValues.date as string,
         time: setFormValues.time,
         location: setFormValues.location,
         category: setFormValues.category,
-        image: setFormValues.image,
+        picture: setFormValues.picture,
         priority: setFormValues.priority,
       });
-    }
+    }, [
+      setFormValues.title,
+      setFormValues.description,
+      setFormValues.date,
+      setFormValues.time,
+      setFormValues.location,
+      setFormValues.category,
+      setFormValues.picture,
+      setFormValues.priority,
+    ]);
 
-    resetFormInputs();
-    router.push("/");
-  };
+    const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      if (event) {
+        const resultEvent = removeEmptyFields(event, !!id);
+        id
+          ? await eventsStore.updateEvent(id as string, resultEvent as NewEvent)
+          : await eventsStore.createEvent(resultEvent as FormData);
+        if (eventsStore.error) return;
+        router.push("/home");
+      }
+    };
 
-  return (
-    <CreateEventForm onSubmit={handleFormSubmit} encType="multipart/form-data">
-      <Container>
-        <EventTitleInput />
-        <EventDescriptionInput />
-        <EventDateInput />
-        <EventTimeInput />
-        <EventLocationInput />
-        <EventCategoryInput />
-        <EventImageInput />
-        <EventPriorityInput />
-      </Container>
-      <AddEventButton className={poppins.className}>
-        <span>{id ? t("saveEventBtn") : t("addEventBtn")}</span>
-      </AddEventButton>
-    </CreateEventForm>
-  );
-});
+    return (
+      <CreateEventForm onSubmit={handleFormSubmit}>
+        <Container>
+          <EventTitleInput />
+          <EventDescriptionInput />
+          <EventDateInput />
+          <EventTimeInput />
+          <EventLocationInput />
+          <EventCategoryInput />
+          <EventImageInput />
+          <EventPriorityInput />
+        </Container>
+        <AddEventButton className={poppins.className}>
+          <span>
+            {id ? (
+              eventsStore.isLoading ? (
+                <Spinner />
+              ) : (
+                t("saveEventBtn")
+              )
+            ) : eventsStore.isLoading ? (
+              <Spinner />
+            ) : (
+              t("addEventBtn")
+            )}
+          </span>
+        </AddEventButton>
+      </CreateEventForm>
+    );
+  }
+);

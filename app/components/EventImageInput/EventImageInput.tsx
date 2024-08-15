@@ -8,29 +8,30 @@ import {
   InputName,
   ImageLabel,
   ImageInput,
+  Spinner,
   SvgDeleteIcon,
   ImageInputWrapper,
 } from "./EventImageInput.styled";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { DeleteIconBox } from "@/app/styles/common.styled";
 import { poppins } from "@/app/assets/fonts";
+import { convertImageToBase64 } from "@/app/services/convertImageToBase64";
+import { reduceImageSize } from "@/app/services/reduceImageSize";
+import { toast } from "react-toastify";
 
 const shouldForwardProp = (prop: string) => {
-  return prop !== "imageBase64" && prop !== "isImageInputCompleted";
+  return prop !== "picture" && prop !== "isImageInputCompleted";
 };
 
 export const EventImageInput: FC = (): JSX.Element => {
-  const [imageBase64, setImageBase64] = useState<string>("");
+  const [picture, setPicture] = useState<string | File | Blob>();
   const [isImageInputCompleted, setIsImageInputCompleted] =
     useState<boolean>(false);
+  const [isImagePrepared, setIsImagePrepared] = useState<boolean | "pending">();
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
   const { setFormValues, eventsStore } = useStore();
   const { id } = useParams();
-
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -40,11 +41,13 @@ export const EventImageInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (event && event.image) {
-      setFormValues.setImage(event.image);
-      setImageBase64(event.image);
+    const { event } = eventsStore;
+    if (id && event && event.picture) {
+      setFormValues.setPicture(event.picture);
+      setPicture(event.picture);
+      setIsImagePrepared(true);
     }
-  }, [event]);
+  }, [id, eventsStore.event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (imageInputRef.current !== e.target) {
@@ -54,18 +57,37 @@ export const EventImageInput: FC = (): JSX.Element => {
     }
   };
 
-  const handleImageInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const file = e.target.files && e.target.files[0];
+  const preparePicture = async (file: File): Promise<File | Blob | string> => {
+    setIsImagePrepared(false);
+    let picture: File | Blob | string = "";
+    try {
+      if (id) {
+        picture = await convertImageToBase64(await reduceImageSize(file));
+      } else {
+        picture = await reduceImageSize(file);
+      }
+      return picture;
+    } catch (error: unknown) {
+      toast.error(error as string);
+      return picture;
+    } finally {
+      setIsImagePrepared(true);
+    }
+  };
 
+  const handleImageInputChange = async (
+    e: ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    const file = e.target.files && e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          setImageBase64(reader.result);
-          setFormValues.setImage(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
+      const preparedPicture = await preparePicture(file);
+      if (preparedPicture) {
+        setPicture(preparedPicture);
+        setFormValues.setPicture(preparedPicture);
+      } else {
+        setPicture("");
+        setFormValues.setPicture("");
+      }
     }
   };
 
@@ -73,7 +95,7 @@ export const EventImageInput: FC = (): JSX.Element => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <ImageLabel className={poppins.className}>
         <InputName
-          imageBase64={imageBase64}
+          picture={picture}
           isImageInputCompleted={isImageInputCompleted}
         >
           {t("pictureInput")}
@@ -81,28 +103,32 @@ export const EventImageInput: FC = (): JSX.Element => {
 
         <ImageInputWrapper
           isImageInputCompleted={isImageInputCompleted}
-          imageBase64={imageBase64}
+          picture={picture}
         >
           <label className={poppins.className}>
             {t("formInputPlaceholder")}
             <ImageInput
               type="file"
-              accept="image/*"
+              accept="picture/*"
               ref={imageInputRef}
               isImageInputCompleted={isImageInputCompleted}
-              imageBase64={imageBase64}
+              picture={picture}
               onChange={handleImageInputChange}
             />
           </label>
-          {imageBase64 && (
+          {picture ? (
             <DeleteIconBox
               onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                 e.preventDefault();
-                setImageBase64("");
+                if (!setFormValues.picture) return;
+                setPicture("");
+                setFormValues.setPicture("");
               }}
             >
-              <SvgDeleteIcon imageBase64={imageBase64} />
+              <SvgDeleteIcon picture={picture} />
             </DeleteIconBox>
+          ) : (
+            !isImagePrepared && <Spinner />
           )}
         </ImageInputWrapper>
       </ImageLabel>
