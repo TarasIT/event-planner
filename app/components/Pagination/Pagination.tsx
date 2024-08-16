@@ -32,7 +32,7 @@ export const Pagination: FC<PaginationProps> = observer(
     const [currentPage, setCurrentPage] = useState<number | null>(null);
     const [lastPage, setLastPage] = useState<number | null>(null);
     const [pagination, setPagination] = useState<(number | "...")[] | null>();
-    const { paginationStore } = useStore();
+    const { paginationStore, eventsStore } = useStore();
 
     const router = useRouter();
 
@@ -45,6 +45,7 @@ export const Pagination: FC<PaginationProps> = observer(
 
         if (meta.last_page < meta.current_page) {
           router.push(createQueryString());
+          eventsStore.setLoading(true);
         }
       }
       if (error) toast.error(error);
@@ -55,6 +56,7 @@ export const Pagination: FC<PaginationProps> = observer(
       if (currentPage) {
         paginationStore.setCurrentPage(currentPage - 1);
         router.push(createQueryString());
+        eventsStore.setLoading(true);
       }
     };
 
@@ -63,6 +65,7 @@ export const Pagination: FC<PaginationProps> = observer(
       if (currentPage) {
         paginationStore.setCurrentPage(currentPage + 1);
         router.push(createQueryString());
+        eventsStore.setLoading(true);
       }
     };
 
@@ -71,6 +74,7 @@ export const Pagination: FC<PaginationProps> = observer(
       if (typeof page === "number") {
         paginationStore.setCurrentPage(page);
         router.push(createQueryString());
+        eventsStore.setLoading(true);
       }
     };
 

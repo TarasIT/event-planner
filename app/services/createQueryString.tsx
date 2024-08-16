@@ -9,21 +9,18 @@ interface QueryParams {
 }
 
 export const createQueryString = (): string => {
-  const {
-    paginationStore,
-    eventsSearch,
-    eventsSorter,
-    eventsStore,
-    categoryFilter,
-  } = useStore();
-  eventsStore.setLoading(true);
+  const { paginationStore, eventsSearch, eventsSorter, categoryFilter } =
+    useStore();
 
   const { searchQuery } = eventsSearch;
   const { currentPage, lastPage } = paginationStore;
   const { currentCategory } = categoryFilter;
   const { currentSorter, isSorterIncreased } = eventsSorter;
 
-  let page = searchQuery && lastPage !== currentPage ? 1 : currentPage;
+  let page =
+    (searchQuery || currentCategory) && lastPage !== currentPage
+      ? 1
+      : currentPage;
   let category =
     !currentCategory || currentCategory === "All" ? null : currentCategory;
   let sorter =

@@ -20,7 +20,7 @@ import { alata, poppins } from "@/app/assets/fonts";
 import { MenuSelector } from "@/app/components/MenuSelector/MenuSelector";
 import { observer } from "mobx-react";
 import { createQueryString } from "@/app/services/createQueryString";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isLoggedIn" && prop !== "query";
@@ -29,13 +29,22 @@ const Header: FC = observer((): JSX.Element => {
   const [query, setQuery] = useState<string>("");
   const { t } = useTranslation();
   const { authStore, eventsSearch, eventsStore } = useStore();
-
+  const queryParams = useSearchParams();
+  const searchQueryParam = queryParams.get("search");
   const router = useRouter();
+
+  useEffect(() => {
+    if (searchQueryParam) {
+      eventsSearch.setSearchQuery(searchQueryParam);
+      setQuery(searchQueryParam);
+    }
+  }, []);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     const debouncedEventsSearch = (): void => {
       eventsSearch.setSearchQuery(query);
+      if (eventsSearch.searchQuery) eventsStore.setLoading(true);
       router.push(createQueryString());
     };
 

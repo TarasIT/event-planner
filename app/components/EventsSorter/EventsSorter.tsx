@@ -19,7 +19,7 @@ import { sorters } from "../../data/sorters";
 import { poppins } from "@/app/assets/fonts";
 import { SvgContainer } from "@/app/styles/common.styled";
 import { createQueryString } from "@/app/services/createQueryString";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -39,8 +39,11 @@ export const EventsSorter: FC = (): JSX.Element => {
   const [isOptionVisible, setIsOptionVisible] = useState<boolean>(false);
   const sorterBoxRef = useRef<HTMLDivElement | null>(null);
   const { t, i18n } = useTranslation();
-  const { eventsSorter } = useStore();
+  const { eventsSorter, eventsStore } = useStore();
   const router = useRouter();
+  const queryParams = useSearchParams();
+  const sortQueryParam = queryParams.get("sort");
+  const ascendingQueryParam = queryParams.get("ascending");
 
   const doubledSorters: string[] = [];
   sorters.forEach((el) => doubledSorters.push(el, el));
@@ -50,6 +53,11 @@ export const EventsSorter: FC = (): JSX.Element => {
     window.addEventListener("mousedown", handleClickOutside);
     setViewportWidth(window.innerWidth);
 
+    if (sortQueryParam && ascendingQueryParam) {
+      const isAscending = ascendingQueryParam === "true";
+      eventsSorter.setIsSorterIncreased(isAscending);
+      eventsSorter.setCurrentSorter(sortQueryParam as string);
+    }
     return () => {
       window.removeEventListener("resize", handleWindowResize);
       window.removeEventListener("mousedown", handleClickOutside);
@@ -60,6 +68,7 @@ export const EventsSorter: FC = (): JSX.Element => {
     eventsSorter.setIsSorterIncreased(isSorterIncreased);
     eventsSorter.setCurrentSorter(currentSorter);
     router.push(createQueryString());
+    eventsStore.setLoading(true);
   }, [isSorterIncreased, currentSorter]);
 
   const handleClickOutside = (e: MouseEvent): void => {

@@ -16,7 +16,7 @@ import { categories } from "../../data/categories";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { createQueryString } from "@/app/services/createQueryString";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -31,12 +31,18 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>();
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
-  const { categoryFilter, paginationStore } = useStore();
+  const { categoryFilter, paginationStore, eventsStore } = useStore();
   const { t } = useTranslation();
   const router = useRouter();
+  const queryParams = useSearchParams();
+  const categoryQueryParam = queryParams.get("category");
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    if (categoryQueryParam) {
+      setCurrentCategory(categoryQueryParam);
+      categoryFilter.setCurrentCategory(categoryQueryParam);
+    }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -77,6 +83,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
       setCurrentCategory(currentTarget.id);
       categoryFilter.setCurrentCategory(currentTarget.id);
       router.push(createQueryString());
+      eventsStore.setLoading(true);
     }
     setIsCategoryListOpened(!isCategoryListOpened);
   };

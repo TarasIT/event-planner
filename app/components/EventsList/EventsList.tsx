@@ -26,6 +26,7 @@ import { poppins } from "@/app/assets/fonts";
 import { toast } from "react-toastify";
 import Loading from "@/app/loading";
 import { NewEvent } from "@/app/types/types";
+import { transformDate } from "@/app/services/dateTransform";
 
 interface EventListProps {
   eventsData: NewEvent[] | null;
@@ -97,7 +98,8 @@ const EventsList: FC<EventListProps> = observer(
                       <DateTimeLocationContainer>
                         {(date || time) && (
                           <DateAndTime className={poppins.className}>
-                            {date} {time && t("at")} {time && time}
+                            {transformDate(date)} {time && t("at")}{" "}
+                            {time && time.toLowerCase()}
                           </DateAndTime>
                         )}
                         {location && <Location>{location}</Location>}
