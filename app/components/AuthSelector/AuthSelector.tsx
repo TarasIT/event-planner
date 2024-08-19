@@ -7,12 +7,13 @@ import {
   OpenAuthSelectorIcon,
   AuthSelectorList,
   AuthItem,
-  AuthLink,
+  AuthBtn,
   GoogleIcon,
 } from "./AuthSelector.styled";
 import { authList } from "../../data/authList";
 import { poppins } from "@/app/assets/fonts";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isAuthSelectorOpened" && prop !== "currentLang";
@@ -22,6 +23,7 @@ export const AuthSelector: FC = (): JSX.Element => {
   const [isAuthSelectorOpened, setIsAuthSelectorOpened] =
     useState<boolean>(false);
   const authRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -33,6 +35,23 @@ export const AuthSelector: FC = (): JSX.Element => {
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {
       setIsAuthSelectorOpened(false);
+    }
+  };
+
+  const onAuthBtnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const { id } = e.currentTarget;
+    switch (id) {
+      case "login":
+        router.push("/login");
+        break;
+      case "signup":
+        router.push("/signup");
+        break;
+      default:
+        fetch(
+          "https://event-planner-api.onrender.com/api/auth/google/redirect"
+        );
+        break;
     }
   };
 
@@ -57,18 +76,15 @@ export const AuthSelector: FC = (): JSX.Element => {
             {authList.map((auth) => {
               return (
                 <AuthItem key={auth}>
-                  <AuthLink
+                  <AuthBtn
+                    type="button"
                     id={auth}
-                    href={
-                      auth === "login"
-                        ? "/login"
-                        : auth === "signup"
-                        ? "/signup"
-                        : "https://event-planner-api.onrender.com/api/auth/google/redirect"
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                      onAuthBtnClick(e)
                     }
                   >
                     {auth === "google" ? <GoogleIcon size="2em" /> : t(auth)}
-                  </AuthLink>
+                  </AuthBtn>
                 </AuthItem>
               );
             })}

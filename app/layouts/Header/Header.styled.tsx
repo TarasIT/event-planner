@@ -3,7 +3,6 @@
 import { css, styled } from "styled-components";
 import { GoSearch } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
-import Link from "next/link";
 
 interface HeaderProps {
   query?: string;
@@ -47,15 +46,17 @@ export const Container = styled.div<HeaderProps>`
   `}
 `;
 
-export const HomeLink = styled(Link)<HeaderProps>`
-  width: 100%;
+export const HomeBtn = styled.button`
+  display: flex;
   padding-top: 7px;
   margin-right: auto;
+  border: none;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   color: #7b61ff;
+  background-color: #fff;
   cursor: pointer;
 `;
 

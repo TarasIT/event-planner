@@ -105,7 +105,7 @@ export const AuthItem = styled.li`
 
 export const GoogleIcon = styled(FcGoogle)``;
 
-export const AuthLink = styled(Link)`
+export const AuthBtn = styled.button`
   ${({ id }) =>
     id === "google" &&
     css`

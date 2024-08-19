@@ -6,7 +6,7 @@ import { StyleSheetManager } from "styled-components";
 import {
   Container,
   AppHeader,
-  HomeLink,
+  HomeBtn,
   SearchBox,
   SearchInput,
   SearchLabel,
@@ -65,13 +65,13 @@ const Header: FC = observer((): JSX.Element => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <AppHeader>
         <Container>
-          <HomeLink
-            href="/"
-            isLoggedIn={authStore.isLoggedIn}
+          <HomeBtn
+            type="button"
+            onClick={(): void => router.push("/")}
             className={alata.className}
           >
             {t("appTitle")}
-          </HomeLink>
+          </HomeBtn>
 
           {authStore.isLoggedIn && (
             <SearchBox>

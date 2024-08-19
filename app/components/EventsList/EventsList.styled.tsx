@@ -3,7 +3,6 @@
 import { css, styled, keyframes } from "styled-components";
 import DefaultImage from "../../assets/images/default-vertical.jpg";
 import DefaultImage2x from "../../assets/images/default-vertical-2x.jpg";
-import Link from "next/link";
 
 interface EventProps {
   picture?: string;
@@ -241,7 +240,7 @@ export const Description = styled.p`
   line-height: 20px;
 `;
 
-export const EventDetailsBtn = styled(Link)`
+export const EventDetailsBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -249,6 +248,8 @@ export const EventDetailsBtn = styled(Link)`
   height: 40px;
   padding: 10px 24px;
   border-radius: 8px;
+  border: none;
+  cursor: pointer;
 
   background: #7b61ff;
 

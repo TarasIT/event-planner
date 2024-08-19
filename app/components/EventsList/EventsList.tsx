@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import Loading from "@/app/loading";
 import { NewEvent } from "@/app/types/types";
 import { transformDate } from "@/app/services/dateTransform";
+import { useRouter } from "next/navigation";
 
 interface EventListProps {
   eventsData: NewEvent[] | null;
@@ -48,6 +49,7 @@ const EventsList: FC<EventListProps> = observer(
     const { eventsStore } = useStore();
     const [events, setEvents] = useState<NewEvent[] | null>(null);
     const { t } = useTranslation();
+    const router = useRouter();
 
     useEffect(() => {
       if (eventsData) {
@@ -117,7 +119,8 @@ const EventsList: FC<EventListProps> = observer(
                     </TitleDescriptionContainer>
                     <EventDetailsBox description={description}>
                       <EventDetailsBtn
-                        href={`/event-details/${id}`}
+                        type="button"
+                        onClick={() => router.push(`/event-details/${id}`)}
                         className={poppins.className}
                       >
                         {t("moreInfoBtn")}

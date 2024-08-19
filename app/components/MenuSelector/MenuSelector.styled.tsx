@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { styled, keyframes, css } from "styled-components";
 import { LuLogOut } from "react-icons/lu";
 
@@ -117,15 +116,26 @@ export const MenuItem = styled.li`
 
 export const LogoutIcon = styled(LuLogOut)``;
 
-export const MenuLink = styled(Link)`
+export const MenuBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  transition: color 300ms;
+  color: #3f3f3f;
+
+  &:hover,
+  &:focus {
+    color: #7b61ff;
+  }
+
   ${({ id }) =>
     id === "logout" &&
     css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
       border-bottom-left-radius: 5px;

@@ -235,6 +235,12 @@ export const DeleteEventBtn = styled.button`
   border: none;
   background: #7b61ff;
   cursor: pointer;
+  transition: background-color 300ms;
+
+  &:hover,
+  &:focus {
+    background-color: #6243ff97;
+  }
 
   color: #fff;
   text-align: center;
@@ -250,7 +256,7 @@ export const DeleteEventBtn = styled.button`
   `}
 `;
 
-export const EditEventBtn = styled(Link)`
+export const EditEventBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -258,6 +264,14 @@ export const EditEventBtn = styled(Link)`
   padding: 8px 16px;
   border-radius: 4px;
   border: 1px solid #7b61ff;
+  cursor: pointer;
+  background-color: #fff;
+  transition: background-color 300ms;
+
+  &:hover,
+  &:focus {
+    background-color: #7b61ff2c;
+  }
 
   color: #7b61ff;
   text-align: center;

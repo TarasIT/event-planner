@@ -5,12 +5,14 @@ export const poppins = Poppins({
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
+  preload: false
 });
 
 export const alata = Alata({
   weight: ["400"],
   subsets: ["latin"],
   display: "swap",
+  preload: false
 });
 
 export const roboto = Roboto({
@@ -18,5 +20,6 @@ export const roboto = Roboto({
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
+  preload: false
 });
 

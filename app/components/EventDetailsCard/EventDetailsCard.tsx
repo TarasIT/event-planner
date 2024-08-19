@@ -98,7 +98,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
           <EventButtonsBox>
             <EditEventBtn
               type="button"
-              href={`/edit-event/${id}`}
+              onClick={() => router.push(`/edit-event/${id}`)}
               className={poppins.className}
             >
               {t("editEventBtn")}

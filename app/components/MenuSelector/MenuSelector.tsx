@@ -6,7 +6,7 @@ import {
   MenuSelectorBox,
   MenuSelectorList,
   MenuItem,
-  MenuLink,
+  MenuBtn,
   LogoutIcon,
   MenuTitle,
 } from "./MenuSelector.styled";
@@ -40,10 +40,12 @@ export const MenuSelector: FC = (): JSX.Element => {
     }
   };
 
-  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onMenuItemClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (e.currentTarget.id === "logout") {
       await authStore.logout();
       router.push("/");
+    } else {
+      router.push("/profile");
     }
   };
 
@@ -64,9 +66,15 @@ export const MenuSelector: FC = (): JSX.Element => {
             {menuList.map((menu) => {
               return (
                 <MenuItem key={menu}>
-                  <MenuLink id={menu} href={menu} onClick={handleLogout}>
+                  <MenuBtn
+                    type="button"
+                    id={menu}
+                    onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                      onMenuItemClick(e)
+                    }
+                  >
                     {menu === "logout" ? <LogoutIcon size="2em" /> : t(menu)}
-                  </MenuLink>
+                  </MenuBtn>
                 </MenuItem>
               );
             })}
