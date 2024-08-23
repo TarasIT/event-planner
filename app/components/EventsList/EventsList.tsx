@@ -4,6 +4,8 @@ import React, { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 import {
   EventCardsList,
   BackgroundContainer,
@@ -27,7 +29,6 @@ import { toast } from "react-toastify";
 import Loading from "@/app/loading";
 import { NewEvent } from "@/app/types/types";
 import { transformDate } from "@/app/services/dateTransform";
-import { useRouter } from "next/navigation";
 
 interface EventListProps {
   eventsData: NewEvent[] | null;
@@ -46,7 +47,7 @@ const shouldForwardProp = (prop: string) => {
 
 const EventsList: FC<EventListProps> = observer(
   ({ eventsData, error }): JSX.Element => {
-    const { eventsStore } = useStore();
+    const { eventsStore, authStore } = useStore();
     const [events, setEvents] = useState<NewEvent[] | null>(null);
     const { t } = useTranslation();
     const router = useRouter();
@@ -57,6 +58,11 @@ const EventsList: FC<EventListProps> = observer(
         eventsStore.setEvents(eventsData);
       }
       if (error) {
+        if (error === "Unauthenticated.") {
+          authStore.deleteToken();
+          router.push("/");
+          return;
+        }
         toast.error(error);
         eventsStore.setError(error);
       }
