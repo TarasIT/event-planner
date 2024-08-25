@@ -2,6 +2,12 @@
 
 import { css, styled } from "styled-components";
 
+export const FormTitle = styled.h2`
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #ff0000d0;
+`;
+
 export const DeleteDataForm = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,7 +22,7 @@ export const DeleteDataForm = styled.div`
   padding-right: 40px;
   padding-bottom: 54px;
   border-radius: 20px;
-  border: 1px solid red;
+  border: 1px solid #ff0000d0;
 
   background: #fff;
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
@@ -35,22 +41,15 @@ export const DeleteDataForm = styled.div`
   `}
 `;
 
-export const FormTitle = styled.h2`
-  margin-bottom: 20px;
-
-  font-size: 24px;
-  color: #411dd158;
-`;
-
 export const DeleteBtn = styled.button`
   min-width: 280px;
   min-height: 50px;
-  border: 1px solid red;
+  border: none;
   border-radius: 8px;
   margin-bottom: 20px;
   cursor: pointer;
-  color: red;
-  background-color: #fff;
+  color: #fff;
+  background-color: #ff0000d0;
   transition: color 300ms, background-color 300ms;
 
   &:hover,
@@ -75,12 +74,12 @@ export const ModalBtn = styled.button`
   border-radius: 5px;
   cursor: pointer;
   color: #fff;
-  background-color: #7b61ff;
+  background-color: #ff0000d0;
   transition: color 300ms, background-color 300ms;
 
   &:hover,
   &:focus {
-    background-color: #411dd1;
+    background-color: red;
   }
 
   font-size: 18px;

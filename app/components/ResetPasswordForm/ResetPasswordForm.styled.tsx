@@ -2,12 +2,6 @@
 
 import { css, styled } from "styled-components";
 
-export const FormTitle = styled.h2`
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #411dd158;
-`;
-
 export const ProfileUserForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -37,6 +31,36 @@ export const ProfileUserForm = styled.form`
       padding-left: 24px;
       padding-right: 24px;
       padding-bottom: 40px;
+    }
+  `}
+`;
+
+export const FormTitle = styled.h2`
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #411dd158;
+`;
+
+export const ResetBtn = styled.button`
+  min-width: 280px;
+  min-height: 50px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #7b61ff;
+  transition: color 300ms, background-color 300ms;
+
+  &:hover,
+  &:focus {
+    background-color: #6243ff;
+  }
+
+  font-size: 18px;
+
+  ${css`
+    @media screen and (max-width: 767px) {
+      min-width: 200px;
     }
   `}
 `;

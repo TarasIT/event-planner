@@ -1,7 +1,27 @@
 "use client";
 
-import { styled } from "styled-components";
+import { styled, keyframes } from "styled-components";
 import { IoClose } from "react-icons/io5";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const slideIn = keyframes`
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
 
 export const Overlay = styled.div`
   position: fixed;
@@ -14,16 +34,20 @@ export const Overlay = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  opacity: 0;
+  animation: ${fadeIn} 0.3s forwards;
 `;
 
 export const ModalContent = styled.div`
-  padding: 20px;
-  border: 1px solid #411dd1;
-  border-radius: 8px;
   position: relative;
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
   width: 90%;
   max-width: 500px;
   background-color: white;
+  opacity: 0;
+  animation: ${slideIn} 0.3s forwards;
 `;
 
 export const CloseButton = styled(IoClose)`

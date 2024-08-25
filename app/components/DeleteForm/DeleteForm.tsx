@@ -4,38 +4,38 @@ import React, { FC, useState } from "react";
 import {
   DeleteBtn,
   DeleteDataForm,
+  FormTitle,
   ModalActions,
   ModalBtn,
   ModalDescription,
 } from "./DeleteForm.styled";
-import DeleteFormTitle from "../DeleteFormTitle/DeleteFormTitle";
 import { poppins } from "@/app/assets/fonts";
 import Modal from "../Modal/Modal";
+import { useTranslation } from "react-i18next";
 
 export const DeleteForm: FC = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
+  const { t } = useTranslation();
 
   const openModal = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.currentTarget.id === "delete-events"
-      ? setDescription("Are you sure, you want to delete all your events?")
-      : setDescription(
-          "Are you sure, you want to delete your profile with all your events?"
-        );
+      ? setDescription(t("deleteAllEventsModalMessage"))
+      : setDescription(t("deleteProfileModalMessage"));
     setIsModalOpen(true);
   };
   const closeModal = (): void => setIsModalOpen(false);
 
   return (
     <DeleteDataForm>
-      <DeleteFormTitle />
+      <FormTitle className={poppins.className}>{t("deleteData")}</FormTitle>
       <DeleteBtn
         id="delete-events"
         type="button"
         onClick={openModal}
         className={poppins.className}
       >
-        Delete all events
+        {t("deleteAllEvents")}
       </DeleteBtn>
       <DeleteBtn
         id="delete-profile"
@@ -43,7 +43,7 @@ export const DeleteForm: FC = (): JSX.Element => {
         onClick={openModal}
         className={poppins.className}
       >
-        Delete your profile
+        {t("deleteProfile")}
       </DeleteBtn>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -51,11 +51,19 @@ export const DeleteForm: FC = (): JSX.Element => {
           {description}
         </ModalDescription>
         <ModalActions>
-          <ModalBtn type="button" onClick={closeModal}>
-            Yes
+          <ModalBtn
+            type="button"
+            className={poppins.className}
+            onClick={closeModal}
+          >
+            {t("yes")}
           </ModalBtn>
-          <ModalBtn type="button" onClick={closeModal}>
-            No
+          <ModalBtn
+            type="button"
+            className={poppins.className}
+            onClick={closeModal}
+          >
+            {t("no")}
           </ModalBtn>
         </ModalActions>
       </Modal>
