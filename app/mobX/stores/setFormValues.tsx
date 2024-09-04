@@ -8,7 +8,7 @@ class SetFormValues {
   time: string = "";
   location: string = "";
   category: string = "";
-  image: string = "";
+  picture: string | File | Blob = "";
   priority: string = "";
 
   constructor() {
@@ -46,8 +46,8 @@ class SetFormValues {
   }
 
   @action
-  setImage(image: string): void {
-    this.image = image;
+  setPicture(picture: string | File | Blob): void {
+    this.picture = picture;
   }
 
   @action

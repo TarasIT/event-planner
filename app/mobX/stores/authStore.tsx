@@ -1,12 +1,14 @@
 import { observable, action, makeAutoObservable } from "mobx";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import type { User } from "../../types/types";
-import setAuthCredentials from "./setAuthCredentials";
+import type { ChangePassworProps, User } from "../../types/types";
+import authCredentials from "./authCredentials";
 
 class AuthStore {
   @observable
   userId: string | null = null;
+  name: string | null = null;
+  email: string | null = null;
   token: null | string = null;
   isLoggedIn: boolean = false;
   isLoading: boolean = false;
@@ -48,24 +50,26 @@ class AuthStore {
   }
 
   @action
-  clearToken(): void {
+  deleteToken(): void {
     this.token = null;
     Cookies.remove("token", { path: "/" });
   }
 
   @action
   resetAuthForm(): void {
-    setAuthCredentials.setName("");
-    setAuthCredentials.setEmail("");
-    setAuthCredentials.setPassword("");
+    authCredentials.setName("");
+    authCredentials.setEmail("");
+    authCredentials.setPassword("");
+    authCredentials.setNewPassword("");
+    authCredentials.setConfirmPassword("");
   }
 
   @action
   async signup(): Promise<void> {
     const credentials: User = {
-      name: setAuthCredentials.name,
-      email: setAuthCredentials.email,
-      password: setAuthCredentials.password,
+      name: authCredentials.name,
+      email: authCredentials.email,
+      password: authCredentials.password,
     };
     this.setLoading(true);
     this.error = null;
@@ -98,8 +102,8 @@ class AuthStore {
   @action
   async login(): Promise<void> {
     const credentials: User = {
-      email: setAuthCredentials.email,
-      password: setAuthCredentials.password,
+      email: authCredentials.email,
+      password: authCredentials.password,
     };
     this.setLoading(true);
     this.setLoggedIn(false);
@@ -116,7 +120,10 @@ class AuthStore {
           body: JSON.stringify(credentials),
         }
       );
-      const data = await response.json();
+      const data: {
+        token: string;
+        error: string;
+      } = await response.json();
       if (!response.ok) {
         throw new Error(data.error || "Failed to log in.");
       }
@@ -128,34 +135,6 @@ class AuthStore {
       this.error = errorMessage;
     } finally {
       this.resetAuthForm();
-      this.setLoading(false);
-    }
-  }
-
-  @action
-  async getUser(): Promise<void> {
-    this.setLoading(true);
-    this.error = null;
-    try {
-      const response = await fetch(
-        "https://event-planner-api.onrender.com/api/users/current",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to get user.");
-      }
-      this.userId = data.id;
-    } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
-      toast.error(errorMessage);
-      this.error = errorMessage;
-    } finally {
       this.setLoading(false);
     }
   }
@@ -175,13 +154,93 @@ class AuthStore {
           },
         }
       );
-      const data = await response.json();
+      const data: {
+        message: string;
+        error: string;
+      } = await response.json();
       if (!response.ok) {
-        throw new Error("Failed to logout.");
+        throw new Error(data.error || data.message || "Failed to logout.");
       }
-      this.clearToken();
+      this.deleteToken();
       this.setLoggedIn(false);
       this.userId = null;
+      toast.success(data.message);
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  @action
+  async deleteProfile(): Promise<void> {
+    this.setLoading(true);
+    this.error = null;
+    try {
+      const response = await fetch(
+        "https://event-planner-api.onrender.com/api/users/current",
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        }
+      );
+      const data: {
+        message: string;
+        error: string;
+      } = await response.json();
+
+      if (!response.ok || data.error) {
+        throw new Error(
+          data.error || data.message || "Failed to delete profile."
+        );
+      }
+      toast.success(data.message);
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.setLoading(false);
+      this.deleteToken();
+      this.setLoggedIn(false);
+    }
+  }
+
+  @action
+  async changePassword(credentials: ChangePassworProps): Promise<void> {
+    this.setLoading(true);
+    this.error = null;
+    try {
+      const response = await fetch(
+        `https://event-planner-api.onrender.com/api/users/change-password`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        }
+      );
+      const data: {
+        message: string;
+        error: string;
+      } = await response.json();
+
+      console.log("credentials", credentials);
+      console.log("data", data);
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || data.message || "Failed to change password."
+        );
+      }
+      this.resetAuthForm();
+      toast.success(data.message);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       toast.error(errorMessage);

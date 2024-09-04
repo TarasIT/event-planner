@@ -1,7 +1,4 @@
 import { observable, action, makeAutoObservable } from "mobx";
-import { NewEvent } from "../../types/types";
-import eventsStore from "./eventsStore";
-import { transformDate } from "../../services/dateTransform";
 
 class EventsSearch {
   @observable
