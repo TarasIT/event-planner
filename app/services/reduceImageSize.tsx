@@ -1,6 +1,6 @@
 import imageCompression from "browser-image-compression";
 
-const MAX_SIZE_BYTES = 20 * 1024;
+const MAX_SIZE_BYTES = 15 * 1024;
 
 export const reduceImageSize = async (file: File): Promise<File> => {
   try {
@@ -12,6 +12,9 @@ export const reduceImageSize = async (file: File): Promise<File> => {
       };
 
       file = await imageCompression(file, options);
+
+      if (file.size > MAX_SIZE_BYTES)
+        file = await imageCompression(file, options);
       return file;
     } else {
       return file;
