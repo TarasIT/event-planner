@@ -12,6 +12,7 @@ import {
   SearchLabel,
   SearchIcon,
   DeleteIcon,
+  OpenMobileMenuIcon,
 } from "./Header.styled";
 import { AuthSelector } from "../../components/AuthSelector/AuthSelector";
 import { LanguagesSelector } from "../../components/LanguagesSelector/LanguagesSelector";
@@ -21,11 +22,16 @@ import { MenuSelector } from "@/app/components/MenuSelector/MenuSelector";
 import { observer } from "mobx-react";
 import { createQueryString } from "@/app/services/createQueryString";
 import { useRouter, useSearchParams } from "next/navigation";
+import { MobileMenu } from "@/app/components/MobileMenu/MobileMenu";
+import { MobileMenuList } from "@/app/components/MobileMenuList/MobileMenuList";
+import { AuthMobileMenuList } from "@/app/components/AuthMobileMenuList/AuthMobileMenuList";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isLoggedIn" && prop !== "query";
 
 const Header: FC = observer((): JSX.Element => {
+  const [isMobileView, setIsMobileView] = useState<boolean>(false);
+  const [isMobileMenuOpened, setIsMobileMenuOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
   const { t } = useTranslation();
   const { authStore, eventsSearch, eventsStore } = useStore();
@@ -33,11 +39,18 @@ const Header: FC = observer((): JSX.Element => {
   const searchQueryParam = queryParams.get("search");
   const router = useRouter();
 
+  const handleResize = (): void => setIsMobileView(window.innerWidth < 768);
+
   useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
     if (searchQueryParam) {
       eventsSearch.setSearchQuery(searchQueryParam);
       setQuery(searchQueryParam);
     }
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -64,7 +77,7 @@ const Header: FC = observer((): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <AppHeader>
-        <Container>
+        <Container isLoggedIn={authStore.isLoggedIn}>
           <HomeBtn
             type="button"
             onClick={(): void => router.push("/")}
@@ -72,6 +85,8 @@ const Header: FC = observer((): JSX.Element => {
           >
             {t("appTitle")}
           </HomeBtn>
+
+          <OpenMobileMenuIcon onClick={() => setIsMobileMenuOpened(true)} />
 
           {authStore.isLoggedIn && (
             <SearchBox>
@@ -89,10 +104,31 @@ const Header: FC = observer((): JSX.Element => {
             </SearchBox>
           )}
 
-          <LanguagesSelector />
-          {authStore.isLoggedIn ? <MenuSelector /> : <AuthSelector />}
+          {!isMobileView && <LanguagesSelector />}
+
+          {authStore.isLoggedIn && !isMobileView ? (
+            <MenuSelector />
+          ) : (
+            !authStore.isLoggedIn && !isMobileView && <AuthSelector />
+          )}
         </Container>
       </AppHeader>
+
+      <MobileMenu
+        isOpened={isMobileMenuOpened}
+        onClose={() => setIsMobileMenuOpened(false)}
+      >
+        <LanguagesSelector />
+        {authStore.isLoggedIn ? (
+          <MobileMenuList
+            closeMobileMenu={() => setIsMobileMenuOpened(false)}
+          />
+        ) : (
+          <AuthMobileMenuList
+            closeMobileMenu={() => setIsMobileMenuOpened(false)}
+          />
+        )}
+      </MobileMenu>
     </StyleSheetManager>
   );
 });

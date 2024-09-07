@@ -1,8 +1,9 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { GoSearch } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
+import { IoIosMenu } from "react-icons/io";
 
 interface HeaderProps {
   query?: string;
@@ -16,38 +17,34 @@ export const AppHeader = styled.header`
 export const Container = styled.div<HeaderProps>`
   position: relative;
   display: flex;
-  width: 1280px;
+  width: 1279px;
   min-height: 92px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 22px;
   background: #fefcff;
 
-  ${css`
-    @media screen and (max-width: 767px) {
-      & {
-        flex-wrap: wrap;
-        min-height: 168px;
-        width: 320px;
-        padding-top: 24px;
-        padding-left: 24px;
-        padding-right: 24px;
-      }
-    }
+  @media (width < 768px) {
+    flex-wrap: wrap;
+    min-height: ${({ isLoggedIn }) => (isLoggedIn ? "140px" : "80px")};
+    width: 320px;
+    padding-top: ${({ isLoggedIn }) => (isLoggedIn ? "10px" : "0px")};
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
-      & {
-        width: 768px;
-        padding-top: 26px;
-        padding-left: 40px;
-        padding-right: 40px;
-      }
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    width: 767px;
+    min-height: 92px;
+    padding-top: 26px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
 `;
 
 export const HomeBtn = styled.button`
   display: flex;
+  align-items: start;
   padding-top: 7px;
   margin-right: auto;
   border: none;
@@ -58,19 +55,34 @@ export const HomeBtn = styled.button`
   color: #7b61ff;
   background-color: #fff;
   cursor: pointer;
+
+  @media (width < 768px) {
+    align-items: center;
+    padding-top: 0;
+  }
+`;
+
+export const OpenMobileMenuIcon = styled(IoIosMenu)`
+  display: none;
+  width: 24px;
+  height: 24px;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+
+  @media (width < 768px) {
+    display: block;
+  }
 `;
 
 export const SearchBox = styled.div`
-  margin-left: auto;
-
-  ${css`
-    @media screen and (min-width: 767px) and (max-width: 1279px) {
-      margin-right: 12px;
-    }
-    @media screen and (min-width: 1279px) {
-      margin-right: 24px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    margin-right: 12px;
+  }
+  @media (width >= 1280px) {
+    margin-right: 24px;
+  }
 `;
 
 export const SearchLabel = styled.label`
@@ -124,19 +136,13 @@ export const SearchInput = styled.input`
 
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  ${css`
-    @media screen and (max-width: 767px) {
-      & {
-        width: 272px;
-      }
-    }
+  @media (width < 768px) {
+    width: 272px;
+  }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
-      & {
-        width: 368px;
-      }
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    width: 350px;
+  }
 
   &::placeholder {
     color: #888;
