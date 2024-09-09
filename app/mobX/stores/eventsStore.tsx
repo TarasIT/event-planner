@@ -1,9 +1,8 @@
 import { observable, action, makeAutoObservable } from "mobx";
-import type { EventsMeta, NewEvent } from "../../types/types";
+import type { NewEvent } from "../../types/types";
 import authStore from "./authStore";
 import { toast } from "react-toastify";
 import setFormValues from "./setFormValues";
-import paginationStore from "./paginationStore";
 
 interface ResponseProps {
   data?: NewEvent | null;
@@ -117,7 +116,7 @@ class EventsStore {
           data.error || data.message || "Failed to update the event."
         );
       }
-      this.event = data.event;
+      this.setEvent(data.event);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       toast.error(errorMessage);
