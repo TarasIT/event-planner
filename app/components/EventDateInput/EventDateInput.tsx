@@ -13,6 +13,7 @@ import { useParams } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
+import { parse } from "date-fns";
 import {
   DateBox,
   SvgDecreaseMonthIcon,
@@ -29,20 +30,20 @@ import {
   ChangeMonthIcon,
 } from "./EventDateInput.styled";
 import { poppins } from "@/app/assets/fonts";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { toast } from "react-toastify";
+import { observer } from "mobx-react";
 
 interface CalendarContainerProps {
   children: ReactNode;
 }
 
-interface CustomInputProps {
-  onClick?: () => void;
+interface DatePickerState {
+  preSelection: Date;
 }
 
-interface PopperStateProps {
-  state: { styles: { popper: { padding: string } } };
+interface CustomInputProps {
+  onClick?: () => void;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -51,57 +52,50 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventDateInput: FC = (): JSX.Element => {
+export const EventDateInput: FC = observer((): JSX.Element => {
   const [selectedDate, setSelectedDate] = useState<Date | string | null>(null);
   const [isCalendarOpened, setIsCalendarOpened] = useState<boolean>(false);
-  const datePickerRef = useRef<DatePicker>();
+  const datePickerRef = useRef<DatePicker | null>(null);
   const { t, i18n } = useTranslation();
   const { setFormValues, eventsStore } = useStore();
   const { id } = useParams();
 
-  // let event: NewEvent | null = null;
-  // if (id) event = eventsStore.getEventById(id as string);
+  useEffect(() => {
+    const { event } = eventsStore;
+    if (id && event && event.date) {
+      const date = parse(event.date, "dd/MM/yyyy", new Date());
+      setSelectedDate(date);
+    }
+  }, [id, eventsStore.event]);
 
-  // useEffect(() => {
-  // if (id) eventsStore.getEventById(id as string);
-  // setSelectedDate(date);
-  // }, []);
+  const handleDateChoose = (): void => {
+    if (datePickerRef.current) {
+      const state = datePickerRef.current.state as DatePickerState;
+      const choosenDate: Readonly<Date> = state.preSelection;
 
-  // useEffect(() => {
-  // if (id) eventsStore.getEventById(id as string);
-  // if (event && event.date) {
-  // setSelectedDate(new Date(event.date));
-  // setFormValues.setDate(selectedDate);
+      const inputDate = new Date(choosenDate);
 
-  // }
-  // }, [selectedDate]);
+      const day = String(inputDate.getDate()).padStart(2, "0");
+      const month = String(inputDate.getMonth() + 1).padStart(2, "0");
 
-  // const handleDateChoose = (): void => {
-  //   if (datePickerRef.current) {
-  //     const choosenDate = datePickerRef.current.state.preSelection;
-  //     const inputDate = new Date(choosenDate);
-
-  //     const day = String(inputDate.getDate()).padStart(2, "0");
-  //     const month = String(inputDate.getMonth() + 1).padStart(2, "0");
-
-  //     if (
-  //       inputDate.getDate() === parseInt(day, 10) &&
-  //       inputDate.getMonth() + 1 === parseInt(month, 10)
-  //     ) {
-  //       setSelectedDate(inputDate);
-  //       datePickerRef.current.setOpen(false);
-  //     } else {
-  //       toast.error("Invalid day or month value");
-  //     }
-  //   } else {
-  //     toast.error("DatePicker reference is not defined");
-  //   }
-  // };
+      if (
+        inputDate.getDate() === parseInt(day, 10) &&
+        inputDate.getMonth() + 1 === parseInt(month, 10)
+      ) {
+        setSelectedDate(inputDate);
+        datePickerRef.current.setOpen(false);
+      } else {
+        toast.error("Invalid day or month value");
+      }
+    } else {
+      toast.error("DatePicker reference is not defined");
+    }
+  };
 
   const handleDateChange = (date: Date | null): void => {
     if (date) {
       setSelectedDate(date);
-      setFormValues.setDate(date.toISOString().split("T")[0]); // Format the date if needed
+      setFormValues.setDate(date.toISOString().split("T")[0]);
     }
   };
 
@@ -112,18 +106,22 @@ export const EventDateInput: FC = (): JSX.Element => {
 
   const CustomInput = forwardRef<HTMLDivElement, CustomInputProps>(
     ({ onClick }, ref): JSX.Element => {
-      let formattedDate = "";
+      const [formattedDate, setFormattedDate] = useState<string>("");
 
-      if (selectedDate && typeof selectedDate !== "string") {
-        const day = String(selectedDate.getDate()).padStart(2, "0");
-        const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
-        const year = String(selectedDate.getFullYear());
+      useEffect(() => {
+        if (selectedDate && typeof selectedDate !== "string") {
+          const day = String(selectedDate.getDate()).padStart(2, "0");
+          const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+          const year = String(selectedDate.getFullYear());
 
-        formattedDate = `${day}/${month}/${year}`;
-        setFormValues.setDate(formattedDate);
-      } else {
-        setFormValues.setDate(selectedDate as string);
-      }
+          const formatted = `${day}/${month}/${year}`;
+          setFormattedDate(formatted);
+          setFormValues.setDate(formatted);
+        } else if (typeof selectedDate === "string") {
+          setFormattedDate(selectedDate);
+          setFormValues.setDate(selectedDate);
+        }
+      }, [selectedDate, setFormValues]);
 
       return (
         <CustomDatePicker selectedDate={selectedDate} onClick={onClick}>
@@ -133,7 +131,7 @@ export const EventDateInput: FC = (): JSX.Element => {
             className={poppins.className}
           >
             {selectedDate
-              ? `${formattedDate}`
+              ? formattedDate
               : isCalendarOpened
               ? t("selectDate")
               : t("formInputPlaceholder")}
@@ -163,14 +161,7 @@ export const EventDateInput: FC = (): JSX.Element => {
           </CancelBtn>
           <ChooseBtn
             type="button"
-            onClick={() => {
-              if (selectedDate) {
-                setSelectedDate(selectedDate);
-                if (datePickerRef.current) {
-                  datePickerRef.current.setOpen(false);
-                }
-              }
-            }}
+            onClick={handleDateChoose}
             className={poppins.className}
           >
             {t("chooseDateBtn")}
@@ -190,7 +181,6 @@ export const EventDateInput: FC = (): JSX.Element => {
           onChange={handleDateChange}
           selected={selectedDate as Date | null}
           formatWeekDay={(day: string): string => t(`weekDays.${day}`)}
-          isCalendarOpened={isCalendarOpened}
           onCalendarClose={() => setIsCalendarOpened(false)}
           onCalendarOpen={() => {
             setIsCalendarOpened(true);
@@ -209,8 +199,10 @@ export const EventDateInput: FC = (): JSX.Element => {
               name: "applyPadding",
               enabled: true,
               phase: "beforeWrite",
-              fn: ({ state }: PopperStateProps) => {
-                state.styles.popper.padding = "0";
+              fn: (state: any): void => {
+                if (state && state.styles && state.styles.popper) {
+                  state.styles.popper.padding = "0";
+                }
               },
             },
           ]}
@@ -258,4 +250,4 @@ export const EventDateInput: FC = (): JSX.Element => {
       </DateBox>
     </StyleSheetManager>
   );
-};
+});
