@@ -21,8 +21,6 @@ export const createQueryString = (): string => {
     (searchQuery || currentCategory) && lastPage !== currentPage
       ? 1
       : currentPage;
-  let category =
-    !currentCategory || currentCategory === "All" ? null : currentCategory;
   let sorter =
     currentSorter === "A-Z" || currentSorter === "Z-A"
       ? "title"
@@ -32,7 +30,7 @@ export const createQueryString = (): string => {
   const params: QueryParams = {
     page: page,
     search: searchQuery,
-    category: category,
+    category: currentCategory,
     sort: sorter,
     ascending: isSorterAscending,
   };
