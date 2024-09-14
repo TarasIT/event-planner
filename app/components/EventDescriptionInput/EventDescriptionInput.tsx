@@ -10,7 +10,6 @@ import {
   DescriptionLabel,
   SvgDeleteIcon,
 } from "./EventDescriptionInput.styled";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { DeleteIconBox } from "@/app/styles/common.styled";
 import { poppins } from "@/app/assets/fonts";
@@ -30,24 +29,21 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
   const { t } = useTranslation();
   const { setFormValues, eventsStore } = useStore();
   const { id } = useParams();
-
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
+  const { event } = eventsStore;
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
-    if (event && event.description) {
+    if (id && event && event.description) {
       setFormValues.setDescription(event.description);
       setDescriptionInputValue(event.description);
     }
-  }, [event]);
+  }, [id, eventsStore.event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (descriptionTextAreaRef.current !== e.target) {

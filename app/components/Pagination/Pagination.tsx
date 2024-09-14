@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { observer } from "mobx-react";
 import { nanoid } from "nanoid";
@@ -48,7 +48,10 @@ export const Pagination: FC<PaginationProps> = observer(
           eventsStore.setLoading(true);
         }
       }
-      if (error) toast.error(error);
+      if (error !== "No events found.") {
+        eventsStore.setError(error);
+        toast.error(error);
+      }
     }, [meta, error, router.push]);
 
     const onPrevPageClick = (): void => {
@@ -80,7 +83,7 @@ export const Pagination: FC<PaginationProps> = observer(
 
     return (
       <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-        {lastPage && lastPage > 1 ? (
+        {eventsStore.events && eventsStore.events.length ? (
           <PagesList>
             <PageItem
               isActive={currentPage !== 1}
@@ -120,9 +123,7 @@ export const Pagination: FC<PaginationProps> = observer(
               <SvgIncreasePage isActive={currentPage !== lastPage} />
             </PageItem>
           </PagesList>
-        ) : (
-          <Fragment />
-        )}
+        ) : null}
       </StyleSheetManager>
     );
   }

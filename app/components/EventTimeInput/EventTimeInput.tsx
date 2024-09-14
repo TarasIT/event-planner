@@ -22,7 +22,6 @@ import {
   TimeIconContainer,
 } from "../EventTimeInput/EventTimeInput.styled";
 import { StyleSheetManager } from "styled-components";
-import { NewEvent } from "../../types/types";
 import { useTranslation } from "react-i18next";
 import { morning, evening } from "../../data/dayHalf";
 import { useStore } from "../../mobX/useStore";
@@ -62,10 +61,14 @@ export const EventTimeInput: FC = (): JSX.Element => {
 
   const { id } = useParams();
   const { setFormValues, eventsStore } = useStore();
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
 
   useEffect(() => {
+    const { event } = eventsStore;
+    if (id && event && event.time) {
+      setSelectedTime(event.time);
+      setFormValues.setTime(event.time);
+    }
+
     window.addEventListener("click", handleClickOutside);
     window.addEventListener("keydown", handleKeydown);
 
@@ -110,10 +113,6 @@ export const EventTimeInput: FC = (): JSX.Element => {
           .padStart(2, "0")} ${selectedDayHalf}`
       );
     }
-    if (event && event.time) {
-      setFormValues.setTime(event.time);
-      setSelectedTime(event.time);
-    }
   }, [
     isTimePickerOpened,
     isHourScrollUp,
@@ -122,7 +121,6 @@ export const EventTimeInput: FC = (): JSX.Element => {
     selectedHour,
     selectedMinute,
     selectedDayHalf,
-    event,
   ]);
 
   const handleKeydown = (e: KeyboardEvent): void => {

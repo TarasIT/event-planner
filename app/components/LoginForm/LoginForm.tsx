@@ -18,7 +18,6 @@ export const LoginForm: FC = observer((): JSX.Element => {
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await authStore.login();
-    console.log("isLoggedIn in login form", authStore.isLoggedIn);
     router.push("/home");
   };
 

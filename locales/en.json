@@ -11,20 +11,18 @@
   "searchInputPlaceholdder": "Search by keywords",
   "homePageTitle": "My events",
   "profile": "Profile",
-  "resetPassword": "Reset password",
+  "changePassword": "Reset password",
   "newPassword": "New password",
   "confirmPassword": "Confirm password",
   "yourData": "Your data",
   "deleteData": "Delete",
   "deleteAllEvents": "Delete all events",
   "deleteProfile": "Delete my profile",
-  "deleteAllEventsModalMessage": "Are you sure, you want to delete all your events?",
-  "deleteProfileModalMessage": "Are you sure, you want to delete your profile with all your events?",
   "yes": "Yes",
   "no": "No",
   "menu": "Menu",
   "noEventCreated": "You don't have events. Create the first one.",
-  "noEventsFoundByQuery": "No events :(",
+  "noEventsFoundByQuery": "No events found :(",
   "addNewEventBtn": "Add New Event",
   "categories": {
     "art": "Art",
@@ -83,5 +81,12 @@
   "moreInfoBtn": "More info",
   "editEventBtn": "Edit",
   "deleteEventBtn": "Delete Event",
-  "noPageFound": "Sorry, we could not find that page"
+  "noPageFound": "Sorry, we could not find that page",
+  
+  "modalMessages": {
+    "deleteEvent": "Are you sure, you want to delete this event?",
+    "deleteAllEvents": "Are you sure, you want to delete all your events?",
+    "deleteProfile": "Are you sure, you want to delete your profile with all your events?",
+    "logOut": "Are you sure, you want to log out?"
+  }
 }

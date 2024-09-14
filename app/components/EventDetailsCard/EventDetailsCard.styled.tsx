@@ -1,14 +1,18 @@
 import { css, styled } from "styled-components";
-import Link from "next/link";
 import DesktopDefaultImg from "../../assets/images/default-horizontal.jpg";
 import DesktopDefaultImg2x from "../../assets/images/default-horizontal-2x.jpg";
 import MobileDefaultImg from "../../assets/images/default-vertical.jpg";
 import MobileDefaultImg2x from "../../assets/images/default-vertical-2x.jpg";
+import { Spinner } from "@/app/styles/common.styled";
 
 interface EventProps {
   picture?: string | File | Blob | undefined;
   priority?: string;
 }
+
+export const EditSpinner = styled(Spinner)`
+  color: #7b61ff;
+`;
 
 export const EventCard = styled.div`
   position: relative;
@@ -26,10 +30,10 @@ export const EventCard = styled.div`
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 688px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 272px;
     }
   `}
@@ -65,7 +69,7 @@ export const BackgroundContainer = styled.div<EventProps>`
   `}
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         border-radius: 8px;
         background-image: url(${MobileDefaultImg.src});
@@ -91,11 +95,11 @@ export const InfoBox = styled.div`
   width: 100%;
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       padding-left: 24px;
       padding-right: 24px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       flex-wrap: wrap;
       margin-bottom: 40px;
       padding-left: 16px;
@@ -187,7 +191,7 @@ export const Title = styled.h1`
   line-height: normal;
 
   ${css`
-    @media screen and (min-width: 1280px) {
+    @media screen and (min-width: 1279px) {
       margin-left: auto;
       margin-right: auto;
       width: 628px;
@@ -213,12 +217,12 @@ export const Description = styled.p`
   line-height: 20px;
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 640px;
       height: 40px;
       margin-bottom: 24px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
       margin-bottom: 24px;
     }
@@ -230,6 +234,7 @@ export const DeleteEventBtn = styled.button`
   justify-content: center;
   align-items: center;
   height: 32px;
+  min-width: 108px;
   padding: 8px 16px;
   border-radius: 4px;
   border: none;
@@ -248,19 +253,13 @@ export const DeleteEventBtn = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
-
-  ${css`
-    @media screen and (max-width: 767px) {
-      width: 108px;
-    }
-  `}
 `;
 
 export const EditEventBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  width: 108px;
   padding: 8px 16px;
   border-radius: 4px;
   border: 1px solid #7b61ff;
@@ -279,12 +278,6 @@ export const EditEventBtn = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
-
-  ${css`
-    @media screen and (max-width: 767px) {
-      width: 108px;
-    }
-  `}
 `;
 
 export const EventButtonsBox = styled.div`
@@ -295,10 +288,10 @@ export const EventButtonsBox = styled.div`
   padding-right: 40px;
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       padding-right: 24px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       justify-content: space-between;
       padding-left: 16px;
       padding-right: 16px;

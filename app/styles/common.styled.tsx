@@ -47,9 +47,8 @@ const spinAnimation = keyframes`
 `;
 
 export const Spinner = styled(ImSpinner9)`
-  transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
+  width: 1.5em;
+  height: 1.5em;
   color: #fff;
   animation: ${spinAnimation} 1s linear infinite;
 `;
@@ -72,7 +71,7 @@ export const AuthForm = styled.form`
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 300px;
     }
   `}
@@ -110,8 +109,39 @@ export const AuthBtn = styled.button`
   }
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
   `}
+`;
+
+export const ModalBtn = styled.button`
+  min-width: 80px;
+  min-height: 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #7b61ff;
+  transition: color 300ms, background-color 300ms;
+
+  &:hover,
+  &:focus {
+    background-color: #6243ff97;
+  }
+
+  font-size: 18px;
+`;
+
+export const ModalActions = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+`;
+
+export const ModalDescription = styled.p`
+  font-size: 20px;
+  text-align: center;
+  color: #3f3f3f;
+  margin-bottom: 20px;
 `;

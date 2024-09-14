@@ -17,7 +17,7 @@ export function middleware(request: NextRequest): NextResponse {
   if (queryToken && !isProtectedPath) {
     response = NextResponse.redirect(homeUrl.toString(), 302);
     response.cookies.set("token", queryToken, {
-      maxAge: 3600,
+      // maxAge: 7200,
     });
     url.searchParams.delete("token");
   } else {

@@ -74,10 +74,10 @@ export const TimePicker = styled.ul<TimePickerProps>`
   }}
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 309px;
     }
   `}
@@ -240,10 +240,10 @@ export const TimeInput = styled.div<TimePickerProps>`
   cursor: pointer;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 309px;
     }
   `}
@@ -253,10 +253,10 @@ export const TimeBox = styled.div`
   width: 372px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 309px;
     }
   `}

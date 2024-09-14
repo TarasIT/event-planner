@@ -35,23 +35,20 @@ export const EventLocationInput: FC = (): JSX.Element => {
   const { setFormValues, eventsStore } = useStore();
   const { id } = useParams();
 
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
-    if (event && event.location) {
+    const { event } = eventsStore;
+    if (id && event && event.location) {
       setFormValues.setLocation(event.location);
       setLocationInputValue(event.location);
     }
-  }, [event]);
+  }, [id, eventsStore.event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (locationInputRef.current !== e.target) {
@@ -109,7 +106,6 @@ export const EventLocationInput: FC = (): JSX.Element => {
           locationInputValue={locationInputValue}
           placeholder={t("formInputPlaceholder")}
           className={poppins.className}
-          required
         />
         {!isLocationInputValid && (
           <InvalidInputWarning className={poppins.className}>

@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 interface ProfileProps {
   name: string | null;
   email: string | null;
+  google_id: string | null;
+  password: string | null;
   error: string | null;
   message: string | null;
 }
@@ -26,6 +28,8 @@ export async function getUserData(): Promise<ProfileProps> {
     return {
       name: data.name,
       email: data.email,
+      google_id: data.google_id,
+      password: data.password,
       error: null,
       message: null,
     };
@@ -34,6 +38,8 @@ export async function getUserData(): Promise<ProfileProps> {
     return {
       name: null,
       email: null,
+      google_id: null,
+      password: null,
       error: errorMessage,
       message: null,
     };

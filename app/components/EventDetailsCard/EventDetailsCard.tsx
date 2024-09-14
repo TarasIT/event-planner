@@ -16,6 +16,7 @@ import {
   DeleteEventBtn,
   EventButtonsBox,
   EditEventBtn,
+  EditSpinner,
 } from "./EventDetailsCard.styled";
 import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
@@ -24,6 +25,13 @@ import { poppins } from "@/app/assets/fonts";
 import { transformDate } from "@/app/services/dateTransform";
 import { toast } from "react-toastify";
 import { useStore } from "@/app/mobX/useStore";
+import {
+  ModalActions,
+  ModalBtn,
+  ModalDescription,
+  Spinner,
+} from "@/app/styles/common.styled";
+import Modal from "../Modal/Modal";
 
 interface EventProps {
   event?: NewEvent | null | undefined;
@@ -36,6 +44,9 @@ const shouldForwardProp = (prop: string) => {
 
 export const EventDetailsCard: FC<EventProps> = observer(
   ({ event, error }): JSX.Element => {
+    const [isEditionLoading, setIsEditionLoading] = useState<boolean>(false);
+    const [isDeletionLoading, setIsDeletionLoading] = useState<boolean>(false);
+    const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
     const { id } = useParams();
     const { t } = useTranslation();
     const router = useRouter();
@@ -45,12 +56,16 @@ export const EventDetailsCard: FC<EventProps> = observer(
       toast.error(error);
     }, [error]);
 
-    const deleteEvent = async (id: string) => {
+    const deleteEvent = async (id: string): Promise<void> => {
+      setIsDeletionLoading(true);
+      setIsModalOpened(false);
       await eventsStore.deleteEvent(id as string);
-      const { message, error } = eventsStore;
-      if (error) toast.error(error);
-      if (message) toast.success(message);
       router.push("/home");
+    };
+
+    const editEvent = (id: string): void => {
+      setIsEditionLoading(true);
+      router.push(`/edit-event/${id}`);
     };
 
     const {
@@ -98,19 +113,46 @@ export const EventDetailsCard: FC<EventProps> = observer(
           <EventButtonsBox>
             <EditEventBtn
               type="button"
-              onClick={() => router.push(`/edit-event/${id}`)}
+              name="edit"
+              onClick={() => editEvent(id as string)}
               className={poppins.className}
             >
-              {t("editEventBtn")}
+              {isEditionLoading ? <EditSpinner /> : t("editEventBtn")}
             </EditEventBtn>
             <DeleteEventBtn
               type="button"
-              onClick={() => deleteEvent(id as string)}
+              name="delete"
+              onClick={() => setIsModalOpened(true)}
               className={poppins.className}
             >
-              {t("deleteEventBtn")}
+              {isDeletionLoading ? <Spinner /> : t("deleteEventBtn")}
             </DeleteEventBtn>
           </EventButtonsBox>
+
+          <Modal
+            isOpened={isModalOpened}
+            onClose={() => setIsModalOpened(false)}
+          >
+            <ModalDescription className={poppins.className}>
+              {t("modalMessages.deleteEvent")}
+            </ModalDescription>
+            <ModalActions>
+              <ModalBtn
+                type="button"
+                className={poppins.className}
+                onClick={() => deleteEvent(id as string)}
+              >
+                {t("yes")}
+              </ModalBtn>
+              <ModalBtn
+                type="button"
+                className={poppins.className}
+                onClick={() => setIsModalOpened(false)}
+              >
+                {t("no")}
+              </ModalBtn>
+            </ModalActions>
+          </Modal>
         </EventCard>
       </StyleSheetManager>
     );

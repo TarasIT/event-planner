@@ -30,9 +30,6 @@ export const EventPriorityInput: FC = (): JSX.Element => {
   const { setFormValues, eventsStore } = useStore();
   const { id } = useParams();
 
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -41,11 +38,12 @@ export const EventPriorityInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (event && event.priority) {
+    const { event } = eventsStore;
+    if (id && event && event.priority) {
       setFormValues.setPriority(event.priority);
       setCurrentPriority(event.priority);
     }
-  }, [event]);
+  }, [id, eventsStore.event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (

@@ -45,9 +45,14 @@ export const MenuSelectorBox = styled.div<MenuProps>`
   transition: min-width 300ms, background-color 300ms;
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (width < 768px) {
       & {
-        min-width: 50px;
+        display: none;
+      }
+    }
+    @media (768px <= width < 1280px) {
+      & {
+        min-width: 69px;
       }
     }
   `}
@@ -63,9 +68,9 @@ export const MenuSelectorList = styled.ul<MenuProps>`
   top: 63px;
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       & {
-        left: -50px;
+        left: -29px;
       }
     }
   `}
@@ -94,7 +99,7 @@ export const MenuItem = styled.li`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-
+  height: 35px;
   width: 100%;
   padding-bottom: 4px;
 

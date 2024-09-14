@@ -77,7 +77,7 @@ export const SorterBox = styled.div<SorterProps>`
     isSorterOpened ? "none" : "2px 4px 9px 0px rgba(166, 141, 174, 0.28)"};
 
   ${css<SorterProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: ${({ isSorterOpened }) => (isSorterOpened ? "170px" : "56px")};
       padding-left: 16px;
       padding-right: 16px;
@@ -102,7 +102,7 @@ export const SorterList = styled.ul<SorterProps>`
   background: #fff;
 
   ${css<SorterProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       box-shadow: ${({ isSorterOpened }) =>
         isSorterOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
     }
@@ -135,7 +135,7 @@ export const CurrentSorter = styled.p<SorterProps>`
   }
 
   ${css<SorterProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       display: ${({ isSorterOpened }) => (isSorterOpened ? "block" : "none")};
     }
   `}
@@ -153,7 +153,7 @@ export const SvgSorterIcon = styled.svg<SorterProps>`
   }
 
   ${css<SorterProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       stroke: ${({ currentSorter }) => (currentSorter ? "#7b61ff" : "#3f3f3f")};
     }
   `}
@@ -162,7 +162,8 @@ export const SvgSorterIcon = styled.svg<SorterProps>`
 export const SvgUpIcon = styled(FaArrowUp)<SorterProps>`
   color: ${({ isActive, isSorterOpened }) => {
     if (isActive && isSorterOpened) return "#7b61ff";
-    if (!isActive && !isSorterOpened) return "#3f3f3f";
+    if ((!isActive && !isSorterOpened) || (isActive && !isSorterOpened))
+      return "#3f3f3f";
   }};
   transition: color 300ms;
 
@@ -175,7 +176,8 @@ export const SvgUpIcon = styled(FaArrowUp)<SorterProps>`
 export const SvgDownIcon = styled(FaArrowUp)<SorterProps>`
   color: ${({ isActive, isSorterOpened }) => {
     if (isActive && isSorterOpened) return "#7b61ff";
-    if (!isActive && !isSorterOpened) return "#3f3f3f";
+    if ((!isActive && !isSorterOpened) || (isActive && !isSorterOpened))
+      return "#3f3f3f";
   }};
   transition: color 300ms;
   transform: rotate(180deg);

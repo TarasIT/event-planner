@@ -69,10 +69,10 @@ export const CustomDatePicker = styled.div<DatePickerProps>`
   border-color: ${({ selectedDate }) => (selectedDate ? "#7b61ff" : "#aca7c3")};
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 309px;
     }
   `}
@@ -153,10 +153,10 @@ export const DateBox = styled.div`
   width: 372px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 309px;
     }
   `}
@@ -182,10 +182,10 @@ export const DatePickerWrapper = styled.div<DatePickerProps>`
   }}
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 309px;
     }
   `}
@@ -327,7 +327,7 @@ export const DatePickerWrapper = styled.div<DatePickerProps>`
     padding: 8px;
 
     ${css`
-      @media screen and (max-width: 767px) {
+      @media (width < 768px) {
         width: 28.57px;
       }
     `}

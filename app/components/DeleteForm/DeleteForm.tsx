@@ -4,27 +4,58 @@ import React, { FC, useState } from "react";
 import {
   DeleteBtn,
   DeleteDataForm,
+  DeleteModalBtn,
   FormTitle,
-  ModalActions,
-  ModalBtn,
-  ModalDescription,
 } from "./DeleteForm.styled";
 import { poppins } from "@/app/assets/fonts";
 import Modal from "../Modal/Modal";
 import { useTranslation } from "react-i18next";
+import { useStore } from "@/app/mobX/useStore";
+import { useRouter } from "next/navigation";
+import { observer } from "mobx-react";
+import {
+  ModalActions,
+  ModalDescription,
+  Spinner,
+} from "@/app/styles/common.styled";
 
-export const DeleteForm: FC = (): JSX.Element => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+export const DeleteForm: FC = observer((): JSX.Element => {
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
+  const [isDeleteEventsBtnActive, setIsDeleteEventsBtnActive] =
+    useState<boolean>(false);
   const { t } = useTranslation();
+  const { authStore, eventsStore } = useStore();
+  const router = useRouter();
 
   const openModal = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    e.currentTarget.id === "delete-events"
-      ? setDescription(t("deleteAllEventsModalMessage"))
-      : setDescription(t("deleteProfileModalMessage"));
-    setIsModalOpen(true);
+    if (e.currentTarget.id === "delete-events") {
+      setIsDeleteEventsBtnActive(true);
+      setDescription(t("modalMessages.deleteAllEvents"));
+    }
+    if (e.currentTarget.id === "delete-profile") {
+      setIsDeleteEventsBtnActive(false);
+      setDescription(t("modalMessages.deleteProfile"));
+    }
+    setIsModalOpened(true);
   };
-  const closeModal = (): void => setIsModalOpen(false);
+
+  const closeModal = (): void => {
+    setIsDeleteEventsBtnActive(false);
+    setIsModalOpened(false);
+  };
+
+  const handleDeletion = async (): Promise<void> => {
+    if (isDeleteEventsBtnActive) {
+      closeModal();
+      await eventsStore.deleteAllEvents();
+      router.push("/home");
+    } else {
+      closeModal();
+      await authStore.deleteProfile();
+      router.push("/");
+    }
+  };
 
   return (
     <DeleteDataForm>
@@ -35,7 +66,7 @@ export const DeleteForm: FC = (): JSX.Element => {
         onClick={openModal}
         className={poppins.className}
       >
-        {t("deleteAllEvents")}
+        {eventsStore.isLoading ? <Spinner /> : t("deleteAllEvents")}
       </DeleteBtn>
       <DeleteBtn
         id="delete-profile"
@@ -43,30 +74,30 @@ export const DeleteForm: FC = (): JSX.Element => {
         onClick={openModal}
         className={poppins.className}
       >
-        {t("deleteProfile")}
+        {authStore.isLoading ? <Spinner /> : t("deleteProfile")}
       </DeleteBtn>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      <Modal isOpened={isModalOpened} onClose={closeModal}>
         <ModalDescription className={poppins.className}>
           {description}
         </ModalDescription>
         <ModalActions>
-          <ModalBtn
+          <DeleteModalBtn
             type="button"
             className={poppins.className}
-            onClick={closeModal}
+            onClick={handleDeletion}
           >
             {t("yes")}
-          </ModalBtn>
-          <ModalBtn
+          </DeleteModalBtn>
+          <DeleteModalBtn
             type="button"
             className={poppins.className}
             onClick={closeModal}
           >
             {t("no")}
-          </ModalBtn>
+          </DeleteModalBtn>
         </ModalActions>
       </Modal>
     </DeleteDataForm>
   );
-};
+});

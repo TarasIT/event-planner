@@ -23,18 +23,9 @@ export const LangBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 69px;
+  width: 69px;
   height: 48px;
   margin-right: 24px;
-
-  ${css`
-    @media screen and (max-width: 767px) {
-      margin-right: auto;
-    }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
-      margin-right: 12px;
-    }
-  `}
 
   padding: 12px 4px 12px 12px;
   border: none;
@@ -55,6 +46,17 @@ export const LangBox = styled.div`
   &:hover,
   &:focus {
     color: #7b61ff;
+  }
+
+  @media (width < 768px) {
+    width: 100px;
+    padding: 12px;
+    margin-right: 0;
+    font-size: 22px;
+  }
+
+  @media (768px <= width < 1280px) {
+    margin-right: 12px;
   }
 `;
 
@@ -92,10 +94,14 @@ export const LangList = styled.ul<LanguagesProps>`
     css`
       animation: ${openLanguages} 300ms ease;
     `}
+
+  @media (width < 768px) {
+    width: 100px;
+  }
 `;
 
 export const LangItem = styled.li`
-  width: 45px;
+  min-width: 45px;
   padding-bottom: 4px;
   border-bottom: 1px solid #aca7c3;
 
@@ -112,5 +118,9 @@ export const LangItem = styled.li`
 
   &:hover {
     color: #7b61ff;
+  }
+
+  @media (width < 768px) {
+    font-size: 22px;
   }
 `;

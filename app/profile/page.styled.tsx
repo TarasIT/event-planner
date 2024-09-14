@@ -22,7 +22,7 @@ export const DeleteBtn = styled.button`
   font-size: 18px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       min-width: 200px;
     }
   `}

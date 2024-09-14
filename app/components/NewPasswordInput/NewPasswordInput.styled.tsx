@@ -7,7 +7,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 interface CreateEventFormProps {
   password?: string;
   isPasswordLong?: boolean;
-  isPasswordMatched?: boolean;
+  isPasswordCompleted?: boolean;
 }
 
 export const SvgShowPasswordIcon = styled(IoMdEye)`
@@ -42,10 +42,10 @@ export const SvgHidePasswordIcon = styled(IoMdEyeOff)`
 
 export const SvgDeleteIcon = styled(RxCross2)<CreateEventFormProps>`
   transition: color 300ms;
-  color: ${({ password, isPasswordLong, isPasswordMatched }) => {
-    if (!password) return "#aca7c3";
-    if (!isPasswordLong || (password && !isPasswordMatched)) return "#ff2b77";
-    if (isPasswordLong && isPasswordMatched) return "#7b61ff";
+  color: ${({ password, isPasswordLong, isPasswordCompleted }) => {
+    if (password && isPasswordLong) return "#7b61ff";
+    if (!isPasswordLong) return "#ff2b77";
+    if (!password || isPasswordCompleted) return "#aca7c3";
   }};
 `;
 
@@ -67,19 +67,6 @@ export const InvalidInputWarning = styled.p`
   line-height: 16px;
 `;
 
-export const ValidInputNotification = styled.p`
-  position: absolute;
-  right: 19px;
-  bottom: -20px;
-
-  color: green;
-  text-align: right;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px;
-`;
-
 export const PasswordInput = styled.input<CreateEventFormProps>`
   display: flex;
   justify-content: space-between;
@@ -89,10 +76,15 @@ export const PasswordInput = styled.input<CreateEventFormProps>`
   padding: 16px 12px;
   border-radius: 8px;
   border: 1px solid;
-  border-color: ${({ password, isPasswordLong, isPasswordMatched }) => {
+  border-color: ${({ password, isPasswordLong, isPasswordCompleted }) => {
+    if (password && isPasswordLong && !isPasswordCompleted) {
+      return "#aca7c3";
+    }
+    if (!isPasswordLong) return "#ff2b77";
     if (!password) return "#aca7c3";
-    if (!isPasswordLong || (password && !isPasswordMatched)) return "#ff2b77";
-    if (isPasswordLong && isPasswordMatched) return "#7b61ff";
+    if (password && isPasswordLong && isPasswordCompleted) {
+      return "#7b61ff";
+    }
   }};
   transition: border-color 300ms;
 
@@ -107,12 +99,10 @@ export const PasswordInput = styled.input<CreateEventFormProps>`
   }
 `;
 
-export const PasswordLabel = styled.label<CreateEventFormProps>`
+export const PasswordLabel = styled.label`
   position: relative;
   display: block;
   width: 372px;
-  margin-bottom: ${({ isPasswordMatched }) =>
-    isPasswordMatched ? "30px" : "0"};
 
   color: #7b61ff;
   font-size: 16px;

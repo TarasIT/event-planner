@@ -30,9 +30,6 @@ export const EventCategoryInput: FC = (): JSX.Element => {
   const { setFormValues, eventsStore } = useStore();
   const { id } = useParams();
 
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -41,11 +38,12 @@ export const EventCategoryInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (event && event.category) {
-      setCurrentCategory(event.category);
+    const { event } = eventsStore;
+    if (id && event && event.category) {
       setFormValues.setCategory(event.category);
+      setCurrentCategory(event.category);
     }
-  }, [event]);
+  }, [id, eventsStore.event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (

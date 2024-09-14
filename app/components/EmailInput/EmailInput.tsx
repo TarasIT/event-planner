@@ -30,7 +30,7 @@ export const EmailInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { setAuthCredentials } = useStore();
+  const { authCredentials } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -40,10 +40,10 @@ export const EmailInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (emailInputValue && !setAuthCredentials.email) {
+    if (emailInputValue && !authCredentials.email) {
       setEmailInputValue("");
     }
-  }, [emailInputValue, setAuthCredentials.email]);
+  }, [emailInputValue, authCredentials.email]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (nameInputRef.current !== e.target) {
@@ -55,7 +55,7 @@ export const EmailInput: FC = (): JSX.Element => {
 
   const cleanEmailInput = (): void => {
     setEmailInputValue("");
-    setAuthCredentials.setEmail("");
+    authCredentials.setEmail("");
     setIsEmailInputValid(true);
   };
 
@@ -73,7 +73,7 @@ export const EmailInput: FC = (): JSX.Element => {
       setIsEmailInputValid(true);
     }
     setEmailInputValue(email);
-    setAuthCredentials.setEmail(email);
+    authCredentials.setEmail(email);
   };
 
   return (

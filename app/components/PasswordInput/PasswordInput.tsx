@@ -18,22 +18,21 @@ import { DeleteIconBox } from "@/app/styles/common.styled";
 
 const shouldForwardProp = (prop: string) => {
   return (
-    prop !== "passwordInputValue" &&
-    prop !== "isPasswordInputValid" &&
-    prop !== "isPasswordInputCompleted"
+    prop !== "password" &&
+    prop !== "isPasswordLong" &&
+    prop !== "isPasswordCompleted"
   );
 };
 
 export const PasswordInput: FC = (): JSX.Element => {
-  const [passwordInputValue, setPasswordInputValue] = useState<string>("");
-  const [isPasswordInputValid, setIsPasswordInputValid] =
-    useState<boolean>(true);
-  const [isPasswordInputCompleted, setIsPasswordInputCompleted] =
+  const [password, setPassword] = useState<string>("");
+  const [isPasswordLong, setIsPasswordLong] = useState<boolean>(true);
+  const [isPasswordCompleted, setIsPasswordCompleted] =
     useState<boolean>(false);
   const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { setAuthCredentials } = useStore();
+  const { authCredentials } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -43,45 +42,35 @@ export const PasswordInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (passwordInputValue && !setAuthCredentials.password) {
-      setPasswordInputValue("");
+    if (password && !authCredentials.password) {
+      setPassword("");
     }
-  }, [passwordInputValue, setAuthCredentials.password]);
+  }, [password, authCredentials.password]);
 
   const handleClickOutside = (e: MouseEvent): void => {
-    if (nameInputRef.current !== e.target) {
-      setIsPasswordInputCompleted(true);
-    } else {
-      setIsPasswordInputCompleted(false);
-    }
+    nameInputRef.current !== e.target
+      ? setIsPasswordCompleted(true)
+      : setIsPasswordCompleted(false);
   };
 
   const cleanPasswordInput = (): void => {
-    setPasswordInputValue("");
-    setAuthCredentials.setPassword("");
-    setIsPasswordInputValid(true);
+    setPassword("");
+    authCredentials.setPassword("");
+    setIsPasswordLong(true);
   };
 
-  const validateInput = (inputValue: string): boolean => {
-    if (inputValue.length < 8) {
-      return false;
-    } else {
-      return true;
-    }
-  };
+  const checkPasswordLength = (password: string): boolean =>
+    password.length < 8 ? false : true;
 
-  const handlePasswordInputChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ): void => {
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const password = e.target.value;
 
-    if (!validateInput(password)) {
-      setIsPasswordInputValid(false);
-    } else {
-      setIsPasswordInputValid(true);
-    }
-    setPasswordInputValue(password);
-    setAuthCredentials.setPassword(password);
+    !checkPasswordLength(password)
+      ? setIsPasswordLong(false)
+      : setIsPasswordLong(true);
+
+    setPassword(password);
+    authCredentials.setPassword(password);
   };
 
   return (
@@ -89,25 +78,22 @@ export const PasswordInput: FC = (): JSX.Element => {
       <PasswordLabel className={poppins.className}>
         <InputPassword>{t("password")}</InputPassword>
         <DeleteIconBox onClick={cleanPasswordInput}>
-          <SvgDeleteIcon
-            isPasswordInputValid={isPasswordInputValid}
-            passwordInputValue={passwordInputValue}
-          />
+          <SvgDeleteIcon isPasswordLong={isPasswordLong} password={password} />
         </DeleteIconBox>
         <PasswordAuthInput
           type={isPasswordShown ? "text" : "password"}
           name="password"
-          value={passwordInputValue}
+          value={password}
           ref={nameInputRef}
-          isPasswordInputCompleted={isPasswordInputCompleted}
-          isPasswordInputValid={isPasswordInputValid}
-          onChange={handlePasswordInputChange}
-          passwordInputValue={passwordInputValue}
+          isPasswordCompleted={isPasswordCompleted}
+          isPasswordLong={isPasswordLong}
+          onChange={handlePasswordChange}
+          password={password}
           placeholder={t("formInputPlaceholder")}
           className={poppins.className}
           required
         />
-        {passwordInputValue.length ? (
+        {password.length ? (
           <div onClick={() => setIsPasswordShown(!isPasswordShown)}>
             {isPasswordShown ? (
               <SvgHidePasswordIcon size="1.5em" />
@@ -116,7 +102,7 @@ export const PasswordInput: FC = (): JSX.Element => {
             )}
           </div>
         ) : null}
-        {!isPasswordInputValid && (
+        {!isPasswordLong && (
           <InvalidInputWarning className={poppins.className}>
             {t("shortPassword")}
           </InvalidInputWarning>

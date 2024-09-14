@@ -33,10 +33,10 @@ export const InputName = styled.p`
 export const CategoryBox = styled.div`
   width: 372px;
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 308px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
   `}
@@ -64,10 +64,10 @@ export const CategoryInput = styled.div<CreateEventFormProps>`
   background: #fff;
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 308px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
   `}
@@ -104,10 +104,10 @@ export const CategoryList = styled.ul<CreateEventFormProps>`
     `}
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 308px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
   `}

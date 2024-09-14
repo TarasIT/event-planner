@@ -14,18 +14,28 @@ import { menuList } from "../../data/menuList";
 import { poppins } from "@/app/assets/fonts";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/app/mobX/useStore";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Modal from "../Modal/Modal";
+import {
+  ModalActions,
+  ModalBtn,
+  ModalDescription,
+  Spinner,
+} from "@/app/styles/common.styled";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isMenuSelectorOpened" && prop !== "currentLang";
 
 export const MenuSelector: FC = (): JSX.Element => {
-  const { t, i18n } = useTranslation();
   const [isMenuSelectorOpened, setIsMenuSelectorOpened] =
     useState<boolean>(false);
+  const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const { t, i18n } = useTranslation();
   const authRef = useRef<HTMLDivElement | null>(null);
   const { authStore } = useStore();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -34,19 +44,30 @@ export const MenuSelector: FC = (): JSX.Element => {
     };
   }, []);
 
+  useEffect(() => {
+    pathname !== "/home" && setLoading(false);
+  }, [pathname, setLoading]);
+
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {
       setIsMenuSelectorOpened(false);
     }
   };
 
-  const onMenuItemClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onMenuItemClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     if (e.currentTarget.id === "logout") {
-      await authStore.logout();
-      router.push("/");
+      setIsModalOpened(true);
     } else {
+      setLoading(true);
       router.push("/profile");
     }
+  };
+
+  const logOut = async (): Promise<void> => {
+    setLoading(true);
+    setIsModalOpened(false);
+    await authStore.logout();
+    router.push("/");
   };
 
   return (
@@ -57,7 +78,7 @@ export const MenuSelector: FC = (): JSX.Element => {
         onClick={() => setIsMenuSelectorOpened(!isMenuSelectorOpened)}
         className={poppins.className}
       >
-        <MenuTitle>{t("menu")}</MenuTitle>
+        <MenuTitle>{isLoading ? <Spinner /> : t("menu")}</MenuTitle>
         {isMenuSelectorOpened && (
           <MenuSelectorList
             currentLang={i18n.language}
@@ -80,6 +101,28 @@ export const MenuSelector: FC = (): JSX.Element => {
             })}
           </MenuSelectorList>
         )}
+
+        <Modal isOpened={isModalOpened} onClose={() => setIsModalOpened(false)}>
+          <ModalDescription className={poppins.className}>
+            {t("modalMessages.logOut")}
+          </ModalDescription>
+          <ModalActions>
+            <ModalBtn
+              type="button"
+              className={poppins.className}
+              onClick={logOut}
+            >
+              {t("yes")}
+            </ModalBtn>
+            <ModalBtn
+              type="button"
+              className={poppins.className}
+              onClick={() => setIsModalOpened(false)}
+            >
+              {t("no")}
+            </ModalBtn>
+          </ModalActions>
+        </Modal>
       </MenuSelectorBox>
     </StyleSheetManager>
   );

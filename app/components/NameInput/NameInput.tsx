@@ -29,7 +29,7 @@ export const NameInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { setAuthCredentials } = useStore();
+  const { authCredentials } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -39,10 +39,10 @@ export const NameInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (nameInputValue && !setAuthCredentials.name) {
+    if (nameInputValue && !authCredentials.name) {
       setNameInputValue("");
     }
-  }, [nameInputValue, setAuthCredentials.name]);
+  }, [nameInputValue, authCredentials.name]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (nameInputRef.current !== e.target) {
@@ -54,7 +54,7 @@ export const NameInput: FC = (): JSX.Element => {
 
   const cleanNameInput = (): void => {
     setNameInputValue("");
-    setAuthCredentials.setName("");
+    authCredentials.setName("");
     setIsNameInputValid(true);
   };
 
@@ -75,7 +75,7 @@ export const NameInput: FC = (): JSX.Element => {
       setIsNameInputValid(true);
     }
     setNameInputValue(name);
-    setAuthCredentials.setName(name);
+    authCredentials.setName(name);
   };
 
   return (

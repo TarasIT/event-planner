@@ -5,9 +5,10 @@ import { BsPlusLg } from "react-icons/bs";
 
 export const AddEventBtn = styled.button`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 
+  width: 180px;
   padding-top: 16px;
   padding-bottom: 16px;
   padding-left: 21px;
@@ -31,7 +32,7 @@ export const AddEventBtn = styled.button`
   }
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & > span {
         display: none;
       }

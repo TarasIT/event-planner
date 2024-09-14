@@ -5,9 +5,9 @@ import { RxCross2 } from "react-icons/rx";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 interface CreateEventFormProps {
-  passwordInputValue?: string;
-  isPasswordInputValid?: boolean;
-  isPasswordInputCompleted?: boolean;
+  password?: string;
+  isPasswordLong?: boolean;
+  isPasswordCompleted?: boolean;
 }
 
 export const SvgShowPasswordIcon = styled(IoMdEye)`
@@ -19,7 +19,7 @@ export const SvgShowPasswordIcon = styled(IoMdEye)`
   cursor: pointer;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       right: -28px;
     }
   `}
@@ -34,7 +34,7 @@ export const SvgHidePasswordIcon = styled(IoMdEyeOff)`
   cursor: pointer;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       right: -28px;
     }
   `}
@@ -42,14 +42,10 @@ export const SvgHidePasswordIcon = styled(IoMdEyeOff)`
 
 export const SvgDeleteIcon = styled(RxCross2)<CreateEventFormProps>`
   transition: color 300ms;
-  color: ${({
-    passwordInputValue,
-    isPasswordInputValid,
-    isPasswordInputCompleted,
-  }) => {
-    if (passwordInputValue && isPasswordInputValid) return "#7b61ff";
-    if (!isPasswordInputValid) return "#ff2b77";
-    if (!passwordInputValue || isPasswordInputCompleted) return "#aca7c3";
+  color: ${({ password, isPasswordLong, isPasswordCompleted }) => {
+    if (password && isPasswordLong) return "#7b61ff";
+    if (!isPasswordLong) return "#ff2b77";
+    if (!password || isPasswordCompleted) return "#aca7c3";
   }};
 `;
 
@@ -80,25 +76,13 @@ export const PasswordAuthInput = styled.input<CreateEventFormProps>`
   padding: 16px 12px;
   border-radius: 8px;
   border: 1px solid;
-  border-color: ${({
-    passwordInputValue,
-    isPasswordInputValid,
-    isPasswordInputCompleted,
-  }) => {
-    if (
-      passwordInputValue &&
-      isPasswordInputValid &&
-      !isPasswordInputCompleted
-    ) {
+  border-color: ${({ password, isPasswordLong, isPasswordCompleted }) => {
+    if (password && isPasswordLong && !isPasswordCompleted) {
       return "#aca7c3";
     }
-    if (!isPasswordInputValid) return "#ff2b77";
-    if (!passwordInputValue) return "#aca7c3";
-    if (
-      passwordInputValue &&
-      isPasswordInputValid &&
-      isPasswordInputCompleted
-    ) {
+    if (!isPasswordLong) return "#ff2b77";
+    if (!password) return "#aca7c3";
+    if (password && isPasswordLong && isPasswordCompleted) {
       return "#7b61ff";
     }
   }};
@@ -128,12 +112,12 @@ export const PasswordLabel = styled.label`
   letter-spacing: 0.4px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
       margin-left: auto;
       margin-right: auto;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 308px;
     }
   `}

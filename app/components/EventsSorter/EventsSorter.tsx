@@ -20,6 +20,7 @@ import { poppins } from "@/app/assets/fonts";
 import { SvgContainer } from "@/app/styles/common.styled";
 import { createQueryString } from "@/app/services/createQueryString";
 import { useRouter, useSearchParams } from "next/navigation";
+import { observer } from "mobx-react";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -30,7 +31,7 @@ const shouldForwardProp = (prop: string) => {
   );
 };
 
-export const EventsSorter: FC = (): JSX.Element => {
+export const EventsSorter: FC = observer((): JSX.Element => {
   const [isSorterOpened, setIsSorterOpened] = useState<boolean>(false);
   const [currentSorter, setCurrentSorter] = useState<string>("");
   const [sorterIndex, setSorterIndex] = useState<number>();
@@ -55,8 +56,13 @@ export const EventsSorter: FC = (): JSX.Element => {
 
     if (sortQueryParam && ascendingQueryParam) {
       const isAscending = ascendingQueryParam === "true";
-      eventsSorter.setIsSorterIncreased(isAscending);
-      eventsSorter.setCurrentSorter(sortQueryParam as string);
+      setIsSorterIncreased(isAscending);
+      if (sortQueryParam === "title") {
+        isAscending ? setCurrentSorter("A-Z") : setCurrentSorter("Z-A");
+      } else {
+        setCurrentSorter(sortQueryParam);
+      }
+      setIsOptionVisible(true);
     }
     return () => {
       window.removeEventListener("resize", handleWindowResize);
@@ -68,7 +74,6 @@ export const EventsSorter: FC = (): JSX.Element => {
     eventsSorter.setIsSorterIncreased(isSorterIncreased);
     eventsSorter.setCurrentSorter(currentSorter);
     router.push(createQueryString());
-    eventsStore.setLoading(true);
   }, [isSorterIncreased, currentSorter]);
 
   const handleClickOutside = (e: MouseEvent): void => {
@@ -100,6 +105,7 @@ export const EventsSorter: FC = (): JSX.Element => {
       default:
         setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
     }
+    eventsStore.setLoading(true);
   };
 
   const handleTransitionEnd = (
@@ -222,4 +228,4 @@ export const EventsSorter: FC = (): JSX.Element => {
       </SorterBox>
     </StyleSheetManager>
   );
-};
+});

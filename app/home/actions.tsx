@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { EventsProps } from "../types/types";
 
 interface HomeProps {
-  eventsData: EventsProps | null;
+  eventsList: EventsProps | null;
   error: string | null;
   message: string | null;
   errors: { message: string } | null;
@@ -30,14 +30,14 @@ export async function getEvents(queryParams: string): Promise<HomeProps> {
       );
     }
     return {
-      eventsData: eventsResponse || null,
+      eventsList: eventsResponse || null,
       error: null,
       message: null,
       errors: null,
     };
   } catch (error: unknown) {
     return {
-      eventsData: null,
+      eventsList: null,
       errors: null,
       error: (error as Error).message,
       message: (error as Error).message,

@@ -27,13 +27,13 @@ export const GoBackLink = styled.a`
   }
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         font-size: 14px;
       }
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       & {
         margin-bottom: 24px;
       }

@@ -34,9 +34,6 @@ export const EventTitleInput: FC = (): JSX.Element => {
   const { id } = useParams();
   const { setFormValues, eventsStore } = useStore();
 
-  let event: NewEvent | null = null;
-  if (id) event = eventsStore.getEventById(id as string);
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -45,11 +42,12 @@ export const EventTitleInput: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (event && event.title) {
+    const { event } = eventsStore;
+    if (id && event && event.title) {
       setTitleInputValue(event.title);
       setFormValues.setTitle(event.title);
     }
-  }, [event]);
+  }, [id, eventsStore.event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (titleInputRef.current !== e.target) {

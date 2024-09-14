@@ -1,3 +1,5 @@
+"use server";
+
 import { Suspense } from "react";
 import { AppBar } from "../components/AppBar/AppBar";
 import EventsList from "../components/EventsList/EventsList";
@@ -12,13 +14,13 @@ interface PageProps {
 const Home = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
   const queryString = new URLSearchParams(searchParams).toString();
 
-  const { eventsData, error } = await getEvents(queryString);
+  const { eventsList, error } = await getEvents(queryString);
 
   return (
     <Suspense fallback={<Loading />}>
       <AppBar />
-      <EventsList eventsData={eventsData && eventsData.data} error={error} />
-      <Pagination meta={eventsData && eventsData.meta} error={error} />
+      <EventsList eventsList={eventsList && eventsList.data} error={error} />
+      <Pagination meta={eventsList && eventsList.meta} error={error} />
     </Suspense>
   );
 };

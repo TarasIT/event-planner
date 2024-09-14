@@ -34,7 +34,7 @@ export const LanguagesSelector: FC = (): JSX.Element => {
     currentLang === "EN"
       ? i18n.changeLanguage("en")
       : i18n.changeLanguage(currentLang.toLowerCase());
-  }, [currentLang]);
+  }, [currentLang, i18n.changeLanguage]);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (langBoxRef.current && !langBoxRef.current.contains(e.target as Node)) {

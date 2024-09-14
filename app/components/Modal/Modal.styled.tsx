@@ -40,7 +40,7 @@ export const Overlay = styled.div`
 
 export const ModalContent = styled.div`
   position: relative;
-  padding: 20px;
+  padding: 25px;
   border: none;
   border-radius: 8px;
   width: 90%;

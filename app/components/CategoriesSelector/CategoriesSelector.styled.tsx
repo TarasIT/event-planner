@@ -55,7 +55,7 @@ export const CategoryBox = styled.div<CategoryProps>`
   }
 
   ${css<CategoryProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       position: absolute;
       z-index: ${({ isCategoryListOpened }) =>
         isCategoryListOpened ? "2" : "0"};
@@ -89,7 +89,7 @@ export const CategoryList = styled.ul<CategoryProps>`
     `}
 
   ${css<CategoryProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       box-shadow: ${({ isCategoryListOpened }) =>
         isCategoryListOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
     }
@@ -140,7 +140,7 @@ export const CurrentCategory = styled.p<CategoryProps>`
   }
 
   ${css<CategoryProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       display: ${({ isCategoryListOpened }) =>
         isCategoryListOpened ? "block" : "none"};
     }
@@ -161,7 +161,7 @@ export const SvgCategoryIcon = styled(CiFilter)<CategoryProps>`
   }
 
   ${css<CategoryProps>`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       color: ${({ currentCategory }) =>
         currentCategory ? "#7b61ff" : "#3f3f3f"}};
     }

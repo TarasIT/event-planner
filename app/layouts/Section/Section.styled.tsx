@@ -4,13 +4,13 @@ import { css, styled } from "styled-components";
 
 export const SectionLayout = styled.section`
   min-height: 100vh;
-  width: 1280px;
+  width: 1279px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 60px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         width: 320px;
         padding-top: 40px;
@@ -19,9 +19,9 @@ export const SectionLayout = styled.section`
       }
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       & {
-        width: 768px;
+        width: 767px;
         padding-top: 40px;
         padding-left: 40px;
         padding-right: 40px;

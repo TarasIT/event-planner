@@ -14,12 +14,12 @@ export const CreateEventForm = styled.form`
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       padding-left: 16px;
       padding-right: 16px;
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       padding-left: 24px;
       padding-right: 24px;
       padding-bottom: 40px;
@@ -37,18 +37,18 @@ export const Container = styled.div`
   margin-bottom: 60px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       flex-wrap: nowrap;
       margin-bottom: 40px;
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       height: 480px;
       column-gap: 24px;
       margin-bottom: 40px;
     }
 
-    @media screen and (min-width: 1280px) {
+    @media screen and (min-width: 1279px) {
       height: 280px;
     }
   `}
@@ -85,7 +85,7 @@ export const AddEventButton = styled.button`
   }
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
     }
   `}

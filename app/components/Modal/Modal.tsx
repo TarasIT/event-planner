@@ -5,15 +5,15 @@ import ReactDOM from "react-dom";
 import { Overlay, ModalContent, CloseButton } from "./Modal.styled";
 
 interface ModalProps {
-  isOpen: boolean;
+  isOpened: boolean;
   onClose: () => void;
   children: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpened, onClose, children }) => {
   useEffect(() => {
     document.addEventListener("keydown", handleEscape);
-    if (isOpen) {
+    if (isOpened) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -23,13 +23,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       document.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "";
     };
-  }, [onClose]);
+  }, [isOpened, onClose]);
 
-  const handleEscape = (event: KeyboardEvent) => {
-    if (event.key === "Escape") onClose();
+  const handleEscape = (e: KeyboardEvent) => {
+    if (e.key === "Escape") onClose();
   };
 
-  if (!isOpen) return null;
+  if (!isOpened) return null;
 
   return ReactDOM.createPortal(
     <Overlay onClick={onClose}>

@@ -11,8 +11,7 @@ import {
   InvalidInputWarning,
   SvgShowPasswordIcon,
   SvgHidePasswordIcon,
-  ValidInputNotification,
-} from "./ConfirmPasswordInput.styled";
+} from "./NewPasswordInput.styled";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { DeleteIconBox } from "@/app/styles/common.styled";
@@ -22,40 +21,47 @@ const shouldForwardProp = (prop: string) => {
   return (
     prop !== "password" &&
     prop !== "isPasswordLong" &&
-    prop !== "isPasswordMatched"
+    prop !== "isPasswordCompleted"
   );
 };
 
-export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
+export const NewPasswordInput: FC = observer((): JSX.Element => {
   const [password, setPassword] = useState<string>("");
-  const [isPasswordLong, setIsPasswordLong] = useState<boolean>();
-  const [isPasswordMatched, setIsPasswordMatched] = useState<boolean>();
+  const [isPasswordLong, setIsPasswordLong] = useState<boolean>(true);
+  const [isPasswordCompleted, setIsPasswordCompleted] =
+    useState<boolean>(false);
   const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
   const { authCredentials } = useStore();
 
   useEffect(() => {
-    password &&
-    authCredentials.newPassword &&
-    password === authCredentials.newPassword
-      ? setIsPasswordMatched(true)
-      : setIsPasswordMatched(false);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
-    if (password && !authCredentials.confirmPassword) {
+  useEffect(() => {
+    if (password && !authCredentials.newPassword) {
       setPassword("");
     }
-  }, [password, authCredentials.newPassword, authCredentials.confirmPassword]);
+  }, [password, authCredentials.newPassword]);
+
+  const handleClickOutside = (e: MouseEvent): void => {
+    nameInputRef.current !== e.target
+      ? setIsPasswordCompleted(true)
+      : setIsPasswordCompleted(false);
+  };
 
   const cleanPasswordInput = (): void => {
     setPassword("");
-    authCredentials.setConfirmPassword("");
+    authCredentials.setNewPassword("");
     setIsPasswordLong(true);
   };
 
-  const checkPasswordLength = (password: string): boolean => {
-    return password.length < 8 ? false : true;
-  };
+  const checkPasswordLength = (password: string): boolean =>
+    password.length < 8 ? false : true;
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const password = e.target.value;
@@ -65,29 +71,22 @@ export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
       : setIsPasswordLong(true);
 
     setPassword(password);
-    authCredentials.setConfirmPassword(password);
+    authCredentials.setNewPassword(password);
   };
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-      <PasswordLabel
-        className={poppins.className}
-        isPasswordMatched={isPasswordMatched}
-      >
-        <InputPassword>{t("confirmPassword")}</InputPassword>
+      <PasswordLabel className={poppins.className}>
+        <InputPassword>{t("newPassword")}</InputPassword>
         <DeleteIconBox onClick={cleanPasswordInput}>
-          <SvgDeleteIcon
-            isPasswordMatched={isPasswordMatched}
-            isPasswordLong={isPasswordLong}
-            password={password}
-          />
+          <SvgDeleteIcon isPasswordLong={isPasswordLong} password={password} />
         </DeleteIconBox>
         <PasswordInput
           type={isPasswordShown ? "text" : "password"}
           name="password"
-          value={authCredentials.confirmPassword}
+          value={authCredentials.newPassword}
           ref={nameInputRef}
-          isPasswordMatched={isPasswordMatched}
+          isPasswordCompleted={isPasswordCompleted}
           isPasswordLong={isPasswordLong}
           onChange={handlePasswordChange}
           password={password}
@@ -95,7 +94,7 @@ export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
           className={poppins.className}
           required
         />
-        {password ? (
+        {password.length ? (
           <div onClick={() => setIsPasswordShown(!isPasswordShown)}>
             {isPasswordShown ? (
               <SvgHidePasswordIcon size="1.5em" />
@@ -104,22 +103,10 @@ export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
             )}
           </div>
         ) : null}
-        {password && (
-          <div>
-            {isPasswordLong && isPasswordMatched ? (
-              <ValidInputNotification className={poppins.className}>
-                Confirmed
-              </ValidInputNotification>
-            ) : (
-              <InvalidInputWarning className={poppins.className}>
-                {!isPasswordLong
-                  ? t("shortPassword")
-                  : !isPasswordMatched
-                  ? "Password is not matched"
-                  : null}
-              </InvalidInputWarning>
-            )}
-          </div>
+        {!isPasswordLong && (
+          <InvalidInputWarning className={poppins.className}>
+            {t("shortPassword")}
+          </InvalidInputWarning>
         )}
       </PasswordLabel>
     </StyleSheetManager>

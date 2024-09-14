@@ -20,18 +20,18 @@ export const EventCardsList = styled.ul<EventProps>`
   background-color: #fff;
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       grid-template-columns: 332px 332px;
       row-gap: 24px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       grid-template-columns: 271px;
       row-gap: 24px;
     }
   `}
 `;
 
-export const NoEventsFoundTitle = styled.h2`
+export const NoEventsTitle = styled.h2`
   margin-top: 20vh;
   text-align: center;
   font-size: 20px;
@@ -93,10 +93,10 @@ export const EventCard = styled.li`
   }
 
   ${css`
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 332px;
     }
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 272px;
     }
   `}

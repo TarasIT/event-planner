@@ -11,13 +11,13 @@ export const Container = styled.div`
   margin-bottom: 40px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         justify-content: space-between;
         width: 100%;
       }
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       & {
         margin-bottom: 96px;
       }
@@ -35,13 +35,13 @@ export const Title = styled.h1`
   line-height: normal;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         display: none;
       }
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       & {
         position: absolute;
         top: 81px;
@@ -58,17 +58,17 @@ export const Menu = styled.ul`
   justify-content: center;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         justify-content: flex-end;
         width: 100%;
       }
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       & {
         justify-content: flex-end;
-        width: 768px;
+        width: 767px;
       }
     }
   `}
@@ -80,7 +80,7 @@ export const MenuItem = styled.li`
   }
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       &:nth-child(2) {
         position: absolute;
         top: 0;

@@ -4,7 +4,6 @@ import React, { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import {
   EventCardsList,
@@ -21,7 +20,7 @@ import {
   TitleDescriptionContainer,
   EventDetailsBtn,
   EventDetailsBox,
-  NoEventsFoundTitle,
+  NoEventsTitle,
 } from "./EventsList.styled";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
@@ -29,9 +28,10 @@ import { toast } from "react-toastify";
 import Loading from "@/app/loading";
 import { NewEvent } from "@/app/types/types";
 import { transformDate } from "@/app/services/dateTransform";
+import { Spinner } from "@/app/styles/common.styled";
 
 interface EventListProps {
-  eventsData: NewEvent[] | null;
+  eventsList: NewEvent[] | null;
   error: string | null;
 }
 
@@ -46,16 +46,26 @@ const shouldForwardProp = (prop: string) => {
 };
 
 const EventsList: FC<EventListProps> = observer(
-  ({ eventsData, error }): JSX.Element => {
-    const { eventsStore, authStore } = useStore();
+  ({ eventsList, error }): JSX.Element => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [eventId, setEventId] = useState<number>();
     const [events, setEvents] = useState<NewEvent[] | null>(null);
     const { t } = useTranslation();
     const router = useRouter();
+    const { eventsStore, authStore, eventsSearch, categoryFilter } = useStore();
 
     useEffect(() => {
-      if (eventsData) {
-        setEvents(eventsData);
-        eventsStore.setEvents(eventsData);
+      eventsStore.setLoading(false);
+      // console.log(
+      //   "eventsStore.isLoading from events list",
+      //   eventsStore.isLoading
+      // );
+    }, []);
+
+    useEffect(() => {
+      if (eventsList) {
+        setEvents(eventsList);
+        eventsStore.setEvents(eventsList);
       }
       if (error) {
         if (error === "Unauthenticated.") {
@@ -63,11 +73,24 @@ const EventsList: FC<EventListProps> = observer(
           router.push("/");
           return;
         }
-        toast.error(error);
-        eventsStore.setError(error);
+        if (error !== "No events found.") {
+          toast.error(error);
+          eventsStore.setError(error);
+        }
       }
-      eventsStore.setLoading(false);
-    }, [eventsData, error]);
+      console.log("in events list", eventsStore.isLoading);
+      // eventsStore.setLoading(false);
+    }, [
+      eventsStore.isLoading,
+      eventsList,
+      error,
+      setEvents,
+      eventsStore.setEvents,
+      authStore.deleteToken,
+      router.push,
+      toast.error,
+      eventsStore.setError,
+    ]);
 
     return (
       <StyleSheetManager shouldForwardProp={shouldForwardProp}>
@@ -125,11 +148,20 @@ const EventsList: FC<EventListProps> = observer(
                     </TitleDescriptionContainer>
                     <EventDetailsBox description={description}>
                       <EventDetailsBtn
+                        id={id}
                         type="button"
-                        onClick={() => router.push(`/event-details/${id}`)}
+                        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                          setEventId(Number(e.currentTarget.id));
+                          setIsLoading(true);
+                          router.push(`/event-details/${id}`);
+                        }}
                         className={poppins.className}
                       >
-                        {t("moreInfoBtn")}
+                        {isLoading && eventId === id ? (
+                          <Spinner />
+                        ) : (
+                          t("moreInfoBtn")
+                        )}
                       </EventDetailsBtn>
                     </EventDetailsBox>
                   </EventCard>
@@ -139,10 +171,18 @@ const EventsList: FC<EventListProps> = observer(
           </EventCardsList>
         )}
         {eventsStore.isLoading && <Loading />}
-        {events && !events.length && !eventsStore.isLoading && (
-          <NoEventsFoundTitle className={poppins.className}>
-            {!events.length ? t("noEventsFound") : t("firstEvent")}
-          </NoEventsFoundTitle>
+
+        {(!events || !events.length) && (
+          <NoEventsTitle className={poppins.className}>
+            {!eventsStore.isLoading &&
+              (eventsSearch.searchQuery || categoryFilter.currentCategory) &&
+              t("noEventsFoundByQuery")}
+            {!eventsStore.isLoading &&
+              !eventsSearch.searchQuery &&
+              !categoryFilter.currentCategory &&
+              (!eventsStore.events || !eventsStore.events.length) &&
+              t("noEventCreated")}
+          </NoEventsTitle>
         )}
       </StyleSheetManager>
     );

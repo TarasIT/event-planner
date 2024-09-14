@@ -13,7 +13,8 @@ import {
 import { authList } from "../../data/authList";
 import { poppins } from "@/app/assets/fonts";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Spinner } from "@/app/styles/common.styled";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isAuthSelectorOpened" && prop !== "currentLang";
@@ -22,8 +23,10 @@ export const AuthSelector: FC = (): JSX.Element => {
   const { t, i18n } = useTranslation();
   const [isAuthSelectorOpened, setIsAuthSelectorOpened] =
     useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const authRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -32,6 +35,10 @@ export const AuthSelector: FC = (): JSX.Element => {
     };
   }, []);
 
+  useEffect(() => {
+    pathname !== "/" && setLoading(false);
+  }, [pathname, setLoading]);
+
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {
       setIsAuthSelectorOpened(false);
@@ -39,8 +46,8 @@ export const AuthSelector: FC = (): JSX.Element => {
   };
 
   const onAuthBtnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    const { id } = e.currentTarget;
-    switch (id) {
+    setLoading(true);
+    switch (e.currentTarget.id) {
       case "login":
         router.push("/login");
         break;
@@ -48,9 +55,8 @@ export const AuthSelector: FC = (): JSX.Element => {
         router.push("/signup");
         break;
       default:
-        fetch(
-          "https://event-planner-api.onrender.com/api/auth/google/redirect"
-        );
+        window.location.href =
+          "https://event-planner-api.onrender.com/api/auth/google/redirect";
         break;
     }
   };
@@ -63,10 +69,14 @@ export const AuthSelector: FC = (): JSX.Element => {
         onClick={() => setIsAuthSelectorOpened(!isAuthSelectorOpened)}
         className={poppins.className}
       >
-        <OpenAuthSelectorIcon
-          isAuthSelectorOpened={isAuthSelectorOpened}
-          size="1.5em"
-        />
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <OpenAuthSelectorIcon
+            isAuthSelectorOpened={isAuthSelectorOpened}
+            size="1.5em"
+          />
+        )}
 
         {isAuthSelectorOpened && (
           <AuthSelectorList

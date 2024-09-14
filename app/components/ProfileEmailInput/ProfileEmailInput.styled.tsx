@@ -43,12 +43,12 @@ export const Label = styled.label`
   letter-spacing: 0.4px;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 240px;
       margin-left: auto;
       margin-right: auto;
     }
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       width: 308px;
     }
   `}

@@ -19,7 +19,7 @@ export const PagesList = styled.ul`
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       gap: 0;
     }
   `}
@@ -51,7 +51,7 @@ export const PageItem = styled.li<PagesProps>`
   cursor: pointer;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       width: 40px;
       height: 40px;
       font-weight: 800;

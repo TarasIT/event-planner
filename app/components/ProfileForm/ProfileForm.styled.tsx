@@ -28,12 +28,12 @@ export const ProfileUserForm = styled.form`
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       padding-left: 16px;
       padding-right: 16px;
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       padding-left: 24px;
       padding-right: 24px;
       padding-bottom: 40px;

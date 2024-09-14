@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { styled, keyframes, css } from "styled-components";
 import { GrLogin } from "react-icons/gr";
 import { FcGoogle } from "react-icons/fc";
@@ -26,7 +25,7 @@ export const AuthSelectorBox = styled.div<AuthProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: ${({ currentLang }) => (currentLang === "en" ? "100px" : "117px")};
+  width: ${({ currentLang }) => (currentLang === "en" ? "100px" : "117px")};
   height: 48px;
   border: none;
   border-radius: 8px;
@@ -35,7 +34,7 @@ export const AuthSelectorBox = styled.div<AuthProps>`
   background-color: #7b61ff;
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  transition: color, background-color, min-width 300ms;
+  transition: color, background-color, width 300ms;
 
   &:hover,
   &:focus {
@@ -83,7 +82,7 @@ export const AuthItem = styled.li`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-
+  height: 35px;
   width: 100%;
   padding-bottom: 4px;
 
@@ -106,24 +105,33 @@ export const AuthItem = styled.li`
 export const GoogleIcon = styled(FcGoogle)``;
 
 export const AuthBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  cursor: pointer;
+
+  background-color: transparent;
+  transition: color 300ms;
+  color: #3f3f3f;
+  &:hover,
+  &:focus {
+    color: #7b61ff;
+  }
+
   ${({ id }) =>
     id === "google" &&
     css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-      border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px;
-
       transition: background-color 300ms;
-
       &:hover,
       &:focus {
         background-color: #6243ff6f;
       }
-    `}
+    `};
 `;

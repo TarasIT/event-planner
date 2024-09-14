@@ -29,9 +29,9 @@ const shouldForwardProp = (prop: string) => {
 export const CategoriesSelector: FC = observer((): JSX.Element => {
   const [isCategoryListOpened, setIsCategoryListOpened] =
     useState<boolean>(false);
-  const [currentCategory, setCurrentCategory] = useState<string>();
+  const [currentCategory, setCurrentCategory] = useState<string>("");
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
-  const { categoryFilter, paginationStore, eventsStore } = useStore();
+  const { categoryFilter, eventsStore } = useStore();
   const { t } = useTranslation();
   const router = useRouter();
   const queryParams = useSearchParams();
@@ -65,8 +65,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
 
   const handleCategoryChanging = (e: React.MouseEvent<HTMLLIElement>): void => {
     if (e.type === "mouseenter") {
-      const currentTarget = e.currentTarget as HTMLLIElement;
-      setCurrentCategory(currentTarget.id);
+      setCurrentCategory(e.currentTarget.id);
     }
     if (e.type === "mouseleave") {
       categoryFilter.currentCategory !== currentCategory &&
@@ -77,13 +76,20 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
   const onCategoryClick = (
     e: React.MouseEvent<HTMLLIElement | HTMLDivElement>
   ): void => {
-    const currentTarget = e.currentTarget as HTMLLIElement;
+    const id = e.currentTarget.id;
 
-    if (currentTarget && currentTarget.id) {
-      setCurrentCategory(currentTarget.id);
-      categoryFilter.setCurrentCategory(currentTarget.id);
+    if (id) {
+      console.log("id", id);
+      console.log("currentCategory", currentCategory);
+      console.log(
+        "categoryFilter.currentCategory",
+        categoryFilter.currentCategory
+      );
+      setCurrentCategory(id);
+      categoryFilter.setCurrentCategory(id);
       router.push(createQueryString());
       eventsStore.setLoading(true);
+      console.log("in categories", eventsStore.isLoading);
     }
     setIsCategoryListOpened(!isCategoryListOpened);
   };

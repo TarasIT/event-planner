@@ -15,7 +15,7 @@ export const Title = styled.h1`
   line-height: normal;
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         font-size: 24px;
       }

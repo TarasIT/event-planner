@@ -21,7 +21,7 @@ import { alata, poppins } from "@/app/assets/fonts";
 import { MenuSelector } from "@/app/components/MenuSelector/MenuSelector";
 import { observer } from "mobx-react";
 import { createQueryString } from "@/app/services/createQueryString";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { MobileMenu } from "@/app/components/MobileMenu/MobileMenu";
 import { MobileMenuList } from "@/app/components/MobileMenuList/MobileMenuList";
 import { AuthMobileMenuList } from "@/app/components/AuthMobileMenuList/AuthMobileMenuList";
@@ -38,37 +38,42 @@ const Header: FC = observer((): JSX.Element => {
   const queryParams = useSearchParams();
   const searchQueryParam = queryParams.get("search");
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleResize = (): void => setIsMobileView(window.innerWidth < 768);
 
   useEffect(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
-
     if (searchQueryParam) {
       eventsSearch.setSearchQuery(searchQueryParam);
       setQuery(searchQueryParam);
     }
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
+
     const debouncedEventsSearch = (): void => {
-      eventsSearch.setSearchQuery(query);
-      if (eventsSearch.searchQuery) eventsStore.setLoading(true);
-      router.push(createQueryString());
+      if (query !== eventsSearch.searchQuery) {
+        eventsSearch.setSearchQuery(query);
+        router.push(createQueryString());
+      }
     };
 
     const delayedSearch = (): void => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(debouncedEventsSearch, 500);
     };
-    delayedSearch();
+
+    if (query !== eventsSearch.searchQuery) {
+      delayedSearch();
+      eventsStore.setLoading(true);
+    }
 
     return () => clearTimeout(timeoutId);
-  }, [query]);
+  }, [query, eventsSearch.searchQuery]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setQuery(e.target.value.trim().toLowerCase());
@@ -80,7 +85,11 @@ const Header: FC = observer((): JSX.Element => {
         <Container isLoggedIn={authStore.isLoggedIn}>
           <HomeBtn
             type="button"
-            onClick={(): void => router.push("/")}
+            onClick={(): void => {
+              authStore.isLoggedIn
+                ? router.push(`/home${createQueryString()}`)
+                : router.push("/");
+            }}
             className={alata.className}
           >
             {t("appTitle")}
@@ -88,7 +97,7 @@ const Header: FC = observer((): JSX.Element => {
 
           <OpenMobileMenuIcon onClick={() => setIsMobileMenuOpened(true)} />
 
-          {authStore.isLoggedIn && (
+          {authStore.isLoggedIn && pathname === "/home" && (
             <SearchBox>
               <SearchLabel>
                 <SearchIcon />
@@ -99,7 +108,13 @@ const Header: FC = observer((): JSX.Element => {
                   placeholder={t("searchInputPlaceholdder")}
                   className={poppins.className}
                 />
-                <DeleteIcon onClick={() => setQuery("")} query={query} />
+                <DeleteIcon
+                  onClick={() => {
+                    eventsStore.setLoading(true);
+                    setQuery("");
+                  }}
+                  query={query}
+                />
               </SearchLabel>
             </SearchBox>
           )}

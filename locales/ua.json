@@ -11,15 +11,13 @@
   "searchInputPlaceholdder": "Пошук за ключовим словом",
   "homePageTitle": "Мої події",
   "profile": "Профіль",
-  "resetPassword": "Скидання паролю",
+  "changePassword": "Скидання паролю",
   "newPassword": "Новий пароль",
   "confirmPassword": "Підтверди пароль",
   "yourData": "Ваші дані",
   "deleteData": "Видалення",
   "deleteAllEvents": "Видалити всі події",
   "deleteProfile": "Видалити мій профіль",
-  "deleteAllEventsModalMessage": "Ви впевнені, що хочете видалити всі свої події?",
-  "deleteProfileModalMessage": "Ви впевнені, що хочете видалити свій профіль з усіма подіями?",
   "yes": "Так",
   "no": "Ні",
   "menu": "Меню",
@@ -83,5 +81,12 @@
   "moreInfoBtn": "Подробиці",
   "editEventBtn": "Редагувати",
   "deleteEventBtn": "Видалити подію",
-  "noPageFound": "Вибачте, ми не змогли знайти цю сторінку"
+  "noPageFound": "Вибачте, ми не змогли знайти цю сторінку",
+  
+  "modalMessages": {
+    "deleteEvent": "Ви впевнені, що хочете видалити цю подію?",
+    "deleteAllEvents": "Ви впевнені, що хочете видалити всі свої події?",
+    "deleteProfile": "Ви впевнені, що хочете видалити свій профіль з усіма подіями?",
+    "logOut": "Ви впевнені, що хочете вийти?"
+  }
 }

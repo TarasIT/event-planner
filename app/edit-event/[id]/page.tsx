@@ -1,20 +1,26 @@
-"use client";
+"use server";
 
 import React, { FC } from "react";
-import { useTranslation } from "react-i18next";
 import { BackLink } from "../../components/BackLink/BackLink";
 import { NewEventForm } from "../../components/NewEventForm/NewEventForm";
-import { Title } from "./page.styled";
-import { poppins } from "@/app/assets/fonts";
+import { getEventById } from "./actions";
+import { EditEventTitle } from "@/app/components/EditEventTitle/EditEventTitle";
 
-const EditEvent: FC = (): JSX.Element => {
-  const { t } = useTranslation();
+interface EditEventPageProps {
+  params: { id: string };
+}
+
+const EditEvent: FC<EditEventPageProps> = async ({
+  params,
+}): Promise<JSX.Element> => {
+  const { id } = params;
+  const { event, error } = await getEventById(id);
 
   return (
     <>
       <BackLink />
-      <Title className={poppins.className}>{t("editEventTitle")}</Title>
-      <NewEventForm />
+      <EditEventTitle />
+      <NewEventForm eventForUpdate={event} error={error} />
     </>
   );
 };

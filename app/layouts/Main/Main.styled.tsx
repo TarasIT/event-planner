@@ -26,7 +26,7 @@ export const MainLayout = styled.main`
   `}
 
   ${css`
-    @media screen and (max-width: 767px) {
+    @media (width < 768px) {
       & {
         background-image: url(${MobileBg.src});
       }
@@ -41,7 +41,7 @@ export const MainLayout = styled.main`
       }
     }
 
-    @media screen and (min-width: 768px) and (max-width: 1279px) {
+    @media (768px <= width < 1280px) {
       & {
         background-image: url(${TabletBg.src});
       }
