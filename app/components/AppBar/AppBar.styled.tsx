@@ -1,28 +1,21 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 
 export const Container = styled.div`
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 40px;
 
-  ${css`
-    @media (width < 768px) {
-      & {
-        justify-content: space-between;
-        width: 100%;
-      }
+  @media (768px <= width < 1280px) {
+    & {
+      margin-bottom: 96px;
     }
-    @media (768px <= width < 1280px) {
-      & {
-        margin-bottom: 96px;
-      }
-    }
-  `}
+  }
 `;
 
 export const Title = styled.h1`
@@ -34,21 +27,19 @@ export const Title = styled.h1`
   font-weight: 600;
   line-height: normal;
 
-  ${css`
-    @media (width < 768px) {
-      & {
-        display: none;
-      }
+  @media (width < 768px) {
+    & {
+      display: none;
     }
+  }
 
-    @media (768px <= width < 1280px) {
-      & {
-        position: absolute;
-        top: 81px;
-        left: 0;
-      }
+  @media (768px <= width < 1280px) {
+    & {
+      position: absolute;
+      top: 81px;
+      left: 0;
     }
-  `}
+  }
 `;
 
 export const Menu = styled.ul`
@@ -57,21 +48,19 @@ export const Menu = styled.ul`
   align-items: center;
   justify-content: center;
 
-  ${css`
-    @media (width < 768px) {
-      & {
-        justify-content: flex-end;
-        width: 100%;
-      }
+  @media (width < 768px) {
+    & {
+      justify-content: flex-end;
+      width: 100%;
     }
+  }
 
-    @media (768px <= width < 1280px) {
-      & {
-        justify-content: flex-end;
-        width: 767px;
-      }
+  @media (768px <= width < 1280px) {
+    & {
+      justify-content: flex-end;
+      width: 767px;
     }
-  `}
+  }
 `;
 
 export const MenuItem = styled.li`
@@ -79,21 +68,26 @@ export const MenuItem = styled.li`
     margin-right: 24px;
   }
 
-  ${css`
-    @media (width < 768px) {
-      &:nth-child(2) {
-        position: absolute;
-        top: 0;
-        right: 80px;
-        margin-right: 0;
-      }
-
-      &:nth-child(1) {
-        position: relative;
-        top: -28px;
-        right: 160px;
-        margin-right: 0;
-      }
+  @media (width < 768px) {
+    &:nth-child(1) {
+      position: relative;
+      top: 0;
+      right: 160px;
+      margin-right: 0;
     }
-  `}
+
+    &:nth-child(2) {
+      position: relative;
+      top: -28px;
+      right: 144px;
+      margin-right: 0;
+    }
+
+    &:nth-child(3) {
+      position: absolute;
+      top: 0;
+      right: 72px;
+      margin-right: 0;
+    }
+  }
 `;

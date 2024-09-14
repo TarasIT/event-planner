@@ -7,6 +7,7 @@ import { EventsSorter } from "../EventsSorter/EventsSorter";
 import { AddEventButton } from "../AddEventButton/AddEventButton";
 import { useTranslation } from "react-i18next";
 import { poppins } from "@/app/assets/fonts";
+import { ClearEventFilters } from "../ClearEventFilters/ClearEventFilters";
 
 export const AppBar: FC = (): JSX.Element => {
   const { t } = useTranslation();
@@ -15,6 +16,9 @@ export const AppBar: FC = (): JSX.Element => {
     <Container>
       <Title className={poppins.className}>{t("homePageTitle")}</Title>
       <Menu>
+        <MenuItem>
+          <ClearEventFilters />
+        </MenuItem>
         <MenuItem>
           <CategoriesSelector />
         </MenuItem>
