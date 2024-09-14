@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled, keyframes } from "styled-components";
+import { css, styled } from "styled-components";
 import DefaultImage from "../../assets/images/default-vertical.jpg";
 import DefaultImage2x from "../../assets/images/default-vertical-2x.jpg";
 

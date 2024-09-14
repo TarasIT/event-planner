@@ -56,10 +56,6 @@ const EventsList: FC<EventListProps> = observer(
 
     useEffect(() => {
       eventsStore.setLoading(false);
-      // console.log(
-      //   "eventsStore.isLoading from events list",
-      //   eventsStore.isLoading
-      // );
     }, []);
 
     useEffect(() => {
@@ -78,10 +74,7 @@ const EventsList: FC<EventListProps> = observer(
           eventsStore.setError(error);
         }
       }
-      console.log("in events list", eventsStore.isLoading);
-      // eventsStore.setLoading(false);
     }, [
-      eventsStore.isLoading,
       eventsList,
       error,
       setEvents,
@@ -133,7 +126,11 @@ const EventsList: FC<EventListProps> = observer(
                             {time && time.toLowerCase()}
                           </DateAndTime>
                         )}
-                        {location && <Location>{location}</Location>}
+                        {location && (
+                          <Location className={poppins.className}>
+                            {location}
+                          </Location>
+                        )}
                       </DateTimeLocationContainer>
                     </BackgroundContainer>
                     <TitleDescriptionContainer>

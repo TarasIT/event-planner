@@ -101,7 +101,9 @@ export const EventDetailsCard: FC<EventProps> = observer(
                 {t(`priorities.${priority}`.toLowerCase())}
               </Priority>
             )}
-            {location && <Location>{location}</Location>}{" "}
+            {location && (
+              <Location className={poppins.className}>{location}</Location>
+            )}
             {(date || time) && (
               <DateAndTime className={poppins.className}>
                 {transformDate(date)} {time && t("at")}{" "}
