@@ -34,7 +34,7 @@ const Header: FC = observer((): JSX.Element => {
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
   const { t } = useTranslation();
-  const { authStore, eventsSearch, eventsStore } = useStore();
+  const { authStore, eventsSearch, eventsStore, filtersStore } = useStore();
   const queryParams = useSearchParams();
   const searchQueryParam = queryParams.get("search");
   const router = useRouter();
@@ -56,10 +56,9 @@ const Header: FC = observer((): JSX.Element => {
     let timeoutId: NodeJS.Timeout;
 
     const debouncedEventsSearch = (): void => {
-      if (query !== eventsSearch.searchQuery) {
-        eventsSearch.setSearchQuery(query);
-        router.push(createQueryString());
-      }
+      eventsStore.setLoading(true);
+      eventsSearch.setSearchQuery(query);
+      router.push(createQueryString());
     };
 
     const delayedSearch = (): void => {
@@ -67,10 +66,7 @@ const Header: FC = observer((): JSX.Element => {
       timeoutId = setTimeout(debouncedEventsSearch, 500);
     };
 
-    if (query !== eventsSearch.searchQuery) {
-      delayedSearch();
-      eventsStore.setLoading(true);
-    }
+    if (query !== eventsSearch.searchQuery) delayedSearch();
 
     return () => clearTimeout(timeoutId);
   }, [query, eventsSearch.searchQuery]);

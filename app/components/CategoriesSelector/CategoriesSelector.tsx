@@ -31,7 +31,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
-  const { categoryFilter, eventsStore } = useStore();
+  const { categoryFilter, eventsStore, filtersStore } = useStore();
   const { t } = useTranslation();
   const router = useRouter();
   const queryParams = useSearchParams();
@@ -39,18 +39,28 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+
     if (categoryQueryParam) {
       setCurrentCategory(categoryQueryParam);
       categoryFilter.setCurrentCategory(categoryQueryParam);
     }
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
+    if (filtersStore.areFiltersReseted && !eventsStore.isLoading) {
+      setCurrentCategory("");
+      setIsCategoryListOpened(false);
+    }
     categoryFilter.checkCategoriesFilterOpened(isCategoryListOpened);
-  }, [isCategoryListOpened]);
+  }, [
+    isCategoryListOpened,
+    filtersStore.areFiltersReseted,
+    eventsStore.isLoading,
+  ]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (
@@ -79,17 +89,10 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     const id = e.currentTarget.id;
 
     if (id) {
-      console.log("id", id);
-      console.log("currentCategory", currentCategory);
-      console.log(
-        "categoryFilter.currentCategory",
-        categoryFilter.currentCategory
-      );
       setCurrentCategory(id);
       categoryFilter.setCurrentCategory(id);
       router.push(createQueryString());
       eventsStore.setLoading(true);
-      console.log("in categories", eventsStore.isLoading);
     }
     setIsCategoryListOpened(!isCategoryListOpened);
   };

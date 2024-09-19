@@ -1,34 +1,56 @@
 "use client";
 
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Container, Title, Menu, MenuItem } from "./AppBar.styled";
 import { CategoriesSelector } from "../CategoriesSelector/CategoriesSelector";
 import { EventsSorter } from "../EventsSorter/EventsSorter";
 import { AddEventButton } from "../AddEventButton/AddEventButton";
 import { useTranslation } from "react-i18next";
 import { poppins } from "@/app/assets/fonts";
-import { ClearEventFilters } from "../ClearEventFilters/ClearEventFilters";
+import { ResetEventFilters } from "../ResetEventFilters/ResetEventFilters";
+import { useStore } from "@/app/mobX/useStore";
+import { StyleSheetManager } from "styled-components";
+import { observer } from "mobx-react";
 
-export const AppBar: FC = (): JSX.Element => {
+const shouldForwardProp = (prop: string) => prop !== "areFiltersEmpty";
+
+export const AppBar: FC = observer((): JSX.Element => {
+  const [areFiltersEmpty, setAreFiltersEmpty] = useState<boolean>(false);
   const { t } = useTranslation();
+  const { filtersStore, eventsStore } = useStore();
+
+  useEffect(() => {
+    if (filtersStore.checkIfFiltersEmpty() && !eventsStore.isLoading) {
+      setAreFiltersEmpty(filtersStore.checkIfFiltersEmpty());
+    }
+  }, [
+    areFiltersEmpty,
+    eventsStore.isLoading,
+    filtersStore.checkIfFiltersEmpty,
+  ]);
 
   return (
-    <Container>
-      <Title className={poppins.className}>{t("homePageTitle")}</Title>
-      <Menu>
-        <MenuItem>
-          <ClearEventFilters />
-        </MenuItem>
-        <MenuItem>
-          <CategoriesSelector />
-        </MenuItem>
-        <MenuItem>
-          <EventsSorter />
-        </MenuItem>
-        <MenuItem>
-          <AddEventButton />
-        </MenuItem>
-      </Menu>
-    </Container>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <Container>
+        <Title className={poppins.className}>{t("homePageTitle")}</Title>
+        <Menu>
+          {!areFiltersEmpty && (
+            <MenuItem areFiltersEmpty={areFiltersEmpty}>
+              <ResetEventFilters />
+            </MenuItem>
+          )}
+
+          <MenuItem areFiltersEmpty={areFiltersEmpty}>
+            <CategoriesSelector />
+          </MenuItem>
+          <MenuItem areFiltersEmpty={areFiltersEmpty}>
+            <EventsSorter />
+          </MenuItem>
+          <MenuItem areFiltersEmpty={areFiltersEmpty}>
+            <AddEventButton />
+          </MenuItem>
+        </Menu>
+      </Container>
+    </StyleSheetManager>
   );
-};
+});

@@ -10,7 +10,7 @@ export const SvgClearIcon = styled(AiOutlineClear)`
   color: #3f3f3f;
 `;
 
-export const ClearBtn = styled.button`
+export const ResetBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;

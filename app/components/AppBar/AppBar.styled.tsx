@@ -2,6 +2,10 @@
 
 import { styled } from "styled-components";
 
+interface ResetEventsProps {
+  areFiltersEmpty: boolean;
+}
+
 export const Container = styled.div`
   position: relative;
   display: flex;
@@ -12,9 +16,7 @@ export const Container = styled.div`
   margin-bottom: 40px;
 
   @media (768px <= width < 1280px) {
-    & {
-      margin-bottom: 96px;
-    }
+    margin-bottom: 96px;
   }
 `;
 
@@ -28,17 +30,13 @@ export const Title = styled.h1`
   line-height: normal;
 
   @media (width < 768px) {
-    & {
-      display: none;
-    }
+    display: none;
   }
 
   @media (768px <= width < 1280px) {
-    & {
-      position: absolute;
-      top: 81px;
-      left: 0;
-    }
+    position: absolute;
+    top: 61px;
+    left: 0;
   }
 `;
 
@@ -49,41 +47,39 @@ export const Menu = styled.ul`
   justify-content: center;
 
   @media (width < 768px) {
-    & {
-      justify-content: flex-end;
-      width: 100%;
-    }
+    justify-content: flex-end;
+    width: 100%;
   }
 
   @media (768px <= width < 1280px) {
-    & {
-      justify-content: flex-end;
-      width: 767px;
-    }
+    justify-content: flex-end;
+    width: 767px;
   }
 `;
 
-export const MenuItem = styled.li`
+export const MenuItem = styled.li<ResetEventsProps>`
   &:not(:last-child) {
     margin-right: 24px;
   }
 
   @media (width < 768px) {
-    &:nth-child(1) {
-      position: relative;
-      top: 0;
-      right: 160px;
-      margin-right: 0;
-    }
+    ${({ areFiltersEmpty }) =>
+      !areFiltersEmpty &&
+      `&:nth-child(1) {
+        position: relative;
+        top: 0;
+        right: 160px;
+        margin-right: 0;
+      }`}
 
-    &:nth-child(2) {
+    &:nth-child(${({ areFiltersEmpty }) => (areFiltersEmpty ? 1 : 2)}) {
       position: relative;
       top: -28px;
       right: 144px;
       margin-right: 0;
     }
 
-    &:nth-child(3) {
+    &:nth-child(${({ areFiltersEmpty }) => (areFiltersEmpty ? 2 : 3)}) {
       position: absolute;
       top: 0;
       right: 72px;

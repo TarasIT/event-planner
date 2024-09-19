@@ -6,6 +6,7 @@ import setFormValues from "./stores/setFormValues";
 import authCredentials from "./stores/authCredentials";
 import paginationStore from "./stores/paginationStore";
 import authStore from "./stores/authStore";
+import filtersStore from "./stores/filtersStore";
 
 interface StoreProps {
   authStore: typeof authStore;
@@ -16,6 +17,7 @@ interface StoreProps {
   eventsSearch: typeof eventsSearch;
   setFormValues: typeof setFormValues;
   paginationStore: typeof paginationStore;
+  filtersStore: typeof filtersStore;
 }
 
 const store: StoreProps = {
@@ -27,6 +29,7 @@ const store: StoreProps = {
   eventsSearch,
   setFormValues,
   paginationStore,
+  filtersStore,
 };
 
 export const useStore = (): StoreProps => store;

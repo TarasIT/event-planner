@@ -35,12 +35,14 @@ export const EventsSorter: FC = observer((): JSX.Element => {
   const [isSorterOpened, setIsSorterOpened] = useState<boolean>(false);
   const [currentSorter, setCurrentSorter] = useState<string>("");
   const [sorterIndex, setSorterIndex] = useState<number>();
-  const [isSorterIncreased, setIsSorterIncreased] = useState<boolean>(false);
+  const [isSorterIncreased, setIsSorterIncreased] = useState<boolean | null>(
+    null
+  );
   const [viewportWidth, setViewportWidth] = useState<number>();
   const [isOptionVisible, setIsOptionVisible] = useState<boolean>(false);
   const sorterBoxRef = useRef<HTMLDivElement | null>(null);
   const { t, i18n } = useTranslation();
-  const { eventsSorter, eventsStore } = useStore();
+  const { eventsSorter, eventsStore, filtersStore } = useStore();
   const router = useRouter();
   const queryParams = useSearchParams();
   const sortQueryParam = queryParams.get("sort");
@@ -71,10 +73,11 @@ export const EventsSorter: FC = observer((): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    eventsSorter.setIsSorterIncreased(isSorterIncreased);
-    eventsSorter.setCurrentSorter(currentSorter);
-    router.push(createQueryString());
-  }, [isSorterIncreased, currentSorter]);
+    if (filtersStore.areFiltersReseted && !eventsStore.isLoading) {
+      setCurrentSorter("");
+      setIsSorterIncreased(null);
+    }
+  }, [filtersStore.areFiltersReseted, eventsStore.isLoading]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (
@@ -91,21 +94,30 @@ export const EventsSorter: FC = observer((): JSX.Element => {
     const currentTarget = e.currentTarget as HTMLLIElement;
     setSorterIndex(Number(currentTarget.id));
 
-    Number(currentTarget.id) % 2 === 0
-      ? setIsSorterIncreased(true)
-      : setIsSorterIncreased(false);
+    if (Number(currentTarget.id) % 2 === 0) {
+      setIsSorterIncreased(true);
+      eventsSorter.setIsSorterIncreased(true);
+    } else {
+      setIsSorterIncreased(false);
+      eventsSorter.setIsSorterIncreased(false);
+    }
 
     switch (Number(currentTarget.id)) {
       case 0:
         setCurrentSorter("A-Z");
+        eventsSorter.setCurrentSorter("A-Z");
         break;
       case 1:
         setCurrentSorter("Z-A");
+        eventsSorter.setCurrentSorter("Z-A");
         break;
       default:
         setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
+        eventsSorter.setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
     }
+
     eventsStore.setLoading(true);
+    router.push(createQueryString());
   };
 
   const handleTransitionEnd = (

@@ -2,7 +2,7 @@ import { observable, action, makeAutoObservable } from "mobx";
 
 class EventsSorter {
   @observable
-  currentSorter: string | null = null;
+  currentSorter: string = "";
   isSorterIncreased: boolean | null = null;
 
   constructor() {
@@ -15,7 +15,7 @@ class EventsSorter {
   }
 
   @action
-  setIsSorterIncreased(isSorterIncreased: boolean): void {
+  setIsSorterIncreased(isSorterIncreased: boolean | null): void {
     this.isSorterIncreased = isSorterIncreased;
   }
 }

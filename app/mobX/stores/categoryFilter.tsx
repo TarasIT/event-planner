@@ -11,7 +11,7 @@ class CategoryFilter {
 
   @action
   setCurrentCategory(category: string): void {
-    category ? (this.currentCategory = category) : (this.currentCategory = "");
+    this.currentCategory = category;
   }
 
   @action

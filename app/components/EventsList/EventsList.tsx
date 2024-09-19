@@ -29,6 +29,7 @@ import Loading from "@/app/loading";
 import { NewEvent } from "@/app/types/types";
 import { transformDate } from "@/app/services/dateTransform";
 import { Spinner } from "@/app/styles/common.styled";
+import filtersStore from "@/app/mobX/stores/filtersStore";
 
 interface EventListProps {
   eventsList: NewEvent[] | null;
@@ -74,11 +75,13 @@ const EventsList: FC<EventListProps> = observer(
           eventsStore.setError(error);
         }
       }
+
+      console.log("eventsStore.isLoading", eventsStore.isLoading);
+
+      filtersStore.setFiltersReseted(false);
     }, [
       eventsList,
       error,
-      setEvents,
-      eventsStore.setEvents,
       authStore.deleteToken,
       router.push,
       toast.error,
