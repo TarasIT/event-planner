@@ -50,3 +50,9 @@ export interface ChangePassworProps {
   new_password: string;
   new_password_confirmation: string;
 }
+
+export interface ResetPassworProps {
+  email?: string;
+  password: string;
+  password_confirmation: string;
+}

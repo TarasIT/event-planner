@@ -7,7 +7,7 @@ import { poppins } from "../assets/fonts";
 import { Title } from "./page.styled";
 import { LoginForm } from "../components/LoginForm/LoginForm";
 
-const Signup: FC = (): JSX.Element => {
+const Login: FC = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (
@@ -19,4 +19,4 @@ const Signup: FC = (): JSX.Element => {
   );
 };
 
-export default Signup;
+export default Login;

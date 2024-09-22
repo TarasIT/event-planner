@@ -14,7 +14,7 @@ export function middleware(request: NextRequest): NextResponse {
 
   let response;
 
-  if (queryToken && !isProtectedPath) {
+  if (queryToken && !isProtectedPath && pathname !== "/reset-password") {
     response = NextResponse.redirect(homeUrl.toString(), 302);
     response.cookies.set("token", queryToken, {
       // maxAge: 7200,

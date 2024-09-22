@@ -76,8 +76,6 @@ const EventsList: FC<EventListProps> = observer(
         }
       }
 
-      console.log("eventsStore.isLoading", eventsStore.isLoading);
-
       filtersStore.setFiltersReseted(false);
     }, [
       eventsList,

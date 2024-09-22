@@ -112,7 +112,7 @@ export const PasswordLabel = styled.label<CreateEventFormProps>`
   display: block;
   width: 372px;
   margin-bottom: ${({ isPasswordMatched }) =>
-    isPasswordMatched ? "30px" : "0"};
+    isPasswordMatched ? "20px" : "0"};
 
   color: #7b61ff;
   font-size: 16px;

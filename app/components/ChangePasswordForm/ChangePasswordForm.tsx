@@ -24,8 +24,10 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const { password } = authCredentials;
-    password ? setIsPasswordProvided(true) : setIsPasswordProvided(false);
+    const { is_password_existed } = authCredentials;
+    is_password_existed
+      ? setIsPasswordProvided(true)
+      : setIsPasswordProvided(false);
   }, []);
 
   useEffect(() => {
@@ -65,7 +67,9 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
 
   return (
     <PasswordsForm onSubmit={handleSubmit}>
-      <FormTitle className={poppins.className}>{t("changePassword")}</FormTitle>
+      <FormTitle className={poppins.className}>
+        {t("changePasswordTitle")}
+      </FormTitle>
       {isPasswordProvided && <PasswordInput />}
       <NewPasswordInput />
       <ConfirmPasswordInput />

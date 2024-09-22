@@ -174,6 +174,7 @@ class EventsStore {
       if (!response.ok || data.error) {
         throw new Error(data.error || "Failed to delete all events.");
       }
+      this.setEvents(null);
       toast.success(data.message);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;

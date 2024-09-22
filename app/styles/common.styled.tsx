@@ -1,7 +1,7 @@
 "use client";
 
 import { ImSpinner9 } from "react-icons/im";
-import { css, keyframes, styled } from "styled-components";
+import { keyframes, styled } from "styled-components";
 
 export const TimeSelector = styled.input`
   display: flex;
@@ -55,7 +55,6 @@ export const Spinner = styled(ImSpinner9)`
 
 export const AuthForm = styled.form`
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
   grid-row-gap: 20px;
   justify-content: center;
   align-items: center;
@@ -70,11 +69,9 @@ export const AuthForm = styled.form`
   background: #fff;
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  ${css`
-    @media (width < 768px) {
-      width: 300px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 100%;
+  }
 `;
 
 export const AuthBtn = styled.button`
@@ -108,11 +105,9 @@ export const AuthBtn = styled.button`
     background: #6243ff;
   }
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
 `;
 
 export const ModalBtn = styled.button`

@@ -4,7 +4,7 @@ interface ProfileProps {
   name: string | null;
   email: string | null;
   google_id: string | null;
-  password: string | null;
+  is_password_existed: boolean | null;
   error: string | null;
   message: string | null;
 }
@@ -29,7 +29,7 @@ export async function getUserData(): Promise<ProfileProps> {
       name: data.name,
       email: data.email,
       google_id: data.google_id,
-      password: data.password,
+      is_password_existed: data.is_password_existed,
       error: null,
       message: null,
     };
@@ -39,7 +39,7 @@ export async function getUserData(): Promise<ProfileProps> {
       name: null,
       email: null,
       google_id: null,
-      password: null,
+      is_password_existed: null,
       error: errorMessage,
       message: null,
     };

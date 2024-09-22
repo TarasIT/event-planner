@@ -1,7 +1,11 @@
 import { observable, action, makeAutoObservable } from "mobx";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import type { ChangePassworProps, User } from "../../types/types";
+import type {
+  ChangePassworProps,
+  ResetPassworProps,
+  User,
+} from "../../types/types";
 import authCredentials from "./authCredentials";
 
 class AuthStore {
@@ -231,12 +235,89 @@ class AuthStore {
         error: string;
       } = await response.json();
 
-      console.log("credentials", credentials);
-      console.log("data", data);
-
       if (!response.ok) {
         throw new Error(
           data.error || data.message || "Failed to change password."
+        );
+      }
+      this.resetAuthForm();
+      toast.success(data.message);
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  @action
+  async sendResetPasswordLink(): Promise<void> {
+    this.setLoading(true);
+    this.error = null;
+    try {
+      const response = await fetch(
+        `https://event-planner-api.onrender.com/api/forgot-password`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({ email: authCredentials.email }),
+        }
+      );
+      const data: {
+        message: string;
+        error: string;
+      } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || data.message || "Failed to send reset password link."
+        );
+      }
+      this.resetAuthForm();
+      toast.success(data.message);
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
+  @action
+  async resetPassword(resetPasswordToken: string): Promise<void> {
+    const credentials: ResetPassworProps = {
+      email: authCredentials.email,
+      password: authCredentials.newPassword,
+      password_confirmation: authCredentials.confirmPassword,
+    };
+
+    this.setLoading(true);
+    this.error = null;
+    try {
+      const response = await fetch(
+        `https://event-planner-api.onrender.com/api/reset-password?token=${resetPasswordToken}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        }
+      );
+      const data: {
+        message: string;
+        error: string;
+      } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || data.message || "Failed to reset password."
         );
       }
       this.resetAuthForm();

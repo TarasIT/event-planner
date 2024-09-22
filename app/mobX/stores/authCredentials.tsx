@@ -8,6 +8,7 @@ class SetAuthCredentials {
   password: string | null = null;
   newPassword: string = "";
   confirmPassword: string = "";
+  is_password_existed: boolean | null | undefined;
 
   constructor() {
     makeAutoObservable(this);
@@ -26,6 +27,11 @@ class SetAuthCredentials {
   @action
   setGoogleId(googleId: string): void {
     this.googleId = googleId;
+  }
+
+  @action
+  setIsPasswordExisted(is_password_existed: boolean | null | undefined): void {
+    this.is_password_existed = is_password_existed;
   }
 
   @action

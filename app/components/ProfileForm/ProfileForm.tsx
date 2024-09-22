@@ -14,12 +14,12 @@ interface ProfileFormProps {
   name?: string | null | undefined;
   email?: string | null | undefined;
   google_id?: string | null | undefined;
-  password?: string | null | undefined;
+  is_password_existed?: boolean | null | undefined;
   error?: string | null | undefined;
 }
 
 export const ProfileForm: FC<ProfileFormProps> = observer(
-  ({ name, email, google_id, password, error }): JSX.Element => {
+  ({ name, email, google_id, is_password_existed, error }): JSX.Element => {
     const { t } = useTranslation();
     const { authCredentials } = useStore();
 
@@ -27,10 +27,10 @@ export const ProfileForm: FC<ProfileFormProps> = observer(
       if (name) authCredentials.setName(name);
       if (email) authCredentials.setEmail(email);
       if (google_id) authCredentials.setGoogleId(google_id);
-      if (password) authCredentials.setPassword(password);
+      authCredentials.setIsPasswordExisted(is_password_existed);
       if (error) toast.error(error);
-      console.log({ name, email, google_id, password, error });
-    }, [name, email, google_id, password, error]);
+      console.log({ name, email, google_id, is_password_existed, error });
+    }, [name, email, google_id, is_password_existed, error]);
 
     return (
       <ProfileUserForm>
