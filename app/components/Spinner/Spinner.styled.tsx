@@ -11,9 +11,8 @@ const spinAnimation = keyframes`
 export const Spinner = styled(ImSpinner9)`
   position: absolute;
   z-index: 5;
-  top: 40%;
-  left: 450%;
-  transform: translate(-50%, -50%);
+  top: 40vh;
+  left: calc(50% - 25px);
   width: 50px;
   height: 50px;
   color: #7b61ff;
