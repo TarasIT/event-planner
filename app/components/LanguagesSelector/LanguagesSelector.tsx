@@ -12,16 +12,17 @@ import {
 import { languages } from "../../data/languages";
 import { poppins } from "@/app/assets/fonts";
 import { SvgContainer } from "@/app/styles/common.styled";
-import { useStore } from "@/app/mobX/useStore";
+import { observer } from "mobx-react";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isLoggedIn" && prop !== "isLangListOpened";
 
-export const LanguagesSelector: FC = (): JSX.Element => {
+export const LanguagesSelector: FC = observer((): JSX.Element => {
   const [isLangListOpened, setIsLangListOpened] = useState<boolean>(false);
-  const [currentLang, setCurrentLang] = useState<string>("EN");
+  const [currentLang, setCurrentLang] = useState<string>(
+    i18n.language.toUpperCase()
+  );
   const langBoxRef = useRef<HTMLDivElement | null>(null);
-  const { authStore } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -31,9 +32,7 @@ export const LanguagesSelector: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    currentLang === "EN"
-      ? i18n.changeLanguage("en")
-      : i18n.changeLanguage(currentLang.toLowerCase());
+    i18n.changeLanguage(currentLang && currentLang.toLowerCase());
   }, [currentLang, i18n.changeLanguage]);
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -79,4 +78,4 @@ export const LanguagesSelector: FC = (): JSX.Element => {
       </LangBox>
     </StyleSheetManager>
   );
-};
+});
