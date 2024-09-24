@@ -30,7 +30,7 @@ export const MenuSelector: FC = (): JSX.Element => {
   const [isMenuSelectorOpened, setIsMenuSelectorOpened] =
     useState<boolean>(false);
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { t, i18n } = useTranslation();
   const authRef = useRef<HTMLDivElement | null>(null);
   const { authStore } = useStore();
@@ -45,8 +45,8 @@ export const MenuSelector: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    pathname !== "/home" && setLoading(false);
-  }, [pathname, setLoading]);
+    pathname !== "/home" && setIsLoading(false);
+  }, [pathname, setIsLoading]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {
@@ -58,13 +58,13 @@ export const MenuSelector: FC = (): JSX.Element => {
     if (e.currentTarget.id === "logout") {
       setIsModalOpened(true);
     } else {
-      setLoading(true);
+      setIsLoading(true);
       router.push("/profile");
     }
   };
 
   const logOut = async (): Promise<void> => {
-    setLoading(true);
+    setIsLoading(true);
     setIsModalOpened(false);
     await authStore.logout();
     router.push("/");

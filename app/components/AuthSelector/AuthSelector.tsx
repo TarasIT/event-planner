@@ -23,7 +23,7 @@ export const AuthSelector: FC = (): JSX.Element => {
   const { t, i18n } = useTranslation();
   const [isAuthSelectorOpened, setIsAuthSelectorOpened] =
     useState<boolean>(false);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const authRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -36,8 +36,8 @@ export const AuthSelector: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    pathname !== "/" && setLoading(false);
-  }, [pathname, setLoading]);
+    pathname !== "/" && setIsLoading(false);
+  }, [pathname, setIsLoading]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {
@@ -46,7 +46,7 @@ export const AuthSelector: FC = (): JSX.Element => {
   };
 
   const onAuthBtnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    setLoading(true);
+    setIsLoading(true);
     switch (e.currentTarget.id) {
       case "login":
         router.push("/login");
