@@ -48,8 +48,6 @@ export const LoginForm: FC = observer((): JSX.Element => {
     setIsVerificationLinkResending,
   ]);
 
-  console.log("isEmailVerified", isEmailVerified);
-
   const handleFormSubmit = async (
     e: FormEvent<HTMLFormElement>
   ): Promise<void> => {
