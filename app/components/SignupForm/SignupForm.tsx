@@ -12,10 +12,11 @@ import { AuthBtn, AuthForm, Spinner } from "@/app/styles/common.styled";
 
 export const SignupForm: FC = observer((): JSX.Element => {
   const { t } = useTranslation();
-  const { authStore } = useStore();
+  const { authStore, authCredentials } = useStore();
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (authCredentials.password && authCredentials.password.length < 8) return;
     await authStore.signup();
   };
 
