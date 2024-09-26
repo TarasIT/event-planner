@@ -29,7 +29,6 @@ export const ProfileForm: FC<ProfileFormProps> = observer(
       if (google_id) authCredentials.setGoogleId(google_id);
       authCredentials.setIsPasswordExisted(is_password_existed);
       if (error) toast.error(error);
-      console.log({ name, email, google_id, is_password_existed, error });
     }, [name, email, google_id, is_password_existed, error]);
 
     return (

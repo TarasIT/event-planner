@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import Loading from "../loading";
 import { ResetPasswordForm } from "../components/ResetPasswordForm/ResetPasswordForm";
-import { PasswordTitle } from "../components/PasswordTitle/PasswordTitle";
+import { Title } from "../components/Title/Title";
 
 interface PageProps {
   searchParams: string;
@@ -16,7 +16,7 @@ const ResetPassword = async ({
 
   return (
     <Suspense fallback={<Loading />}>
-      <PasswordTitle title={"resetPassword"} />
+      <Title title={"resetPassword"} />
       <ResetPasswordForm
         resetPasswordToken={resetPasswordToken && resetPasswordToken}
       />

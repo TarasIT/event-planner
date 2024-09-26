@@ -3,13 +3,13 @@
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { poppins } from "@/app/assets/fonts";
-import { Title } from "./PasswordTitle.styled";
+import { ComponentTitle } from "./Title.styled";
 
 interface TitleProps {
   title: string;
 }
 
-export const PasswordTitle: FC<TitleProps> = ({ title }): JSX.Element => {
+export const Title: FC<TitleProps> = ({ title }): JSX.Element => {
   const { t } = useTranslation();
-  return <Title className={poppins.className}>{t(title.toString())}</Title>;
+  return <ComponentTitle className={poppins.className}>{t(title.toString())}</ComponentTitle>;
 };

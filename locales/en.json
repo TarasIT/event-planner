@@ -1,6 +1,6 @@
 {
   "appTitle": "Event Planner",
-  "login": "Login",
+  "login": "Log In",
   "signup": "Sign Up",
   "name": "Name",
   "email": "Email",
@@ -16,7 +16,7 @@
   "changePassword": "Change password",
   "resetPassword": "Reset password",
   "forgotPasswordTitle": "Forgot password",
-  "forgotPasswordLink": "forgot password?",
+  "forgotPasswordLink": "Forgot password?",
   "newPassword": "New password",
   "confirmPassword": "Confirm new password",
   "yourData": "Your data",
@@ -93,5 +93,11 @@
     "deleteAllEvents": "Are you sure, you want to delete all your events?",
     "deleteProfile": "Are you sure, you want to delete your profile with all your events?",
     "logOut": "Are you sure, you want to log out?"
+  },
+  "emailVerification": {
+    "invalidUrl": "Invalid email verification link. Please request a new one.",
+    "successfulVerification": "Your email is verified successfully! Now, you can log in!",
+    "userNotFound": "User is not found :(",
+    "internalServerError": "An unknown error occurred. Please try later."
   }
 }

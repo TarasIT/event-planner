@@ -9,7 +9,7 @@ const spinAnimation = keyframes`
   100% { transform: rotate(360deg); }
 `;
 
-export const Spinner = styled(ImSpinner9)`
+export const AccidentSpinner = styled(ImSpinner9)`
   width: 1.5em;
   height: 1.5em;
   color: #7b61ff;
@@ -22,6 +22,20 @@ export const ForgotPasswordLink = styled(Link)`
   align-items: center;
   color: #7b61ff;
   transition: color 300ms;
+
+  &:hover,
+  &:focus {
+    color: #6243ff;
+  }
+`;
+
+export const ResendVerificationEmailLink = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #7b61ff;
+  transition: color 300ms;
+  cursor: pointer;
 
   &:hover,
   &:focus {

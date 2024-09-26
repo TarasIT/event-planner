@@ -16,7 +16,7 @@
   "changePassword": "Змінити пароль",
   "resetPassword": "Скидання паролю",
   "forgotPasswordTitle": "Забули пароль",
-  "forgotPasswordLink": "забули пароль?",
+  "forgotPasswordLink": "Забули пароль?",
   "newPassword": "Новий пароль",
   "confirmPassword": "Підтверди новий пароль",
   "yourData": "Ваші дані",
@@ -93,5 +93,12 @@
     "deleteAllEvents": "Ви впевнені, що хочете видалити всі свої події?",
     "deleteProfile": "Ви впевнені, що хочете видалити свій профіль з усіма подіями?",
     "logOut": "Ви впевнені, що хочете вийти?"
+  },
+  "emailVerification": {
+    "resendVerificationLink": "",
+    "invalidUrl": "Посилання для підтвердження електронної пошти недійсне. Будь ласка, запросіть нове.",
+    "successfulVerification": "Вашу електронну адресу успішно перевірено! Тепер ви можете увійти!",
+    "userNotFound": "Користувача не знайдено :(",
+    "internalServerError": "Сталася невідома помилка. Спробуйте пізніше."
   }
 }

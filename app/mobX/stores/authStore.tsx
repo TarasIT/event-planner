@@ -17,6 +17,7 @@ class AuthStore {
   isLoggedIn: boolean = false;
   isLoading: boolean = false;
   error: string | null = null;
+  message: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -34,12 +35,21 @@ class AuthStore {
   }
 
   @action
+  setMessage(message: string | null): void {
+    this.message = message;
+  }
+
+  @action
+  setError(error: string | null): void {
+    this.error = error;
+  }
+
+  @action
   loadToken(): void {
     const token = Cookies.get("token");
     if (token) {
       this.token = token;
       this.setLoggedIn(true);
-      // this.getUser();
     }
   }
 
@@ -133,12 +143,12 @@ class AuthStore {
       }
       this.saveToken(data.token);
       this.setLoggedIn(true);
+      this.resetAuthForm();
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
-      this.resetAuthForm();
       this.setLoading(false);
     }
   }
@@ -328,6 +338,47 @@ class AuthStore {
       this.error = errorMessage;
     } finally {
       this.setLoading(false);
+    }
+  }
+
+  @action
+  async resendVerificationLink(): Promise<void> {
+    const credentials: User = {
+      email: authCredentials.email,
+      password: authCredentials.password,
+    };
+
+    this.error = null;
+    try {
+      const response = await fetch(
+        `https://event-planner-api.onrender.com/api/email/resend`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        }
+      );
+      const data: {
+        message: string;
+        error: string;
+      } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || data.message || "Failed to resend verification link."
+        );
+      }
+      toast.success(data.message);
+      this.setMessage(data.message);
+    } catch (error: unknown) {
+      const errorMessage = (error as Error).message;
+      toast.error(errorMessage);
+      this.error = errorMessage;
+    } finally {
+      this.resetAuthForm();
     }
   }
 }

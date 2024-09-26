@@ -1,6 +1,6 @@
 "use client";
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const DeleteBtn = styled.button`
   min-width: 280px;
@@ -21,9 +21,7 @@ export const DeleteBtn = styled.button`
 
   font-size: 18px;
 
-  ${css`
-    @media (width < 768px) {
-      min-width: 200px;
-    }
-  `}
+  @media (width < 768px) {
+    min-width: 200px;
+  }
 `;
