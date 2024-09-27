@@ -99,5 +99,9 @@
     "successfulVerification": "Your email is verified successfully! Now, you can log in!",
     "userNotFound": "User is not found :(",
     "internalServerError": "An unknown error occurred. Please try later."
-  }
+  },
+  "startPage": {
+    "title": "Welcome to Event Planner!",
+    "subtitle": "Manage your tommorrow."
+ }
 }
