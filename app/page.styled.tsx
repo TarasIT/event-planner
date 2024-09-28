@@ -17,8 +17,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 500px;
   text-align: center;
-  padding: 40px 20px;
+  padding: 50px 20px;
   color: #6243ff;
 
   &:not(:last-child) {
@@ -33,6 +34,9 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.h1`
+  margin-top: 40px;
+  margin-bottom: 30px;
+
   font-size: 40px;
   font-style: normal;
   font-weight: 600;
@@ -46,8 +50,6 @@ export const Title = styled.h1`
 `;
 
 export const Subtitle = styled.p`
-  margin-bottom: 30px;
-
   font-size: 24px;
   font-style: normal;
   line-height: normal;
