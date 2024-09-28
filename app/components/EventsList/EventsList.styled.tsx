@@ -19,16 +19,14 @@ export const EventCardsList = styled.ul<EventProps>`
   margin-bottom: 32px;
   background-color: #fff;
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      grid-template-columns: 332px 332px;
-      row-gap: 24px;
-    }
-    @media (width < 768px) {
-      grid-template-columns: 271px;
-      row-gap: 24px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    grid-template-columns: 332px 332px;
+    row-gap: 24px;
+  }
+  @media (width < 768px) {
+    grid-template-columns: 271px;
+    row-gap: 24px;
+  }
 `;
 
 export const NoEventsTitle = styled.h2`
@@ -92,14 +90,12 @@ export const EventCard = styled.li`
     }
   }
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      width: 332px;
-    }
-    @media (width < 768px) {
-      width: 272px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    width: 332px;
+  }
+  @media (width < 768px) {
+    width: 272px;
+  }
 `;
 
 export const BackgroundContainer = styled.div<EventProps>`

@@ -102,6 +102,19 @@
   },
   "startPage": {
     "title": "Welcome to Event Planner!",
-    "subtitle": "Manage your tommorrow."
- }
+    "subtitle": "Manage your tommorrow.",
+    "featureTitle": "Make it easy of events:",
+    "creation": "Creation",
+    "creationDescription": "Create new events in all details including, title, description, date, time, location, category, picture and priority of an event.",
+    "editing": "Editing",
+    "editingDescription": "Easily edit already created events by changing data in corresponding edit form.",
+    "sorting": "Sorting",
+    "sortingDescription": "You can sort events by name, date or priority.",
+    "searching": "Searching",
+    "searchingDescription": "Use powerful search functionality by entering keywords, making it easy to locate a relevant event.",
+    "filtration": "Filtration",
+    "filtrationDescription": "Events can be filtered based on categories, including art, music, business, conference, workshop, party and sport.",
+    "deletion": "Deletion",
+    "deletionDescription": "Delete events one by one or you can delete all of them by navigating to your profile page."
+  }
 }
