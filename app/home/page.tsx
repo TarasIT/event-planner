@@ -6,6 +6,7 @@ import EventsList from "../components/EventsList/EventsList";
 import { Pagination } from "../components/Pagination/Pagination";
 import Loading from "../loading";
 import { getEvents } from "./actions";
+import UpdateURLWithQueryParams from "../components/UpdateURLWithQueryParams/UpdateURLWithQueryParams";
 
 interface PageProps {
   searchParams: string;
@@ -18,6 +19,7 @@ const Home = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
 
   return (
     <Suspense fallback={<Loading />}>
+      <UpdateURLWithQueryParams />
       <AppBar />
       <EventsList eventsList={eventsList && eventsList.data} error={error} />
       <Pagination meta={eventsList && eventsList.meta} error={error} />

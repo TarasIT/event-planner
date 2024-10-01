@@ -42,7 +42,7 @@ export const EventsSorter: FC = observer((): JSX.Element => {
   const [isOptionVisible, setIsOptionVisible] = useState<boolean>(false);
   const sorterBoxRef = useRef<HTMLDivElement | null>(null);
   const { t, i18n } = useTranslation();
-  const { eventsSorter, eventsStore, filtersStore } = useStore();
+  const { eventsSorter, eventsStore } = useStore();
   const router = useRouter();
   const queryParams = useSearchParams();
   const sortQueryParam = queryParams.get("sort");
@@ -55,17 +55,6 @@ export const EventsSorter: FC = observer((): JSX.Element => {
     window.addEventListener("resize", handleWindowResize);
     window.addEventListener("mousedown", handleClickOutside);
     setViewportWidth(window.innerWidth);
-
-    if (sortQueryParam && ascendingQueryParam) {
-      const isAscending = ascendingQueryParam === "true";
-      setIsSorterIncreased(isAscending);
-      if (sortQueryParam === "title") {
-        isAscending ? setCurrentSorter("A-Z") : setCurrentSorter("Z-A");
-      } else {
-        setCurrentSorter(sortQueryParam);
-      }
-      setIsOptionVisible(true);
-    }
     return () => {
       window.removeEventListener("resize", handleWindowResize);
       window.removeEventListener("mousedown", handleClickOutside);
@@ -73,11 +62,29 @@ export const EventsSorter: FC = observer((): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    if (filtersStore.areFiltersReseted && !eventsStore.isLoading) {
-      setCurrentSorter("");
+    if (sortQueryParam && ascendingQueryParam) {
+      const isAscending = ascendingQueryParam === "true";
+      setIsSorterIncreased(isAscending);
+      eventsSorter.setIsSorterIncreased(isAscending);
+
+      if (sortQueryParam === "title") {
+        if (isAscending) {
+          setCurrentSorter("A-Z");
+          eventsSorter.setCurrentSorter("A-Z");
+        } else {
+          setCurrentSorter("Z-A");
+          eventsSorter.setCurrentSorter("Z-A");
+        }
+      } else {
+        setCurrentSorter(sortQueryParam);
+      }
+    } else {
       setIsSorterIncreased(null);
+      eventsSorter.setIsSorterIncreased(null);
+      setCurrentSorter("");
+      eventsSorter.setCurrentSorter("");
     }
-  }, [filtersStore.areFiltersReseted, eventsStore.isLoading]);
+  }, [sortQueryParam, ascendingQueryParam]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (

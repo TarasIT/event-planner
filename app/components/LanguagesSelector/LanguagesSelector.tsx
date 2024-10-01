@@ -13,7 +13,7 @@ import { languages } from "../../data/languages";
 import { poppins } from "@/app/assets/fonts";
 import { SvgContainer } from "@/app/styles/common.styled";
 import { observer } from "mobx-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createQueryString } from "@/app/services/createQueryString";
 
 const shouldForwardProp = (prop: string) =>
@@ -28,6 +28,7 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
   const router = useRouter();
   const queryParams = useSearchParams();
   const langQueryParam = queryParams.get("lang");
+  const pathname = usePathname();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -35,7 +36,6 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
       setCurrentLang(langQueryParam.toUpperCase());
       i18n.changeLanguage(langQueryParam);
     }
-    router.push(`?lang=${i18n.language}`);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -52,7 +52,10 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
     const target = e.target as HTMLParagraphElement;
     setCurrentLang(target.id);
     i18n.changeLanguage(target.id.toLowerCase());
-    router.push(`?lang=${i18n.language}`);
+
+    pathname === "/home"
+      ? router.push(createQueryString())
+      : router.push(`?lang=${i18n.language}`);
   };
 
   return (

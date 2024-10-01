@@ -54,10 +54,15 @@ const EventsList: FC<EventListProps> = observer(
     const [events, setEvents] = useState<NewEvent[] | null>(null);
     const { t, i18n } = useTranslation();
     const router = useRouter();
-    const { eventsStore, authStore, eventsSearch, categoryFilter } = useStore();
+    const {
+      eventsStore,
+      authStore,
+      eventsSearch,
+      categoryFilter,
+      eventsSorter,
+    } = useStore();
 
     useEffect(() => {
-      router.push(createQueryString());
       eventsStore.setLoading(false);
     }, []);
 
@@ -78,7 +83,7 @@ const EventsList: FC<EventListProps> = observer(
         }
       }
 
-      filtersStore.setFiltersReseted(false);
+      if (filtersStore.areFiltersReseted) filtersStore.setFiltersReseted(false);
     }, [
       eventsList,
       error,
@@ -86,6 +91,7 @@ const EventsList: FC<EventListProps> = observer(
       router.push,
       toast.error,
       eventsStore.setError,
+      filtersStore.areFiltersReseted,
     ]);
 
     return (

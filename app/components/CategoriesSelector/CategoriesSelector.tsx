@@ -31,7 +31,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const categoryBoxRef = useRef<HTMLDivElement | null>(null);
-  const { categoryFilter, eventsStore, filtersStore } = useStore();
+  const { categoryFilter, eventsStore } = useStore();
   const { t } = useTranslation();
   const router = useRouter();
   const queryParams = useSearchParams();
@@ -39,28 +39,24 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-
-    if (categoryQueryParam) {
-      setCurrentCategory(categoryQueryParam);
-      categoryFilter.setCurrentCategory(categoryQueryParam);
-    }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
-    if (filtersStore.areFiltersReseted && !eventsStore.isLoading) {
+    if (categoryQueryParam) {
+      setCurrentCategory(categoryQueryParam);
+      categoryFilter.setCurrentCategory(categoryQueryParam);
+    } else {
       setCurrentCategory("");
-      setIsCategoryListOpened(false);
+      categoryFilter.setCurrentCategory("");
     }
+  }, [categoryQueryParam]);
+
+  useEffect(() => {
     categoryFilter.checkCategoriesFilterOpened(isCategoryListOpened);
-  }, [
-    isCategoryListOpened,
-    filtersStore.areFiltersReseted,
-    eventsStore.isLoading,
-  ]);
+  }, [isCategoryListOpened]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (

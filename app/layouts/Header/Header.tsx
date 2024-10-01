@@ -45,12 +45,25 @@ const Header: FC = observer((): JSX.Element => {
   useEffect(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
-    if (searchQueryParam) {
-      eventsSearch.setSearchQuery(searchQueryParam);
-      setQuery(searchQueryParam);
-    }
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    switch (true) {
+      case searchQueryParam && pathname === "/home":
+        eventsSearch.setSearchQuery(searchQueryParam);
+        setQuery(searchQueryParam);
+        break;
+      case !searchQueryParam && pathname !== "/home":
+        eventsSearch.setSearchQuery(eventsSearch.searchQuery);
+        setQuery(eventsSearch.searchQuery);
+        break;
+      default:
+        eventsSearch.setSearchQuery("");
+        setQuery("");
+        break;
+    }
+  }, [searchQueryParam, pathname]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
