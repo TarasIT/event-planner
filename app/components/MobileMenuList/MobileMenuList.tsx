@@ -20,6 +20,7 @@ import {
   ModalDescription,
   Spinner,
 } from "@/app/styles/common.styled";
+import { createQueryString } from "@/app/services/createQueryString";
 
 interface MobileMenuProps {
   closeMobileMenu: () => void;
@@ -47,7 +48,7 @@ export const MobileMenuList: FC<MobileMenuProps> = ({
     if (e.currentTarget.id === "logout") {
       setIsModalOpened(true);
     } else {
-      router.push("/profile");
+      router.push(`/profile?lang=${i18n.language}`);
       closeMobileMenu();
     }
   };
@@ -57,7 +58,7 @@ export const MobileMenuList: FC<MobileMenuProps> = ({
     setIsModalOpened(false);
     await authStore.logout();
     closeMobileMenu();
-    router.push("/");
+    router.push(`/?lang=${i18n.language}`);
   };
 
   return (

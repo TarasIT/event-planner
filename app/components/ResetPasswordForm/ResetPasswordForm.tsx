@@ -10,6 +10,7 @@ import { AuthBtn, AuthForm, Spinner } from "@/app/styles/common.styled";
 import { useRouter } from "next/navigation";
 import { NewPasswordInput } from "../NewPasswordInput/NewPasswordInput";
 import { ConfirmPasswordInput } from "../ConfirmPasswordInput/ConfirmPasswordInput";
+import { createQueryString } from "@/app/services/createQueryString";
 
 interface ResetPasswordFormProps {
   resetPasswordToken: string | null;
@@ -19,7 +20,7 @@ export const ResetPasswordForm: FC<ResetPasswordFormProps> = observer(
   ({ resetPasswordToken }): JSX.Element => {
     const [arePasswordsMatched, setArePasswordsMatched] =
       useState<boolean>(false);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { authStore, authCredentials } = useStore();
     const router = useRouter();
 
@@ -33,7 +34,7 @@ export const ResetPasswordForm: FC<ResetPasswordFormProps> = observer(
     const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (resetPasswordToken) await authStore.resetPassword(resetPasswordToken);
-      router.push("/login");
+      router.push(`/login?lang=${i18n.language}`);
     };
 
     return (

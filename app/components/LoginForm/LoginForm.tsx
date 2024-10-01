@@ -14,6 +14,7 @@ import {
   AccidentSpinner,
   ResendVerificationEmailLink,
 } from "./LoginForm.styled";
+import { createQueryString } from "@/app/services/createQueryString";
 
 export const LoginForm: FC = observer((): JSX.Element => {
   const { authStore, authCredentials } = useStore();
@@ -56,7 +57,7 @@ export const LoginForm: FC = observer((): JSX.Element => {
     if (authCredentials.password && authCredentials.password.length < 8) return;
     await authStore.login();
     if (authStore.error !== "Email is not verified.") {
-      router.push("/home");
+      router.push(`/home${createQueryString()}`);
     }
   };
 

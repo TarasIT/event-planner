@@ -8,13 +8,13 @@ import { poppins } from "@/app/assets/fonts";
 import { Spinner } from "@/app/styles/common.styled";
 
 export const AddEventButton: FC = (): JSX.Element => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { t, i18n } = useTranslation();
   const router = useRouter();
 
   const handleClick = (): void => {
     setIsLoading(true);
-    router.push("/create-event");
+    router.push(`/create-event?lang=${i18n.language}`);
   };
 
   return (

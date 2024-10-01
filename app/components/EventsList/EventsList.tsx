@@ -30,6 +30,7 @@ import { NewEvent } from "@/app/types/types";
 import { transformDate } from "@/app/services/dateTransform";
 import { Spinner } from "@/app/styles/common.styled";
 import filtersStore from "@/app/mobX/stores/filtersStore";
+import { createQueryString } from "@/app/services/createQueryString";
 
 interface EventListProps {
   eventsList: NewEvent[] | null;
@@ -51,11 +52,12 @@ const EventsList: FC<EventListProps> = observer(
     const [isLoading, setIsLoading] = useState(false);
     const [eventId, setEventId] = useState<number>();
     const [events, setEvents] = useState<NewEvent[] | null>(null);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const router = useRouter();
     const { eventsStore, authStore, eventsSearch, categoryFilter } = useStore();
 
     useEffect(() => {
+      router.push(createQueryString());
       eventsStore.setLoading(false);
     }, []);
 
@@ -67,7 +69,7 @@ const EventsList: FC<EventListProps> = observer(
       if (error) {
         if (error === "Unauthenticated.") {
           authStore.deleteToken();
-          router.push("/");
+          router.push(`/?lang=${i18n.language}`);
           return;
         }
         if (error !== "No events found.") {
@@ -151,7 +153,9 @@ const EventsList: FC<EventListProps> = observer(
                         onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                           setEventId(Number(e.currentTarget.id));
                           setIsLoading(true);
-                          router.push(`/event-details/${id}`);
+                          router.push(
+                            `/event-details/${id}?lang=${i18n.language}`
+                          );
                         }}
                         className={poppins.className}
                       >

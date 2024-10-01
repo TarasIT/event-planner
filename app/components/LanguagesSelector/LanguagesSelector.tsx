@@ -13,6 +13,8 @@ import { languages } from "../../data/languages";
 import { poppins } from "@/app/assets/fonts";
 import { SvgContainer } from "@/app/styles/common.styled";
 import { observer } from "mobx-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createQueryString } from "@/app/services/createQueryString";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isLoggedIn" && prop !== "isLangListOpened";
@@ -23,17 +25,22 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
     i18n.language.toUpperCase()
   );
   const langBoxRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
+  const queryParams = useSearchParams();
+  const langQueryParam = queryParams.get("lang");
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    if (langQueryParam) {
+      setCurrentLang(langQueryParam.toUpperCase());
+      i18n.changeLanguage(langQueryParam);
+    }
+    router.push(`?lang=${i18n.language}`);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    i18n.changeLanguage(currentLang && currentLang.toLowerCase());
-  }, [currentLang, i18n.changeLanguage]);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (langBoxRef.current && !langBoxRef.current.contains(e.target as Node)) {
@@ -44,6 +51,8 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
   const handleLangChanging = (e: React.MouseEvent<HTMLParagraphElement>) => {
     const target = e.target as HTMLParagraphElement;
     setCurrentLang(target.id);
+    i18n.changeLanguage(target.id.toLowerCase());
+    router.push(`?lang=${i18n.language}`);
   };
 
   return (

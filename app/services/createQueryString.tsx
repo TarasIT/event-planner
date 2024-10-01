@@ -1,4 +1,5 @@
 import { useStore } from "../mobX/useStore";
+import i18n from "../../i18n";
 
 interface QueryParams {
   page?: number | null;
@@ -6,6 +7,7 @@ interface QueryParams {
   category?: string | null;
   sort?: string | null;
   ascending?: boolean | null;
+  lang?: string | null;
 }
 
 export const createQueryString = (): string => {
@@ -33,6 +35,7 @@ export const createQueryString = (): string => {
     category: currentCategory,
     sort: sorter,
     ascending: isSorterAscending,
+    lang: i18n.language,
   };
 
   const filteredQuery = Object.fromEntries(

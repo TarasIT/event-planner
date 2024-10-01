@@ -33,8 +33,8 @@ const Header: FC = observer((): JSX.Element => {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const [isMobileMenuOpened, setIsMobileMenuOpened] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
-  const { t } = useTranslation();
-  const { authStore, eventsSearch, eventsStore, filtersStore } = useStore();
+  const { t, i18n } = useTranslation();
+  const { authStore, eventsSearch, eventsStore } = useStore();
   const queryParams = useSearchParams();
   const searchQueryParam = queryParams.get("search");
   const router = useRouter();
@@ -84,7 +84,7 @@ const Header: FC = observer((): JSX.Element => {
             onClick={(): void => {
               authStore.isLoggedIn
                 ? router.push(`/home${createQueryString()}`)
-                : router.push("/");
+                : router.push(`/?lang=${i18n.language}`);
             }}
             className={alata.className}
           >

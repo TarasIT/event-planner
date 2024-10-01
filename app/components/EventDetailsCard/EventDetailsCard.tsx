@@ -32,6 +32,7 @@ import {
   Spinner,
 } from "@/app/styles/common.styled";
 import Modal from "../Modal/Modal";
+import { createQueryString } from "@/app/services/createQueryString";
 
 interface EventProps {
   event?: NewEvent | null | undefined;
@@ -48,7 +49,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
     const [isDeletionLoading, setIsDeletionLoading] = useState<boolean>(false);
     const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
     const { id } = useParams();
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const router = useRouter();
     const { eventsStore } = useStore();
 
@@ -60,12 +61,12 @@ export const EventDetailsCard: FC<EventProps> = observer(
       setIsDeletionLoading(true);
       setIsModalOpened(false);
       await eventsStore.deleteEvent(id as string);
-      router.push("/home");
+      router.push(`/home${createQueryString()}`);
     };
 
     const editEvent = (id: string): void => {
       setIsEditionLoading(true);
-      router.push(`/edit-event/${id}`);
+      router.push(`/edit-event/${id}?lang=${i18n.language}`);
     };
 
     const {

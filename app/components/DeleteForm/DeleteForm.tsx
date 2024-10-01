@@ -18,6 +18,7 @@ import {
   ModalDescription,
   Spinner,
 } from "@/app/styles/common.styled";
+import { createQueryString } from "@/app/services/createQueryString";
 
 export const DeleteForm: FC = observer((): JSX.Element => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
@@ -49,11 +50,11 @@ export const DeleteForm: FC = observer((): JSX.Element => {
     if (isDeleteEventsBtnActive) {
       closeModal();
       await eventsStore.deleteAllEvents();
-      router.push("/home");
+      router.push(`/home${createQueryString()}`);
     } else {
       closeModal();
       await authStore.deleteProfile();
-      router.push("/");
+      router.push(`/${createQueryString()}`);
     }
   };
 

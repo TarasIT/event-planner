@@ -22,6 +22,7 @@ import {
   ModalDescription,
   Spinner,
 } from "@/app/styles/common.styled";
+import { createQueryString } from "@/app/services/createQueryString";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isMenuSelectorOpened" && prop !== "currentLang";
@@ -59,7 +60,7 @@ export const MenuSelector: FC = (): JSX.Element => {
       setIsModalOpened(true);
     } else {
       setIsLoading(true);
-      router.push("/profile");
+      router.push(`/profile?lang=${i18n.language}`);
     }
   };
 
@@ -67,7 +68,7 @@ export const MenuSelector: FC = (): JSX.Element => {
     setIsLoading(true);
     setIsModalOpened(false);
     await authStore.logout();
-    router.push("/");
+    router.push(`/?lang=${i18n.language}`);
   };
 
   return (

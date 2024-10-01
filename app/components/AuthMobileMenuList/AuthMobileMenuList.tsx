@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { usePathname, useRouter } from "next/navigation";
 import { authList } from "@/app/data/authList";
 import { Spinner } from "@/app/styles/common.styled";
+import { createQueryString } from "@/app/services/createQueryString";
 
 interface MobileMenuProps {
   closeMobileMenu: () => void;
@@ -36,11 +37,11 @@ export const AuthMobileMenuList: FC<MobileMenuProps> = ({
   const onMenuBtnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
     switch (e.currentTarget.id) {
       case "signup":
-        router.push("/signup");
+        router.push(`/signup?lang=${i18n.language}`);
         closeMobileMenu();
         break;
       case "login":
-        router.push("/login");
+        router.push(`/login?lang=${i18n.language}`);
         closeMobileMenu();
         break;
       default:

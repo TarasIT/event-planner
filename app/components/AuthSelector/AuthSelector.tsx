@@ -15,6 +15,7 @@ import { poppins } from "@/app/assets/fonts";
 import { useTranslation } from "react-i18next";
 import { usePathname, useRouter } from "next/navigation";
 import { Spinner } from "@/app/styles/common.styled";
+import { createQueryString } from "@/app/services/createQueryString";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isAuthSelectorOpened" && prop !== "currentLang";
@@ -49,10 +50,10 @@ export const AuthSelector: FC = (): JSX.Element => {
     setIsLoading(true);
     switch (e.currentTarget.id) {
       case "login":
-        router.push("/login");
+        router.push(`/login?lang=${i18n.language}`);
         break;
       case "signup":
-        router.push("/signup");
+        router.push(`/signup?lang=${i18n.language}`);
         break;
       default:
         window.location.href =

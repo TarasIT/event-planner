@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next";
 
 const StartPage = (): JSX.Element => {
   const { t } = useTranslation();
+
   return (
     <Suspense fallback={<Loading />}>
       <Container className={poppins.className}>

@@ -23,6 +23,7 @@ import { poppins } from "@/app/assets/fonts";
 import { toast } from "react-toastify";
 import { removeEmptyFields } from "@/app/services/removeEmptyFields";
 import { Spinner } from "@/app/styles/common.styled";
+import { createQueryString } from "@/app/services/createQueryString";
 
 interface UpdateEventProps {
   eventForUpdate: NewEvent | null | undefined;
@@ -73,7 +74,7 @@ export const NewEventForm: FC<UpdateEventProps> = observer(
           ? await eventsStore.updateEvent(id as string, resultEvent as NewEvent)
           : await eventsStore.createEvent(resultEvent as FormData);
         if (eventsStore.error) return;
-        router.push("/home");
+        router.push(`/home${createQueryString()}`);
       }
     };
 
