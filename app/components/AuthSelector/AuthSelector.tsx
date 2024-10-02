@@ -47,15 +47,23 @@ export const AuthSelector: FC = (): JSX.Element => {
   };
 
   const onAuthBtnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    setIsLoading(true);
-    switch (e.currentTarget.id) {
+    const id = e.currentTarget.id;
+
+    switch (id) {
       case "login":
-        router.push(`/login?lang=${i18n.language}`);
+        if (pathname !== "/login") {
+          setIsLoading(true);
+          router.push(`/login?lang=${i18n.language}`);
+        }
         break;
       case "signup":
-        router.push(`/signup?lang=${i18n.language}`);
+        if (pathname !== "/signup") {
+          setIsLoading(true);
+          router.push(`/signup?lang=${i18n.language}`);
+        }
         break;
       default:
+        setIsLoading(true);
         window.location.href =
           "https://event-planner-api.onrender.com/api/auth/google/redirect";
         break;

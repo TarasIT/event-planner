@@ -22,7 +22,6 @@ import {
   ModalDescription,
   Spinner,
 } from "@/app/styles/common.styled";
-import { createQueryString } from "@/app/services/createQueryString";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isMenuSelectorOpened" && prop !== "currentLang";
@@ -56,9 +55,10 @@ export const MenuSelector: FC = (): JSX.Element => {
   };
 
   const onMenuItemClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    if (e.currentTarget.id === "logout") {
+    const id = e.currentTarget.id;
+    if (id === "logout") {
       setIsModalOpened(true);
-    } else {
+    } else if (pathname !== "/profile") {
       setIsLoading(true);
       router.push(`/profile?lang=${i18n.language}`);
     }
