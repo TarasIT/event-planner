@@ -83,8 +83,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
   const onCategoryClick = (
     e: React.MouseEvent<HTMLLIElement | HTMLDivElement>
   ): void => {
-    const id = e.currentTarget.id.toLowerCase();
-
+    const id = e.currentTarget.id;
     if (id !== categoryFilter.currentCategory) {
       eventsStore.setLoading(true);
       setCurrentCategory(id);
@@ -120,7 +119,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
               return (
                 <CategoryItem
                   key={category}
-                  id={category}
+                  id={category.toLowerCase()}
                   onMouseEnter={handleCategoryChanging}
                   onMouseLeave={handleCategoryChanging}
                   onClick={onCategoryClick}
