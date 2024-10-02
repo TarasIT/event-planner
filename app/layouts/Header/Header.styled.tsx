@@ -8,6 +8,7 @@ import { IoIosMenu } from "react-icons/io";
 interface HeaderProps {
   query?: string;
   isLoggedIn?: boolean;
+  pathname?: string;
 }
 
 export const AppHeader = styled.header`
@@ -26,7 +27,8 @@ export const Container = styled.div<HeaderProps>`
 
   @media (width < 768px) {
     flex-wrap: wrap;
-    min-height: ${({ isLoggedIn }) => (isLoggedIn ? "140px" : "80px")};
+    min-height: ${({ isLoggedIn, pathname }) =>
+      isLoggedIn && pathname === "/home" ? "140px" : "80px"};
     width: 320px;
     padding-top: ${({ isLoggedIn }) => (isLoggedIn ? "10px" : "0px")};
     padding-left: 24px;

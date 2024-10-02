@@ -27,7 +27,7 @@ import { MobileMenuList } from "@/app/components/MobileMenuList/MobileMenuList";
 import { AuthMobileMenuList } from "@/app/components/AuthMobileMenuList/AuthMobileMenuList";
 
 const shouldForwardProp = (prop: string) =>
-  prop !== "isLoggedIn" && prop !== "query";
+  prop !== "isLoggedIn" && prop !== "query" && prop !== "pathname";
 
 const Header: FC = observer((): JSX.Element => {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
@@ -91,7 +91,7 @@ const Header: FC = observer((): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <AppHeader>
-        <Container isLoggedIn={authStore.isLoggedIn}>
+        <Container isLoggedIn={authStore.isLoggedIn} pathname={pathname}>
           <HomeBtn
             type="button"
             onClick={(): void => {
