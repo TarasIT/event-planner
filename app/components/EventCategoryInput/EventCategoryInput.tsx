@@ -13,7 +13,6 @@ import {
   CategoryBox,
   InputName,
 } from "./EventCategoryInput.styled";
-import { NewEvent } from "../../types/types";
 import { categories } from "../../data/categories";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";

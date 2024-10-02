@@ -17,6 +17,7 @@ import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { createQueryString } from "@/app/services/createQueryString";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Preahvihear } from "next/font/google";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -82,15 +83,14 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
   const onCategoryClick = (
     e: React.MouseEvent<HTMLLIElement | HTMLDivElement>
   ): void => {
-    const id = e.currentTarget.id;
+    const id = e.currentTarget.id.toLowerCase();
 
-    if (id) {
+    if (id !== categoryFilter.currentCategory) {
+      eventsStore.setLoading(true);
       setCurrentCategory(id);
       categoryFilter.setCurrentCategory(id);
       router.push(createQueryString());
-      eventsStore.setLoading(true);
     }
-    setIsCategoryListOpened(!isCategoryListOpened);
   };
 
   return (
@@ -98,7 +98,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
       <CategoryBox
         ref={categoryBoxRef}
         isCategoryListOpened={isCategoryListOpened}
-        onClick={onCategoryClick}
+        onClick={(): void => setIsCategoryListOpened(!isCategoryListOpened)}
       >
         <CurrentCategory
           isCategoryListOpened={isCategoryListOpened}
