@@ -57,7 +57,7 @@ export const EventDateInput: FC = observer((): JSX.Element => {
   const [isCalendarOpened, setIsCalendarOpened] = useState<boolean>(false);
   const datePickerRef = useRef<DatePicker | null>(null);
   const { t, i18n } = useTranslation();
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
   const { id } = useParams();
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export const EventDateInput: FC = observer((): JSX.Element => {
   const handleDateChange = (date: Date | null): void => {
     if (date) {
       setSelectedDate(date);
-      setFormValues.setDate(date.toISOString().split("T")[0]);
+      eventDataStore.setDate(date.toISOString().split("T")[0]);
     }
   };
 
@@ -116,12 +116,12 @@ export const EventDateInput: FC = observer((): JSX.Element => {
 
           const formatted = `${day}/${month}/${year}`;
           setFormattedDate(formatted);
-          setFormValues.setDate(formatted);
+          eventDataStore.setDate(formatted);
         } else if (typeof selectedDate === "string") {
           setFormattedDate(selectedDate);
-          setFormValues.setDate(selectedDate);
+          eventDataStore.setDate(selectedDate);
         }
-      }, [selectedDate, setFormValues]);
+      }, [selectedDate, eventDataStore]);
 
       return (
         <CustomDatePicker selectedDate={selectedDate} onClick={onClick}>

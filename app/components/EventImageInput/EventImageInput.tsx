@@ -32,7 +32,7 @@ export const EventImageInput: FC = (): JSX.Element => {
   );
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
   const { id } = useParams();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const EventImageInput: FC = (): JSX.Element => {
   useEffect(() => {
     const { event } = eventsStore;
     if (id && event && event.picture) {
-      setFormValues.setPicture(event.picture);
+      eventDataStore.setPicture(event.picture);
       setPicture(event.picture);
       setIsImagePrepared(true);
     }
@@ -85,10 +85,10 @@ export const EventImageInput: FC = (): JSX.Element => {
       const preparedPicture = await preparePicture(file);
       if (preparedPicture) {
         setPicture(preparedPicture);
-        setFormValues.setPicture(preparedPicture);
+        eventDataStore.setPicture(preparedPicture);
       } else {
         setPicture("");
-        setFormValues.setPicture("");
+        eventDataStore.setPicture("");
       }
     }
   };
@@ -122,9 +122,9 @@ export const EventImageInput: FC = (): JSX.Element => {
             <DeleteIconBox
               onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                 e.preventDefault();
-                if (!setFormValues.picture) return;
+                if (!eventDataStore.picture) return;
                 setPicture("");
-                setFormValues.setPicture("");
+                eventDataStore.setPicture("");
               }}
             >
               <SvgDeleteIcon picture={picture} />

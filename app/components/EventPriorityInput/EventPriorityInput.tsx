@@ -27,7 +27,7 @@ export const EventPriorityInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const [currentPriority, setCurrentPriority] = useState<string>("");
   const priorityInputRef = useRef<HTMLDivElement | null>(null);
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
   const { id } = useParams();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const EventPriorityInput: FC = (): JSX.Element => {
   useEffect(() => {
     const { event } = eventsStore;
     if (id && event && event.priority) {
-      setFormValues.setPriority(event.priority);
+      eventDataStore.setPriority(event.priority);
       setCurrentPriority(event.priority);
     }
   }, [id, eventsStore.event]);
@@ -59,7 +59,7 @@ export const EventPriorityInput: FC = (): JSX.Element => {
   ): void => {
     const target = e.target as HTMLParagraphElement;
     setCurrentPriority(target.id);
-    setFormValues.setPriority(target.id);
+    eventDataStore.setPriority(target.id);
   };
 
   return (

@@ -2,7 +2,7 @@ import categoryFilter from "./stores/categoryFilter";
 import eventsStore from "./stores/eventsStore";
 import eventsSorter from "./stores/eventsSorter";
 import eventsSearch from "./stores/eventsSearch";
-import setFormValues from "./stores/setFormValues";
+import eventDataStore from "./stores/eventDataStore";
 import authCredentials from "./stores/authCredentials";
 import paginationStore from "./stores/paginationStore";
 import authStore from "./stores/authStore";
@@ -15,7 +15,7 @@ interface StoreProps {
   categoryFilter: typeof categoryFilter;
   eventsSorter: typeof eventsSorter;
   eventsSearch: typeof eventsSearch;
-  setFormValues: typeof setFormValues;
+  eventDataStore: typeof eventDataStore;
   paginationStore: typeof paginationStore;
   filtersStore: typeof filtersStore;
 }
@@ -27,7 +27,7 @@ const store: StoreProps = {
   categoryFilter,
   eventsSorter,
   eventsSearch,
-  setFormValues,
+  eventDataStore,
   paginationStore,
   filtersStore,
 };

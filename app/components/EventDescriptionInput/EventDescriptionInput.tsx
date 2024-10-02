@@ -27,7 +27,7 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const descriptionTextAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { t } = useTranslation();
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
   const { id } = useParams();
   const { event } = eventsStore;
 
@@ -40,7 +40,7 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
 
   useEffect(() => {
     if (id && event && event.description) {
-      setFormValues.setDescription(event.description);
+      eventDataStore.setDescription(event.description);
       setDescriptionInputValue(event.description);
     }
   }, [id, eventsStore.event]);
@@ -57,12 +57,12 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
     e: ChangeEvent<HTMLTextAreaElement>
   ): void => {
     setDescriptionInputValue(e.target.value);
-    setFormValues.setDescription(e.target.value);
+    eventDataStore.setDescription(e.target.value);
   };
 
   const cleanDescriptionInput = (): void => {
     setDescriptionInputValue("");
-    setFormValues.setDescription("");
+    eventDataStore.setDescription("");
   };
 
   return (

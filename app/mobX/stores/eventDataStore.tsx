@@ -54,6 +54,18 @@ class SetFormValues {
   setPriority(priority: string): void {
     this.priority = priority;
   }
+
+  @action
+  resetEventFormInputs = (): void => {
+    this.setTitle("");
+    this.setDescription("");
+    this.setDate("");
+    this.setTime("");
+    this.setLocation("");
+    this.setCategory("");
+    this.setPicture("");
+    this.setPriority("");
+  };
 }
 
 const setFormValues = new SetFormValues();

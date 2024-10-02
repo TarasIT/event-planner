@@ -27,7 +27,7 @@ export const EventCategoryInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const categoryInputRef = useRef<HTMLDivElement | null>(null);
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
   const { id } = useParams();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const EventCategoryInput: FC = (): JSX.Element => {
   useEffect(() => {
     const { event } = eventsStore;
     if (id && event && event.category) {
-      setFormValues.setCategory(event.category);
+      eventDataStore.setCategory(event.category);
       setCurrentCategory(event.category);
     }
   }, [id, eventsStore.event]);
@@ -59,7 +59,7 @@ export const EventCategoryInput: FC = (): JSX.Element => {
   ): void => {
     const target = e.target as HTMLParagraphElement;
     setCurrentCategory(target.id);
-    setFormValues.setCategory(target.id);
+    eventDataStore.setCategory(target.id);
   };
 
   return (

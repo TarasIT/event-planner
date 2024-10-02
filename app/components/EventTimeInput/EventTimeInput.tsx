@@ -60,13 +60,13 @@ export const EventTimeInput: FC = (): JSX.Element => {
   const textInputRef = useRef<HTMLParagraphElement | null>(null);
 
   const { id } = useParams();
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
 
   useEffect(() => {
     const { event } = eventsStore;
     if (id && event && event.time) {
       setSelectedTime(event.time);
-      setFormValues.setTime(event.time);
+      eventDataStore.setTime(event.time);
     }
 
     window.addEventListener("click", handleClickOutside);
@@ -107,7 +107,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
           .toString()
           .padStart(2, "0")} ${selectedDayHalf}`
       );
-      setFormValues.setTime(
+      eventDataStore.setTime(
         `${selectedHour.toString().padStart(2, "0")}:${selectedMinute
           .toString()
           .padStart(2, "0")} ${selectedDayHalf}`

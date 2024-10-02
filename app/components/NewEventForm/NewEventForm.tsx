@@ -36,7 +36,7 @@ export const NewEventForm: FC<UpdateEventProps> = observer(
     const { t } = useTranslation();
     const { id } = useParams();
     const router = useRouter();
-    const { setFormValues, eventsStore } = useStore();
+    const { eventDataStore, eventsStore } = useStore();
 
     useEffect(() => {
       eventsStore.setEvent(eventForUpdate);
@@ -46,34 +46,46 @@ export const NewEventForm: FC<UpdateEventProps> = observer(
 
     useEffect(() => {
       setEvent({
-        title: setFormValues.title,
-        description: setFormValues.description,
-        date: setFormValues.date as string,
-        time: setFormValues.time,
-        location: setFormValues.location,
-        category: setFormValues.category,
-        picture: setFormValues.picture,
-        priority: setFormValues.priority,
+        title: eventDataStore.title,
+        description: eventDataStore.description,
+        date: eventDataStore.date as string,
+        time: eventDataStore.time,
+        location: eventDataStore.location,
+        category: eventDataStore.category,
+        picture: eventDataStore.picture,
+        priority: eventDataStore.priority,
       });
     }, [
-      setFormValues.title,
-      setFormValues.description,
-      setFormValues.date,
-      setFormValues.time,
-      setFormValues.location,
-      setFormValues.category,
-      setFormValues.picture,
-      setFormValues.priority,
+      eventDataStore.title,
+      eventDataStore.description,
+      eventDataStore.date,
+      eventDataStore.time,
+      eventDataStore.location,
+      eventDataStore.category,
+      eventDataStore.picture,
+      eventDataStore.priority,
     ]);
 
     const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+
+      const eventWithoutId = {
+        ...eventsStore.event,
+      };
+      delete eventWithoutId.id;
+
+      if (JSON.stringify(event) === JSON.stringify(eventWithoutId)) {
+        eventDataStore.resetEventFormInputs();
+        return router.push(`/home${createQueryString()}`);
+      }
+
       if (event) {
         const resultEvent = removeEmptyFields(event, !!id);
         id
           ? await eventsStore.updateEvent(id as string, resultEvent as NewEvent)
           : await eventsStore.createEvent(resultEvent as FormData);
         if (eventsStore.error) return;
+        eventDataStore.resetEventFormInputs();
         router.push(`/home${createQueryString()}`);
       }
     };

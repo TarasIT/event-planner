@@ -32,7 +32,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
   const titleInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
   const { id } = useParams();
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -45,7 +45,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
     const { event } = eventsStore;
     if (id && event && event.title) {
       setTitleInputValue(event.title);
-      setFormValues.setTitle(event.title);
+      eventDataStore.setTitle(event.title);
     }
   }, [id, eventsStore.event]);
 
@@ -59,7 +59,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
 
   const cleanTitleInput = (): void => {
     setTitleInputValue("");
-    setFormValues.setTitle("");
+    eventDataStore.setTitle("");
     setIsTitleInputValid(true);
   };
 
@@ -81,7 +81,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
       setIsTitleInputValid(true);
     }
     setTitleInputValue(title);
-    setFormValues.setTitle(title);
+    eventDataStore.setTitle(title);
   };
 
   return (

@@ -32,7 +32,7 @@ export const EventLocationInput: FC = (): JSX.Element => {
     useState<boolean>(false);
   const locationInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
-  const { setFormValues, eventsStore } = useStore();
+  const { eventDataStore, eventsStore } = useStore();
   const { id } = useParams();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const EventLocationInput: FC = (): JSX.Element => {
   useEffect(() => {
     const { event } = eventsStore;
     if (id && event && event.location) {
-      setFormValues.setLocation(event.location);
+      eventDataStore.setLocation(event.location);
       setLocationInputValue(event.location);
     }
   }, [id, eventsStore.event]);
@@ -77,12 +77,12 @@ export const EventLocationInput: FC = (): JSX.Element => {
       setIsLocationInputValid(true);
     }
     setLocationInputValue(location);
-    setFormValues.setLocation(location);
+    eventDataStore.setLocation(location);
   };
 
   const cleanLocationInput = (): void => {
     setLocationInputValue("");
-    setFormValues.setLocation("");
+    eventDataStore.setLocation("");
     setIsLocationInputValid(true);
   };
 

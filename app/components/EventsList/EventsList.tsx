@@ -30,7 +30,6 @@ import { NewEvent } from "@/app/types/types";
 import { transformDate } from "@/app/services/dateTransform";
 import { Spinner } from "@/app/styles/common.styled";
 import filtersStore from "@/app/mobX/stores/filtersStore";
-import { createQueryString } from "@/app/services/createQueryString";
 
 interface EventListProps {
   eventsList: NewEvent[] | null;
@@ -54,13 +53,7 @@ const EventsList: FC<EventListProps> = observer(
     const [events, setEvents] = useState<NewEvent[] | null>(null);
     const { t, i18n } = useTranslation();
     const router = useRouter();
-    const {
-      eventsStore,
-      authStore,
-      eventsSearch,
-      categoryFilter,
-      eventsSorter,
-    } = useStore();
+    const { eventsStore, authStore, eventsSearch, categoryFilter } = useStore();
 
     useEffect(() => {
       eventsStore.setLoading(false);

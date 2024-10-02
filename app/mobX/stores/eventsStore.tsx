@@ -2,7 +2,7 @@ import { observable, action, makeAutoObservable } from "mobx";
 import type { NewEvent } from "../../types/types";
 import authStore from "./authStore";
 import { toast } from "react-toastify";
-import setFormValues from "./setFormValues";
+import eventDataStore from "./eventDataStore";
 
 interface ResponseProps {
   data?: NewEvent | null;
@@ -26,18 +26,6 @@ class EventsStore {
   setLoading(isLoading: boolean) {
     this.isLoading = isLoading;
   }
-
-  @action
-  resetEventFormInputs = (): void => {
-    setFormValues.setTitle("");
-    setFormValues.setDescription("");
-    setFormValues.setDate("");
-    setFormValues.setTime("");
-    setFormValues.setLocation("");
-    setFormValues.setCategory("");
-    setFormValues.setPicture("");
-    setFormValues.setPriority("");
-  };
 
   @action
   setEvents(events: NewEvent[] | null) {
@@ -72,22 +60,20 @@ class EventsStore {
           body: event,
         }
       );
-      const eventsResponse = await response.json();
+      const data = await response.json();
 
-      if (!response.ok || eventsResponse.error || eventsResponse.errors) {
+      if (!response.ok || data.error || data.errors) {
         throw new Error(
-          eventsResponse.error ||
-            eventsResponse.message ||
-            "Failed to create an event."
+          data.error || data.message || "Failed to create an event."
         );
       }
-      this.setEvent(eventsResponse.data);
+      this.setEvent(data.data);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       toast.error(errorMessage);
       this.setError(errorMessage);
     } finally {
-      this.resetEventFormInputs();
+      eventDataStore.resetEventFormInputs();
       this.setLoading(false);
     }
   }
