@@ -12,22 +12,33 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpened, onClose, children }) => {
   useEffect(() => {
-    document.addEventListener("keydown", handleEscape);
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
     if (isOpened) {
       document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = "auto";
+      document.body.style.paddingRight = "0";
     }
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "";
+      document.body.style.overflow = "auto";
+      document.body.style.paddingRight = "0";
     };
-  }, [isOpened, onClose]);
+  }, [isOpened]);
 
   const handleEscape = (e: KeyboardEvent) => {
     if (e.key === "Escape") onClose();
   };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   if (!isOpened) return null;
 
