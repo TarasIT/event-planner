@@ -76,7 +76,7 @@ export const PasswordInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <PasswordLabel className={poppins.className}>
-        <InputPassword>{t("password")}</InputPassword>
+        <InputPassword>{t("common.password")}</InputPassword>
         <DeleteIconBox onClick={cleanPasswordInput}>
           <SvgDeleteIcon isPasswordLong={isPasswordLong} password={password} />
         </DeleteIconBox>
@@ -89,7 +89,7 @@ export const PasswordInput: FC = (): JSX.Element => {
           isPasswordLong={isPasswordLong}
           onChange={handlePasswordChange}
           password={password}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
           required
         />
@@ -104,7 +104,7 @@ export const PasswordInput: FC = (): JSX.Element => {
         ) : null}
         {!isPasswordLong && (
           <InvalidInputWarning className={poppins.className}>
-            {t("shortPassword")}
+            {t("common.shortPassword")}
           </InvalidInputWarning>
         )}
       </PasswordLabel>

@@ -16,7 +16,7 @@ const ResetPassword = async ({
 
   return (
     <Suspense fallback={<Loading />}>
-      <Title title={"resetPassword"} />
+      <Title title={"resetPasswordPage.resetPasswordTitle"} />
       <ResetPasswordForm
         resetPasswordToken={resetPasswordToken && resetPasswordToken}
       />

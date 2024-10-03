@@ -79,7 +79,7 @@ export const EmailInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <EmailLabel className={poppins.className}>
-        <InputEmail>{t("email")}</InputEmail>
+        <InputEmail>{t("common.email")}</InputEmail>
         <DeleteIconBox onClick={cleanEmailInput}>
           <SvgDeleteIcon
             isEmailInputValid={isEmailInputValid}
@@ -95,13 +95,13 @@ export const EmailInput: FC = (): JSX.Element => {
           isEmailInputValid={isEmailInputValid}
           onChange={handleEmailInputChange}
           emailInputValue={emailInputValue}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
           required
         />
         {!isEmailInputValid && (
           <InvalidInputWarning className={poppins.className}>
-            {t("invalidEmail")}
+            {t("common.invalidEmail")}
           </InvalidInputWarning>
         )}
       </EmailLabel>

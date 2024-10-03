@@ -44,7 +44,11 @@ export const ResetPasswordForm: FC<ResetPasswordFormProps> = observer(
         <ConfirmPasswordInput />
         {arePasswordsMatched && (
           <AuthBtn type="submit" className={poppins.className}>
-            {authStore.isLoading ? <Spinner /> : t("resetPassword")}
+            {authStore.isLoading ? (
+              <Spinner />
+            ) : (
+              t("resetPasswordPage.resetPassword")
+            )}
           </AuthBtn>
         )}
       </AuthForm>

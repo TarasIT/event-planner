@@ -77,7 +77,7 @@ export const NewPasswordInput: FC = observer((): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <PasswordLabel className={poppins.className}>
-        <InputPassword>{t("newPassword")}</InputPassword>
+        <InputPassword>{t("profilePage.newPassword")}</InputPassword>
         <DeleteIconBox onClick={cleanPasswordInput}>
           <SvgDeleteIcon isPasswordLong={isPasswordLong} password={password} />
         </DeleteIconBox>
@@ -90,7 +90,7 @@ export const NewPasswordInput: FC = observer((): JSX.Element => {
           isPasswordLong={isPasswordLong}
           onChange={handlePasswordChange}
           password={password}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
           required
         />
@@ -105,7 +105,7 @@ export const NewPasswordInput: FC = observer((): JSX.Element => {
         ) : null}
         {!isPasswordLong && (
           <InvalidInputWarning className={poppins.className}>
-            {t("shortPassword")}
+            {t("common.shortPassword")}
           </InvalidInputWarning>
         )}
       </PasswordLabel>

@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { RxCross2 } from "react-icons/rx";
 
 interface CreateEventFormProps {
@@ -76,7 +76,8 @@ export const EmailLabel = styled.label`
   position: relative;
   display: block;
   width: 372px;
-
+  margin-left: auto;
+  margin-right: auto;
   color: #7b61ff;
   font-size: 16px;
   font-style: normal;
@@ -84,14 +85,10 @@ export const EmailLabel = styled.label`
   line-height: 16px;
   letter-spacing: 0.4px;
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    @media (768px <= width < 1280px) {
-      width: 308px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
+  @media (768px <= width < 1280px) {
+    width: 308px;
+  }
 `;

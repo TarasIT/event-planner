@@ -96,14 +96,14 @@ export const MobileMenuList: FC<MobileMenuProps> = ({
             className={poppins.className}
             onClick={logOut}
           >
-            {t("yes")}
+            {t("modalMessages.yes")}
           </ModalBtn>
           <ModalBtn
             type="button"
             className={poppins.className}
             onClick={() => setIsModalOpened(false)}
           >
-            {t("no")}
+            {t("modalMessages.no")}
           </ModalBtn>
         </ModalActions>
       </Modal>

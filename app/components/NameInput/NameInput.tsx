@@ -81,7 +81,7 @@ export const NameInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <NameLabel className={poppins.className}>
-        <InputName>{t("name")}</InputName>
+        <InputName>{t("common.name")}</InputName>
         <DeleteIconBox onClick={cleanNameInput}>
           <SvgDeleteIcon
             isNameInputValid={isNameInputValid}
@@ -97,13 +97,13 @@ export const NameInput: FC = (): JSX.Element => {
           isNameInputValid={isNameInputValid}
           onChange={handleNameInputChange}
           nameInputValue={nameInputValue}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
           required
         />
         {!isNameInputValid && (
           <InvalidInputWarning className={poppins.className}>
-            {t("longname")}
+            {t("common.longName")}
           </InvalidInputWarning>
         )}
       </NameLabel>

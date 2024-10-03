@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 import { usePathname, useRouter } from "next/navigation";
 import { authList } from "@/app/data/authList";
 import { Spinner } from "@/app/styles/common.styled";
-import { createQueryString } from "@/app/services/createQueryString";
 
 interface MobileMenuProps {
   closeMobileMenu: () => void;
@@ -71,7 +70,7 @@ export const AuthMobileMenuList: FC<MobileMenuProps> = ({
                   ) : auth === "google" && isLoading ? (
                     <Spinner />
                   ) : (
-                    t(auth)
+                    t(`common.${auth}`)
                   )}
                 </AuthBtn>
               }

@@ -8,13 +8,13 @@ interface PageProps {
   searchParams: string;
 }
 
-export const handleQueryMessageForlocale = (message: string): string => {
+export const handleQueryMessageForLocale = (message: string): string => {
   switch (message) {
     case "Invalid URL provided.":
-      return "emailVerification.invalidUrl";
+      return "emailVerificationPage.invalidUrl";
 
     case "Email verified successfully.":
-      return "emailVerification.successfulVerification";
+      return "emailVerificationPage.successfulVerification";
 
     case "User is not found.":
       return "userNotFound";
@@ -35,7 +35,7 @@ const EmailVerification = async ({
 
   return (
     <Suspense fallback={<Loading />}>
-      <Title title={handleQueryMessageForlocale(message)} />
+      <Title title={handleQueryMessageForLocale(message)} />
     </Suspense>
   );
 };

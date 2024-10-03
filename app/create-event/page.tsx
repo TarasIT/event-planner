@@ -13,7 +13,9 @@ const CreateEvent: FC = (): JSX.Element => {
   return (
     <>
       <BackLink />
-      <Title className={poppins.className}>{t("createEventTitle")}</Title>
+      <Title className={poppins.className}>
+        {t("createEventPage.createEventTitle")}
+      </Title>
       <NewEventForm />
     </>
   );

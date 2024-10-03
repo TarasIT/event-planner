@@ -89,7 +89,7 @@ export const EventLocationInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <LocationLabel className={poppins.className}>
-        <InputName>{t("locationInput")}</InputName>
+        <InputName>{t("common.eventForm.locationInput")}</InputName>
         <DeleteIconBox onClick={cleanLocationInput}>
           <SvgDeleteIcon
             isLocationInputValid={isLocationInputValid}
@@ -104,7 +104,7 @@ export const EventLocationInput: FC = (): JSX.Element => {
           isLocationInputValid={isLocationInputValid}
           onChange={handleLocationInputChange}
           locationInputValue={locationInputValue}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
         />
         {!isLocationInputValid && (

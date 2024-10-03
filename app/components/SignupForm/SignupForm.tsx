@@ -26,7 +26,7 @@ export const SignupForm: FC = observer((): JSX.Element => {
       <EmailInput />
       <PasswordInput />
       <AuthBtn type="submit" className={poppins.className}>
-        {authStore.isLoading ? <Spinner /> : t("signup")}
+        {authStore.isLoading ? <Spinner /> : t("common.signup")}
       </AuthBtn>
     </AuthForm>
   );

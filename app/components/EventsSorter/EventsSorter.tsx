@@ -148,11 +148,11 @@ export const EventsSorter: FC = observer((): JSX.Element => {
       case "":
         return "";
       case "A-Z":
-        return t("sorters.correctAlphabetOrder");
+        return t("homePage.sorters.correctAlphabetOrder");
       case "Z-A":
-        return t("sorters.reverseAlphabetOrder");
+        return t("homePage.sorters.reverseAlphabetOrder");
       default:
-        return t(`sorters.${currentSorter}`);
+        return t(`homePage.sorters.${currentSorter}`);
     }
   };
 
@@ -213,7 +213,7 @@ export const EventsSorter: FC = observer((): JSX.Element => {
           isSorterOpened={isSorterOpened}
           className={poppins.className}
         >
-          {t("sorters.sortBy")} {isOptionVisible && switchSorter()}
+          {t("homePage.sorters.sortBy")} {isOptionVisible && switchSorter()}
         </CurrentSorter>
 
         {isSorterOpened ||
@@ -236,7 +236,7 @@ export const EventsSorter: FC = observer((): JSX.Element => {
                   className={poppins.className}
                 >
                   <Sorter>
-                    {t("sorters.by")} {t(`sorters.${sorter}`)}
+                    {t("homePage.sorters.by")} {t(`homePage.sorters.${sorter}`)}
                   </Sorter>
                   {returnUpOrDownIcon(index)}
                 </SorterItem>

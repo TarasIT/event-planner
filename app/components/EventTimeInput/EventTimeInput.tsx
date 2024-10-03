@@ -255,7 +255,9 @@ export const EventTimeInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <TimeBox>
-        <InputName className={poppins.className}>{t("timeInput")}</InputName>
+        <InputName className={poppins.className}>
+          {t("common.eventForm.timeInput")}
+        </InputName>
         <TimeInput
           ref={timeInputRef}
           onClick={() => setIsTimePickerOpened(!isTimePickerOpened)}
@@ -268,9 +270,9 @@ export const EventTimeInput: FC = (): JSX.Element => {
             className={poppins.className}
           >
             {isTimePickerOpened
-              ? t("selectTime")
+              ? t("common.eventForm.selectTime")
               : !selectedTime
-              ? t("formInputPlaceholder")
+              ? t("common.eventForm.formInputPlaceholder")
               : selectedTime}
           </TextInput>
           <TimeIconContainer>

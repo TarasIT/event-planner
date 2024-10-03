@@ -13,7 +13,7 @@ const Login: FC = (): JSX.Element => {
   return (
     <>
       <BackLink />
-      <Title className={poppins.className}>{t("login")}</Title>
+      <Title className={poppins.className}>{t("common.login")}</Title>
       <LoginForm />
     </>
   );

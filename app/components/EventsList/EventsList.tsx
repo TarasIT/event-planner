@@ -109,7 +109,7 @@ const EventsList: FC<EventListProps> = observer(
                       <CategoryContainer>
                         {category && (
                           <Category className={poppins.className}>
-                            {t(`categories.${category}`.toLowerCase())}
+                            {t(`common.categories.${category}`.toLowerCase())}
                           </Category>
                         )}
                         {priority && (
@@ -117,14 +117,16 @@ const EventsList: FC<EventListProps> = observer(
                             priority={priority}
                             className={poppins.className}
                           >
-                            {t(`priorities.${priority}`.toLowerCase())}
+                            {t(
+                              `common.eventForm.priorities.${priority.toLowerCase()}`
+                            )}
                           </Priority>
                         )}
                       </CategoryContainer>
                       <DateTimeLocationContainer>
                         {(date || time) && (
                           <DateAndTime className={poppins.className}>
-                            {transformDate(date)} {time && t("at")}{" "}
+                            {transformDate(date)} {time && t("common.at")}{" "}
                             {time && time.toLowerCase()}
                           </DateAndTime>
                         )}
@@ -161,7 +163,7 @@ const EventsList: FC<EventListProps> = observer(
                         {isLoading && eventId === id ? (
                           <Spinner />
                         ) : (
-                          t("moreInfoBtn")
+                          t("homePage.moreInfoBtn")
                         )}
                       </EventDetailsBtn>
                     </EventDetailsBox>
@@ -177,12 +179,12 @@ const EventsList: FC<EventListProps> = observer(
           <NoEventsTitle className={poppins.className}>
             {!eventsStore.isLoading &&
               (eventsSearch.searchQuery || categoryFilter.currentCategory) &&
-              t("noEventsFoundByQuery")}
+              t("homePage.noEventsFoundByQuery")}
             {!eventsStore.isLoading &&
               !eventsSearch.searchQuery &&
               !categoryFilter.currentCategory &&
               (!eventsStore.events || !eventsStore.events.length) &&
-              t("noEventCreated")}
+              t("homePage.noEventCreated")}
           </NoEventsTitle>
         )}
       </StyleSheetManager>

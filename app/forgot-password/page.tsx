@@ -10,7 +10,7 @@ const ForgotPassword = async (): Promise<JSX.Element> => {
   return (
     <Suspense fallback={<Loading />}>
       <BackLink />
-      <Title title={"forgotPasswordTitle"} />
+      <Title title={"common.forgotPassword"} />
       <ForgotPasswordForm />
     </Suspense>
   );

@@ -8,5 +8,9 @@ import { Title } from "./EditEventTitle.styled";
 
 export const EditEventTitle: FC = observer((): JSX.Element => {
   const { t } = useTranslation();
-  return <Title className={poppins.className}>{t("editEventTitle")}</Title>;
+  return (
+    <Title className={poppins.className}>
+      {t("editEventPage.editEventTitle")}
+    </Title>
+  );
 });

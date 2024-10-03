@@ -33,7 +33,9 @@ export const ProfileForm: FC<ProfileFormProps> = observer(
 
     return (
       <ProfileUserForm>
-        <FormTitle className={poppins.className}>{t("yourData")}</FormTitle>
+        <FormTitle className={poppins.className}>
+          {t("profilePage.yourData")}
+        </FormTitle>
         <ProfileNameInput name={name} />
         <ProfileEmailInput email={email} />
       </ProfileUserForm>

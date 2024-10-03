@@ -7,5 +7,5 @@ import { Title } from "./ProfilePageTitle.styled";
 
 export const ProfilePageTitle: FC = (): JSX.Element => {
   const { t } = useTranslation();
-  return <Title className={poppins.className}>{t("profile")}</Title>;
+  return <Title className={poppins.className}>{t("common.profile")}</Title>;
 };

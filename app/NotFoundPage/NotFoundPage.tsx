@@ -7,7 +7,7 @@ const NotFoundPage: FC = (): JSX.Element => {
   return (
     <section>
       <b style={{ fontSize: 64 }}>404</b>
-      <h1>{t("noPageFound")} :(</h1>
+      <h1>{t("notFoundPage.noPageFoundTitle")} :(</h1>
     </section>
   );
 };

@@ -102,7 +102,11 @@ export const AuthSelector: FC = (): JSX.Element => {
                       onAuthBtnClick(e)
                     }
                   >
-                    {auth === "google" ? <GoogleIcon size="2em" /> : t(auth)}
+                    {auth === "google" ? (
+                      <GoogleIcon size="2em" />
+                    ) : (
+                      t(`common.${auth}`)
+                    )}
                   </AuthBtn>
                 </AuthItem>
               );

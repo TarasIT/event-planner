@@ -100,7 +100,7 @@ export const EventImageInput: FC = (): JSX.Element => {
           picture={picture}
           isImageInputCompleted={isImageInputCompleted}
         >
-          {t("pictureInput")}
+          {t("common.eventForm.pictureInput")}
         </InputName>
 
         <ImageInputWrapper
@@ -108,7 +108,7 @@ export const EventImageInput: FC = (): JSX.Element => {
           picture={picture}
         >
           <label className={poppins.className}>
-            {t("formInputPlaceholder")}
+            {t("common.eventForm.formInputPlaceholder")}
             <ImageInput
               type="file"
               accept="picture/*"

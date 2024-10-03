@@ -74,7 +74,7 @@ export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
         className={poppins.className}
         isPasswordMatched={isPasswordMatched}
       >
-        <InputPassword>{t("confirmPassword")}</InputPassword>
+        <InputPassword>{t("profilePage.confirmPassword")}</InputPassword>
         <DeleteIconBox onClick={cleanPasswordInput}>
           <SvgDeleteIcon
             isPasswordMatched={isPasswordMatched}
@@ -91,7 +91,7 @@ export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
           isPasswordLong={isPasswordLong}
           onChange={handlePasswordChange}
           password={password}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
           required
         />
@@ -113,7 +113,7 @@ export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
             ) : (
               <InvalidInputWarning className={poppins.className}>
                 {!isPasswordLong
-                  ? t("shortPassword")
+                  ? t("common.shortPassword")
                   : !isPasswordMatched
                   ? "Password is not matched"
                   : null}

@@ -1,105 +1,68 @@
 {
-  "appTitle": "Event Planner",
-  "login": "Log In",
-  "signup": "Sign Up",
-  "name": "Name",
-  "email": "Email",
-  "password": "Password",
-  "longName": "Name is too long",
-  "invalidEmail": "Email is not valid",
-  "shortPassword": "Password is too short",
-  "searchInputPlaceholdder": "Search by keywords",
-  "homePageTitle": "My events",
-  "profile": "Profile",
-  "submit": "Submit",
-  "changePasswordTitle": "Change password",
-  "changePassword": "Change password",
-  "resetPassword": "Reset password",
-  "forgotPasswordTitle": "Forgot password",
-  "forgotPasswordLink": "Forgot password?",
-  "newPassword": "New password",
-  "confirmPassword": "Confirm new password",
-  "yourData": "Your data",
-  "deleteData": "Delete",
-  "deleteAllEvents": "Delete all events",
-  "deleteProfile": "Delete my profile",
-  "yes": "Yes",
-  "no": "No",
-  "menu": "Menu",
-  "noEventCreated": "You don't have events. Create the first one.",
-  "noEventsFoundByQuery": "No events found :(",
-  "addNewEventBtn": "Add New Event",
-  "categories": {
-    "art": "Art",
-    "music": "Music",
-    "business": "Business",
-    "conference": "Conference",
-    "workshop": "Workshop",
-    "party": "Party",
-    "sport": "Sport",
-    "all": "All",
-    "defaultCategory": "Category"
+  "common": {
+    "login": "Log In",
+    "signup": "Sign Up",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "longName": "Name is too long",
+    "invalidEmail": "Email is not valid",
+    "shortPassword": "Password is too short",
+    "forgotPassword": "Forgot password?",
+    "backBtn": "Back",
+    "categories": {
+      "art": "Art",
+      "music": "Music",
+      "business": "Business",
+      "conference": "Conference",
+      "workshop": "Workshop",
+      "party": "Party",
+      "sport": "Sport",
+      "all": "All",
+      "defaultCategory": "Category"
+    },
+    "profile": "Profile",
+    "at": "at",
+    "eventForm": {
+      "titleInput": "Title",
+      "descriptionInput": "Description",
+      "dateInput": "Select date",
+      "timeInput": "Select time",
+      "locationInput": "Location",
+      "categoryInput": "Category",
+      "pictureInput": "Add picture",
+      "priorityInput": "Priority",
+      "priorities": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      },
+      "formInputPlaceholder": "input",
+      "selectDate": "Select Date",
+      "selectTime": "Select Time",
+      "select": "Select",
+      "cancelDateBtn": "Cancel",
+      "chooseDateBtn": "Choose date",
+      "weekDays": {
+        "Sunday": "Sun",
+        "Monday": "Mon",
+        "Tuesday": "Tue",
+        "Wednesday": "Wed",
+        "Thursday": "Thu",
+        "Friday": "Fri",
+        "Saturday": "Sat"
+      }
+    }
   },
-  "sorters": {
-    "correctAlphabetOrder": "A-Z",
-    "reverseAlphabetOrder": "Z-A",
-    "name": "name",
-    "date": "date",
-    "priority": "priority",
-    "sortBy": "Sort by",
-    "by": "by"
+
+  "layouts": {
+    "header": {
+      "appTitle": "Event Planner",
+      "menu": "Menu",
+      "searchInputPlaceholder": "Search by keywords"
+    }
   },
-  "priorities": {
-    "low": "Low",
-    "medium": "Medium",
-    "high": "High"
-  },
-  "backBtn": "Back",
-  "createEventTitle": "Create new event",
-  "editEventTitle": "Edit event",
-  "titleInput": "Title",
-  "descriptionInput": "Description",
-  "dateInput": "Select date",
-  "timeInput": "Select time",
-  "locationInput": "Location",
-  "categoryInput": "Category",
-  "pictureInput": "Add picture",
-  "priorityInput": "Priority",
-  "addEventBtn": "Add event",
-  "saveEventBtn": "Save",
-  "formInputPlaceholder": "input",
-  "selectDate": "Select Date",
-  "selectTime": "Select Time",
-  "select": "Select",
-  "cancelDateBtn": "Cancel",
-  "chooseDateBtn": "Choose date",
-  "weekDays": {
-    "Sunday": "Sun",
-    "Monday": "Mon",
-    "Tuesday": "Tue",
-    "Wednesday": "Wed",
-    "Thursday": "Thu",
-    "Friday": "Fri",
-    "Saturday": "Sat"
-  },
-  "at": "at",
-  "moreInfoBtn": "More info",
-  "editEventBtn": "Edit",
-  "deleteEventBtn": "Delete Event",
-  "noPageFound": "Sorry, we could not find that page",
-  
-  "modalMessages": {
-    "deleteEvent": "Are you sure, you want to delete this event?",
-    "deleteAllEvents": "Are you sure, you want to delete all your events?",
-    "deleteProfile": "Are you sure, you want to delete your profile with all your events?",
-    "logOut": "Are you sure, you want to log out?"
-  },
-  "emailVerification": {
-    "invalidUrl": "Invalid email verification link. Please request a new one.",
-    "successfulVerification": "Your email is verified successfully! Now, you can log in!",
-    "userNotFound": "User is not found :(",
-    "internalServerError": "An unknown error occurred. Please try later."
-  },
+
   "startPage": {
     "title": "Welcome to Event Planner!",
     "subtitle": "Manage your tommorrow.",
@@ -116,5 +79,81 @@
     "filtrationDescription": "Events can be filtered based on categories, including art, music, business, conference, workshop, party and sport.",
     "deletion": "Deletion",
     "deletionDescription": "Delete events one by one or you can delete all of them by navigating to your profile page."
+  },
+
+  "loginPage": {
+    "resendVerificationLink": "Resend verification link to your email?"
+  },
+
+  "homePage": {
+    "homePageTitle": "My events",
+    "noEventCreated": "You don't have events. Create the first one.",
+    "noEventsFoundByQuery": "No events found :(",
+    "addNewEventBtn": "Add New Event",
+    "moreInfoBtn": "More info",
+    "sorters": {
+      "correctAlphabetOrder": "A-Z",
+      "reverseAlphabetOrder": "Z-A",
+      "name": "name",
+      "date": "date",
+      "priority": "priority",
+      "sortBy": "Sort by",
+      "by": "by"
+    }
+  },
+
+  "eventDetailsPage": {
+    "editEventBtn": "Edit",
+    "deleteEventBtn": "Delete Event"
+  },
+
+  "editEventPage": {
+    "editEventTitle": "Edit event",
+    "saveEventBtn": "Save"
+  },
+
+  "createEventPage": {
+    "createEventTitle": "Create new event",
+    "addEventBtn": "Add event"
+  },
+
+  "profilePage": {
+    "yourData": "Your data",
+    "changePasswordTitle": "Password change",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "changePassword": "Change password",
+    "deleteData": "Delete",
+    "deleteAllEvents": "Delete all events",
+    "deleteProfile": "Delete my profile"
+  },
+
+  "emailVerificationPage": {
+    "invalidUrl": "Invalid email verification link. Please request a new one.",
+    "successfulVerification": "Your email is verified successfully! Now, you can log in!",
+    "userNotFound": "User is not found :(",
+    "internalServerError": "An unknown error occurred. Please try later."
+  },
+  
+  "forgotPasswordPage": {
+    "submit": "Submit"
+  },
+
+  "resetPasswordPage": {
+    "resetPasswordTitle": "Password reset",
+    "resetPassword": "Reset password"
+  },
+
+  "notFoundPage": {
+    "noPageFoundTitle": "Sorry, we could not find that page"
+  },
+
+  "modalMessages": {
+    "deleteEvent": "Are you sure, you want to delete this event?",
+    "deleteAllEvents": "Are you sure, you want to delete all your events?",
+    "deleteProfile": "Are you sure, you want to delete your profile with all your events?",
+    "logOut": "Are you sure, you want to log out?",
+    "yes": "Yes",
+    "no": "No"
   }
 }

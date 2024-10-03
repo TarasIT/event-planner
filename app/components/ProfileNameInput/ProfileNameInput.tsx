@@ -14,7 +14,7 @@ export const ProfileNameInput: FC<InputProps> = ({ name }): JSX.Element => {
 
   return (
     <Label className={poppins.className}>
-      <InputName>{t("name")}</InputName>
+      <InputName>{t("common.name")}</InputName>
       <Input
         type="text"
         name="name"

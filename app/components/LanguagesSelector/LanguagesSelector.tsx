@@ -29,12 +29,16 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
   const queryParams = useSearchParams();
   const langQueryParam = queryParams.get("lang");
   const pathname = usePathname();
+  const params = new URLSearchParams(queryParams.toString());
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     if (langQueryParam) {
       setCurrentLang(langQueryParam.toUpperCase());
       i18n.changeLanguage(langQueryParam);
+    } else {
+      params.set("lang", currentLang.toLowerCase());
+      router.push(`${pathname}?${params.toString()}`);
     }
 
     return () => {
@@ -53,9 +57,11 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
     setCurrentLang(target.id);
     i18n.changeLanguage(target.id.toLowerCase());
 
+    params.set("lang", i18n.language);
+
     pathname === "/home"
       ? router.push(createQueryString())
-      : router.push(`?lang=${i18n.language}`);
+      : router.push(`${pathname}?${params.toString()}`);
   };
 
   return (

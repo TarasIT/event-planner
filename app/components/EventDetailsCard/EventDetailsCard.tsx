@@ -94,12 +94,12 @@ export const EventDetailsCard: FC<EventProps> = observer(
           <InfoBox>
             {category && (
               <Category className={poppins.className}>
-                {t(`categories.${category}`.toLowerCase())}
+                {t(`common.categories.${category}`.toLowerCase())}
               </Category>
             )}
             {priority && (
               <Priority priority={priority} className={poppins.className}>
-                {t(`priorities.${priority}`.toLowerCase())}
+                {t(`common.eventForm.priorities.${priority.toLowerCase()}`)}
               </Priority>
             )}
             {location && (
@@ -107,7 +107,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
             )}
             {(date || time) && (
               <DateAndTime className={poppins.className}>
-                {transformDate(date)} {time && t("at")}{" "}
+                {transformDate(date)} {time && t("common.at")}{" "}
                 {time && time.toLowerCase()}
               </DateAndTime>
             )}
@@ -120,7 +120,11 @@ export const EventDetailsCard: FC<EventProps> = observer(
               onClick={() => editEvent(id as string)}
               className={poppins.className}
             >
-              {isEditionLoading ? <EditSpinner /> : t("editEventBtn")}
+              {isEditionLoading ? (
+                <EditSpinner />
+              ) : (
+                t("eventDetailsPage.editEventBtn")
+              )}
             </EditEventBtn>
             <DeleteEventBtn
               type="button"
@@ -128,7 +132,11 @@ export const EventDetailsCard: FC<EventProps> = observer(
               onClick={() => setIsModalOpened(true)}
               className={poppins.className}
             >
-              {isDeletionLoading ? <Spinner /> : t("deleteEventBtn")}
+              {isDeletionLoading ? (
+                <Spinner />
+              ) : (
+                t("eventDetailsPage.deleteEventBtn")
+              )}
             </DeleteEventBtn>
           </EventButtonsBox>
 
@@ -145,14 +153,14 @@ export const EventDetailsCard: FC<EventProps> = observer(
                 className={poppins.className}
                 onClick={() => deleteEvent(id as string)}
               >
-                {t("yes")}
+                {t("modalMessages.yes")}
               </ModalBtn>
               <ModalBtn
                 type="button"
                 className={poppins.className}
                 onClick={() => setIsModalOpened(false)}
               >
-                {t("no")}
+                {t("modalMessages.no")}
               </ModalBtn>
             </ModalActions>
           </Modal>

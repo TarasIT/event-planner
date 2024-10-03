@@ -133,8 +133,8 @@ export const EventDateInput: FC = observer((): JSX.Element => {
             {selectedDate
               ? formattedDate
               : isCalendarOpened
-              ? t("selectDate")
-              : t("formInputPlaceholder")}
+              ? t("common.eventForm.selectDate")
+              : t("common.eventForm.formInputPlaceholder")}
           </TextInput>
         </CustomDatePicker>
       );
@@ -157,14 +157,14 @@ export const EventDateInput: FC = observer((): JSX.Element => {
             onClick={handleDateCancel}
             className={poppins.className}
           >
-            {t("cancelDateBtn")}
+            {t("common.eventForm.cancelDateBtn")}
           </CancelBtn>
           <ChooseBtn
             type="button"
             onClick={handleDateChoose}
             className={poppins.className}
           >
-            {t("chooseDateBtn")}
+            {t("common.eventForm.chooseDateBtn")}
           </ChooseBtn>
         </BtnsBox>
       </DatePickerWrapper>
@@ -174,13 +174,17 @@ export const EventDateInput: FC = observer((): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <DateBox>
-        <InputName className={poppins.className}>{t("dateInput")}</InputName>
+        <InputName className={poppins.className}>
+          {t("common.eventForm.dateInput")}
+        </InputName>
 
         <DatePicker
           ref={datePickerRef}
           onChange={handleDateChange}
           selected={selectedDate as Date | null}
-          formatWeekDay={(day: string): string => t(`weekDays.${day}`)}
+          formatWeekDay={(day: string): string =>
+            t(`common.eventForm.weekDays.${day}`)
+          }
           onCalendarClose={() => setIsCalendarOpened(false)}
           onCalendarOpen={() => {
             setIsCalendarOpened(true);

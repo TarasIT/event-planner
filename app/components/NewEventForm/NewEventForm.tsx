@@ -108,12 +108,12 @@ export const NewEventForm: FC<UpdateEventProps> = observer(
               eventsStore.isLoading ? (
                 <Spinner />
               ) : (
-                t("saveEventBtn")
+                t("editEventPage.saveEventBtn")
               )
             ) : eventsStore.isLoading ? (
               <Spinner />
             ) : (
-              t("addEventBtn")
+              t("createEventPage.addEventBtn")
             )}
           </span>
         </AddEventButton>

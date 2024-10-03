@@ -14,7 +14,7 @@ export const ProfileEmailInput: FC<InputProps> = ({ email }): JSX.Element => {
 
   return (
     <Label className={poppins.className}>
-      <InputName>{t("email")}</InputName>
+      <InputName>{t("common.email")}</InputName>
       <Input
         type="text"
         name="email"

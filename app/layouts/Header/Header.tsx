@@ -101,7 +101,7 @@ const Header: FC = observer((): JSX.Element => {
             }}
             className={alata.className}
           >
-            {t("appTitle")}
+            {t("layouts.header.appTitle")}
           </HomeBtn>
 
           <OpenMobileMenuIcon onClick={() => setIsMobileMenuOpened(true)} />
@@ -114,7 +114,7 @@ const Header: FC = observer((): JSX.Element => {
                   type="text"
                   value={query}
                   onChange={handleInputChange}
-                  placeholder={t("searchInputPlaceholdder")}
+                  placeholder={t("layouts.header.searchInputPlaceholder")}
                   className={poppins.className}
                 />
                 <DeleteIcon

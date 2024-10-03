@@ -68,14 +68,14 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
   return (
     <PasswordsForm onSubmit={handleSubmit}>
       <FormTitle className={poppins.className}>
-        {t("changePasswordTitle")}
+        {t("profilePage.changePasswordTitle")}
       </FormTitle>
       {isPasswordProvided && <PasswordInput />}
       <NewPasswordInput />
       <ConfirmPasswordInput />
       {arePasswordsMatched && (
         <ResetBtn type="submit" className={poppins.className}>
-          {authStore.isLoading ? <Spinner /> : t("changePassword")}
+          {authStore.isLoading ? <Spinner /> : t("profilePage.changePassword")}
         </ResetBtn>
       )}
     </PasswordsForm>

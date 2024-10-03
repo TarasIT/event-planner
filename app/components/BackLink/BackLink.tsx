@@ -13,7 +13,7 @@ export const BackLink: FC = (): JSX.Element => {
   return (
     <GoBackLink onClick={() => router.back()} className={poppins.className}>
       <SvgBackLinkIcon />
-      <Back>{t("backBtn")}</Back>
+      <Back>{t("common.backBtn")}</Back>
     </GoBackLink>
   );
 };

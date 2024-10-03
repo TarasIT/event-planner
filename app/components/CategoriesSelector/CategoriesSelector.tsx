@@ -104,8 +104,8 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
           className={poppins.className}
         >
           {currentCategory
-            ? t(`categories.${currentCategory.toLowerCase()}`)
-            : t("categories.defaultCategory")}
+            ? t(`common.categories.${currentCategory.toLowerCase()}`)
+            : t("common.categories.defaultCategory")}
         </CurrentCategory>
 
         <SvgCategoryIcon
@@ -127,7 +127,7 @@ export const CategoriesSelector: FC = observer((): JSX.Element => {
                   className={poppins.className}
                 >
                   <Category>
-                    {t(`categories.${category.toLowerCase()}`)}
+                    {t(`common.categories.${category.toLowerCase()}`)}
                   </Category>
                 </CategoryItem>
               );

@@ -60,7 +60,9 @@ export const DeleteForm: FC = observer((): JSX.Element => {
 
   return (
     <DeleteDataForm>
-      <FormTitle className={poppins.className}>{t("deleteData")}</FormTitle>
+      <FormTitle className={poppins.className}>
+        {t("profilePage.deleteData")}
+      </FormTitle>
       <DeleteBtn
         id="delete-events"
         type="button"
@@ -70,7 +72,7 @@ export const DeleteForm: FC = observer((): JSX.Element => {
         {eventsStore.isLoading && !isDeleteEventsBtnActive ? (
           <Spinner />
         ) : (
-          t("deleteAllEvents")
+          t("profilePage.deleteAllEvents")
         )}
       </DeleteBtn>
       <DeleteBtn
@@ -82,7 +84,7 @@ export const DeleteForm: FC = observer((): JSX.Element => {
         {authStore.isLoading && isDeleteEventsBtnActive ? (
           <Spinner />
         ) : (
-          t("deleteProfile")
+          t("profilePage.deleteProfile")
         )}
       </DeleteBtn>
 
@@ -96,14 +98,14 @@ export const DeleteForm: FC = observer((): JSX.Element => {
             className={poppins.className}
             onClick={handleDeletion}
           >
-            {t("yes")}
+            {t("modalMessages.yes")}
           </DeleteModalBtn>
           <DeleteModalBtn
             type="button"
             className={poppins.className}
             onClick={closeModal}
           >
-            {t("no")}
+            {t("modalMessages.no")}
           </DeleteModalBtn>
         </ModalActions>
       </Modal>

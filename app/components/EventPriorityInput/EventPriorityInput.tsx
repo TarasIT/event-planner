@@ -66,7 +66,7 @@ export const EventPriorityInput: FC = (): JSX.Element => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <PriorityBox>
         <InputName className={poppins.className}>
-          {t("priorityInput")}
+          {t("common.eventForm.priorityInput")}
         </InputName>
         <PriorityInput
           ref={priorityInputRef}
@@ -76,8 +76,10 @@ export const EventPriorityInput: FC = (): JSX.Element => {
         >
           <p>
             {currentPriority && !isPriorityListOpened
-              ? t(`priorities.${currentPriority}`.toLowerCase())
-              : t("select")}
+              ? t(
+                  `common.eventForm.priorities.${currentPriority.toLowerCase()}`
+                )
+              : t("common.eventForm.select")}
           </p>
           <SvgContainer>
             <SvgPriorityIcon
@@ -95,7 +97,9 @@ export const EventPriorityInput: FC = (): JSX.Element => {
                       onClick={handlePriorityChanging}
                       className={poppins.className}
                     >
-                      {t(`priorities.${priority}`.toLowerCase())}
+                      {t(
+                        `common.eventForm.priorities.${priority.toLowerCase()}`
+                      )}
                     </Priority>
                   </PriorityItem>
                 );

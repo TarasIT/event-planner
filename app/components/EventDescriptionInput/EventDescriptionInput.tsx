@@ -68,7 +68,7 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <DescriptionLabel className={poppins.className}>
-        <InputName>{t("descriptionInput")}</InputName>
+        <InputName>{t("common.eventForm.descriptionInput")}</InputName>
         <DeleteIconBox onClick={cleanDescriptionInput}>
           <SvgDeleteIcon descriptionInputValue={descriptionInputValue} />
         </DeleteIconBox>
@@ -79,7 +79,7 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
           onChange={handleDescriptionInputChange}
           descriptionInputValue={descriptionInputValue}
           rows={4}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
         />
       </DescriptionLabel>

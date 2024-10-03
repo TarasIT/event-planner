@@ -65,7 +65,7 @@ export const EventCategoryInput: FC = (): JSX.Element => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <CategoryBox>
         <InputName className={poppins.className}>
-          {t("categoryInput")}
+          {t("common.eventForm.categoryInput")}
         </InputName>
         <CategoryInput
           ref={categoryInputRef}
@@ -75,8 +75,8 @@ export const EventCategoryInput: FC = (): JSX.Element => {
         >
           <p>
             {currentCategory && !isCategoryListOpened
-              ? t(`categories.${currentCategory}`.toLowerCase())
-              : t("select")}
+              ? t(`common.categories.${currentCategory}`.toLowerCase())
+              : t("common.eventForm.select")}
           </p>
           <SvgContainer>
             <SvgCategoryIcon
@@ -96,7 +96,7 @@ export const EventCategoryInput: FC = (): JSX.Element => {
                         onClick={handleCategoryChanging}
                         className={poppins.className}
                       >
-                        {t(`categories.${category.toLowerCase()}`)}
+                        {t(`common.categories.${category.toLowerCase()}`)}
                       </Category>
                     </CategoryItem>
                   );

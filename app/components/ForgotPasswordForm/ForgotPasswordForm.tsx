@@ -25,7 +25,7 @@ export const ForgotPasswordForm: FC = observer((): JSX.Element => {
     <AuthForm onSubmit={handleFormSubmit}>
       <EmailInput />
       <AuthBtn type="submit" className={poppins.className}>
-        {authStore.isLoading ? <Spinner /> : t("submit")}
+        {authStore.isLoading ? <Spinner /> : t("forgotPasswordPage.submit")}
       </AuthBtn>
     </AuthForm>
   );

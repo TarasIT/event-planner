@@ -24,7 +24,7 @@ export const AddEventButton: FC = (): JSX.Element => {
       ) : (
         <>
           <SvgButtonIcon />
-          <span>{t("addNewEventBtn")}</span>
+          <span>{t("homePage.addNewEventBtn")}</span>
         </>
       )}
     </AddEventBtn>

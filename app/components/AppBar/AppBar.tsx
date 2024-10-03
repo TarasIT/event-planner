@@ -32,7 +32,9 @@ export const AppBar: FC = observer((): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <Container>
-        <Title className={poppins.className}>{t("homePageTitle")}</Title>
+        <Title className={poppins.className}>
+          {t("homePage.homePageTitle")}
+        </Title>
         <Menu>
           {!areFiltersEmpty && (
             <MenuItem areFiltersEmpty={areFiltersEmpty}>

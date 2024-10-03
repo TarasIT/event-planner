@@ -30,9 +30,8 @@ export const ForgotPasswordLink = styled(Link)`
 `;
 
 export const ResendVerificationEmailLink = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 372px;
+  text-align: center;
   color: #7b61ff;
   transition: color 300ms;
   cursor: pointer;

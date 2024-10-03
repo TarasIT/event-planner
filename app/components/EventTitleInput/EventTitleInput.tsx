@@ -87,7 +87,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <TitleLabel className={poppins.className}>
-        <InputName>{t("titleInput")}</InputName>
+        <InputName>{t("common.eventForm.titleInput")}</InputName>
         <DeleteIconBox onClick={cleanTitleInput}>
           <SvgDeleteIcon
             isTitleInputValid={isTitleInputValid}
@@ -103,7 +103,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
           isTitleInputValid={isTitleInputValid}
           onChange={handleTitleInputChange}
           titleInputValue={titleInputValue}
-          placeholder={t("formInputPlaceholder")}
+          placeholder={t("common.eventForm.formInputPlaceholder")}
           className={poppins.className}
           required
         />

@@ -13,7 +13,7 @@ const Signup: FC = (): JSX.Element => {
   return (
     <>
       <BackLink />
-      <Title className={poppins.className}>{t("signup")}</Title>
+      <Title className={poppins.className}>{t("common.signup")}</Title>
       <SignupForm />
     </>
   );

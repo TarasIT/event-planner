@@ -79,7 +79,7 @@ export const LoginForm: FC = observer((): JSX.Element => {
       <EmailInput />
       <PasswordInput />
       <AuthBtn type="submit" className={poppins.className}>
-        {authStore.isLoading ? <Spinner /> : t("login")}
+        {authStore.isLoading ? <Spinner /> : t("common.login")}
       </AuthBtn>
 
       <ForgotPasswordLink
@@ -87,7 +87,7 @@ export const LoginForm: FC = observer((): JSX.Element => {
         href={"/forgot-password"}
         className={poppins.className}
       >
-        {isLoading ? <AccidentSpinner /> : t("forgotPasswordLink")}
+        {isLoading ? <AccidentSpinner /> : t("common.forgotPassword")}
       </ForgotPasswordLink>
 
       {isEmailVerified === false && isVerificationLinkResending !== false && (
@@ -98,7 +98,7 @@ export const LoginForm: FC = observer((): JSX.Element => {
           {isVerificationLinkResending ? (
             <AccidentSpinner />
           ) : (
-            "Resend verification link to your email?"
+            t("loginPage.resendVerificationLink")
           )}
         </ResendVerificationEmailLink>
       )}

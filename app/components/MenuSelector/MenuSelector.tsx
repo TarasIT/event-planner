@@ -79,7 +79,9 @@ export const MenuSelector: FC = (): JSX.Element => {
         onClick={() => setIsMenuSelectorOpened(!isMenuSelectorOpened)}
         className={poppins.className}
       >
-        <MenuTitle>{isLoading ? <Spinner /> : t("menu")}</MenuTitle>
+        <MenuTitle>
+          {isLoading ? <Spinner /> : t("layouts.header.menu")}
+        </MenuTitle>
         {isMenuSelectorOpened && (
           <MenuSelectorList
             currentLang={i18n.language}
@@ -95,7 +97,11 @@ export const MenuSelector: FC = (): JSX.Element => {
                       onMenuItemClick(e)
                     }
                   >
-                    {menu === "logout" ? <LogoutIcon size="2em" /> : t(menu)}
+                    {menu === "logout" ? (
+                      <LogoutIcon size="2em" />
+                    ) : (
+                      t(`common.${menu}`)
+                    )}
                   </MenuBtn>
                 </MenuItem>
               );
@@ -113,14 +119,14 @@ export const MenuSelector: FC = (): JSX.Element => {
               className={poppins.className}
               onClick={logOut}
             >
-              {t("yes")}
+              {t("modalMessages.yes")}
             </ModalBtn>
             <ModalBtn
               type="button"
               className={poppins.className}
               onClick={() => setIsModalOpened(false)}
             >
-              {t("no")}
+              {t("modalMessages.no")}
             </ModalBtn>
           </ModalActions>
         </Modal>

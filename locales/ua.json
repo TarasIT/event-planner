@@ -1,106 +1,68 @@
 {
-  "appTitle": "Планувальник",
-  "login": "Увійти",
-  "signup": "Реєстрація",
-  "name": "Ім'я",
-  "email": "Пошта",
-  "password": "Пароль",
-  "longName": "Задовге ім'я",
-  "invalidEmail": "Некорректна пошта",
-  "shortPassword": "Закороткий пароль",
-  "searchInputPlaceholdder": "Пошук за ключовим словом",
-  "homePageTitle": "Мої події",
-  "profile": "Профіль",
-  "submit": "Відправити",
-  "changePasswordTitle": "Зміна паролю",
-  "changePassword": "Змінити пароль",
-  "resetPassword": "Скидання паролю",
-  "forgotPasswordTitle": "Забули пароль",
-  "forgotPasswordLink": "Забули пароль?",
-  "newPassword": "Новий пароль",
-  "confirmPassword": "Підтверди новий пароль",
-  "yourData": "Ваші дані",
-  "deleteData": "Видалення",
-  "deleteAllEvents": "Видалити всі події",
-  "deleteProfile": "Видалити мій профіль",
-  "yes": "Так",
-  "no": "Ні",
-  "menu": "Меню",
-  "noEventCreated": "У Вас немає подій. Створіть свою першу подію.",
-  "noEventsFoundByQuery": "Подій не знайдено :(",
-  "addNewEventBtn": "Додати подію",
-  "categories": {
-    "art": "Мистецтво",
-    "music": "Музика",
-    "business": "Бізнес",
-    "conference": "Конференція",
-    "workshop": "Майстер-клас",
-    "party": "Вечірка",
-    "sport": "Спорт",
-    "all": "Всі",
-    "defaultCategory": "Категорія"
+  "common": {
+    "login": "Увійти",
+    "signup": "Реєстрація",
+    "name": "Ім'я",
+    "email": "Пошта",
+    "password": "Пароль",
+    "longName": "Задовге ім'я",
+    "invalidEmail": "Некорректна пошта",
+    "shortPassword": "Закороткий пароль",
+    "forgotPassword": "Забули пароль?",
+    "backBtn": "Назад",
+    "categories": {
+      "art": "Мистецтво",
+      "music": "Музика",
+      "business": "Бізнес",
+      "conference": "Конференція",
+      "workshop": "Майстер-клас",
+      "party": "Вечірка",
+      "sport": "Спорт",
+      "all": "Всі",
+      "defaultCategory": "Категорія"
+    },
+    "profile": "Профіль",
+    "at": "у",
+    "eventForm": {
+      "titleInput": "Назва",
+      "descriptionInput": "Опис",
+      "dateInput": "Обрати дату",
+      "timeInput": "Обрати час",
+      "locationInput": "Місце",
+      "categoryInput": "Категорія",
+      "pictureInput": "Додати зображення",
+      "priorityInput": "Пріорітет",
+      "priorities": {
+        "low": "Низький",
+        "medium": "Середній",
+        "high": "Високий"
+      },
+      "formInputPlaceholder": "введення",
+      "selectDate": "Обрати Дату",
+      "selectTime": "Обрати Час",
+      "select": "Обрати",
+      "cancelDateBtn": "Відміна",
+      "chooseDateBtn": "Обрати дату",
+      "weekDays": {
+        "Sunday": "Нд",
+        "Monday": "Пн",
+        "Tuesday": "Вт",
+        "Wednesday": "Ср",
+        "Thursday": "Чт",
+        "Friday": "Пт",
+        "Saturday": "Сб"
+      }
+    }
   },
-  "sorters": {
-    "correctAlphabetOrder": "А-Я",
-    "reverseAlphabetOrder": "Я-А",
-    "name": "імені",
-    "date": "даті",
-    "priority": "пріорітету",
-    "sortBy": "Сортувати по",
-    "by": "по"
+
+  "layouts": {
+    "header": {
+      "appTitle": "Планувальник",
+      "menu": "Меню",
+      "searchInputPlaceholder": "Пошук за ключовим словом"
+    }
   },
-  "priorities": {
-    "low": "Низький",
-    "medium": "Середній",
-    "high": "Високий"
-  },
-  "backBtn": "Назад",
-  "createEventTitle": "Створення події",
-  "editEventTitle": "Редагування події",
-  "titleInput": "Назва",
-  "descriptionInput": "Опис",
-  "dateInput": "Обрати дату",
-  "timeInput": "Обрати час",
-  "locationInput": "Місце",
-  "categoryInput": "Категорія",
-  "pictureInput": "Додати зображення",
-  "priorityInput": "Пріорітет",
-  "addEventBtn": "Додати подію",
-  "saveEventBtn": "Зберегти",
-  "formInputPlaceholder": "введення",
-  "selectDate": "Обрати Дату",
-  "selectTime": "Обрати Час",
-  "select": "Обрати",
-  "cancelDateBtn": "Відміна",
-  "chooseDateBtn": "Обрати дату",
-  "weekDays": {
-    "Sunday": "Нд",
-    "Monday": "Пн",
-    "Tuesday": "Вт",
-    "Wednesday": "Ср",
-    "Thursday": "Чт",
-    "Friday": "Пт",
-    "Saturday": "Сб"
-  },
-  "at": "у",
-  "moreInfoBtn": "Подробиці",
-  "editEventBtn": "Редагувати",
-  "deleteEventBtn": "Видалити подію",
-  "noPageFound": "Вибачте, ми не змогли знайти цю сторінку",
-  
-  "modalMessages": {
-    "deleteEvent": "Ви впевнені, що хочете видалити цю подію?",
-    "deleteAllEvents": "Ви впевнені, що хочете видалити всі свої події?",
-    "deleteProfile": "Ви впевнені, що хочете видалити свій профіль з усіма подіями?",
-    "logOut": "Ви впевнені, що хочете вийти?"
-  },
-  "emailVerification": {
-    "resendVerificationLink": "",
-    "invalidUrl": "Посилання для підтвердження електронної пошти недійсне. Будь ласка, запросіть нове.",
-    "successfulVerification": "Вашу електронну адресу успішно перевірено! Тепер ви можете увійти!",
-    "userNotFound": "Користувача не знайдено :(",
-    "internalServerError": "Сталася невідома помилка. Спробуйте пізніше."
-  },
+
   "startPage": {
     "title": "Вітаємо в планувальнику подій!",
     "subtitle": "Керуй своїм завтра.",
@@ -117,5 +79,81 @@
     "filtrationDescription": "Події можна фільтрувати за категоріями, включаючи мистецтво, музика, бізнес, конференція, семінар, вечірка та спорт.",
     "deletion": "Видаленні",
     "deletionDescription": "Видаляйте події по одній або Ви можете видалити всі, перейшовши на сторінку свого профілю."
+  },
+
+  "loginPage": {
+    "resendVerificationLink": "Повторно надіслати посилання для підтвердження на вашу електронну адресу?"
+  },
+
+  "homePage": {
+    "homePageTitle": "Мої події",
+    "noEventCreated": "У Вас немає подій. Створіть свою першу подію.",
+    "noEventsFoundByQuery": "Подій не знайдено :(",
+    "addNewEventBtn": "Додати подію",
+    "moreInfoBtn": "Подробиці",
+    "sorters": {
+      "correctAlphabetOrder": "А-Я",
+      "reverseAlphabetOrder": "Я-А",
+      "name": "імені",
+      "date": "даті",
+      "priority": "пріорітету",
+      "sortBy": "Сортувати по",
+      "by": "по"
+    }
+  },
+  
+  "eventDetailsPage": {
+    "editEventBtn": "Редагувати",
+    "deleteEventBtn": "Видалити подію"
+  },
+
+  "editEventPage": {
+    "editEventTitle": "Редагування події",
+    "saveEventBtn": "Зберегти"
+  },
+
+  "createEventPage": {
+    "createEventTitle": "Створення події",
+    "addEventBtn": "Додати подію"
+  },
+
+  "profilePage": {
+    "yourData": "Ваші дані",
+    "changePasswordTitle": "Зміна паролю",
+    "newPassword": "Новий пароль",
+    "confirmPassword": "Підтверди новий пароль",
+    "changePassword": "Змінити пароль",
+    "deleteData": "Видалення",
+    "deleteAllEvents": "Видалити всі події",
+    "deleteProfile": "Видалити мій профіль"
+  },
+  
+  "emailVerificationPage": {
+    "invalidUrl": "Посилання для підтвердження електронної пошти недійсне. Будь ласка, запросіть нове.",
+    "successfulVerification": "Вашу електронну адресу успішно перевірено! Тепер ви можете увійти!",
+    "userNotFound": "Користувача не знайдено :(",
+    "internalServerError": "Сталася невідома помилка. Спробуйте пізніше."
+  },
+
+  "forgotPasswordPage": {
+    "submit": "Відправити"
+  },
+
+  "resetPasswordPage": {
+    "resetPasswordTitle": "Скидання паролю",
+    "resetPassword": "Скинути пароль"
+  },
+
+  "notFoundPage": {
+    "noPageFoundTitle": "Вибачте, ми не змогли знайти цю сторінку"
+  },
+
+  "modalMessages": {
+    "deleteEvent": "Ви впевнені, що хочете видалити цю подію?",
+    "deleteAllEvents": "Ви впевнені, що хочете видалити всі свої події?",
+    "deleteProfile": "Ви впевнені, що хочете видалити свій профіль з усіма подіями?",
+    "logOut": "Ви впевнені, що хочете вийти?",
+    "yes": "Так",
+    "no": "Ні"
   }
 }
