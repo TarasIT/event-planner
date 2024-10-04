@@ -70,15 +70,6 @@ class AuthStore {
   }
 
   @action
-  resetAuthForm(): void {
-    authCredentials.setName("");
-    authCredentials.setEmail("");
-    authCredentials.setPassword("");
-    authCredentials.setNewPassword("");
-    authCredentials.setConfirmPassword("");
-  }
-
-  @action
   async signup(): Promise<void> {
     const credentials: User = {
       name: authCredentials.name,
@@ -108,7 +99,7 @@ class AuthStore {
       toast.error(errorMessage);
       this.error = errorMessage;
     } finally {
-      this.resetAuthForm();
+      authCredentials.resetAuthForm();
       this.setLoading(false);
     }
   }
@@ -143,7 +134,7 @@ class AuthStore {
       }
       this.saveToken(data.token);
       this.setLoggedIn(true);
-      this.resetAuthForm();
+      authCredentials.resetAuthForm();
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       toast.error(errorMessage);
@@ -250,7 +241,7 @@ class AuthStore {
           data.error || data.message || "Failed to change password."
         );
       }
-      this.resetAuthForm();
+      authCredentials.resetAuthForm();
       toast.success(data.message);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
@@ -287,7 +278,7 @@ class AuthStore {
           data.error || data.message || "Failed to send reset password link."
         );
       }
-      this.resetAuthForm();
+      authCredentials.resetAuthForm();
       toast.success(data.message);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
@@ -330,7 +321,7 @@ class AuthStore {
           data.error || data.message || "Failed to reset password."
         );
       }
-      this.resetAuthForm();
+      authCredentials.resetAuthForm();
       toast.success(data.message);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
@@ -378,7 +369,7 @@ class AuthStore {
       toast.error(errorMessage);
       this.error = errorMessage;
     } finally {
-      this.resetAuthForm();
+      authCredentials.resetAuthForm();
     }
   }
 }

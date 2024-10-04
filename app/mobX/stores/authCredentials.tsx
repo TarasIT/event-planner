@@ -48,6 +48,15 @@ class SetAuthCredentials {
   setConfirmPassword(password: string): void {
     this.confirmPassword = password;
   }
+
+  @action
+  resetAuthForm(): void {
+    this.setName("");
+    this.setEmail("");
+    this.setPassword("");
+    this.setNewPassword("");
+    this.setConfirmPassword("");
+  }
 }
 
 const authCredentials = new SetAuthCredentials();
