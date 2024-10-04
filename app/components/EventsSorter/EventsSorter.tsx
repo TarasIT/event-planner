@@ -128,19 +128,6 @@ export const EventsSorter: FC = observer((): JSX.Element => {
     router.push(createQueryString());
   };
 
-  const handleTransitionEnd = (
-    e: React.TransitionEvent<HTMLDivElement>
-  ): void => {
-    if (
-      (!isSorterOpened && e.propertyName === "padding-right") ||
-      (!isSorterOpened && e.propertyName === "padding-left")
-    ) {
-      setIsOptionVisible(true);
-    }
-
-    console.log("e.propertyName", e.propertyName);
-  };
-
   const onSorterBoxClick = (): void => {
     setIsOptionVisible(false);
     setIsSorterOpened(!isSorterOpened);
@@ -206,7 +193,6 @@ export const EventsSorter: FC = observer((): JSX.Element => {
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <SorterBox
         ref={sorterBoxRef}
-        onTransitionEnd={handleTransitionEnd}
         isSorterOpened={isSorterOpened}
         currentSorter={currentSorter}
         currentLang={i18n.language}
