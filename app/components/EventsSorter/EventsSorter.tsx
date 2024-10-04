@@ -78,6 +78,7 @@ export const EventsSorter: FC = observer((): JSX.Element => {
       } else {
         setCurrentSorter(sortQueryParam);
       }
+      setIsOptionVisible(true);
     } else {
       setIsSorterIncreased(null);
       eventsSorter.setIsSorterIncreased(null);
@@ -98,10 +99,10 @@ export const EventsSorter: FC = observer((): JSX.Element => {
   const handleWindowResize = (): void => setViewportWidth(window.innerWidth);
 
   const handleSorterChanging = (e: React.MouseEvent<HTMLLIElement>): void => {
-    const currentTarget = e.currentTarget as HTMLLIElement;
-    setSorterIndex(Number(currentTarget.id));
+    const id = e.currentTarget.id;
+    setSorterIndex(Number(id));
 
-    if (Number(currentTarget.id) % 2 === 0) {
+    if (Number(id) % 2 === 0) {
       setIsSorterIncreased(true);
       eventsSorter.setIsSorterIncreased(true);
     } else {
@@ -109,7 +110,7 @@ export const EventsSorter: FC = observer((): JSX.Element => {
       eventsSorter.setIsSorterIncreased(false);
     }
 
-    switch (Number(currentTarget.id)) {
+    switch (Number(id)) {
       case 0:
         setCurrentSorter("A-Z");
         eventsSorter.setCurrentSorter("A-Z");
@@ -119,8 +120,8 @@ export const EventsSorter: FC = observer((): JSX.Element => {
         eventsSorter.setCurrentSorter("Z-A");
         break;
       default:
-        setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
-        eventsSorter.setCurrentSorter(doubledSorters[Number(currentTarget.id)]);
+        setCurrentSorter(doubledSorters[Number(id)]);
+        eventsSorter.setCurrentSorter(doubledSorters[Number(id)]);
     }
 
     eventsStore.setLoading(true);
@@ -136,6 +137,8 @@ export const EventsSorter: FC = observer((): JSX.Element => {
     ) {
       setIsOptionVisible(true);
     }
+
+    console.log("e.propertyName", e.propertyName);
   };
 
   const onSorterBoxClick = (): void => {
