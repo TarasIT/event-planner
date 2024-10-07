@@ -102,7 +102,7 @@ export const PasswordInput: FC = (): JSX.Element => {
             )}
           </div>
         ) : null}
-        {!isPasswordLong && (
+        {password && !isPasswordLong && (
           <InvalidInputWarning className={poppins.className}>
             {t("common.shortPassword")}
           </InvalidInputWarning>

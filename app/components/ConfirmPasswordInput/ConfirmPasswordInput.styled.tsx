@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { RxCross2 } from "react-icons/rx";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
@@ -18,11 +18,9 @@ export const SvgShowPasswordIcon = styled(IoMdEye)`
   transform: translateY(50%);
   cursor: pointer;
 
-  ${css`
-    @media (width < 768px) {
-      right: -28px;
-    }
-  `}
+  @media (width < 768px) {
+    right: -28px;
+  }
 `;
 
 export const SvgHidePasswordIcon = styled(IoMdEyeOff)`
@@ -33,18 +31,17 @@ export const SvgHidePasswordIcon = styled(IoMdEyeOff)`
   transform: translateY(50%);
   cursor: pointer;
 
-  ${css`
-    @media (width < 768px) {
-      right: -28px;
-    }
-  `}
+  @media (width < 768px) {
+    right: -28px;
+  }
 `;
 
 export const SvgDeleteIcon = styled(RxCross2)<CreateEventFormProps>`
   transition: color 300ms;
   color: ${({ password, isPasswordLong, isPasswordMatched }) => {
     if (!password) return "#aca7c3";
-    if (!isPasswordLong || (password && !isPasswordMatched)) return "#ff2b77";
+    if ((password && !isPasswordLong) || (password && !isPasswordMatched))
+      return "#ff2b77";
     if (isPasswordLong && isPasswordMatched) return "#7b61ff";
   }};
 `;
@@ -91,7 +88,8 @@ export const PasswordInput = styled.input<CreateEventFormProps>`
   border: 1px solid;
   border-color: ${({ password, isPasswordLong, isPasswordMatched }) => {
     if (!password) return "#aca7c3";
-    if (!isPasswordLong || (password && !isPasswordMatched)) return "#ff2b77";
+    if ((password && !isPasswordLong) || (password && !isPasswordMatched))
+      return "#ff2b77";
     if (isPasswordLong && isPasswordMatched) return "#7b61ff";
   }};
   transition: border-color 300ms;
@@ -121,14 +119,12 @@ export const PasswordLabel = styled.label<CreateEventFormProps>`
   line-height: 16px;
   letter-spacing: 0.4px;
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    @media (768px <= width < 1280px) {
-      width: 308px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (768px <= width < 1280px) {
+    width: 308px;
+  }
 `;

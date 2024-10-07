@@ -40,7 +40,7 @@ export const SvgDeleteIcon = styled(RxCross2)<CreateEventFormProps>`
   transition: color 300ms;
   color: ${({ password, isPasswordLong, isPasswordCompleted }) => {
     if (password && isPasswordLong) return "#7b61ff";
-    if (!isPasswordLong) return "#ff2b77";
+    if (password && !isPasswordLong) return "#ff2b77";
     if (!password || isPasswordCompleted) return "#aca7c3";
   }};
 `;
@@ -76,7 +76,7 @@ export const PasswordAuthInput = styled.input<CreateEventFormProps>`
     if (password && isPasswordLong && !isPasswordCompleted) {
       return "#aca7c3";
     }
-    if (!isPasswordLong) return "#ff2b77";
+    if (password && !isPasswordLong) return "#ff2b77";
     if (!password) return "#aca7c3";
     if (password && isPasswordLong && isPasswordCompleted) {
       return "#7b61ff";

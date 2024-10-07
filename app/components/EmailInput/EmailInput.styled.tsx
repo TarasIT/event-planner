@@ -13,7 +13,7 @@ export const SvgDeleteIcon = styled(RxCross2)<CreateEventFormProps>`
   transition: color 300ms;
   color: ${({ emailInputValue, isEmailInputValid, isEmailInputCompleted }) => {
     if (emailInputValue && isEmailInputValid) return "#7b61ff";
-    if (!isEmailInputValid) return "#ff2b77";
+    if (emailInputValue && !isEmailInputValid) return "#ff2b77";
     if (!emailInputValue || isEmailInputCompleted) return "#aca7c3";
   }};
 `;
@@ -53,7 +53,7 @@ export const EmailAuthInput = styled.input<CreateEventFormProps>`
     if (emailInputValue && isEmailInputValid && !isEmailInputCompleted) {
       return "#aca7c3";
     }
-    if (!isEmailInputValid) return "#ff2b77";
+    if (emailInputValue && !isEmailInputValid) return "#ff2b77";
     if (!emailInputValue) return "#aca7c3";
     if (emailInputValue && isEmailInputValid && isEmailInputCompleted) {
       return "#7b61ff";

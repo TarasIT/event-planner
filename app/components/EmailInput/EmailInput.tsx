@@ -99,7 +99,7 @@ export const EmailInput: FC = (): JSX.Element => {
           className={poppins.className}
           required
         />
-        {!isEmailInputValid && (
+        {emailInputValue && !isEmailInputValid && (
           <InvalidInputWarning className={poppins.className}>
             {t("common.invalidEmail")}
           </InvalidInputWarning>
