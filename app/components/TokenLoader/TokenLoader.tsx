@@ -7,7 +7,7 @@ const TokenLoader = (): null => {
   const { authStore } = useStore();
 
   useEffect(() => {
-    authStore.loadToken();
+    authStore.getToken();
   }, []);
 
   return null;

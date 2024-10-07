@@ -56,3 +56,9 @@ export interface ResetPassworProps {
   password: string;
   password_confirmation: string;
 }
+
+export interface AuthResponseProps {
+  message?: string;
+  error?: string;
+  token?: string;
+}

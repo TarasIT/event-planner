@@ -1,5 +1,6 @@
-import { cookies } from "next/headers";
+import axios from "axios";
 import { EventsProps } from "../types/types";
+import axiosServer from "@/axiosServer";
 
 interface HomeProps {
   eventsList: EventsProps | null;
@@ -10,25 +11,9 @@ interface HomeProps {
 
 export async function getEvents(queryParams: string): Promise<HomeProps> {
   try {
-    const token = cookies().get("token")?.value;
-    const response = await fetch(
-      `https://event-planner-api.onrender.com/api/events?per_page=8&${queryParams}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      }
-    );
-    const eventsResponse = await response.json();
-    if (!response.ok || eventsResponse.error || eventsResponse.errors) {
-      throw new Error(
-        eventsResponse.error ||
-          eventsResponse.message ||
-          "Failed to get events."
-      );
-    }
+    const response = await axiosServer.get(`events?per_page=8&${queryParams}`);
+    const eventsResponse = response.data;
+
     return {
       eventsList: eventsResponse || null,
       error: null,
@@ -36,11 +21,22 @@ export async function getEvents(queryParams: string): Promise<HomeProps> {
       errors: null,
     };
   } catch (error: unknown) {
+    let errorMessage = "Failed to get events.";
+
+    if (axios.isAxiosError(error)) {
+      errorMessage =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        errorMessage;
+    } else if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
     return {
       eventsList: null,
       errors: null,
-      error: (error as Error).message,
-      message: (error as Error).message,
+      error: errorMessage,
+      message: errorMessage,
     };
   }
 }

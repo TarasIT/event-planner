@@ -1,16 +1,18 @@
+import axios from "axios";
 import { observable, action, makeAutoObservable } from "mobx";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import type {
+  AuthResponseProps,
   ChangePassworProps,
   ResetPassworProps,
   User,
 } from "../../types/types";
 import authCredentials from "./authCredentials";
+import axiosClient from "@/axiosClient";
 
 class AuthStore {
   @observable
-  userId: string | null = null;
   name: string | null = null;
   email: string | null = null;
   token: null | string = null;
@@ -21,7 +23,7 @@ class AuthStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadToken();
+    this.getToken();
   }
 
   @action
@@ -45,7 +47,7 @@ class AuthStore {
   }
 
   @action
-  loadToken(): void {
+  getToken(): void {
     const token = Cookies.get("token");
     if (token) {
       this.token = token;
@@ -54,7 +56,7 @@ class AuthStore {
   }
 
   @action
-  saveToken(token: string): void {
+  setToken(token: string): void {
     this.token = token;
     Cookies.set("token", token, {
       expires: 7,
@@ -77,29 +79,31 @@ class AuthStore {
       password: authCredentials.password,
     };
     this.setLoading(true);
-    this.error = null;
+    this.setError(null);
+    this.setMessage(null);
+
     try {
-      const response = await fetch(
-        "https://event-planner-api.onrender.com/api/users/auth/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to sign up.");
-      }
+      const response = await axiosClient.post("users/auth/signup", credentials);
+      const data: AuthResponseProps = response.data;
+
       toast.success(data.message);
-    } catch (error) {
-      const errorMessage = (error as Error).message;
+      this.setMessage(data.message as string);
+    } catch (error: unknown) {
+      let errorMessage = "Failed to sign up.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
-      authCredentials.resetAuthForm();
+      if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
   }
@@ -112,31 +116,60 @@ class AuthStore {
     };
     this.setLoading(true);
     this.setLoggedIn(false);
-    this.token = null;
-    this.error = null;
+    this.setError(null);
+
     try {
-      const response = await fetch(
-        "https://event-planner-api.onrender.com/api/users/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
-      const data: {
-        token: string;
-        error: string;
-      } = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to log in.");
-      }
-      this.saveToken(data.token);
+      const response = await axiosClient.post("users/auth/login", credentials);
+      const data: AuthResponseProps = response.data;
+
+      this.setToken(data.token as string);
       this.setLoggedIn(true);
-      authCredentials.resetAuthForm();
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to log in.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      toast.error(errorMessage);
+      this.setError(errorMessage);
+    } finally {
+      if (!this.error) authCredentials.resetAuthForm();
+      this.setLoading(false);
+    }
+  }
+
+  @action
+  async logout(): Promise<void> {
+    this.setLoading(true);
+    this.setError(null);
+    this.setMessage(null);
+
+    try {
+      const response = await axiosClient.post("users/auth/logout");
+      const data: AuthResponseProps = response.data;
+
+      this.deleteToken();
+      this.setLoggedIn(false);
+      toast.success(data.message);
+      this.setMessage(data.message as string);
+    } catch (error: unknown) {
+      let errorMessage = "Failed to log out.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
       this.setError(errorMessage);
     } finally {
@@ -145,69 +178,31 @@ class AuthStore {
   }
 
   @action
-  async logout(): Promise<void> {
-    this.setLoading(true);
-    this.error = null;
-    try {
-      const response = await fetch(
-        "https://event-planner-api.onrender.com/api/users/auth/logout",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            "Content-type": "application/json",
-          },
-        }
-      );
-      const data: {
-        message: string;
-        error: string;
-      } = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || data.message || "Failed to logout.");
-      }
-      this.deleteToken();
-      this.setLoggedIn(false);
-      this.userId = null;
-      toast.success(data.message);
-    } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
-      toast.error(errorMessage);
-      this.error = errorMessage;
-    } finally {
-      this.setLoading(false);
-    }
-  }
-
-  @action
   async deleteProfile(): Promise<void> {
     this.setLoading(true);
-    this.error = null;
-    try {
-      const response = await fetch(
-        "https://event-planner-api.onrender.com/api/users/current",
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        }
-      );
-      const data: {
-        message: string;
-        error: string;
-      } = await response.json();
+    this.setError(null);
+    this.setMessage(null);
 
-      if (!response.ok || data.error) {
-        throw new Error(
-          data.error || data.message || "Failed to delete profile."
-        );
-      }
+    try {
+      const response = await axiosClient.delete("users/current");
+      const data: AuthResponseProps = response.data;
+
       toast.success(data.message);
+      this.setMessage(data.message as string);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to delete profile.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
       this.setLoading(false);
       this.deleteToken();
@@ -218,36 +213,34 @@ class AuthStore {
   @action
   async changePassword(credentials: ChangePassworProps): Promise<void> {
     this.setLoading(true);
-    this.error = null;
-    try {
-      const response = await fetch(
-        `https://event-planner-api.onrender.com/api/users/change-password`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
-      const data: {
-        message: string;
-        error: string;
-      } = await response.json();
+    this.setError(null);
+    this.setMessage(null);
 
-      if (!response.ok) {
-        throw new Error(
-          data.error || data.message || "Failed to change password."
-        );
-      }
-      authCredentials.resetAuthForm();
+    try {
+      const response = await axiosClient.post(
+        "users/change-password",
+        credentials
+      );
+      const data: AuthResponseProps = response.data;
+
       toast.success(data.message);
+      this.setMessage(data.message as string);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to change password.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
+      if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
   }
@@ -255,36 +248,33 @@ class AuthStore {
   @action
   async sendResetPasswordLink(): Promise<void> {
     this.setLoading(true);
-    this.error = null;
-    try {
-      const response = await fetch(
-        `https://event-planner-api.onrender.com/api/forgot-password`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ email: authCredentials.email }),
-        }
-      );
-      const data: {
-        message: string;
-        error: string;
-      } = await response.json();
+    this.setError(null);
+    this.setMessage(null);
 
-      if (!response.ok) {
-        throw new Error(
-          data.error || data.message || "Failed to send reset password link."
-        );
-      }
-      authCredentials.resetAuthForm();
+    try {
+      const response = await axiosClient.post("forgot-password", {
+        email: authCredentials.email,
+      });
+      const data: AuthResponseProps = response.data;
+
       toast.success(data.message);
+      this.setMessage(data.message as string);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to send reset password link.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
+      if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
   }
@@ -296,38 +286,35 @@ class AuthStore {
       password: authCredentials.newPassword,
       password_confirmation: authCredentials.confirmPassword,
     };
-
     this.setLoading(true);
-    this.error = null;
-    try {
-      const response = await fetch(
-        `https://event-planner-api.onrender.com/api/reset-password?token=${resetPasswordToken}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
-      const data: {
-        message: string;
-        error: string;
-      } = await response.json();
+    this.setError(null);
+    this.setMessage(null);
 
-      if (!response.ok) {
-        throw new Error(
-          data.error || data.message || "Failed to reset password."
-        );
-      }
-      authCredentials.resetAuthForm();
+    try {
+      const response = await axiosClient.post(
+        `reset-password?token=${resetPasswordToken}`,
+        credentials
+      );
+      const data: AuthResponseProps = response.data;
+
       toast.success(data.message);
+      this.setMessage(data.message as string);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to reset password.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
+      if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
   }
@@ -338,38 +325,31 @@ class AuthStore {
       email: authCredentials.email,
       password: authCredentials.password,
     };
+    this.setError(null);
+    this.setMessage(null);
 
-    this.error = null;
     try {
-      const response = await fetch(
-        `https://event-planner-api.onrender.com/api/email/resend`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(credentials),
-        }
-      );
-      const data: {
-        message: string;
-        error: string;
-      } = await response.json();
+      const response = await axiosClient.post("email/resend", credentials);
+      const data: AuthResponseProps = response.data;
 
-      if (!response.ok) {
-        throw new Error(
-          data.error || data.message || "Failed to resend verification link."
-        );
-      }
       toast.success(data.message);
-      this.setMessage(data.message);
+      this.setMessage(data.message as string);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to resend verification link.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
-      authCredentials.resetAuthForm();
+      if (!this.error) authCredentials.resetAuthForm();
     }
   }
 }

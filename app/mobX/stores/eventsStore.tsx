@@ -1,10 +1,11 @@
+import axios from "axios";
 import { observable, action, makeAutoObservable } from "mobx";
-import type { NewEvent } from "../../types/types";
-import authStore from "./authStore";
 import { toast } from "react-toastify";
+import type { NewEvent } from "../../types/types";
 import eventDataStore from "./eventDataStore";
+import axiosClient from "@/axiosClient";
 
-interface ResponseProps {
+interface EventResponseProps {
   data?: NewEvent | null;
   error?: string | null;
   message?: string | null;
@@ -17,6 +18,7 @@ class EventsStore {
   events: NewEvent[] | null = null;
   event: NewEvent | null | undefined = null;
   error: string | null = null;
+  message: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -43,37 +45,37 @@ class EventsStore {
   }
 
   @action
+  setMessage(message: string | null): void {
+    this.message = message;
+  }
+
+  @action
   async createEvent(event: FormData): Promise<void> {
     try {
       this.setLoading(true);
       this.setError(null);
       this.setEvent(null);
 
-      const response = await fetch(
-        "https://event-planner-api.onrender.com/api/events",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${authStore.token}`,
-            Accept: "application/json",
-          },
-          body: event,
-        }
-      );
-      const data = await response.json();
+      const response = await axiosClient.post("events", event);
+      const data: EventResponseProps = response.data;
 
-      if (!response.ok || data.error || data.errors) {
-        throw new Error(
-          data.error || data.message || "Failed to create an event."
-        );
-      }
       this.setEvent(data.data);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to create an event.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
       this.setError(errorMessage);
     } finally {
-      eventDataStore.resetEventFormInputs();
+      if (!this.error) eventDataStore.resetEventFormInputs();
       this.setLoading(false);
     }
   }
@@ -82,29 +84,24 @@ class EventsStore {
   async updateEvent(id: string, event: NewEvent): Promise<void> {
     try {
       this.setLoading(true);
-      this.error = null;
-      const response = await fetch(
-        `https://event-planner-api.onrender.com/api/events/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${authStore.token}`,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(event),
-        }
-      );
-      const data = await response.json();
+      this.setError(null);
 
-      if (!response.ok || data.error || data.errors) {
-        throw new Error(
-          data.error || data.message || "Failed to update the event."
-        );
-      }
-      this.setEvent(data.event);
+      const response = await axiosClient.put(`events/${id}`, event);
+      const data: EventResponseProps = response.data;
+
+      this.setEvent(data.data);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to update the event.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
       this.setError(errorMessage);
     } finally {
@@ -116,26 +113,28 @@ class EventsStore {
   async deleteEvent(id: string): Promise<void> {
     try {
       this.setLoading(true);
-      this.error = null;
-      const response = await fetch(
-        `https://event-planner-api.onrender.com/api/events/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${authStore.token}`,
-            Accept: "application/json",
-          },
-        }
-      );
-      const data: ResponseProps = await response.json();
-      if (!response.ok || data.error) {
-        throw new Error(data.error || "Failed to delete an event.");
-      }
+      this.setError(null);
+      this.setMessage(null);
+
+      const response = await axiosClient.delete(`events/${id}`);
+      const data: EventResponseProps = response.data;
+
       toast.success(data.message);
+      this.setMessage(data.message as string);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to delete an event.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
       this.setLoading(false);
     }
@@ -145,27 +144,29 @@ class EventsStore {
   async deleteAllEvents(): Promise<void> {
     try {
       this.setLoading(true);
-      this.error = null;
-      const response = await fetch(
-        "https://event-planner-api.onrender.com/api/events",
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${authStore.token}`,
-            Accept: "application/json",
-          },
-        }
-      );
-      const data: ResponseProps = await response.json();
-      if (!response.ok || data.error) {
-        throw new Error(data.error || "Failed to delete all events.");
-      }
+      this.setError(null);
+      this.setMessage(null);
+
+      const response = await axiosClient.delete("events");
+      const data: EventResponseProps = response.data;
+
       this.setEvents(null);
       toast.success(data.message);
+      this.setMessage(data.message as string);
     } catch (error: unknown) {
-      const errorMessage = (error as Error).message;
+      let errorMessage = "Failed to delete all events.";
+
+      if (axios.isAxiosError(error)) {
+        errorMessage =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          errorMessage;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
       toast.error(errorMessage);
-      this.error = errorMessage;
+      this.setError(errorMessage);
     } finally {
       this.setLoading(false);
     }

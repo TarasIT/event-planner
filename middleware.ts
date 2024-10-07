@@ -6,12 +6,9 @@ export function middleware(request: NextRequest): NextResponse {
   const pathname = request.nextUrl.pathname;
   const startUrl = new URL("/", request.url);
   const homeUrl = new URL("/home", request.url);
-  const isProtectedPath = protectedPaths.some((path) =>
-    pathname.startsWith(path)
-  );
+  const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
 
   const queryToken = url.searchParams.get("token");
-
   let response;
 
   if (queryToken && !isProtectedPath && pathname !== "/reset-password") {
@@ -21,14 +18,22 @@ export function middleware(request: NextRequest): NextResponse {
     });
     url.searchParams.delete("token");
   } else {
-    const cookieToken = request.cookies.get("token");
+    const token = request.cookies.get("token");
 
     switch (true) {
-      case cookieToken && !isProtectedPath:
-        response = NextResponse.redirect(homeUrl);
+      case token && !isProtectedPath:
+        if (pathname !== "/home") {
+          response = NextResponse.redirect(homeUrl);
+        } else {
+          response = NextResponse.next();
+        }
         break;
-      case !cookieToken && isProtectedPath:
-        response = NextResponse.redirect(startUrl);
+      case !token && isProtectedPath:
+        if (pathname !== "/") {
+          response = NextResponse.redirect(startUrl);
+        } else {
+          response = NextResponse.next();
+        }
         break;
       default:
         response = NextResponse.next();
@@ -38,14 +43,8 @@ export function middleware(request: NextRequest): NextResponse {
 
   response.headers.set("Access-Control-Allow-Credentials", "true");
   response.headers.set("Access-Control-Allow-Origin", "*");
-  response.headers.set(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, OPTIONS"
-  );
-  response.headers.set(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Content-Type, Accept, Authorization"
-  );
+  response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  response.headers.set("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Content-Type, Accept, Authorization");
 
   return response;
 }
@@ -53,3 +52,4 @@ export function middleware(request: NextRequest): NextResponse {
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
+

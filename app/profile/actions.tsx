@@ -1,4 +1,5 @@
-import { cookies } from "next/headers";
+import axios from "axios";
+import axiosServer from "@/axiosServer";
 
 interface ProfileProps {
   name: string | null;
@@ -11,20 +12,9 @@ interface ProfileProps {
 
 export async function getUserData(): Promise<ProfileProps> {
   try {
-    const token = cookies().get("token")?.value;
-    const response = await fetch(
-      "https://event-planner-api.onrender.com/api/users/current",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data: ProfileProps = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || data.message || "Failed to get user.");
-    }
+    const response = await axiosServer.get("users/current");
+    const data: ProfileProps = response.data;
+
     return {
       name: data.name,
       email: data.email,
@@ -34,7 +24,17 @@ export async function getUserData(): Promise<ProfileProps> {
       message: null,
     };
   } catch (error: unknown) {
-    const errorMessage = (error as Error).message;
+    let errorMessage = "Failed to get user.";
+
+    if (axios.isAxiosError(error)) {
+      errorMessage =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        errorMessage;
+    } else if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
     return {
       name: null,
       email: null,
