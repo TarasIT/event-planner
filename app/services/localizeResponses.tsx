@@ -122,7 +122,7 @@ const messagesMap = new Map<string, string>([
   ],
 
   [
-    "Не вдалося отримати події. Будь ласка, спробуйте пізніше.",
+    "Failed to get events. Please, try later.",
     "homePage.responses.error.getEventsFailed",
   ],
 ]);
