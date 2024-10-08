@@ -33,6 +33,7 @@ import {
 } from "@/app/styles/common.styled";
 import Modal from "../Modal/Modal";
 import { createQueryString } from "@/app/services/createQueryString";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 interface EventProps {
   event?: NewEvent | null | undefined;
@@ -54,7 +55,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
     const { eventsStore } = useStore();
 
     useEffect(() => {
-      toast.error(error);
+      toast.error(t(localizeResponses(error as string)));
     }, [error]);
 
     const deleteEvent = async (id: string): Promise<void> => {

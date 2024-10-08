@@ -19,16 +19,16 @@ import { poppins } from "@/app/assets/fonts";
 import { EventsMeta } from "@/app/types/types";
 import { toast } from "react-toastify";
 import { createQueryString } from "@/app/services/createQueryString";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 const shouldForwardProp = (prop: string) => prop !== "isActive";
 
 interface PaginationProps {
   meta: EventsMeta | null;
-  error: string | null;
 }
 
 export const Pagination: FC<PaginationProps> = observer(
-  ({ meta, error }): JSX.Element => {
+  ({ meta }): JSX.Element => {
     const [currentPage, setCurrentPage] = useState<number | null>(null);
     const [lastPage, setLastPage] = useState<number | null>(null);
     const [pagination, setPagination] = useState<(number | "...")[] | null>();
@@ -48,11 +48,7 @@ export const Pagination: FC<PaginationProps> = observer(
           eventsStore.setLoading(true);
         }
       }
-      if (error !== "No events found.") {
-        eventsStore.setError(error);
-        toast.error(error);
-      }
-    }, [meta, error, router.push]);
+    }, [meta, router.push]);
 
     const onPrevPageClick = (): void => {
       if (currentPage && currentPage === 1) return;

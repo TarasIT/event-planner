@@ -24,7 +24,7 @@ export async function getEventById(id: string): Promise<EventProps> {
       error: null,
     };
   } catch (error: unknown) {
-    let errorMessage = "Failed to get events.";
+    let errorMessage = "Failed to retrieve an event. Please, try later.";
 
     if (axios.isAxiosError(error)) {
       errorMessage =

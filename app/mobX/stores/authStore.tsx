@@ -2,6 +2,7 @@ import axios from "axios";
 import { observable, action, makeAutoObservable } from "mobx";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { t } from "i18next";
 import type {
   AuthResponseProps,
   ChangePassworProps,
@@ -10,6 +11,7 @@ import type {
 } from "../../types/types";
 import authCredentials from "./authCredentials";
 import axiosClient from "@/axiosClient";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 class AuthStore {
   @observable
@@ -86,7 +88,7 @@ class AuthStore {
       const response = await axiosClient.post("users/auth/signup", credentials);
       const data: AuthResponseProps = response.data;
 
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
       let errorMessage = "Failed to sign up.";
@@ -100,7 +102,7 @@ class AuthStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       if (!this.error) authCredentials.resetAuthForm();
@@ -125,7 +127,7 @@ class AuthStore {
       this.setToken(data.token as string);
       this.setLoggedIn(true);
     } catch (error: unknown) {
-      let errorMessage = "Failed to log in.";
+      let errorMessage = "Failed to login. Please try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -136,7 +138,7 @@ class AuthStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       if (!this.error) authCredentials.resetAuthForm();
@@ -156,10 +158,10 @@ class AuthStore {
 
       this.deleteToken();
       this.setLoggedIn(false);
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to log out.";
+      let errorMessage = "Failed to logout. Please try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -170,7 +172,7 @@ class AuthStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       this.setLoading(false);
@@ -187,10 +189,10 @@ class AuthStore {
       const response = await axiosClient.delete("users/current");
       const data: AuthResponseProps = response.data;
 
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to delete profile.";
+      let errorMessage = "Failed to delete profile. Please try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -201,7 +203,7 @@ class AuthStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       this.setLoading(false);
@@ -223,21 +225,21 @@ class AuthStore {
       );
       const data: AuthResponseProps = response.data;
 
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to change password.";
+      let errorMessage = "Failed to change password. Please try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
-          error.response?.data?.error ||
+          (error.response?.data?.error as string) ||
           error.response?.data?.message ||
           errorMessage;
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       if (!this.error) authCredentials.resetAuthForm();
@@ -257,10 +259,10 @@ class AuthStore {
       });
       const data: AuthResponseProps = response.data;
 
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to send reset password link.";
+      let errorMessage = "Failed to send reset link. Please try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -271,7 +273,7 @@ class AuthStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       if (!this.error) authCredentials.resetAuthForm();
@@ -297,10 +299,10 @@ class AuthStore {
       );
       const data: AuthResponseProps = response.data;
 
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to reset password.";
+      let errorMessage = "Failed to reset password. Please try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -311,7 +313,7 @@ class AuthStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       if (!this.error) authCredentials.resetAuthForm();
@@ -332,10 +334,11 @@ class AuthStore {
       const response = await axiosClient.post("email/resend", credentials);
       const data: AuthResponseProps = response.data;
 
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to resend verification link.";
+      let errorMessage =
+        "Failed to resend verification email. Please try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -346,7 +349,7 @@ class AuthStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       if (!this.error) authCredentials.resetAuthForm();

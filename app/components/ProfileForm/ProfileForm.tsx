@@ -6,7 +6,6 @@ import { poppins } from "@/app/assets/fonts";
 import { ProfileNameInput } from "../ProfileNameInput/ProfileNameInput";
 import { ProfileEmailInput } from "../ProfileEmailInput/ProfileEmailInput";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 import { useStore } from "@/app/mobX/useStore";
 import { observer } from "mobx-react";
 
@@ -15,11 +14,10 @@ interface ProfileFormProps {
   email?: string | null | undefined;
   google_id?: string | null | undefined;
   is_password_existed?: boolean | null | undefined;
-  error?: string | null | undefined;
 }
 
 export const ProfileForm: FC<ProfileFormProps> = observer(
-  ({ name, email, google_id, is_password_existed, error }): JSX.Element => {
+  ({ name, email, google_id, is_password_existed }): JSX.Element => {
     const { t } = useTranslation();
     const { authCredentials } = useStore();
 
@@ -28,8 +26,7 @@ export const ProfileForm: FC<ProfileFormProps> = observer(
       if (email) authCredentials.setEmail(email);
       if (google_id) authCredentials.setGoogleId(google_id);
       authCredentials.setIsPasswordExisted(is_password_existed);
-      if (error) toast.error(error);
-    }, [name, email, google_id, is_password_existed, error]);
+    }, [name, email, google_id, is_password_existed]);
 
     return (
       <ProfileUserForm>

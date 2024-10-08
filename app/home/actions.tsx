@@ -21,7 +21,7 @@ export async function getEvents(queryParams: string): Promise<HomeProps> {
       errors: null,
     };
   } catch (error: unknown) {
-    let errorMessage = "Failed to get events.";
+    let errorMessage = "Failed to get events. Please, try later.";
 
     if (axios.isAxiosError(error)) {
       errorMessage =

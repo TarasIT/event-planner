@@ -30,6 +30,7 @@ import { NewEvent } from "@/app/types/types";
 import { transformDate } from "@/app/services/dateTransform";
 import { Spinner } from "@/app/styles/common.styled";
 import filtersStore from "@/app/mobX/stores/filtersStore";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 interface EventListProps {
   eventsList: NewEvent[] | null;
@@ -73,7 +74,7 @@ const EventsList: FC<EventListProps> = observer(
           return;
         }
         if (error !== "No events found.") {
-          toast.error(error);
+          toast.error(t(localizeResponses(error)));
           eventsStore.setError(error);
         }
       }

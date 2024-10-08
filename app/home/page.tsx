@@ -22,7 +22,7 @@ const Home = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
       <UpdateURLWithQueryParams />
       <AppBar />
       <EventsList eventsList={eventsList && eventsList.data} error={error} />
-      <Pagination meta={eventsList && eventsList.meta} error={error} />
+      <Pagination meta={eventsList && eventsList.meta} />
     </Suspense>
   );
 };

@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import type { NewEvent } from "../../types/types";
 import eventDataStore from "./eventDataStore";
 import axiosClient from "@/axiosClient";
+import { t } from "i18next";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 interface EventResponseProps {
   data?: NewEvent | null;
@@ -61,7 +63,7 @@ class EventsStore {
 
       this.setEvent(data.data);
     } catch (error: unknown) {
-      let errorMessage = "Failed to create an event.";
+      let errorMessage = "Failed to create an event. Please, try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -72,7 +74,7 @@ class EventsStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       if (!this.error) eventDataStore.resetEventFormInputs();
@@ -91,7 +93,7 @@ class EventsStore {
 
       this.setEvent(data.data);
     } catch (error: unknown) {
-      let errorMessage = "Failed to update the event.";
+      let errorMessage = "Failed to update an event. Please, try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -102,7 +104,7 @@ class EventsStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       this.setLoading(false);
@@ -119,10 +121,10 @@ class EventsStore {
       const response = await axiosClient.delete(`events/${id}`);
       const data: EventResponseProps = response.data;
 
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to delete an event.";
+      let errorMessage = "Failed to delete an event. Please, try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -133,7 +135,7 @@ class EventsStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       this.setLoading(false);
@@ -151,10 +153,10 @@ class EventsStore {
       const data: EventResponseProps = response.data;
 
       this.setEvents(null);
-      toast.success(data.message);
+      toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
-      let errorMessage = "Failed to delete all events.";
+      let errorMessage = "Failed to delete all events. Please, try later.";
 
       if (axios.isAxiosError(error)) {
         errorMessage =
@@ -165,7 +167,7 @@ class EventsStore {
         errorMessage = error.message;
       }
 
-      toast.error(errorMessage);
+      toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
       this.setLoading(false);

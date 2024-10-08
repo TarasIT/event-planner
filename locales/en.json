@@ -10,6 +10,7 @@
     "shortPassword": "Password is too short",
     "forgotPassword": "Forgot password?",
     "backBtn": "Back",
+
     "categories": {
       "art": "Art",
       "music": "Music",
@@ -21,8 +22,10 @@
       "all": "All",
       "defaultCategory": "Category"
     },
+
     "profile": "Profile",
     "at": "at",
+
     "eventForm": {
       "titleInput": "Title",
       "descriptionInput": "Description",
@@ -51,6 +54,18 @@
         "Thursday": "Thu",
         "Friday": "Fri",
         "Saturday": "Sat"
+      }
+    },
+
+    "responses": {
+      "success": {},
+      "error": {
+        "noEvents": "No events found.",
+        "userNotFound": "User not found.",
+        "emailRequired": "The email field is required.",
+        "passwordRequired": "The password field is required.",
+        "unknownError": "Unknown error occurs. Try again.",
+        "eventNotFound": "Event not found."
       }
     }
   },
@@ -87,13 +102,37 @@
         "signupSuccessful": "Registration successful. Please check your email to verify your account."
       },
       "error": {
-        "emailTaken": "The email has already been taken."
+        "nameRequired": "The name field is required.",
+        "emailTaken": "The email has already been taken.",
+        "signupFailed": "Failed to signup. Please try later."
       }
     }
   },
 
   "loginPage": {
-    "resendVerificationLink": "Resend verification link to your email?"
+    "resendVerificationLink": "Resend verification link to your email?",
+    
+    "responses": {
+      "success": {},
+      "error": {
+        "checkEmailVerificationFailed": "Failed to check is email verified.",
+        "notVerifiedEmail": "Email is not verified.",
+        "failedResendVerificationLink": "Failed to resend verification email. Please try later.",
+        "recordMismatch": "Email or password does not match the record.",
+        "loginFailed": "Failed to login. Please try later."
+      }
+    }
+  },
+
+  "logOutPage": {
+    "responses": {
+      "success": {
+        "successfulLogout": "Logged out successfully."
+      },
+      "error": {
+        "failedLogout": "Failed to logout. Please try later." 
+      }
+    }
   },
 
   "homePage": {
@@ -110,22 +149,53 @@
       "priority": "priority",
       "sortBy": "Sort by",
       "by": "by"
+    },
+
+    "responses":{
+      "success":{},
+      "error":{
+        "getEventsFailed": "Failed to get events. Please, try later."
+      }
     }
   },
 
   "eventDetailsPage": {
     "editEventBtn": "Edit",
-    "deleteEventBtn": "Delete Event"
+    "deleteEventBtn": "Delete Event",
+
+    "responses": {
+      "success": {
+        "successfulDeletion": "Event deleted successfully."
+      },
+      "error": {
+        "getEventFailed": "Failed to retrieve an event. Please, try later.",
+        "deleteEventFailed": "Failed to delete an event. Please, try later."
+      }
+    }
   },
 
   "editEventPage": {
     "editEventTitle": "Edit event",
-    "saveEventBtn": "Save"
+    "saveEventBtn": "Save",
+
+    "responses": {
+      "success": {},
+      "error": {
+        "updateEventFailed": "Failed to update an event. Please, try later."
+      }
+    }
   },
 
   "createEventPage": {
     "createEventTitle": "Create new event",
-    "addEventBtn": "Add event"
+    "addEventBtn": "Add event",
+
+    "responses": {
+      "success": {},
+      "error": {
+        "createEventFailed": "Failed to create an event. Please, try later."
+      }
+    }
   },
 
   "profilePage": {
@@ -136,7 +206,22 @@
     "changePassword": "Change password",
     "deleteData": "Delete",
     "deleteAllEvents": "Delete all events",
-    "deleteProfile": "Delete my profile"
+    "deleteProfile": "Delete my profile",
+
+    "responses": {
+      "success": {
+        "successfulEventsDeletion": "All events deleted successfully.",
+        "successfulPasswordChanging": "Password changed successfully.",
+        "deletionSuccessful": "Your profile deleted successfully."
+      },
+      "error": {
+        "failedGettingUser": "Failed to get user. Please try later.",
+        "incorrectCurrentPassword": "Current password is incorrect.",
+        "failedPasswordChanging": "Failed to change password. Please try later.",
+        "failedProfileDeletion": "Failed to delete profile. Please try later.",
+        "failedEventsDeletion": "Failed to delete all events. Please, try later."
+      }
+    }
   },
 
   "emailVerificationPage": {
@@ -146,8 +231,7 @@
       },
       "error": {
         "invalidUrl": "Invalid email verification link. Please request a new one.",
-        "userNotFound": "User is not found :(",
-        "internalServerError": "An unknown error occurred. Please try later."
+        "verificationFailed": "Failed to verify email. Please try later."
       }
     }
   },
@@ -158,7 +242,18 @@
 
   "resetPasswordPage": {
     "resetPasswordTitle": "Password reset",
-    "resetPassword": "Reset password"
+    "resetPassword": "Reset password",
+
+    "responses": {
+      "success": {
+        "successPasswordReset": "Your password has been reset."
+      },
+      "error": {
+        "failedSendResetLink": "Failed to send reset link. Please try later.",
+        "invalidResetToken": "This password reset token is invalid.",
+        "failedPasswordReset": "Failed to reset password. Please try later."
+      }
+    }
   },
 
   "notFoundPage": {
