@@ -64,9 +64,11 @@ const EventsList: FC<EventListProps> = observer(
         setEvents(eventsList);
         eventsStore.setEvents(eventsList);
       }
+
       if (error) {
         if (error === "Unauthenticated.") {
           authStore.deleteToken();
+          authStore.setLoggedIn(false);
           router.push(`/?lang=${i18n.language}`);
           return;
         }

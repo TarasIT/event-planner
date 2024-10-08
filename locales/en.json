@@ -81,6 +81,17 @@
     "deletionDescription": "Delete events one by one or you can delete all of them by navigating to your profile page."
   },
 
+  "signupPage": {
+    "responses": {
+      "success": {
+        "signupSuccessful": "Registration successful. Please check your email to verify your account."
+      },
+      "error": {
+        "emailTaken": "The email has already been taken."
+      }
+    }
+  },
+
   "loginPage": {
     "resendVerificationLink": "Resend verification link to your email?"
   },
@@ -129,10 +140,16 @@
   },
 
   "emailVerificationPage": {
-    "invalidUrl": "Invalid email verification link. Please request a new one.",
-    "successfulVerification": "Your email is verified successfully! Now, you can log in!",
-    "userNotFound": "User is not found :(",
-    "internalServerError": "An unknown error occurred. Please try later."
+    "responses": {
+      "success": {
+        "successfulVerification": "Your email is verified successfully! Now, you can log in!"
+      },
+      "error": {
+        "invalidUrl": "Invalid email verification link. Please request a new one.",
+        "userNotFound": "User is not found :(",
+        "internalServerError": "An unknown error occurred. Please try later."
+      }
+    }
   },
   
   "forgotPasswordPage": {

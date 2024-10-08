@@ -56,7 +56,7 @@ export const LoginForm: FC = observer((): JSX.Element => {
     reset();
     if (authCredentials.password && authCredentials.password.length < 8) return;
     await authStore.login();
-    if (authStore.error !== "Email is not verified.") {
+    if (!authStore.error && authStore.isLoggedIn) {
       router.push(`/home${createQueryString()}`);
     }
   };

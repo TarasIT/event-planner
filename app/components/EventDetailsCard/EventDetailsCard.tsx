@@ -69,46 +69,44 @@ export const EventDetailsCard: FC<EventProps> = observer(
       router.push(`/edit-event/${id}?lang=${i18n.language}`);
     };
 
-    const {
-      title,
-      description,
-      date,
-      time,
-      location,
-      category,
-      picture,
-      priority,
-    } = event as NewEvent;
-
     return (
       <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-        {title && <Title className={poppins.className}>{title}</Title>}
+        {event?.title && (
+          <Title className={poppins.className}>{event?.title}</Title>
+        )}
         <EventCard key={id as string}>
-          <BackgroundContainer picture={picture} />
+          <BackgroundContainer picture={event?.picture} />
 
-          {description && (
+          {event?.description && (
             <Description className={poppins.className}>
-              {description}
+              {event?.description}
             </Description>
           )}
           <InfoBox>
-            {category && (
+            {event?.category && (
               <Category className={poppins.className}>
-                {t(`common.categories.${category}`.toLowerCase())}
+                {t(`common.categories.${event?.category}`.toLowerCase())}
               </Category>
             )}
-            {priority && (
-              <Priority priority={priority} className={poppins.className}>
-                {t(`common.eventForm.priorities.${priority.toLowerCase()}`)}
+            {event?.priority && (
+              <Priority
+                priority={event?.priority}
+                className={poppins.className}
+              >
+                {t(
+                  `common.eventForm.priorities.${event?.priority.toLowerCase()}`
+                )}
               </Priority>
             )}
-            {location && (
-              <Location className={poppins.className}>{location}</Location>
+            {event?.location && (
+              <Location className={poppins.className}>
+                {event.location}
+              </Location>
             )}
-            {(date || time) && (
+            {(event?.date || event?.time) && (
               <DateAndTime className={poppins.className}>
-                {transformDate(date)} {time && t("common.at")}{" "}
-                {time && time.toLowerCase()}
+                {transformDate(event.date)} {event.time && t("common.at")}{" "}
+                {event.time && event.time.toLowerCase()}
               </DateAndTime>
             )}
           </InfoBox>
