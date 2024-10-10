@@ -6,9 +6,9 @@ export interface NewEvent {
   time: string;
   location?: string;
   category?: string;
-  picture?: string | File | Blob;
+  picture?: string | File | Blob | null;
   priority?: string;
-  [key: string]: string | File | Blob | undefined;
+  [key: string]: string | File | Blob | null | undefined;
 }
 
 export interface User {

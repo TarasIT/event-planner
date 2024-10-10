@@ -128,5 +128,5 @@ const messagesMap = new Map<string, string>([
 ]);
 
 export const localizeResponses = (message: string): string => {
-  return messagesMap.get(message) || "common.responses.error.unknownError";
+  return messagesMap.get(message) || message;
 };

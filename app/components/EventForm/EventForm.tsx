@@ -4,11 +4,7 @@ import React, { FC, FormEvent, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import {
-  AddEventButton,
-  CreateEventForm,
-  Container,
-} from "./NewEventForm.styled";
+import { AddEventButton, CreateEventForm, Container } from "./EventForm.styled";
 import { NewEvent } from "../../types/types";
 import { EventTitleInput } from "../EventTitleInput/EventTitleInput";
 import { EventLocationInput } from "../EventLocationInput/EventLocationInput";
@@ -24,28 +20,29 @@ import { toast } from "react-toastify";
 import { removeEmptyFields } from "@/app/services/removeEmptyFields";
 import { Spinner } from "@/app/styles/common.styled";
 import { createQueryString } from "@/app/services/createQueryString";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 interface UpdateEventProps {
   eventForUpdate: NewEvent | null | undefined;
   error: string | null | undefined;
 }
 
-export const NewEventForm: FC<UpdateEventProps> = observer(
+export const EventForm: FC<UpdateEventProps> = observer(
   ({ eventForUpdate, error }): JSX.Element => {
-    const [event, setEvent] = useState<NewEvent | null>(null);
+    const [newEvent, setNewEvent] = useState<NewEvent | null>(null);
     const { t } = useTranslation();
     const { id } = useParams();
     const router = useRouter();
     const { eventDataStore, eventsStore } = useStore();
 
     useEffect(() => {
-      eventsStore.setEvent(eventForUpdate);
-      toast.error(error);
+      if (eventForUpdate) eventsStore.setEvent(eventForUpdate);
+      if (error) toast.error(t(localizeResponses(error)));
       eventsStore.setLoading(false);
     }, [eventForUpdate, error]);
 
     useEffect(() => {
-      setEvent({
+      setNewEvent({
         title: eventDataStore.title,
         description: eventDataStore.description,
         date: eventDataStore.date as string,
@@ -69,21 +66,21 @@ export const NewEventForm: FC<UpdateEventProps> = observer(
     const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      const eventWithoutId = {
+      const currentEvent = {
         ...eventsStore.event,
       };
-      delete eventWithoutId.id;
+      delete currentEvent.id;
 
-      if (JSON.stringify(event) === JSON.stringify(eventWithoutId)) {
+      if (JSON.stringify(newEvent) === JSON.stringify(currentEvent)) {
         eventDataStore.resetEventFormInputs();
         return router.push(`/home${createQueryString()}`);
       }
 
-      if (event) {
-        const resultEvent = removeEmptyFields(event, !!id);
+      if (newEvent) {
+        const eventForCreate = removeEmptyFields(newEvent);
         id
-          ? await eventsStore.updateEvent(id as string, resultEvent as NewEvent)
-          : await eventsStore.createEvent(resultEvent as FormData);
+          ? await eventsStore.updateEvent(id as string, newEvent)
+          : await eventsStore.createEvent(eventForCreate as FormData);
         if (eventsStore.error) return;
         eventDataStore.resetEventFormInputs();
         router.push(`/home${createQueryString()}`);
