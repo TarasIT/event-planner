@@ -2,9 +2,9 @@
 
 import React, { FC } from "react";
 import { BackLink } from "../../components/BackLink/BackLink";
-import { NewEventForm } from "../../components/NewEventForm/NewEventForm";
-import { getEventById } from "./actions";
+import { EventForm } from "../../components/EventForm/EventForm";
 import { EditEventTitle } from "@/app/components/EditEventTitle/EditEventTitle";
+import { getEventById } from "@/app/actions/actions";
 
 interface EditEventPageProps {
   params: { id: string };
@@ -20,7 +20,7 @@ const EditEvent: FC<EditEventPageProps> = async ({
     <>
       <BackLink />
       <EditEventTitle />
-      <NewEventForm eventForUpdate={event} error={error} />
+      <EventForm eventForUpdate={event} error={error} />
     </>
   );
 };

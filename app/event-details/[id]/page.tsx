@@ -3,7 +3,7 @@
 import React from "react";
 import { BackLink } from "../../components/BackLink/BackLink";
 import { EventDetailsCard } from "../../components/EventDetailsCard/EventDetailsCard";
-import { getEventById } from "./actions";
+import { getEventById } from "@/app/actions/actions";
 
 interface EventDetailsPageProps {
   params: { id: string };

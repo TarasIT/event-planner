@@ -3,7 +3,7 @@
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { BackLink } from "../components/BackLink/BackLink";
-import { NewEventForm } from "../components/NewEventForm/NewEventForm";
+import { EventForm } from "../components/EventForm/EventForm";
 import { Title } from "./page.styled";
 import { poppins } from "../assets/fonts";
 
@@ -16,7 +16,7 @@ const CreateEvent: FC = (): JSX.Element => {
       <Title className={poppins.className}>
         {t("createEventPage.createEventTitle")}
       </Title>
-      <NewEventForm />
+      <EventForm eventForUpdate={null} error={null} />
     </>
   );
 };

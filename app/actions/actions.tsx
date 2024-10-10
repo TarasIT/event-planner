@@ -1,6 +1,6 @@
 import axios from "axios";
 import axiosServer from "@/axiosServer";
-import { NewEvent } from "../../types/types";
+import { NewEvent } from "../types/types";
 
 interface ResponseProps {
   data?: NewEvent | null;
