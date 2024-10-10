@@ -55,7 +55,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
     const { eventsStore } = useStore();
 
     useEffect(() => {
-      toast.error(t(localizeResponses(error as string)));
+      if (error) toast.error(t(localizeResponses(error as string)));
     }, [error]);
 
     const deleteEvent = async (id: string): Promise<void> => {
@@ -76,7 +76,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
           <Title className={poppins.className}>{event?.title}</Title>
         )}
         <EventCard key={id as string}>
-          <BackgroundContainer picture={event?.picture} />
+          <BackgroundContainer picture={event?.picture as string} />
 
           {event?.description && (
             <Description className={poppins.className}>
