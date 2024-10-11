@@ -27,10 +27,11 @@ import { poppins } from "@/app/assets/fonts";
 import { toast } from "react-toastify";
 import Loading from "@/app/loading";
 import { NewEvent } from "@/app/types/types";
-import { transformDate } from "@/app/services/dateTransform";
+import { deleteYear } from "@/app/services/deleteYear";
 import { Spinner } from "@/app/styles/common.styled";
 import filtersStore from "@/app/mobX/stores/filtersStore";
 import { localizeResponses } from "@/app/services/localizeResponses";
+import { localizeTimeOfDay } from "@/app/services/localizeTimeOfDay";
 
 interface EventListProps {
   eventsList: NewEvent[] | null;
@@ -129,8 +130,9 @@ const EventsList: FC<EventListProps> = observer(
                       <DateTimeLocationContainer>
                         {(date || time) && (
                           <DateAndTime className={poppins.className}>
-                            {transformDate(date)} {time && t("common.at")}{" "}
-                            {time && time.toLowerCase()}
+                            {deleteYear(date)} {t("common.at")}{" "}
+                            {time.slice(0, -3)}{" "}
+                            {t(localizeTimeOfDay(time)).toLowerCase()}
                           </DateAndTime>
                         )}
                         {location && (

@@ -24,7 +24,14 @@
     },
 
     "profile": "Профіль",
-    "at": "у",
+
+    "at": "о",
+    "timeOfDay": {
+      "night": "ночі",
+      "morning": "ранку",
+      "afternoon": "дня",
+      "evening": "вечора"
+    },
 
     "eventForm": {
       "titleInput": "Назва",

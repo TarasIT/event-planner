@@ -22,7 +22,7 @@ import { NewEvent } from "../../types/types";
 import { StyleSheetManager } from "styled-components";
 import { useTranslation } from "react-i18next";
 import { poppins } from "@/app/assets/fonts";
-import { transformDate } from "@/app/services/dateTransform";
+import { deleteYear } from "@/app/services/deleteYear";
 import { toast } from "react-toastify";
 import { useStore } from "@/app/mobX/useStore";
 import {
@@ -34,6 +34,7 @@ import {
 import Modal from "../Modal/Modal";
 import { createQueryString } from "@/app/services/createQueryString";
 import { localizeResponses } from "@/app/services/localizeResponses";
+import { localizeTimeOfDay } from "@/app/services/localizeTimeOfDay";
 
 interface EventProps {
   event?: NewEvent | null | undefined;
@@ -106,8 +107,9 @@ export const EventDetailsCard: FC<EventProps> = observer(
             )}
             {(event?.date || event?.time) && (
               <DateAndTime className={poppins.className}>
-                {transformDate(event.date)} {event.time && t("common.at")}{" "}
-                {event.time && event.time.toLowerCase()}
+                {deleteYear(event.date)} {t("common.at")}{" "}
+                {event?.time.slice(0, -3)}{" "}
+                {t(localizeTimeOfDay(event.time)).toLowerCase()}
               </DateAndTime>
             )}
           </InfoBox>

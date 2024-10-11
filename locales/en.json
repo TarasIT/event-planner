@@ -24,7 +24,14 @@
     },
 
     "profile": "Profile",
+
     "at": "at",
+    "timeOfDay": {
+      "night": "AM",
+      "morning": "AM",
+      "afternoon": "PM",
+      "evening": "PM"
+    },
 
     "eventForm": {
       "titleInput": "Title",
