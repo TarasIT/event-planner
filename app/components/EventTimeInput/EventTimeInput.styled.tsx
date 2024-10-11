@@ -7,9 +7,9 @@ import { SvgContainer, TimeSelector } from "../../styles/common.styled";
 interface TimePickerProps {
   selectedTime?: string;
   isTimePickerOpened?: boolean;
-  isHourScrollUp?: boolean | string;
-  isMinuteScrollUp?: boolean | string;
-  isDayHalfScrollUp?: boolean | string;
+  isHourAscending?: boolean | string;
+  isMinuteAscending?: boolean | string;
+  isDayHalfAscending?: boolean | string;
 }
 
 const changeInputValueDown = keyframes`
@@ -110,13 +110,13 @@ export const HourSelector = styled(TimeSelector)<TimePickerProps>`
   width: 57px;
   padding: 12px 24px 12px 10px;
 
-  ${({ isHourScrollUp }) => {
-    if (isHourScrollUp === true) {
+  ${({ isHourAscending }) => {
+    if (isHourAscending === true) {
       return css`
         animation: ${changeInputValueUp} 300ms;
       `;
     }
-    if (!isHourScrollUp) {
+    if (!isHourAscending) {
       return css`
         animation: ${changeInputValueDown} 300ms;
       `;
@@ -128,13 +128,13 @@ export const MinuteSelector = styled(TimeSelector)<TimePickerProps>`
   width: 57px;
   padding: 12px 12px 12px 24px;
 
-  ${({ isMinuteScrollUp }) => {
-    if (isMinuteScrollUp === true) {
+  ${({ isMinuteAscending }) => {
+    if (isMinuteAscending === true) {
       return css`
         animation: ${changeInputValueUp} 300ms;
       `;
     }
-    if (!isMinuteScrollUp) {
+    if (!isMinuteAscending) {
       return css`
         animation: ${changeInputValueDown} 300ms;
       `;
@@ -146,13 +146,13 @@ export const DayHalfSelector = styled(TimeSelector)<TimePickerProps>`
   width: 73px;
   padding: 12px 16px;
 
-  ${({ isDayHalfScrollUp }) => {
-    if (isDayHalfScrollUp === true) {
+  ${({ isDayHalfAscending }) => {
+    if (isDayHalfAscending === true) {
       return css`
         animation: ${changeInputValueUp} 300ms;
       `;
     }
-    if (!isDayHalfScrollUp) {
+    if (!isDayHalfAscending) {
       return css`
         animation: ${changeInputValueDown} 300ms;
       `;
