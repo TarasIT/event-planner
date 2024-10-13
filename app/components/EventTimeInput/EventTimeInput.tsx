@@ -45,7 +45,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
   const [selectedHour, setSelectedHour] = useState<number>(1);
   const [selectedMinute, setSelectedMinute] = useState<number>(0);
   const [selectedDayHalf, setSelectedDayHalf] = useState<string>(morning);
-  const [localizedDayHalf, setLocalizedDayHalf] = useState<string>();
+  const [localizedDayHalf, setLocalizedDayHalf] = useState<string>(morning);
   const [localizedUnchoosenDayHalf, setLocalizedUnchoosenDayHalf] =
     useState<string>();
   const [isHourAscending, setIsHourAscending] = useState<boolean | string>(
@@ -142,8 +142,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
     selectedHour,
     selectedMinute,
     selectedDayHalf,
-    morning,
-    evening,
+    t,
   ]);
 
   const handleKeydown = (e: KeyboardEvent): void => {
