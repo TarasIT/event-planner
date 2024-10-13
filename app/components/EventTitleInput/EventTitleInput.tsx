@@ -11,7 +11,6 @@ import {
   SvgDeleteIcon,
   InvalidInputWarning,
 } from "./EventTitleInput.styled";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { DeleteIconBox } from "@/app/styles/common.styled";
@@ -50,11 +49,9 @@ export const EventTitleInput: FC = (): JSX.Element => {
   }, [id, eventsStore.event]);
 
   const handleClickOutside = (e: MouseEvent): void => {
-    if (titleInputRef.current !== e.target) {
-      setIsTitleInputCompleted(true);
-    } else {
-      setIsTitleInputCompleted(false);
-    }
+    titleInputRef.current !== e.target
+      ? setIsTitleInputCompleted(true)
+      : setIsTitleInputCompleted(false);
   };
 
   const cleanTitleInput = (): void => {
@@ -64,12 +61,9 @@ export const EventTitleInput: FC = (): JSX.Element => {
   };
 
   const validateInput = (inputValue: string): boolean => {
-    const hasComasAndDots = /[.,]/.test(inputValue);
-    if (hasComasAndDots) {
-      return false;
-    } else {
-      return true;
-    }
+    const hasComasAndDotsAtTheBeginning =
+      inputValue[0] === "." || inputValue[0] === ",";
+    return hasComasAndDotsAtTheBeginning ? false : true;
   };
 
   const handleTitleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -77,9 +71,12 @@ export const EventTitleInput: FC = (): JSX.Element => {
 
     if (!validateInput(title)) {
       setIsTitleInputValid(false);
+      eventDataStore.setIsTitleValid(false);
     } else {
       setIsTitleInputValid(true);
+      eventDataStore.setIsTitleValid(true);
     }
+
     setTitleInputValue(title);
     eventDataStore.setTitle(title);
   };

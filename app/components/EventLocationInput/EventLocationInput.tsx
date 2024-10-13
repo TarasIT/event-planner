@@ -11,7 +11,6 @@ import {
   SvgDeleteIcon,
   InvalidInputWarning,
 } from "./EventLocationInput.styled";
-import { NewEvent } from "../../types/types";
 import { useStore } from "../../mobX/useStore";
 import { DeleteIconBox } from "@/app/styles/common.styled";
 import { poppins } from "@/app/assets/fonts";
@@ -59,12 +58,9 @@ export const EventLocationInput: FC = (): JSX.Element => {
   };
 
   const validateInput = (inputValue: string): boolean => {
-    const hasComasAndDots = /[.,]/.test(inputValue);
-    if (hasComasAndDots) {
-      return false;
-    } else {
-      return true;
-    }
+    const hasComasAndDotsAtTheBeginning =
+      inputValue[0] === "." || inputValue[0] === ",";
+    return hasComasAndDotsAtTheBeginning ? false : true;
   };
 
   const handleLocationInputChange = (
@@ -73,8 +69,10 @@ export const EventLocationInput: FC = (): JSX.Element => {
     const location = e.target.value;
     if (!validateInput(location)) {
       setIsLocationInputValid(false);
+      eventDataStore.setIsLocationValid(false);
     } else {
       setIsLocationInputValid(true);
+      eventDataStore.setIsLocationValid(true);
     }
     setLocationInputValue(location);
     eventDataStore.setLocation(location);

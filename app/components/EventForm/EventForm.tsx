@@ -71,14 +71,16 @@ export const EventForm: FC<UpdateEventProps> = observer(
       };
       delete currentEvent.id;
 
+      if (!eventDataStore.isTitleValid || !eventDataStore.isLocationValid) {
+        return;
+      }
+
       if (JSON.stringify(newEvent) === JSON.stringify(currentEvent)) {
         eventDataStore.resetEventFormInputs();
         return router.push(`/home${createQueryString()}`);
       }
 
       if (newEvent) {
-        console.log(newEvent);
-
         const eventForCreate = removeEmptyFields(newEvent);
         id
           ? await eventsStore.updateEvent(id as string, newEvent)

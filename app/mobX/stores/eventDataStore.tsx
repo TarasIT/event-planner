@@ -10,10 +10,22 @@ class SetFormValues {
   category: string = "";
   picture: string | File | Blob | null = null;
   priority: string = "";
+  isTitleValid: boolean = true;
+  isLocationValid: boolean = true;
 
   constructor() {
     makeAutoObservable(this);
   }
+
+  @action
+  setIsTitleValid = (isTitleValid: boolean): void => {
+    this.isTitleValid = isTitleValid;
+  };
+
+  @action
+  setIsLocationValid = (isLocationValid: boolean): void => {
+    this.isLocationValid = isLocationValid;
+  };
 
   @action
   setTitle = (title: string): void => {
@@ -65,6 +77,8 @@ class SetFormValues {
     this.setCategory("");
     this.setPicture(null);
     this.setPriority("");
+    this.setIsTitleValid(true);
+    this.setIsLocationValid(true);
   };
 }
 
