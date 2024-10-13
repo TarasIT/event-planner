@@ -116,24 +116,24 @@ export const EventTimeInput: FC = (): JSX.Element => {
           .toString()
           .padStart(2, "0")} ${selectedDayHalf}`
       );
-
-      setLocalizedDayHalf(
-        t(
-          localizeTimeOfDay(
-            `${selectedHour}:${selectedMinute} ${selectedDayHalf}`
-          )
-        )
-      );
-      setLocalizedUnchoosenDayHalf(
-        t(
-          localizeTimeOfDay(
-            `${selectedHour}:${selectedMinute} ${
-              selectedDayHalf === morning ? evening : morning
-            }`
-          )
-        )
-      );
     }
+
+    setLocalizedDayHalf(
+      t(
+        localizeTimeOfDay(
+          `${selectedHour}:${selectedMinute} ${selectedDayHalf}`
+        )
+      )
+    );
+    setLocalizedUnchoosenDayHalf(
+      t(
+        localizeTimeOfDay(
+          `${selectedHour}:${selectedMinute} ${
+            selectedDayHalf === morning ? evening : morning
+          }`
+        )
+      )
+    );
   }, [
     isTimePickerOpened,
     isHourAscending,
