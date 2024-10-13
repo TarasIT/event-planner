@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import { morning, evening } from "../../data/dayHalf";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
+import { localizeTimeOfDay } from "@/app/services/localizeTimeOfDay";
 
 const shouldForwardProp = (prop: string) => {
   return (
@@ -44,6 +45,9 @@ export const EventTimeInput: FC = (): JSX.Element => {
   const [selectedHour, setSelectedHour] = useState<number>(1);
   const [selectedMinute, setSelectedMinute] = useState<number>(0);
   const [selectedDayHalf, setSelectedDayHalf] = useState<string>(morning);
+  const [localizedDayHalf, setLocalizedDayHalf] = useState<string>();
+  const [localizedUnchoosenDayHalf, setLocalizedUnchoosenDayHalf] =
+    useState<string>();
   const [isHourAscending, setIsHourAscending] = useState<boolean | string>(
     "pending"
   );
@@ -112,6 +116,23 @@ export const EventTimeInput: FC = (): JSX.Element => {
           .toString()
           .padStart(2, "0")} ${selectedDayHalf}`
       );
+
+      setLocalizedDayHalf(
+        t(
+          localizeTimeOfDay(
+            `${selectedHour}:${selectedMinute} ${selectedDayHalf}`
+          )
+        )
+      );
+      setLocalizedUnchoosenDayHalf(
+        t(
+          localizeTimeOfDay(
+            `${selectedHour}:${selectedMinute} ${
+              selectedDayHalf === morning ? evening : morning
+            }`
+          )
+        )
+      );
     }
   }, [
     isTimePickerOpened,
@@ -121,6 +142,8 @@ export const EventTimeInput: FC = (): JSX.Element => {
     selectedHour,
     selectedMinute,
     selectedDayHalf,
+    morning,
+    evening,
   ]);
 
   const handleKeydown = (e: KeyboardEvent): void => {
@@ -311,7 +334,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
               ? t("common.eventForm.selectTime")
               : !selectedTime
               ? t("common.eventForm.formInputPlaceholder")
-              : selectedTime}
+              : `${selectedTime.slice(0, -3)} ${localizedDayHalf}`}
           </TextInput>
           <TimeIconContainer>
             <SvgTimeIcon
@@ -384,7 +407,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
                   type="text"
                   name="dayHalf"
                   onScroll={selectTimeByScroll as React.EventHandler<any>}
-                  value={selectedDayHalf}
+                  value={localizedDayHalf}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setSelectedDayHalf(e.target.value);
                   }}
@@ -415,7 +438,7 @@ export const EventTimeInput: FC = (): JSX.Element => {
                   </Minute>
                 </UnchoosenTime>
                 <DayHalf id="dayHalf" onClick={selectDayHalfByClick}>
-                  {selectedDayHalf === morning ? evening : morning}
+                  {localizedUnchoosenDayHalf}
                 </DayHalf>
               </TimeItem>
             </TimePicker>

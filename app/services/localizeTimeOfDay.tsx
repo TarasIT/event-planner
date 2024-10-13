@@ -6,14 +6,14 @@ export const localizeTimeOfDay = (eventTime: string): string => {
 
   switch (period) {
     case "AM":
-      if ((hours === 12 || hours <= 3) && minutes <= 59) {
+      if (hours === 12 || hours <= 3) {
         timeOfDay = "common.timeOfDay.night";
       } else {
         timeOfDay = "common.timeOfDay.morning";
       }
       break;
     case "PM":
-      if ((hours === 12 || hours <= 4) && minutes <= 59) {
+      if (hours === 12 || hours <= 4) {
         timeOfDay = "common.timeOfDay.afternoon";
       } else {
         timeOfDay = "common.timeOfDay.evening";

@@ -143,7 +143,7 @@ export const MinuteSelector = styled(TimeSelector)<TimePickerProps>`
 `;
 
 export const DayHalfSelector = styled(TimeSelector)<TimePickerProps>`
-  width: 73px;
+  width: 90px;
   padding: 12px 16px;
 
   ${({ isDayHalfAscending }) => {
@@ -185,7 +185,7 @@ export const Minute = styled.p`
 `;
 
 export const DayHalf = styled.p`
-  width: 73px;
+  width: 90px;
   padding: 12px 16px;
 `;
 
