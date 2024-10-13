@@ -58,7 +58,11 @@ class EventsStore {
       this.setError(null);
       this.setEvent(null);
 
-      const response = await axiosClient.post("events", event);
+      const response = await axiosClient.post("events", event, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       const data: EventResponseProps = response.data;
 
       this.setEvent(data.data);

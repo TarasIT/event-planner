@@ -196,6 +196,8 @@
   "createEventPage": {
     "createEventTitle": "Створення події",
     "addEventBtn": "Додати подію",
+    "imageResizingError": "Помилка при зменшення розміру зображення.",
+    "imageConvertionError": "Помилка при конвертації зображення.",
 
     "responses": {
       "success": {},

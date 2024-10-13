@@ -196,6 +196,8 @@
   "createEventPage": {
     "createEventTitle": "Create new event",
     "addEventBtn": "Add event",
+    "imageResizingError": "Image resizing error.",
+    "imageConvertionError": "Image conversion error.",
 
     "responses": {
       "success": {},

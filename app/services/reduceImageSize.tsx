@@ -20,6 +20,6 @@ export const reduceImageSize = async (file: File): Promise<File> => {
       return file;
     }
   } catch (error: unknown) {
-    throw "Error during image resizing";
+    throw "Image resizing error.";
   }
 };

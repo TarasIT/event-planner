@@ -10,6 +10,6 @@ export const convertImageToBase64 = async (file: File): Promise<string> => {
       reader.readAsDataURL(file);
     });
   } catch (error: unknown) {
-    throw "Error during image conversion";
+    throw "Image conversion error.";
   }
 };

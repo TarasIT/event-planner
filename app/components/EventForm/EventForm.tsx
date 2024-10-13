@@ -77,6 +77,8 @@ export const EventForm: FC<UpdateEventProps> = observer(
       }
 
       if (newEvent) {
+        console.log(newEvent);
+
         const eventForCreate = removeEmptyFields(newEvent);
         id
           ? await eventsStore.updateEvent(id as string, newEvent)

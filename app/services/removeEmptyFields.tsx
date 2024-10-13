@@ -1,6 +1,6 @@
 import { NewEvent } from "../types/types";
 
-export function removeEmptyFields(event: NewEvent): NewEvent | FormData {
+export function removeEmptyFields(event: NewEvent): FormData {
   const formData = new FormData();
   for (const [key, value] of Object.entries(event)) {
     if (value !== undefined && value !== null && value !== "") {

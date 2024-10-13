@@ -34,6 +34,10 @@ export const EventImageInput: FC = (): JSX.Element => {
   const { t } = useTranslation();
   const { eventDataStore, eventsStore } = useStore();
   const { id } = useParams();
+  const imageErrorsMap = new Map<string, string>([
+    ["Image resizing error.", "createEventPage.imageResizingError"],
+    ["Image conversion error.", "createEventPage.imageConvertionError"],
+  ]);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -70,7 +74,7 @@ export const EventImageInput: FC = (): JSX.Element => {
       }
       return picture;
     } catch (error: unknown) {
-      toast.error(error as string);
+      toast.error(t(imageErrorsMap.get(error as string) || (error as string)));
       return picture;
     } finally {
       setIsImagePrepared(true);
@@ -111,7 +115,7 @@ export const EventImageInput: FC = (): JSX.Element => {
             {t("common.eventForm.formInputPlaceholder")}
             <ImageInput
               type="file"
-              accept="picture/*"
+              accept="image/*"
               ref={imageInputRef}
               isImageInputCompleted={isImageInputCompleted}
               picture={picture}
