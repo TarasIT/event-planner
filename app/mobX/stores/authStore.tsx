@@ -62,8 +62,9 @@ class AuthStore {
     this.token = token;
     Cookies.set("token", token, {
       expires: 7,
-      // secure: true,
+      secure: true,
       sameSite: "strict",
+      path: "/",
     });
   }
 

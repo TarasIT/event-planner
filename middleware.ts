@@ -14,7 +14,10 @@ export function middleware(request: NextRequest): NextResponse {
   if (queryToken && !isProtectedPath && pathname !== "/reset-password") {
     response = NextResponse.redirect(homeUrl.toString(), 302);
     response.cookies.set("token", queryToken, {
-      // maxAge: 7200,
+      maxAge: 60 * 60 * 24 * 7, 
+      httpOnly: true,
+      sameSite: "strict",
+      path: "/",
     });
     url.searchParams.delete("token");
   } else {
