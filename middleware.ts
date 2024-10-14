@@ -7,6 +7,7 @@ export function middleware(request: NextRequest): NextResponse {
   const startUrl = new URL("/", request.url);
   const homeUrl = new URL("/home", request.url);
   const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
+  const allowedOrigin = process.env.PUBLIC_API_BASE_URL || "https://event-planner-api.onrender.com/api/";
 
   const queryToken = url.searchParams.get("token");
   let response;
@@ -45,7 +46,7 @@ export function middleware(request: NextRequest): NextResponse {
   }
 
   response.headers.set("Access-Control-Allow-Credentials", "true");
-  response.headers.set("Access-Control-Allow-Origin", "*");
+  response.headers.set("Access-Control-Allow-Origin", allowedOrigin);
   response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   response.headers.set("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Content-Type, Accept, Authorization");
 
