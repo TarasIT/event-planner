@@ -33,6 +33,12 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
     if (langQueryParam) {
       setCurrentLang(langQueryParam.toUpperCase());
       i18n.changeLanguage(langQueryParam);
@@ -40,11 +46,7 @@ export const LanguagesSelector: FC = observer((): JSX.Element => {
       params.set("lang", currentLang.toLowerCase());
       router.push(`${pathname}?${params.toString()}`);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  }, [langQueryParam]);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (langBoxRef.current && !langBoxRef.current.contains(e.target as Node)) {
