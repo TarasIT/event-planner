@@ -120,7 +120,9 @@
     "resendVerificationLink": "Resend verification link to your email?",
     
     "responses": {
-      "success": {},
+      "success": {
+        "verificationLinkResent": "Verification link resent! Check your email."
+      },
       "error": {
         "checkEmailVerificationFailed": "Failed to check is email verified.",
         "notVerifiedEmail": "Email is not verified.",

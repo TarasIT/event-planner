@@ -39,6 +39,10 @@ const messagesMap = new Map<string, string>([
     "Failed to login. Please try later.",
     "loginPage.responses.error.loginFailed",
   ],
+  [
+    "Verification link resent! Check your email.",
+    "loginPage.responses.success.verificationLinkResent",
+  ],
 
   [
     "Email verified successfully.",
