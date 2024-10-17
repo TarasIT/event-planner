@@ -3,7 +3,6 @@
 import { Suspense } from "react";
 import Loading from "../loading";
 import { Title } from "../components/Title/Title";
-import { localizeResponses } from "../services/localizeResponses";
 
 interface PageProps {
   searchParams: string;
@@ -17,7 +16,7 @@ const EmailVerification = async ({
 
   return (
     <Suspense fallback={<Loading />}>
-      <Title title={localizeResponses(message)} />
+      <Title title={message} />
     </Suspense>
   );
 };

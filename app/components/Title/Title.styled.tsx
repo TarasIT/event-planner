@@ -8,14 +8,14 @@ export const ComponentTitle = styled.h1`
   align-items: center;
 
   color: #3f3f3f;
-  font-size: 32px;
+  font-size: 30px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
 
   @media (width < 768px) {
     & {
-      font-size: 24px;
+      font-size: 22px;
     }
   }
 `;
