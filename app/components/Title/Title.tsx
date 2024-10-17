@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { poppins } from "@/app/assets/fonts";
 import { ComponentTitle } from "./Title.styled";
 import { localizeResponses } from "@/app/services/localizeResponses";
+import { useSearchParams } from "next/navigation";
 
 interface TitleProps {
   title: string;
@@ -13,12 +14,15 @@ interface TitleProps {
 export const Title: FC<TitleProps> = ({ title }): JSX.Element => {
   const [verificationTitle, setVerificationTitle] = useState("");
   const { t } = useTranslation();
+  const message = useSearchParams().get("message");
 
   useEffect(() => {
-    if (title) {
-      setVerificationTitle(t(localizeResponses(title)));
+    console.log(message);
+
+    if (message) {
+      setVerificationTitle(t(localizeResponses(message)));
     }
-  }, [title, t]);
+  }, [message, t]);
 
   return (
     <ComponentTitle className={poppins.className}>
