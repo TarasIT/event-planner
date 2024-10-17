@@ -7,18 +7,12 @@ import { ComponentTitle } from "./Title.styled";
 import { localizeResponses } from "@/app/services/localizeResponses";
 import { useSearchParams } from "next/navigation";
 
-interface TitleProps {
-  title: string;
-}
-
-export const Title: FC<TitleProps> = ({ title }): JSX.Element => {
+export const Title: FC = (): JSX.Element => {
   const [verificationTitle, setVerificationTitle] = useState("");
   const { t } = useTranslation();
   const message = useSearchParams().get("message");
 
   useEffect(() => {
-    console.log(message);
-
     if (message) {
       setVerificationTitle(t(localizeResponses(message)));
     }

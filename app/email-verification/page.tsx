@@ -4,19 +4,10 @@ import { Suspense } from "react";
 import Loading from "../loading";
 import { Title } from "../components/Title/Title";
 
-interface PageProps {
-  searchParams: string;
-}
-
-const EmailVerification = async ({
-  searchParams,
-}: PageProps): Promise<JSX.Element> => {
-  const queryParams = new URLSearchParams(searchParams);
-  const message = queryParams.get("message") || "something went wrong :(";
-
+const EmailVerification = async (): Promise<JSX.Element> => {
   return (
     <Suspense fallback={<Loading />}>
-      <Title title={message} />
+      <Title />
     </Suspense>
   );
 };
