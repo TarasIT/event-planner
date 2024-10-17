@@ -7,7 +7,7 @@ import { Title } from "../components/Title/Title";
 const EmailVerification = async (): Promise<JSX.Element> => {
   return (
     <Suspense fallback={<Loading />}>
-      <Title />
+      <Title title={""} />
     </Suspense>
   );
 };

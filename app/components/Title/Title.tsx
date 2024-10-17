@@ -7,20 +7,23 @@ import { ComponentTitle } from "./Title.styled";
 import { localizeResponses } from "@/app/services/localizeResponses";
 import { useSearchParams } from "next/navigation";
 
-export const Title: FC = (): JSX.Element => {
-  const [verificationTitle, setVerificationTitle] = useState("");
+interface TitleProps {
+  title: string;
+}
+
+export const Title: FC<TitleProps> = ({ title }): JSX.Element => {
+  const [componentTitle, setComponentTitle] = useState("");
   const { t } = useTranslation();
-  const message = useSearchParams().get("message");
+  const queryMessage = useSearchParams().get("message");
 
   useEffect(() => {
-    if (message) {
-      setVerificationTitle(t(localizeResponses(message)));
-    }
-  }, [message, t]);
+    if (queryMessage) setComponentTitle(t(localizeResponses(queryMessage)));
+    if (title) setComponentTitle(t(title));
+  }, [queryMessage, title, t]);
 
   return (
     <ComponentTitle className={poppins.className}>
-      {verificationTitle}
+      {componentTitle}
     </ComponentTitle>
   );
 };

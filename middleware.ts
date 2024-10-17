@@ -7,7 +7,7 @@ export function middleware(request: NextRequest): NextResponse {
   const startUrl = new URL("/", request.url);
   const homeUrl = new URL("/home", request.url);
   const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
-  const allowedOrigin = process.env.NEXT_PUBLIC_API_BASE_URL || "https://event-planner-api.onrender.com/api/";
+  const allowedOrigin = process.env.NEXT_PUBLIC_API_BASE_URL || "https://event-planner-api.onrender.com/api";
 
   const queryToken = url.searchParams.get("token");
   let response;
