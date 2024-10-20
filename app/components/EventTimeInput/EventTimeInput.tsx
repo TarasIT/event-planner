@@ -67,12 +67,6 @@ export const EventTimeInput: FC = (): JSX.Element => {
   const { eventDataStore, eventsStore } = useStore();
 
   useEffect(() => {
-    const { event } = eventsStore;
-    if (id && event && event.time) {
-      setSelectedTime(event.time);
-      eventDataStore.setTime(event.time);
-    }
-
     window.addEventListener("click", handleClickOutside);
     window.addEventListener("keydown", handleKeydown);
 
@@ -88,6 +82,14 @@ export const EventTimeInput: FC = (): JSX.Element => {
       window.removeEventListener("keydown", handleKeydown);
     };
   }, []);
+
+  useEffect(() => {
+    const { event } = eventsStore;
+    if (id && event && event.time) {
+      setSelectedTime(event.time);
+      eventDataStore.setTime(event.time);
+    }
+  }, [id, eventsStore.event]);
 
   useEffect(() => {
     if (isHourAscending === true || !isHourAscending) {
