@@ -107,7 +107,7 @@ export const EventLocationInput: FC = (): JSX.Element => {
         />
         {!isLocationInputValid && (
           <InvalidInputWarning className={poppins.className}>
-            Invalid input
+            {t("common.eventForm.invalidInput")}
           </InvalidInputWarning>
         )}
       </LocationLabel>

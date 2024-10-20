@@ -61,7 +61,8 @@
         "Thursday": "Thu",
         "Friday": "Fri",
         "Saturday": "Sat"
-      }
+      },
+      "invalidInput": "Invalid input"
     },
 
     "responses": {
@@ -218,6 +219,8 @@
     "deleteData": "Delete",
     "deleteAllEvents": "Delete all events",
     "deleteProfile": "Delete my profile",
+    "confirmedPassword": "Confirmed",
+    "notMatchedPassword": "Password is not matched",
 
     "responses": {
       "success": {

@@ -106,7 +106,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
         />
         {!isTitleInputValid && (
           <InvalidInputWarning className={poppins.className}>
-            Invalid input
+            {t("common.eventForm.invalidInput")}
           </InvalidInputWarning>
         )}
       </TitleLabel>

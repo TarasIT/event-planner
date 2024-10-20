@@ -61,7 +61,8 @@
         "Thursday": "Чт",
         "Friday": "Пт",
         "Saturday": "Сб"
-      }
+      },
+      "invalidInput": "Невірне введення"
     },
 
     "responses": {
@@ -218,6 +219,8 @@
     "deleteData": "Видалення",
     "deleteAllEvents": "Видалити всі події",
     "deleteProfile": "Видалити мій профіль",
+    "confirmedPassword": "Підтверджено",
+    "notMatchedPassword": "Пароль не збігається",
     
     "responses": {
       "success": {

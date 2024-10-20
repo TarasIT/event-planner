@@ -108,14 +108,14 @@ export const ConfirmPasswordInput: FC = observer((): JSX.Element => {
           <div>
             {isPasswordLong && isPasswordMatched ? (
               <ValidInputNotification className={poppins.className}>
-                Confirmed
+                {t("profilePage.confirmedPassword")}
               </ValidInputNotification>
             ) : (
               <InvalidInputWarning className={poppins.className}>
                 {!isPasswordLong
                   ? t("common.shortPassword")
                   : !isPasswordMatched
-                  ? "Password is not matched"
+                  ? t("profilePage.notMatchedPassword")
                   : null}
               </InvalidInputWarning>
             )}
