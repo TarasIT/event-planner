@@ -130,9 +130,9 @@ const EventsList: FC<EventListProps> = observer(
                       <DateTimeLocationContainer>
                         {(date || time) && (
                           <DateAndTime className={poppins.className}>
-                            {deleteYear(date)} {t("common.at")}{" "}
-                            {time.slice(0, -3)}{" "}
-                            {t(localizeTimeOfDay(time)).toLowerCase()}
+                            {deleteYear(date as string)} {t("common.at")}{" "}
+                            {(time as string).slice(0, -3)}{" "}
+                            {t(localizeTimeOfDay(time as string)).toLowerCase()}
                           </DateAndTime>
                         )}
                         {location && (
