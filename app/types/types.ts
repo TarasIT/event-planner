@@ -1,13 +1,13 @@
 export interface NewEvent {
   id?: string | undefined;
-  title: string;
-  description?: string;
-  date: string;
-  time: string;
-  location?: string;
-  category?: string;
+  title: string | null;
+  description?: string | null;
+  date: string | null;
+  time: string | null;
+  location?: string | null;
+  category?: string | null;
   picture?: string | File | Blob | null;
-  priority?: string;
+  priority?: string | null;
   [key: string]: string | File | Blob | null | undefined;
 }
 

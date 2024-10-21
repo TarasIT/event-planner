@@ -2,14 +2,14 @@ import { observable, action, makeAutoObservable } from "mobx";
 
 class SetFormValues {
   @observable
-  title: string = "";
-  description: string = "";
-  date: string = "";
-  time: string = "";
-  location: string = "";
-  category: string = "";
+  title: string | null = null;
+  description: string | null = null;
+  date: string | null = null;
+  time: string | null = null;
+  location: string | null = null;
+  category: string | null = null;
   picture: string | File | Blob | null = null;
-  priority: string = "";
+  priority: string | null = null;
   isTitleValid: boolean = true;
   isLocationValid: boolean = true;
 
@@ -28,32 +28,32 @@ class SetFormValues {
   };
 
   @action
-  setTitle = (title: string): void => {
+  setTitle = (title: string | null): void => {
     this.title = title;
   };
 
   @action
-  setDescription(description: string): void {
+  setDescription(description: string | null): void {
     this.description = description;
   }
 
   @action
-  setDate(date: string): void {
+  setDate(date: string | null): void {
     this.date = date;
   }
 
   @action
-  setTime(time: string): void {
+  setTime(time: string | null): void {
     this.time = time;
   }
 
   @action
-  setLocation(location: string): void {
+  setLocation(location: string | null): void {
     this.location = location;
   }
 
   @action
-  setCategory(category: string): void {
+  setCategory(category: string | null): void {
     this.category = category;
   }
 
@@ -63,20 +63,20 @@ class SetFormValues {
   }
 
   @action
-  setPriority(priority: string): void {
+  setPriority(priority: string | null): void {
     this.priority = priority;
   }
 
   @action
   resetEventFormInputs = (): void => {
-    this.setTitle("");
-    this.setDescription("");
-    this.setDate("");
-    this.setTime("");
-    this.setLocation("");
-    this.setCategory("");
+    this.setTitle(null);
+    this.setDescription(null);
+    this.setDate(null);
+    this.setTime(null);
+    this.setLocation(null);
+    this.setCategory(null);
     this.setPicture(null);
-    this.setPriority("");
+    this.setPriority(null);
     this.setIsTitleValid(true);
     this.setIsLocationValid(true);
   };

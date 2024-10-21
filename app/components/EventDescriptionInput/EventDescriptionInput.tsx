@@ -56,13 +56,14 @@ export const EventDescriptionInput: FC = (): JSX.Element => {
   const handleDescriptionInputChange = (
     e: ChangeEvent<HTMLTextAreaElement>
   ): void => {
-    setDescriptionInputValue(e.target.value);
-    eventDataStore.setDescription(e.target.value);
+    const description = e.target.value;
+    setDescriptionInputValue(description);
+    eventDataStore.setDescription(description.trim() || null);
   };
 
   const cleanDescriptionInput = (): void => {
     setDescriptionInputValue("");
-    eventDataStore.setDescription("");
+    eventDataStore.setDescription(null);
   };
 
   return (

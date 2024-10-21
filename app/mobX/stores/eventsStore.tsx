@@ -27,32 +27,32 @@ class EventsStore {
   }
 
   @action
-  setLoading(isLoading: boolean) {
+  setLoading = (isLoading: boolean) => {
     this.isLoading = isLoading;
-  }
+  };
 
   @action
-  setEvents(events: NewEvent[] | null) {
+  setEvents = (events: NewEvent[] | null) => {
     this.events = events;
-  }
+  };
 
   @action
-  setEvent(event: NewEvent | null | undefined) {
+  setEvent = (event: NewEvent | null | undefined) => {
     this.event = event;
-  }
+  };
 
   @action
-  setError(error: string | null) {
+  setError = (error: string | null) => {
     this.error = error;
-  }
+  };
 
   @action
-  setMessage(message: string | null): void {
+  setMessage = (message: string | null): void => {
     this.message = message;
-  }
+  };
 
   @action
-  async createEvent(event: FormData): Promise<void> {
+  createEvent = async (event: FormData): Promise<void> => {
     try {
       this.setLoading(true);
       this.setError(null);
@@ -84,10 +84,10 @@ class EventsStore {
       if (!this.error) eventDataStore.resetEventFormInputs();
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async updateEvent(id: string, event: NewEvent): Promise<void> {
+  updateEvent = async (id: string, event: NewEvent): Promise<void> => {
     try {
       this.setLoading(true);
       this.setError(null);
@@ -113,10 +113,10 @@ class EventsStore {
     } finally {
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async deleteEvent(id: string): Promise<void> {
+  deleteEvent = async (id: string): Promise<void> => {
     try {
       this.setLoading(true);
       this.setError(null);
@@ -127,6 +127,7 @@ class EventsStore {
 
       toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
+      this.setEvent(null);
     } catch (error: unknown) {
       let errorMessage = "Failed to delete an event. Please, try later.";
 
@@ -144,10 +145,10 @@ class EventsStore {
     } finally {
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async deleteAllEvents(): Promise<void> {
+  deleteAllEvents = async (): Promise<void> => {
     try {
       this.setLoading(true);
       this.setError(null);
@@ -176,7 +177,7 @@ class EventsStore {
     } finally {
       this.setLoading(false);
     }
-  }
+  };
 }
 
 const eventsStore = new EventsStore();

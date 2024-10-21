@@ -63,7 +63,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
       setIsDeletionLoading(true);
       setIsModalOpened(false);
       await eventsStore.deleteEvent(id as string);
-      router.push(`/home${createQueryString()}`);
+      if (!eventsStore.event) router.push(`/home${createQueryString()}`);
     };
 
     const editEvent = (id: string): void => {
@@ -105,11 +105,13 @@ export const EventDetailsCard: FC<EventProps> = observer(
                 {event.location}
               </Location>
             )}
-            {(event?.date || event?.time) && (
+            {((event && event.date) || (event && event.time)) && (
               <DateAndTime className={poppins.className}>
-                {deleteYear(event.date)} {t("common.at")}{" "}
-                {event?.time.slice(0, -3)}{" "}
-                {t(localizeTimeOfDay(event.time)).toLowerCase()}
+                {deleteYear(event && (event.date as string))} {t("common.at")}{" "}
+                {event && event.time && event.time.slice(0, -3)}{" "}
+                {t(
+                  localizeTimeOfDay(event && (event.time as string))
+                ).toLowerCase()}
               </DateAndTime>
             )}
           </InfoBox>

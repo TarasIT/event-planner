@@ -92,7 +92,7 @@ export const EventImageInput: FC = (): JSX.Element => {
         eventDataStore.setPicture(preparedPicture);
       } else {
         setPicture("");
-        eventDataStore.setPicture("");
+        eventDataStore.setPicture(null);
       }
     }
   };

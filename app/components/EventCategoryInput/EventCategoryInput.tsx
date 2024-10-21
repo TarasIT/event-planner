@@ -56,9 +56,9 @@ export const EventCategoryInput: FC = (): JSX.Element => {
   const handleCategoryChanging = (
     e: React.MouseEvent<HTMLParagraphElement>
   ): void => {
-    const target = e.target as HTMLParagraphElement;
-    setCurrentCategory(target.id);
-    eventDataStore.setCategory(target.id);
+    const category = e.currentTarget.id;
+    setCurrentCategory(category);
+    eventDataStore.setCategory(category || null);
   };
 
   return (

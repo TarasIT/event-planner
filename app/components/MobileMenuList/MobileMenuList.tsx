@@ -18,9 +18,7 @@ import {
   ModalActions,
   ModalBtn,
   ModalDescription,
-  Spinner,
 } from "@/app/styles/common.styled";
-import { createQueryString } from "@/app/services/createQueryString";
 
 interface MobileMenuProps {
   closeMobileMenu: () => void;
@@ -33,18 +31,16 @@ export const MobileMenuList: FC<MobileMenuProps> = ({
   closeMobileMenu,
 }): JSX.Element => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-  const [isLoading, setLoading] = useState<boolean>(false);
   const { t, i18n } = useTranslation();
-  const { authStore } = useStore();
+  const { authStore, eventsStore } = useStore();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    pathname && setLoading(false);
-  }, [pathname, setLoading]);
+    if (!pathname.includes("/edit-event")) eventsStore.setEvent(null);
+  }, [pathname]);
 
   const onMenuItemClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    setLoading(true);
     if (e.currentTarget.id === "logout") {
       setIsModalOpened(true);
     } else {
@@ -54,7 +50,6 @@ export const MobileMenuList: FC<MobileMenuProps> = ({
   };
 
   const logOut = async (): Promise<void> => {
-    setLoading(true);
     setIsModalOpened(false);
     await authStore.logout();
     closeMobileMenu();

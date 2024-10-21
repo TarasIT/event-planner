@@ -67,6 +67,7 @@ export const EventLocationInput: FC = (): JSX.Element => {
     e: ChangeEvent<HTMLInputElement>
   ): void => {
     const location = e.target.value;
+
     if (!validateInput(location)) {
       setIsLocationInputValid(false);
       eventDataStore.setIsLocationValid(false);
@@ -74,13 +75,14 @@ export const EventLocationInput: FC = (): JSX.Element => {
       setIsLocationInputValid(true);
       eventDataStore.setIsLocationValid(true);
     }
+
     setLocationInputValue(location);
-    eventDataStore.setLocation(location);
+    eventDataStore.setLocation(location.trim() || null);
   };
 
   const cleanLocationInput = (): void => {
     setLocationInputValue("");
-    eventDataStore.setLocation("");
+    eventDataStore.setLocation(null);
     setIsLocationInputValid(true);
   };
 

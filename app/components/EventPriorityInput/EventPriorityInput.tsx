@@ -57,9 +57,9 @@ export const EventPriorityInput: FC = (): JSX.Element => {
   const handlePriorityChanging = (
     e: React.MouseEvent<HTMLParagraphElement>
   ): void => {
-    const target = e.target as HTMLParagraphElement;
-    setCurrentPriority(target.id);
-    eventDataStore.setPriority(target.id);
+    const priority = e.currentTarget.id;
+    setCurrentPriority(priority);
+    eventDataStore.setPriority(priority || null);
   };
 
   return (

@@ -42,15 +42,25 @@ export const EventForm: FC<UpdateEventProps> = observer(
     }, [eventForUpdate, error]);
 
     useEffect(() => {
+      const {
+        title,
+        description,
+        date,
+        time,
+        location,
+        category,
+        picture,
+        priority,
+      } = eventDataStore;
       setNewEvent({
-        title: eventDataStore.title,
-        description: eventDataStore.description,
-        date: eventDataStore.date as string,
-        time: eventDataStore.time,
-        location: eventDataStore.location,
-        category: eventDataStore.category,
-        picture: eventDataStore.picture,
-        priority: eventDataStore.priority,
+        title,
+        description,
+        date,
+        time,
+        location,
+        category,
+        picture,
+        priority,
       });
     }, [
       eventDataStore.title,
@@ -65,28 +75,32 @@ export const EventForm: FC<UpdateEventProps> = observer(
 
     const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      const { isTitleValid, isLocationValid, resetEventFormInputs } =
+        eventDataStore;
+      const { event, updateEvent, createEvent } = eventsStore;
+
+      if (!isTitleValid || !isLocationValid) return;
 
       const currentEvent = {
-        ...eventsStore.event,
+        ...event,
       };
       delete currentEvent.id;
 
-      if (!eventDataStore.isTitleValid || !eventDataStore.isLocationValid) {
-        return;
-      }
-
       if (JSON.stringify(newEvent) === JSON.stringify(currentEvent)) {
-        eventDataStore.resetEventFormInputs();
+        resetEventFormInputs();
         return router.push(`/home${createQueryString()}`);
       }
 
       if (newEvent) {
         const eventForCreate = removeEmptyFields(newEvent);
+
         id
-          ? await eventsStore.updateEvent(id as string, newEvent)
-          : await eventsStore.createEvent(eventForCreate as FormData);
-        if (eventsStore.error) return;
-        eventDataStore.resetEventFormInputs();
+          ? await updateEvent(id as string, newEvent)
+          : await createEvent(eventForCreate as FormData);
+
+        if (error) return;
+
+        resetEventFormInputs();
         router.push(`/home${createQueryString()}`);
       }
     };

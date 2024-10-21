@@ -33,7 +33,7 @@ export const MenuSelector: FC = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { t, i18n } = useTranslation();
   const authRef = useRef<HTMLDivElement | null>(null);
-  const { authStore } = useStore();
+  const { authStore, eventsStore } = useStore();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -45,8 +45,9 @@ export const MenuSelector: FC = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    pathname !== "/home" && setIsLoading(false);
-  }, [pathname, setIsLoading]);
+    if (pathname !== "/home" && isLoading) setIsLoading(false);
+    if (!pathname.includes("/edit-event")) eventsStore.setEvent(null);
+  }, [pathname, isLoading]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {

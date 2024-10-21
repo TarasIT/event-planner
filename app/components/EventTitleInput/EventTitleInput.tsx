@@ -56,7 +56,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
 
   const cleanTitleInput = (): void => {
     setTitleInputValue("");
-    eventDataStore.setTitle("");
+    eventDataStore.setTitle(null);
     setIsTitleInputValid(true);
   };
 
@@ -78,7 +78,7 @@ export const EventTitleInput: FC = (): JSX.Element => {
     }
 
     setTitleInputValue(title);
-    eventDataStore.setTitle(title);
+    eventDataStore.setTitle(title.trim() || null);
   };
 
   return (
