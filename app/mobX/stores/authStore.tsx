@@ -29,36 +29,33 @@ class AuthStore {
   }
 
   @action
-  setLoading(isLoading: boolean): void {
+  setLoading = (isLoading: boolean): void => {
     this.isLoading = isLoading;
-  }
+  };
 
   @action
-  setLoggedIn(isLoggedIn: boolean): void {
+  setLoggedIn = (isLoggedIn: boolean): void => {
     this.isLoggedIn = isLoggedIn;
-  }
+  };
 
   @action
-  setMessage(message: string | null): void {
+  setMessage = (message: string | null): void => {
     this.message = message;
-  }
+  };
 
   @action
-  setError(error: string | null): void {
+  setError = (error: string | null): void => {
     this.error = error;
-  }
+  };
 
   @action
-  getToken(): void {
+  getToken = (): void => {
     const token = Cookies.get("token");
-    if (token) {
-      this.token = token;
-      this.setLoggedIn(true);
-    }
-  }
+    if (token) this.token = token;
+  };
 
   @action
-  setToken(token: string): void {
+  setToken = (token: string): void => {
     this.token = token;
     Cookies.set("token", token, {
       expires: 7,
@@ -66,16 +63,16 @@ class AuthStore {
       sameSite: "strict",
       path: "/",
     });
-  }
+  };
 
   @action
-  deleteToken(): void {
+  deleteToken = (): void => {
     this.token = null;
     Cookies.remove("token", { path: "/" });
-  }
+  };
 
   @action
-  async signup(): Promise<void> {
+  signup = async (): Promise<void> => {
     const credentials: User = {
       name: authCredentials.name,
       email: authCredentials.email,
@@ -109,10 +106,10 @@ class AuthStore {
       if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async login(): Promise<void> {
+  login = async (): Promise<void> => {
     const credentials: User = {
       email: authCredentials.email,
       password: authCredentials.password,
@@ -145,10 +142,10 @@ class AuthStore {
       if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async logout(): Promise<void> {
+  logout = async (): Promise<void> => {
     this.setLoading(true);
     this.setError(null);
     this.setMessage(null);
@@ -178,10 +175,10 @@ class AuthStore {
     } finally {
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async deleteProfile(): Promise<void> {
+  deleteProfile = async (): Promise<void> => {
     this.setLoading(true);
     this.setError(null);
     this.setMessage(null);
@@ -211,10 +208,10 @@ class AuthStore {
       this.deleteToken();
       this.setLoggedIn(false);
     }
-  }
+  };
 
   @action
-  async changePassword(credentials: ChangePassworProps): Promise<void> {
+  changePassword = async (credentials: ChangePassworProps): Promise<void> => {
     this.setLoading(true);
     this.setError(null);
     this.setMessage(null);
@@ -246,10 +243,10 @@ class AuthStore {
       if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async sendResetPasswordLink(): Promise<void> {
+  sendResetPasswordLink = async (): Promise<void> => {
     this.setLoading(true);
     this.setError(null);
     this.setMessage(null);
@@ -280,10 +277,10 @@ class AuthStore {
       if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async resetPassword(resetPasswordToken: string): Promise<void> {
+  resetPassword = async (resetPasswordToken: string): Promise<void> => {
     const credentials: ResetPassworProps = {
       email: authCredentials.email,
       password: authCredentials.newPassword,
@@ -320,10 +317,10 @@ class AuthStore {
       if (!this.error) authCredentials.resetAuthForm();
       this.setLoading(false);
     }
-  }
+  };
 
   @action
-  async resendVerificationLink(): Promise<void> {
+  resendVerificationLink = async (): Promise<void> => {
     const credentials: User = {
       email: authCredentials.email,
       password: authCredentials.password,
@@ -355,7 +352,7 @@ class AuthStore {
     } finally {
       if (!this.error) authCredentials.resetAuthForm();
     }
-  }
+  };
 }
 
 const authStore = new AuthStore();
