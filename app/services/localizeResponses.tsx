@@ -125,6 +125,7 @@ const messagesMap = new Map<string, string>([
     "eventDetailsPage.responses.error.getEventFailed",
   ],
 
+  ["Unauthenticated.", "homePage.responses.error.unauthenticated"],
   [
     "Failed to get events. Please, try later.",
     "homePage.responses.error.getEventsFailed",

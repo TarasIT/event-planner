@@ -164,6 +164,7 @@
     "responses":{
       "success":{},
       "error":{
+        "unauthenticated": "User is not unauthenticated.",
         "getEventsFailed": "Failed to get events. Please, try later."
       }
     }
