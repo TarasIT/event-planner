@@ -7,12 +7,12 @@ import { useStore } from "@/app/mobX/useStore";
 import { toast } from "react-toastify";
 import { localizeResponses } from "@/app/services/localizeResponses";
 
-interface LoggedInProps {
+interface GoogleProps {
   token?: string | undefined;
   error?: string | null;
 }
 
-const LoggedIn: FC<LoggedInProps> = ({ token, error }) => {
+const GoogleAuth: FC<GoogleProps> = ({ token, error }) => {
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const { authStore } = useStore();
@@ -46,4 +46,4 @@ const LoggedIn: FC<LoggedInProps> = ({ token, error }) => {
   return null;
 };
 
-export default LoggedIn;
+export default GoogleAuth;
