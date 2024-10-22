@@ -64,8 +64,7 @@ export const AuthSelector: FC = (): JSX.Element => {
         break;
       default:
         setIsLoading(true);
-        window.location.href =
-          "https://event-planner-api.onrender.com/api/auth/google/redirect";
+        window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/google/redirect`;
         break;
     }
   };
