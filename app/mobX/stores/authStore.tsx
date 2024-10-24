@@ -156,6 +156,7 @@ class AuthStore {
 
       this.deleteToken();
       this.setLoggedIn(false);
+      await axios.post("/logout");
       toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {

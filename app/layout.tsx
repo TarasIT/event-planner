@@ -5,8 +5,9 @@ import "./styles/globals.css";
 import Section from "./layouts/Section/Section";
 import Main from "./layouts/Main/Main";
 import Header from "./layouts/Header/Header";
-import TokenLoader from "./components/TokenLoader/TokenLoader";
+import TokenHandler from "./components/TokenHandler/TokenHandler";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 
 const StyledComponentsRegistry = dynamic(() => import("@/app/lib/registry"), {
   ssr: false,
@@ -23,11 +24,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const googleAccessToken = cookies().get("token")?.value;
+
   return (
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
-          <TokenLoader />
+          <TokenHandler googleAccessToken={googleAccessToken} />
           <Header />
           <Main>
             <Section>{children}</Section>

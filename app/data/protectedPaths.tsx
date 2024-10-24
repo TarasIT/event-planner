@@ -4,4 +4,5 @@ export const protectedPaths = [
   "/event-details",
   "/edit-event",
   "/profile",
+  "/logout",
 ];
