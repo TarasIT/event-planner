@@ -24,18 +24,15 @@ import {
 } from "./EventsList.styled";
 import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
-import { toast } from "react-toastify";
 import Loading from "@/app/loading";
 import { NewEvent } from "@/app/types/types";
 import { deleteYear } from "@/app/services/deleteYear";
 import { Spinner } from "@/app/styles/common.styled";
 import filtersStore from "@/app/mobX/stores/filtersStore";
-import { localizeResponses } from "@/app/services/localizeResponses";
 import { localizeTimeOfDay } from "@/app/services/localizeTimeOfDay";
 
 interface EventListProps {
   eventsList: NewEvent[] | null;
-  error: string | null;
 }
 
 const shouldForwardProp = (prop: string) => {
@@ -49,13 +46,13 @@ const shouldForwardProp = (prop: string) => {
 };
 
 const EventsList: FC<EventListProps> = observer(
-  ({ eventsList, error }): JSX.Element => {
+  ({ eventsList }): JSX.Element => {
     const [isLoading, setIsLoading] = useState(false);
     const [eventId, setEventId] = useState<number>();
     const [events, setEvents] = useState<NewEvent[] | null>(null);
     const { t, i18n } = useTranslation();
     const router = useRouter();
-    const { eventsStore, authStore, eventsSearch, categoryFilter } = useStore();
+    const { eventsStore, eventsSearch, categoryFilter } = useStore();
 
     useEffect(() => {
       eventsStore.setLoading(false);
@@ -66,30 +63,8 @@ const EventsList: FC<EventListProps> = observer(
         setEvents(eventsList);
         eventsStore.setEvents(eventsList);
       }
-
-      if (error) {
-        if (error === "Unauthenticated.") {
-          authStore.deleteToken();
-          authStore.setLoggedIn(false);
-          router.push(`/?lang=${i18n.language}`);
-          return;
-        }
-        if (error !== "No events found.") {
-          toast.error(t(localizeResponses(error)));
-          eventsStore.setError(error);
-        }
-      }
-
       if (filtersStore.areFiltersReseted) filtersStore.setFiltersReseted(false);
-    }, [
-      eventsList,
-      error,
-      authStore.deleteToken,
-      router.push,
-      toast.error,
-      eventsStore.setError,
-      filtersStore.areFiltersReseted,
-    ]);
+    }, [eventsList, filtersStore.areFiltersReseted]);
 
     return (
       <StyleSheetManager shouldForwardProp={shouldForwardProp}>
