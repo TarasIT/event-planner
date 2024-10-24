@@ -66,9 +66,10 @@ export const NewPasswordInput: FC = observer((): JSX.Element => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const password = e.target.value;
 
-    !checkPasswordLength(password)
-      ? setIsPasswordLong(false)
-      : setIsPasswordLong(true);
+    setIsPasswordLong(!checkPasswordLength(password) ? false : true);
+    authCredentials.setIsPasswordLong(
+      !checkPasswordLength(password) ? false : true
+    );
 
     setPassword(password);
     authCredentials.setNewPassword(password);

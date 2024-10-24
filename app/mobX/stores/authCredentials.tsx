@@ -9,6 +9,7 @@ class SetAuthCredentials {
   newPassword: string = "";
   confirmPassword: string = "";
   is_password_existed: boolean | null | undefined;
+  isPasswordLong: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -32,6 +33,11 @@ class SetAuthCredentials {
   @action
   setIsPasswordExisted(is_password_existed: boolean | null | undefined): void {
     this.is_password_existed = is_password_existed;
+  }
+
+  @action
+  setIsPasswordLong(isPasswordLong: boolean): void {
+    this.isPasswordLong = isPasswordLong;
   }
 
   @action

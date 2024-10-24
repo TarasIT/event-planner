@@ -39,8 +39,10 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const { googleId, password, newPassword, confirmPassword } =
+    const { googleId, password, newPassword, confirmPassword, isPasswordLong } =
       authCredentials;
+
+    if (!isPasswordLong) return;
 
     switch (true) {
       case !!password && !!newPassword && !!confirmPassword:
@@ -73,11 +75,17 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
       {isPasswordProvided && <PasswordInput />}
       <NewPasswordInput />
       <ConfirmPasswordInput />
-      {arePasswordsMatched && (
-        <ResetBtn type="submit" className={poppins.className}>
-          {authStore.isLoading ? <Spinner /> : t("profilePage.changePassword")}
-        </ResetBtn>
-      )}
+      {arePasswordsMatched &&
+        authCredentials.isPasswordLong &&
+        authCredentials.password && (
+          <ResetBtn type="submit" className={poppins.className}>
+            {authStore.isLoading ? (
+              <Spinner />
+            ) : (
+              t("profilePage.changePassword")
+            )}
+          </ResetBtn>
+        )}
     </PasswordsForm>
   );
 });
