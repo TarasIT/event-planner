@@ -64,6 +64,7 @@ export const EventDetailsCard: FC<EventProps> = observer(
       setIsModalOpened(false);
       await eventsStore.deleteEvent(id as string);
       if (!eventsStore.event) router.push(`/home${createQueryString()}`);
+      router.refresh();
     };
 
     const editEvent = (id: string): void => {

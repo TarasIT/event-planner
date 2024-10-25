@@ -51,6 +51,7 @@ export const DeleteForm: FC = observer((): JSX.Element => {
       closeModal();
       await eventsStore.deleteAllEvents();
       router.push(`/home${createQueryString()}`);
+      router.refresh();
     } else {
       closeModal();
       await authStore.deleteProfile();

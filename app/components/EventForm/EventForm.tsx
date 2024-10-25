@@ -108,6 +108,7 @@ export const EventForm: FC<UpdateEventProps> = observer(
 
         resetEventFormInputs();
         router.push(`/home${createQueryString()}`);
+        router.refresh();
       }
     };
 
