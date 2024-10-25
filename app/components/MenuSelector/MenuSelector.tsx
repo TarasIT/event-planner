@@ -48,8 +48,8 @@ export const MenuSelector: FC = observer((): JSX.Element => {
   useEffect(() => {
     if (pathname !== "/home" && isLoading) setIsLoading(false);
     if (!pathname.includes("/edit-event")) eventsStore.setEvent(null);
-    setIsLoading(authStore.isLoading);
-  }, [pathname, isLoading, authStore.isLoading]);
+    if (authStore.error) setIsLoading(false);
+  }, [pathname, isLoading, authStore.error]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {
