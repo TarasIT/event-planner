@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useEffect, useLayoutEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { StyleSheetManager } from "styled-components";
@@ -54,7 +54,7 @@ const EventsList: FC<EventListProps> = observer(
     const router = useRouter();
     const { eventsStore, eventsSearch, categoryFilter } = useStore();
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       eventsStore.setLoading(false);
       setEvents(null);
       eventsStore.setEvents(null);
