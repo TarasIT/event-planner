@@ -30,6 +30,7 @@ import { deleteYear } from "@/app/services/deleteYear";
 import { Spinner } from "@/app/styles/common.styled";
 import filtersStore from "@/app/mobX/stores/filtersStore";
 import { localizeTimeOfDay } from "@/app/services/localizeTimeOfDay";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 interface EventListProps {
   eventsList: NewEvent[] | null;
@@ -55,11 +56,10 @@ const EventsList: FC<EventListProps> = observer(
     const { eventsStore, eventsSearch, categoryFilter } = useStore();
 
     useEffect(() => {
-      router.refresh();
       eventsStore.setLoading(false);
       setEvents(null);
       eventsStore.setEvents(null);
-    }, [router]);
+    }, []);
 
     useEffect(() => {
       if (eventsList) {
@@ -160,27 +160,23 @@ const EventsList: FC<EventListProps> = observer(
 
         {eventsStore.error === "Failed to get events. Please, try later." && (
           <NoEventsTitle className={poppins.className}>
-            {eventsStore.error}
+            {t(localizeResponses(eventsStore.error))}
           </NoEventsTitle>
         )}
 
         {(!events || !events.length) &&
-        eventsStore.error !== "Failed to get events. Please, try later." ? (
-          <NoEventsTitle className={poppins.className}>
-            {!eventsStore.isLoading &&
-              (eventsSearch.searchQuery || categoryFilter.currentCategory) &&
-              t("homePage.noEventsFoundByQuery")}
-            {!eventsStore.isLoading &&
-              !eventsSearch.searchQuery &&
-              !categoryFilter.currentCategory &&
-              (!eventsStore.events || !eventsStore.events.length) &&
-              t("homePage.noEventCreated")}
-          </NoEventsTitle>
-        ) : (
-          <NoEventsTitle className={poppins.className}>
-            {eventsStore.message}
-          </NoEventsTitle>
-        )}
+          eventsStore.error !== "Failed to get events. Please, try later." && (
+            <NoEventsTitle className={poppins.className}>
+              {!eventsStore.isLoading &&
+                (eventsSearch.searchQuery || categoryFilter.currentCategory) &&
+                t("homePage.noEventsFoundByQuery")}
+              {!eventsStore.isLoading &&
+                !eventsSearch.searchQuery &&
+                !categoryFilter.currentCategory &&
+                (!eventsStore.events || !eventsStore.events.length) &&
+                t("homePage.noEventCreated")}
+            </NoEventsTitle>
+          )}
       </StyleSheetManager>
     );
   }
