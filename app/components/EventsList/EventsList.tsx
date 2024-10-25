@@ -55,10 +55,11 @@ const EventsList: FC<EventListProps> = observer(
     const { eventsStore, eventsSearch, categoryFilter } = useStore();
 
     useEffect(() => {
+      router.refresh();
       eventsStore.setLoading(false);
       setEvents(null);
       eventsStore.setEvents(null);
-    }, []);
+    }, [router]);
 
     useEffect(() => {
       if (eventsList) {
@@ -157,7 +158,14 @@ const EventsList: FC<EventListProps> = observer(
         )}
         {eventsStore.isLoading && <Loading />}
 
-        {(!events || !events.length) && (
+        {eventsStore.error === "Failed to get events. Please, try later." && (
+          <NoEventsTitle className={poppins.className}>
+            {eventsStore.error}
+          </NoEventsTitle>
+        )}
+
+        {(!events || !events.length) &&
+        eventsStore.error !== "Failed to get events. Please, try later." ? (
           <NoEventsTitle className={poppins.className}>
             {!eventsStore.isLoading &&
               (eventsSearch.searchQuery || categoryFilter.currentCategory) &&
@@ -167,6 +175,10 @@ const EventsList: FC<EventListProps> = observer(
               !categoryFilter.currentCategory &&
               (!eventsStore.events || !eventsStore.events.length) &&
               t("homePage.noEventCreated")}
+          </NoEventsTitle>
+        ) : (
+          <NoEventsTitle className={poppins.className}>
+            {eventsStore.message}
           </NoEventsTitle>
         )}
       </StyleSheetManager>
