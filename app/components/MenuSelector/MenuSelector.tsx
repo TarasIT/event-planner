@@ -22,11 +22,12 @@ import {
   ModalDescription,
   Spinner,
 } from "@/app/styles/common.styled";
+import { observer } from "mobx-react";
 
 const shouldForwardProp = (prop: string) =>
   prop !== "isMenuSelectorOpened" && prop !== "currentLang";
 
-export const MenuSelector: FC = (): JSX.Element => {
+export const MenuSelector: FC = observer((): JSX.Element => {
   const [isMenuSelectorOpened, setIsMenuSelectorOpened] =
     useState<boolean>(false);
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
@@ -47,7 +48,8 @@ export const MenuSelector: FC = (): JSX.Element => {
   useEffect(() => {
     if (pathname !== "/home" && isLoading) setIsLoading(false);
     if (!pathname.includes("/edit-event")) eventsStore.setEvent(null);
-  }, [pathname, isLoading]);
+    setIsLoading(authStore.isLoading);
+  }, [pathname, isLoading, authStore.isLoading]);
 
   const handleClickOutside = (e: MouseEvent): void => {
     if (authRef.current && !authRef.current.contains(e.target as Node)) {
@@ -134,4 +136,4 @@ export const MenuSelector: FC = (): JSX.Element => {
       </MenuSelectorBox>
     </StyleSheetManager>
   );
-};
+});
