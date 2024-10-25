@@ -9,7 +9,7 @@ const UpdateURLWithQueryParams = () => {
 
   useEffect(() => {
     router.replace(createQueryString());
-  }, [router]);
+  }, []);
 
   return null;
 };
