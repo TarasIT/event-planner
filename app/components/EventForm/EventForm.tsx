@@ -36,6 +36,12 @@ export const EventForm: FC<UpdateEventProps> = observer(
     const { eventDataStore, eventsStore } = useStore();
 
     useEffect(() => {
+      setNewEvent(null);
+      eventsStore.setEvent(null);
+      eventDataStore.resetEventFormInputs();
+    }, []);
+
+    useEffect(() => {
       if (eventForUpdate) eventsStore.setEvent(eventForUpdate);
       if (error) toast.error(t(localizeResponses(error)));
       eventsStore.setLoading(false);
