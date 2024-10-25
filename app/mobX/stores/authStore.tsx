@@ -187,7 +187,9 @@ class AuthStore {
     try {
       const response = await axiosClient.delete("users/current");
       const data: AuthResponseProps = response.data;
-
+      this.setLoading(false);
+      this.deleteToken();
+      await axios.post("/logout");
       toast.success(t(localizeResponses(data.message as string)));
       this.setMessage(data.message as string);
     } catch (error: unknown) {
@@ -205,8 +207,6 @@ class AuthStore {
       toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
-      this.setLoading(false);
-      this.deleteToken();
       this.setLoggedIn(false);
     }
   };
