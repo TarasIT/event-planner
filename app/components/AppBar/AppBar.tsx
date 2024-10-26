@@ -15,19 +15,13 @@ import { observer } from "mobx-react";
 const shouldForwardProp = (prop: string) => prop !== "areFiltersEmpty";
 
 export const AppBar: FC = observer((): JSX.Element => {
-  const [areFiltersEmpty, setAreFiltersEmpty] = useState<boolean>(false);
+  const [areFiltersEmpty, setAreFiltersEmpty] = useState<boolean>(true);
   const { t } = useTranslation();
-  const { filtersStore, eventsStore } = useStore();
+  const { filtersStore } = useStore();
 
   useEffect(() => {
-    if (filtersStore.checkIfFiltersEmpty()) {
-      setAreFiltersEmpty(filtersStore.checkIfFiltersEmpty());
-    }
-  }, [
-    areFiltersEmpty,
-    eventsStore.isLoading,
-    filtersStore.checkIfFiltersEmpty,
-  ]);
+    setAreFiltersEmpty(filtersStore.checkIfFiltersEmpty());
+  }, [filtersStore.checkIfFiltersEmpty]);
 
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
