@@ -20,7 +20,7 @@ export const AppBar: FC = observer((): JSX.Element => {
   const { filtersStore, eventsStore } = useStore();
 
   useEffect(() => {
-    if (filtersStore.checkIfFiltersEmpty() && !eventsStore.isLoading) {
+    if (filtersStore.checkIfFiltersEmpty()) {
       setAreFiltersEmpty(filtersStore.checkIfFiltersEmpty());
     }
   }, [
