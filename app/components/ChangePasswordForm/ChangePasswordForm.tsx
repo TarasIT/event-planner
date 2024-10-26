@@ -75,17 +75,11 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
       {isPasswordProvided && <PasswordInput />}
       <NewPasswordInput />
       <ConfirmPasswordInput />
-      {arePasswordsMatched &&
-        authCredentials.isPasswordLong &&
-        authCredentials.password && (
-          <ResetBtn type="submit" className={poppins.className}>
-            {authStore.isLoading ? (
-              <Spinner />
-            ) : (
-              t("profilePage.changePassword")
-            )}
-          </ResetBtn>
-        )}
+      {arePasswordsMatched && authCredentials.isPasswordLong && (
+        <ResetBtn type="submit" className={poppins.className}>
+          {authStore.isLoading ? <Spinner /> : t("profilePage.changePassword")}
+        </ResetBtn>
+      )}
     </PasswordsForm>
   );
 });
