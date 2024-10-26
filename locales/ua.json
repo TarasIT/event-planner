@@ -252,7 +252,16 @@
   },
 
   "forgotPasswordPage": {
-    "submit": "Відправити"
+    "submit": "Відправити",
+
+    "responses": {
+      "success": {
+        "passwordResetLinkEmailed": "Посилання для зміни пароля ми надіслали на вашу електронну пошту."
+      },
+      "error": {
+        "failedSendResetLink": "Не вдалося відправити посилання для скидання паролю. Спробуйте пізніше."
+      }
+    }
   },
 
   "resetPasswordPage": {
@@ -264,7 +273,6 @@
         "successPasswordReset": "Ваш пароль скинуто."
       },
       "error": {
-        "failedSendResetLink": "Не вдалося відправити посилання для скидання паролю. Спробуйте пізніше.",
         "invalidResetToken": "Цей токен скидання паролю недійсний.",
         "failedPasswordReset": "Не вдалося скинути пароль. Спробуйте пізніше."
       }

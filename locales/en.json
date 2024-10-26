@@ -252,7 +252,16 @@
   },
   
   "forgotPasswordPage": {
-    "submit": "Submit"
+    "submit": "Submit",
+
+    "responses": {
+      "success": {
+        "passwordResetLinkEmailed": "We have emailed your password reset link."
+      },
+      "error": {
+        "failedSendResetLink": "Failed to send reset link. Please try later."
+      }
+    }
   },
 
   "resetPasswordPage": {
@@ -264,7 +273,6 @@
         "successPasswordReset": "Your password has been reset."
       },
       "error": {
-        "failedSendResetLink": "Failed to send reset link. Please try later.",
         "invalidResetToken": "This password reset token is invalid.",
         "failedPasswordReset": "Failed to reset password. Please try later."
       }

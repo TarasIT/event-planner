@@ -98,8 +98,17 @@ const messagesMap = new Map<string, string>([
     "resetPasswordPage.responses.error.failedPasswordReset",
   ],
   [
+    "Your password has been reset.",
+    "resetPasswordPage.responses.success.successPasswordReset",
+  ],
+
+  [
+    "We have emailed your password reset link.",
+    "forgotPasswordPage.responses.success.passwordResetLinkEmailed",
+  ],
+  [
     "Failed to send reset link. Please try later.",
-    "resetPasswordPage.responses.error.failedSendResetLink",
+    "forgotPasswordPage.responses.error.failedSendResetLink",
   ],
 
   [
