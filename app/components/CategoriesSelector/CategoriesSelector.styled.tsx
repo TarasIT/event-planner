@@ -54,18 +54,15 @@ export const CategoryBox = styled.div<CategoryProps>`
     color: #7b61ff;
   }
 
-  ${css<CategoryProps>`
-    @media (width < 768px) {
-      position: absolute;
-      z-index: ${({ isCategoryListOpened }) =>
-        isCategoryListOpened ? "2" : "0"};
-      min-width: ${({ isCategoryListOpened }) =>
-        isCategoryListOpened ? "158px" : "56px"};
-      box-shadow: ${({ isCategoryListOpened }) =>
-        isCategoryListOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
-    }
-    }
-  `}
+  @media (width < 768px) {
+    position: absolute;
+    z-index: ${({ isCategoryListOpened }) =>
+      isCategoryListOpened ? "2" : "0"};
+    min-width: ${({ isCategoryListOpened }) =>
+      isCategoryListOpened ? "158px" : "56px"};
+    box-shadow: ${({ isCategoryListOpened }) =>
+      isCategoryListOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
+  }
 `;
 
 export const CategoryList = styled.ul<CategoryProps>`
@@ -88,12 +85,10 @@ export const CategoryList = styled.ul<CategoryProps>`
       animation: ${openCategories} 300ms ease;
     `}
 
-  ${css<CategoryProps>`
-    @media (width < 768px) {
-      box-shadow: ${({ isCategoryListOpened }) =>
-        isCategoryListOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
-    }
-  `}
+  @media (width < 768px) {
+    box-shadow: ${({ isCategoryListOpened }) =>
+      isCategoryListOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
+  }
 `;
 
 export const CategoryItem = styled.li<CategoryProps>`
@@ -139,12 +134,10 @@ export const CurrentCategory = styled.p<CategoryProps>`
     color: #7b61ff;
   }
 
-  ${css<CategoryProps>`
-    @media (width < 768px) {
-      display: ${({ isCategoryListOpened }) =>
-        isCategoryListOpened ? "block" : "none"};
-    }
-  `}
+  @media (width < 768px) {
+    display: ${({ isCategoryListOpened }) =>
+      isCategoryListOpened ? "block" : "none"};
+  }
 `;
 
 export const SvgCategoryIcon = styled(CiFilter)<CategoryProps>`
@@ -160,12 +153,10 @@ export const SvgCategoryIcon = styled(CiFilter)<CategoryProps>`
     color: #7b61ff;
   }
 
-  ${css<CategoryProps>`
-    @media (width < 768px) {
-      color: ${({ currentCategory }) =>
-        currentCategory ? "#7b61ff" : "#3f3f3f"}};
-    }
-  `}
+  @media (width < 768px) {
+    color: ${({ currentCategory }) =>
+      currentCategory ? "#7b61ff" : "#3f3f3f"};
+  }
 `;
 
 export const Category = styled.p`

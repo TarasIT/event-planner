@@ -32,14 +32,13 @@ export const InputName = styled.p`
 
 export const CategoryBox = styled.div`
   width: 372px;
-  ${css`
-    @media (768px <= width < 1280px) {
-      width: 308px;
-    }
-    @media (width < 768px) {
-      width: 240px;
-    }
-  `}
+
+  @media (768px <= width < 1280px) {
+    width: 308px;
+  }
+  @media (width < 768px) {
+    width: 240px;
+  }
 `;
 
 export const CategoryInput = styled.div<CreateEventFormProps>`
@@ -63,14 +62,12 @@ export const CategoryInput = styled.div<CreateEventFormProps>`
   line-height: 24px;
   background: #fff;
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      width: 308px;
-    }
-    @media (width < 768px) {
-      width: 240px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    width: 308px;
+  }
+  @media (width < 768px) {
+    width: 240px;
+  }
 `;
 
 export const SvgCategoryIcon = styled(FaChevronDown)<CreateEventFormProps>`
@@ -103,14 +100,12 @@ export const CategoryList = styled.ul<CreateEventFormProps>`
       animation: ${openCategories} 300ms ease-out;
     `}
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      width: 308px;
-    }
-    @media (width < 768px) {
-      width: 240px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    width: 308px;
+  }
+  @media (width < 768px) {
+    width: 240px;
+  }
 `;
 
 export const Category = styled.p`

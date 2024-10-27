@@ -1,6 +1,6 @@
 "use client";
 
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { BsPlusLg } from "react-icons/bs";
 import { MdModeEdit } from "react-icons/md";
 import { IoOptionsOutline } from "react-icons/io5";

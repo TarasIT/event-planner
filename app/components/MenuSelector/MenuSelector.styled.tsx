@@ -44,18 +44,16 @@ export const MenuSelectorBox = styled.div<MenuProps>`
 
   transition: min-width 300ms, background-color 300ms;
 
-  ${css`
-    @media (width < 768px) {
-      & {
-        display: none;
-      }
+  @media (width < 768px) {
+    & {
+      display: none;
     }
-    @media (768px <= width < 1280px) {
-      & {
-        min-width: 69px;
-      }
+  }
+  @media (768px <= width < 1280px) {
+    & {
+      min-width: 69px;
     }
-  `}
+  }
 
   &:hover,
   &:focus {
@@ -67,13 +65,11 @@ export const MenuSelectorList = styled.ul<MenuProps>`
   position: absolute;
   top: 63px;
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      & {
-        left: -29px;
-      }
+  @media (768px <= width < 1280px) {
+    & {
+      left: -29px;
     }
-  `}
+  }
 
   z-index: 2;
   width: ${({ currentLang }) => (currentLang === "en" ? "100px" : "117px")};

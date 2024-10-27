@@ -1,7 +1,7 @@
 "use client";
 
+import { styled } from "styled-components";
 import { ModalBtn } from "@/app/styles/common.styled";
-import { css, styled } from "styled-components";
 
 export const FormTitle = styled.h2`
   margin-bottom: 20px;
@@ -28,18 +28,16 @@ export const DeleteDataForm = styled.div`
   background: #fff;
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  ${css`
-    @media (width < 768px) {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
+  @media (width < 768px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
-    @media (768px <= width < 1280px) {
-      padding-left: 24px;
-      padding-right: 24px;
-      padding-bottom: 40px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 40px;
+  }
 `;
 
 export const DeleteBtn = styled.button`
@@ -61,11 +59,9 @@ export const DeleteBtn = styled.button`
 
   font-size: 18px;
 
-  ${css`
-    @media (width < 768px) {
-      min-width: 200px;
-    }
-  `}
+  @media (width < 768px) {
+    min-width: 200px;
+  }
 `;
 
 export const DeleteModalBtn = styled(ModalBtn)`

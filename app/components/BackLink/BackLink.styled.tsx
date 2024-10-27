@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { GoArrowLeft } from "react-icons/go";
 
 export const Back = styled.span`
@@ -26,19 +26,17 @@ export const GoBackLink = styled.a`
     color: #7b61ff;
   }
 
-  ${css`
-    @media (width < 768px) {
-      & {
-        font-size: 14px;
-      }
+  @media (width < 768px) {
+    & {
+      font-size: 14px;
     }
+  }
 
-    @media (768px <= width < 1280px) {
-      & {
-        margin-bottom: 24px;
-      }
+  @media (768px <= width < 1280px) {
+    & {
+      margin-bottom: 24px;
     }
-  `}
+  }
 `;
 
 export const SvgBackLinkIcon = styled(GoArrowLeft)`

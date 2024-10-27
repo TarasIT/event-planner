@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { BsPlusLg } from "react-icons/bs";
 
 export const AddEventBtn = styled.button`
@@ -31,18 +31,16 @@ export const AddEventBtn = styled.button`
     background: #6243ff;
   }
 
-  ${css`
-    @media (width < 768px) {
-      & > span {
-        display: none;
-      }
-
-      & {
-        width: 56px;
-        padding: 16px;
-      }
+  @media (width < 768px) {
+    & > span {
+      display: none;
     }
-  `}
+
+    & {
+      width: 56px;
+      padding: 16px;
+    }
+  }
 `;
 
 export const SvgButtonIcon = styled(BsPlusLg)`

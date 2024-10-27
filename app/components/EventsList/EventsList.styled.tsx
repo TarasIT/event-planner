@@ -115,16 +115,16 @@ export const BackgroundContainer = styled.div<EventProps>`
   background-size: cover;
   background-position: center center;
 
-  ${css`
-    @media screen (min-device-pixel-ratio: 2),
-      (-webkit-min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi),
-      (min-resolution: 2dppx) {
-      & {
-        background-picture: url(${DefaultImage2x.src});
-      }
+  @media (min-device-pixel-ratio: 2),
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi),
+    (min-resolution: 2dppx) {
+    & {
+      background-image: ${({ picture }) => {
+        return picture ? `url(${picture})` : `url(${DefaultImage2x.src})`;
+      }};
     }
-  `}
+  }
 `;
 
 export const CategoryContainer = styled.div`

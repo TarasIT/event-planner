@@ -73,14 +73,12 @@ export const TimePicker = styled.ul<TimePickerProps>`
     );
   }}
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-    }
-    @media (768px <= width < 1280px) {
-      width: 309px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
+  @media (768px <= width < 1280px) {
+    width: 309px;
+  }
 `;
 
 export const TimeItem = styled.li`
@@ -239,25 +237,21 @@ export const TimeInput = styled.div<TimePickerProps>`
   border-color: ${({ selectedTime }) => (selectedTime ? "#7b61ff" : "#aca7c3")};
   cursor: pointer;
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-    }
-    @media (768px <= width < 1280px) {
-      width: 309px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
+  @media (768px <= width < 1280px) {
+    width: 309px;
+  }
 `;
 
 export const TimeBox = styled.div`
   width: 372px;
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-    }
-    @media (768px <= width < 1280px) {
-      width: 309px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
+  @media (768px <= width < 1280px) {
+    width: 309px;
+  }
 `;

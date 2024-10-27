@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 
 export const PasswordsForm = styled.form`
   display: flex;
@@ -22,18 +22,16 @@ export const PasswordsForm = styled.form`
   background: #fff;
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  ${css`
-    @media (width < 768px) {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
+  @media (width < 768px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 
-    @media (768px <= width < 1280px) {
-      padding-left: 24px;
-      padding-right: 24px;
-      padding-bottom: 40px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 40px;
+  }
 `;
 
 export const FormTitle = styled.h2`
@@ -58,9 +56,7 @@ export const ResetBtn = styled.button`
 
   font-size: 18px;
 
-  ${css`
-    @media (width < 768px) {
-      min-width: 200px;
-    }
-  `}
+  @media (width < 768px) {
+    min-width: 200px;
+  }
 `;

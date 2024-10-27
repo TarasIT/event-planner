@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 
 export const Title = styled.h1`
   margin-bottom: 25px;
@@ -11,11 +11,9 @@ export const Title = styled.h1`
   font-weight: 600;
   line-height: normal;
 
-  ${css`
-    @media (width < 768px) {
-      & {
-        font-size: 24px;
-      }
+  @media (width < 768px) {
+    & {
+      font-size: 24px;
     }
-  `}
+  }
 `;

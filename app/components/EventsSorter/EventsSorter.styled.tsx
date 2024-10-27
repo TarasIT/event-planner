@@ -76,15 +76,13 @@ export const SorterBox = styled.div<SorterProps>`
   box-shadow: ${({ isSorterOpened }) =>
     isSorterOpened ? "none" : "2px 4px 9px 0px rgba(166, 141, 174, 0.28)"};
 
-  ${css<SorterProps>`
-    @media (width < 768px) {
-      width: ${({ isSorterOpened }) => (isSorterOpened ? "170px" : "56px")};
-      padding-left: 16px;
-      padding-right: 16px;
-      box-shadow: ${({ isSorterOpened }) =>
-        isSorterOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
-    }
-  `}
+  @media (width < 768px) {
+    width: ${({ isSorterOpened }) => (isSorterOpened ? "170px" : "56px")};
+    padding-left: 16px;
+    padding-right: 16px;
+    box-shadow: ${({ isSorterOpened }) =>
+      isSorterOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
+  }
 `;
 
 export const SorterList = styled.ul<SorterProps>`
@@ -101,12 +99,10 @@ export const SorterList = styled.ul<SorterProps>`
   border-top: 1px solid #aca7c3;
   background: #fff;
 
-  ${css<SorterProps>`
-    @media (width < 768px) {
-      box-shadow: ${({ isSorterOpened }) =>
-        isSorterOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
-    }
-  `}
+  @media (width < 768px) {
+    box-shadow: ${({ isSorterOpened }) =>
+      isSorterOpened && "0px 4px 10px 0px rgba(0, 0, 0, 0.25)"};
+  }
 
   ${({ isSorterOpened }) =>
     isSorterOpened &&
@@ -134,11 +130,9 @@ export const CurrentSorter = styled.p<SorterProps>`
     color: #7b61ff;
   }
 
-  ${css<SorterProps>`
-    @media (width < 768px) {
-      display: ${({ isSorterOpened }) => (isSorterOpened ? "block" : "none")};
-    }
-  `}
+  @media (width < 768px) {
+    display: ${({ isSorterOpened }) => (isSorterOpened ? "block" : "none")};
+  }
 `;
 
 export const SvgSorterIcon = styled.svg<SorterProps>`
@@ -152,11 +146,9 @@ export const SvgSorterIcon = styled.svg<SorterProps>`
     stroke: #7b61ff;
   }
 
-  ${css<SorterProps>`
-    @media (width < 768px) {
-      stroke: ${({ currentSorter }) => (currentSorter ? "#7b61ff" : "#3f3f3f")};
-    }
-  `}
+  @media (width < 768px) {
+    stroke: ${({ currentSorter }) => (currentSorter ? "#7b61ff" : "#3f3f3f")};
+  }
 `;
 
 export const SvgUpIcon = styled(FaArrowUp)<SorterProps>`

@@ -1,6 +1,6 @@
 "use client";
 
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import { FaChevronLeft } from "react-icons/fa6";
 
 interface PagesProps {
@@ -18,11 +18,9 @@ export const PagesList = styled.ul`
 
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  ${css`
-    @media (width < 768px) {
-      gap: 0;
-    }
-  `}
+  @media (width < 768px) {
+    gap: 0;
+  }
 `;
 
 export const SvgDecreasePage = styled(FaChevronLeft)<PagesProps>`
@@ -50,13 +48,11 @@ export const PageItem = styled.li<PagesProps>`
   line-height: normal;
   cursor: pointer;
 
-  ${css`
-    @media (width < 768px) {
-      width: 40px;
-      height: 40px;
-      font-weight: 800;
-    }
-  `}
+  @media (width < 768px) {
+    width: 40px;
+    height: 40px;
+    font-weight: 800;
+  }
 `;
 
 export const Page = styled.a`

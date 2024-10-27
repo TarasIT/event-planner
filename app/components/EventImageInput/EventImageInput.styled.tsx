@@ -1,6 +1,6 @@
 "use client";
 
-import { css, keyframes, styled } from "styled-components";
+import { keyframes, styled } from "styled-components";
 import { RxCross2 } from "react-icons/rx";
 import { ImSpinner9 } from "react-icons/im";
 
@@ -81,14 +81,12 @@ export const ImageLabel = styled.label`
   line-height: 16px;
   letter-spacing: 0.4px;
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    @media (768px <= width < 1280px) {
-      width: 308px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (768px <= width < 1280px) {
+    width: 308px;
+  }
 `;

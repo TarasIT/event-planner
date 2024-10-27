@@ -68,14 +68,12 @@ export const CustomDatePicker = styled.div<DatePickerProps>`
   transition: color 300ms;
   border-color: ${({ selectedDate }) => (selectedDate ? "#7b61ff" : "#aca7c3")};
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-    }
-    @media (768px <= width < 1280px) {
-      width: 309px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
+  @media (768px <= width < 1280px) {
+    width: 309px;
+  }
 `;
 
 export const TextInput = styled.p<DatePickerProps>`
@@ -152,14 +150,12 @@ export const DateBox = styled.div`
   position: relative;
   width: 372px;
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-    }
-    @media (768px <= width < 1280px) {
-      width: 309px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
+  @media (768px <= width < 1280px) {
+    width: 309px;
+  }
 `;
 
 export const DatePickerWrapper = styled.div<DatePickerProps>`
@@ -181,14 +177,12 @@ export const DatePickerWrapper = styled.div<DatePickerProps>`
     }
   }}
 
-  ${css`
-    @media (width < 768px) {
-      width: 240px;
-    }
-    @media (768px <= width < 1280px) {
-      width: 309px;
-    }
-  `}
+  @media (width < 768px) {
+    width: 240px;
+  }
+  @media (768px <= width < 1280px) {
+    width: 309px;
+  }
 
   .react-datepicker__month-container {
     width: 100%;
@@ -326,10 +320,8 @@ export const DatePickerWrapper = styled.div<DatePickerProps>`
     width: 100%;
     padding: 8px;
 
-    ${css`
-      @media (width < 768px) {
-        width: 28.57px;
-      }
-    `}
+    @media (width < 768px) {
+      width: 28.57px;
+    }
   }
 `;
