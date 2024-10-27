@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import { styled } from "styled-components";
 import DesktopDefaultImg from "../../assets/images/default-horizontal.jpg";
 import DesktopDefaultImg2x from "../../assets/images/default-horizontal-2x.jpg";
 import MobileDefaultImg from "../../assets/images/default-vertical.jpg";
@@ -29,14 +29,12 @@ export const EventCard = styled.div`
 
   box-shadow: 2px 4px 9px 0px rgba(166, 141, 174, 0.28);
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      width: 688px;
-    }
-    @media (width < 768px) {
-      width: 272px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    width: 688px;
+  }
+  @media (width < 768px) {
+    width: 272px;
+  }
 `;
 
 export const BackgroundContainer = styled.div<EventProps>`
@@ -53,37 +51,40 @@ export const BackgroundContainer = styled.div<EventProps>`
   background-image: ${({ picture }) => {
     return picture ? `url(${picture})` : `url(${DesktopDefaultImg.src})`;
   }};
+
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
 
-  ${css`
-    @media screen (min-device-pixel-ratio: 2),
+  @media (min-device-pixel-ratio: 2),
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi),
+    (min-resolution: 2dppx) {
+    & {
+      background-image: ${({ picture }) => {
+        return picture ? `url(${picture})` : `url(${DesktopDefaultImg2x.src})`;
+      }};
+    }
+  }
+
+  @media (width < 768px) {
+    & {
+      border-radius: 8px;
+      background-image: ${({ picture }) => {
+        return picture ? `url(${picture})` : `url(${MobileDefaultImg.src})`;
+      }};
+    }
+    @media (min-device-pixel-ratio: 2),
       (-webkit-min-device-pixel-ratio: 2),
       (min-resolution: 192dpi),
       (min-resolution: 2dppx) {
       & {
-        background-image: url(${DesktopDefaultImg2x.src});
+        background-image: ${({ picture }) => {
+          return picture ? `url(${picture})` : `url(${MobileDefaultImg2x.src})`;
+        }};
       }
     }
-  `}
-
-  ${css`
-    @media (width < 768px) {
-      & {
-        border-radius: 8px;
-        background-image: url(${MobileDefaultImg.src});
-      }
-      @media screen (min-device-pixel-ratio: 2),
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi),
-        (min-resolution: 2dppx) {
-        & {
-          background-image: url(${MobileDefaultImg2x.src});
-        }
-      }
-    }
-  `}
+  }
 `;
 
 export const InfoBox = styled.div`
@@ -94,18 +95,16 @@ export const InfoBox = styled.div`
   gap: 12px;
   width: 100%;
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      padding-left: 24px;
-      padding-right: 24px;
-    }
-    @media (width < 768px) {
-      flex-wrap: wrap;
-      margin-bottom: 40px;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  @media (width < 768px) {
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 `;
 
 export const Category = styled.p`
@@ -190,13 +189,11 @@ export const Title = styled.h1`
   font-weight: 600;
   line-height: normal;
 
-  ${css`
-    @media screen and (min-width: 1279px) {
-      margin-left: auto;
-      margin-right: auto;
-      width: 628px;
-    }
-  `}
+  @media screen and (min-width: 1279px) {
+    margin-left: auto;
+    margin-right: auto;
+    width: 628px;
+  }
 `;
 
 export const Description = styled.p`
@@ -216,17 +213,15 @@ export const Description = styled.p`
   font-weight: 400;
   line-height: 20px;
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      width: 640px;
-      height: 40px;
-      margin-bottom: 24px;
-    }
-    @media (width < 768px) {
-      width: 240px;
-      margin-bottom: 24px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    width: 640px;
+    height: 40px;
+    margin-bottom: 24px;
+  }
+  @media (width < 768px) {
+    width: 240px;
+    margin-bottom: 24px;
+  }
 `;
 
 export const DeleteEventBtn = styled.button`
@@ -287,14 +282,12 @@ export const EventButtonsBox = styled.div`
   gap: 16px;
   padding-right: 40px;
 
-  ${css`
-    @media (768px <= width < 1280px) {
-      padding-right: 24px;
-    }
-    @media (width < 768px) {
-      justify-content: space-between;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-  `}
+  @media (768px <= width < 1280px) {
+    padding-right: 24px;
+  }
+  @media (width < 768px) {
+    justify-content: space-between;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 `;
