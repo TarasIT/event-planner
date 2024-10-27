@@ -2,19 +2,23 @@
 
 ## Description
 
-The Event Planner Next.js app is a TypeScript-based application that enables users to seamlessly create, manage, and edit events with detailed descriptions. The app offers a user-friendly interface for organizing events across various categories such as Art, Music, Business, Conference, Workshop, Party, Sport, and All.
+The Event Planner Next.js app is a TypeScript-based application that enables users to seamlessly create events with detailed descriptions. It provides powerful features of editing, searching, sorting, filtration and deletion of them. The app offers easly and secure authentication process. You can meet a user-friendly interface for organizing events across various categories such as Art, Music, Business, Conference, Workshop, Party, Sport, and All.
 
 ## Features
 
-1. Create Events: Users can easily create new events by providing detailed descriptions and specifying relevant details.
+1. User authentication: Before interacting with the app, users should pass an authentication process by filling specific forms (signup/login) with email verification, or easly do it by Google Auth.
 
-2. Manage and Edit Events: The app allows users to efficiently manage and edit their events, ensuring flexibility and ease of use.
+2. Reset password: User can easly reset a password if forgot, or change it inside the app.
 
-3. Filter by Categories: Events can be filtered based on predefined categories, including Art, Music, Business, Conference, Workshop, Party, Sport, and All. This feature helps users find events that align with their interests.
+3. Create Events: Users can easily create new events by providing detailed descriptions and specifying relevant details.
 
-4. Sort Events: Users can sort events based on different criteria such as date, name, and priority, enabling efficient organization and retrieval of information.
+4. Manage and Edit Events: The app allows users to efficiently manage and edit their events, ensuring flexibility and ease of use.
 
-5. Search by Keyword: The app includes a powerful search functionality that allows users to find specific events by entering keywords, making it easy to locate relevant information.
+5. Filter by Categories: Events can be filtered based on predefined categories, including Art, Music, Business, Conference, Workshop, Party, Sport, and All. This feature helps users find events that align with their interests.
+
+6. Sort Events: Users can sort events based on different criteria such as date, name, and priority, enabling efficient organization and retrieval of information.
+
+7. Search by Keyword: The app includes a powerful search functionality that allows users to find specific events by entering keywords, making it easy to locate relevant information.
 
 ## Technologies Used
 
