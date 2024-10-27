@@ -51,8 +51,8 @@ export const MobileMenuList: FC<MobileMenuProps> = ({
 
   const logOut = async (): Promise<void> => {
     setIsModalOpened(false);
-    await authStore.logout();
     closeMobileMenu();
+    await authStore.logout();
     router.push(`/?lang=${i18n.language}`);
   };
 
