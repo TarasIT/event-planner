@@ -11,7 +11,13 @@ export const BackLink: FC = (): JSX.Element => {
   const router = useRouter();
 
   return (
-    <GoBackLink onClick={() => router.back()} className={poppins.className}>
+    <GoBackLink
+      onClick={() => {
+        router.back();
+        router.refresh();
+      }}
+      className={poppins.className}
+    >
       <SvgBackLinkIcon />
       <Back>{t("common.backBtn")}</Back>
     </GoBackLink>

@@ -98,6 +98,7 @@ const Header: FC = observer((): JSX.Element => {
               authStore.isLoggedIn
                 ? router.push(`/home${createQueryString()}`)
                 : router.push(`/?lang=${i18n.language}`);
+              router.refresh();
             }}
             className={alata.className}
           >

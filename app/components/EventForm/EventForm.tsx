@@ -94,7 +94,8 @@ export const EventForm: FC<UpdateEventProps> = observer(
 
       if (JSON.stringify(newEvent) === JSON.stringify(currentEvent)) {
         resetEventFormInputs();
-        return router.push(`/home${createQueryString()}`);
+        router.push(`/home${createQueryString()}`);
+        return router.refresh();
       }
 
       if (newEvent) {
