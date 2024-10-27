@@ -60,7 +60,7 @@ export const DeleteBtn = styled.button`
   font-size: 18px;
 
   @media (width < 768px) {
-    min-width: 200px;
+    min-width: 240px;
   }
 `;
 
