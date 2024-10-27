@@ -125,6 +125,7 @@
         "verificationLinkResent": "Verification link resent! Check your email."
       },
       "error": {
+        "googleAuthError": "This account was registered with Google. Please authenticate with Google or click 'Forgot password?' link to set a password.",
         "checkEmailVerificationFailed": "Failed to check is email verified.",
         "notVerifiedEmail": "Email is not verified.",
         "failedResendVerificationLink": "Failed to resend verification email. Please try later.",

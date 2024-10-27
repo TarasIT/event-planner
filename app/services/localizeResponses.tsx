@@ -40,6 +40,10 @@ const messagesMap = new Map<string, string>([
     "loginPage.responses.error.loginFailed",
   ],
   [
+    "This account was registered with Google. Please authenticate with Google or click 'Forgot password?' link to set a password.",
+    "loginPage.responses.error.googleAuthError",
+  ],
+  [
     "Verification link resent! Check your email.",
     "loginPage.responses.success.verificationLinkResent",
   ],
