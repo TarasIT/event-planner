@@ -73,7 +73,7 @@ export const MobileMenuList: FC<MobileMenuProps> = ({
                     onMenuItemClick(e)
                   }
                 >
-                  {menu === "logout" ? <LogoutIcon /> : t(menu)}
+                  {menu === "logout" ? <LogoutIcon /> : t(`common.${menu}`)}
                 </MenuBtn>
               }
             </MenuItem>
