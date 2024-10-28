@@ -12,10 +12,12 @@ interface ErrorProps {
 }
 
 const EventsErrorHandler: FC<ErrorProps> = observer(({ error }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { eventsStore } = useStore();
 
   useEffect(() => {
+    if (error === "Unauthenticated.") return;
+
     switch (true) {
       case error === "No events found.":
         eventsStore.setError(error as string);
@@ -25,7 +27,7 @@ const EventsErrorHandler: FC<ErrorProps> = observer(({ error }) => {
         eventsStore.setError(error as string);
         break;
     }
-  }, [error, eventsStore, i18n.language]);
+  }, []);
 
   return null;
 });

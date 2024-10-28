@@ -49,18 +49,18 @@ export const DeleteForm: FC = observer((): JSX.Element => {
   };
 
   const handleDeletion = async (): Promise<void> => {
+    setIsModalOpened(false);
+
     if (isDeleteEventsBtnActive) {
-      closeModal();
       if (!eventsStore.events || !eventsStore.events.length) {
+        closeModal();
         toast.error(t(localizeResponses("No events found.")));
         return;
       }
-
       await eventsStore.deleteAllEvents();
       router.push(`/home${createQueryString()}`);
       router.refresh();
     } else {
-      closeModal();
       await authStore.deleteProfile();
       router.push(`/${createQueryString()}`);
     }
@@ -77,7 +77,7 @@ export const DeleteForm: FC = observer((): JSX.Element => {
         onClick={openModal}
         className={poppins.className}
       >
-        {eventsStore.isLoading && !isDeleteEventsBtnActive ? (
+        {eventsStore.isLoading && isDeleteEventsBtnActive ? (
           <Spinner />
         ) : (
           t("profilePage.deleteAllEvents")
@@ -89,7 +89,7 @@ export const DeleteForm: FC = observer((): JSX.Element => {
         onClick={openModal}
         className={poppins.className}
       >
-        {authStore.isLoading && isDeleteEventsBtnActive ? (
+        {authStore.isLoading && !isDeleteEventsBtnActive ? (
           <Spinner />
         ) : (
           t("profilePage.deleteProfile")

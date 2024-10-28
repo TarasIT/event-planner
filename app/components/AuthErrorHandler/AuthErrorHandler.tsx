@@ -4,37 +4,46 @@ import { FC, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { usePathname, useRouter } from "next/navigation";
 import { useStore } from "@/app/mobX/useStore";
 import { localizeResponses } from "@/app/services/localizeResponses";
-import { usePathname, useRouter } from "next/navigation";
+import { handleUnauthenticatedUser } from "@/app/services/handleUnauthenticatedUser";
 
 interface ErrorProps {
   error: string | null | undefined;
 }
 
 const AuthErrorHandler: FC<ErrorProps> = observer(({ error }) => {
+  const { t } = useTranslation();
+  const { authStore, eventsStore } = useStore();
   const pathname = usePathname();
   const router = useRouter();
-  const { t, i18n } = useTranslation();
-  const { authStore } = useStore();
+
+  const checkIsUnauthenticated = (err: string | undefined) =>
+    err === "Unauthenticated.";
 
   useEffect(() => {
+    const combinedError = error || authStore.error || eventsStore.error;
+
     (async () => {
-      switch (true) {
-        case error === "Unauthenticated.":
-          await authStore.logout();
-          router.push("/");
-          break;
-        case error &&
-          error !== "No events found." &&
-          error !== "Failed to delete all events. Please, try later." &&
-          pathname === "/profile":
-          toast.error(t(localizeResponses(error)));
-          authStore.setError(error);
-          break;
+      if (checkIsUnauthenticated(combinedError as string)) {
+        await handleUnauthenticatedUser(combinedError as string);
+        router.push("/");
+        return;
+      } else if (
+        error &&
+        pathname === "/profile" &&
+        ![
+          "Unauthenticated.",
+          "No events found.",
+          "Failed to delete all events. Please, try later.",
+        ].includes(error)
+      ) {
+        authStore.setError(error);
+        toast.error(t(localizeResponses(error as string)));
       }
     })();
-  }, [error, pathname, router.push, i18n.language]);
+  }, []);
 
   return null;
 });

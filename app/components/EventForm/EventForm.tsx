@@ -21,6 +21,7 @@ import { removeEmptyFields } from "@/app/services/removeEmptyFields";
 import { Spinner } from "@/app/styles/common.styled";
 import { createQueryString } from "@/app/services/createQueryString";
 import { localizeResponses } from "@/app/services/localizeResponses";
+import { handleUnauthenticatedUser } from "@/app/services/handleUnauthenticatedUser";
 
 interface UpdateEventProps {
   eventForUpdate: NewEvent | null | undefined;
@@ -33,7 +34,7 @@ export const EventForm: FC<UpdateEventProps> = observer(
     const { t } = useTranslation();
     const { id } = useParams();
     const router = useRouter();
-    const { eventDataStore, eventsStore, authStore } = useStore();
+    const { eventDataStore, eventsStore } = useStore();
 
     useEffect(() => {
       setNewEvent(null);
@@ -43,7 +44,9 @@ export const EventForm: FC<UpdateEventProps> = observer(
 
     useEffect(() => {
       if (eventForUpdate) eventsStore.setEvent(eventForUpdate);
-      if (error) toast.error(t(localizeResponses(error)));
+      if (error && error !== "Unauthenticated.") {
+        toast.error(t(localizeResponses(error as string)));
+      }
       eventsStore.setLoading(false);
     }, [eventForUpdate, error]);
 
@@ -106,8 +109,8 @@ export const EventForm: FC<UpdateEventProps> = observer(
           : await createEvent(eventForCreate as FormData);
 
         if (error === "Unauthenticated.") {
-          await authStore.logout();
-          return;
+          await handleUnauthenticatedUser(error);
+          return router.push("/");
         }
         if (error) return;
 
