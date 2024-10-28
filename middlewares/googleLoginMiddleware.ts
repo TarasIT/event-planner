@@ -14,7 +14,8 @@ export function googleLoginMiddleware(request: NextRequest, response: NextRespon
     response.cookies.set("token", queryGoogleToken, {
       maxAge: 60 * 60 * 24 * 7,
       httpOnly: true,
-      sameSite: "strict",
+      secure: true,
+      sameSite: "none", 
       path: "/",
     });
     url.searchParams.delete("token");
