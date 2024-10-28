@@ -1,6 +1,9 @@
 "use client";
 
 import React, { FC, useState } from "react";
+import { observer } from "mobx-react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 import {
   DeleteBtn,
   DeleteDataForm,
@@ -11,14 +14,13 @@ import { poppins } from "@/app/assets/fonts";
 import Modal from "../Modal/Modal";
 import { useTranslation } from "react-i18next";
 import { useStore } from "@/app/mobX/useStore";
-import { useRouter } from "next/navigation";
-import { observer } from "mobx-react";
 import {
   ModalActions,
   ModalDescription,
   Spinner,
 } from "@/app/styles/common.styled";
 import { createQueryString } from "@/app/services/createQueryString";
+import { localizeResponses } from "@/app/services/localizeResponses";
 
 export const DeleteForm: FC = observer((): JSX.Element => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
@@ -49,6 +51,11 @@ export const DeleteForm: FC = observer((): JSX.Element => {
   const handleDeletion = async (): Promise<void> => {
     if (isDeleteEventsBtnActive) {
       closeModal();
+      if (!eventsStore.events || !eventsStore.events.length) {
+        toast.error(t(localizeResponses("No events found.")));
+        return;
+      }
+
       await eventsStore.deleteAllEvents();
       router.push(`/home${createQueryString()}`);
       router.refresh();
