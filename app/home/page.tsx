@@ -7,7 +7,8 @@ import { Pagination } from "../components/Pagination/Pagination";
 import Loading from "../loading";
 import { getEvents } from "./actions";
 import UpdateURLWithQueryParams from "../components/UpdateURLWithQueryParams/UpdateURLWithQueryParams";
-import ErrorHandler from "../components/ErrorHandler/ErrorHandler";
+import AuthErrorHandler from "../components/AuthErrorHandler/AuthErrorHandler";
+import EventsErrorHandler from "../components/EventsErrorHandler/EventsErrorHandler";
 
 interface PageProps {
   searchParams: string;
@@ -19,7 +20,8 @@ const Home = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
 
   return (
     <Suspense fallback={<Loading />}>
-      <ErrorHandler error={error} />
+      <AuthErrorHandler error={error} />
+      <EventsErrorHandler error={error} />
       <UpdateURLWithQueryParams />
       <AppBar />
       <EventsList eventsList={eventsList && eventsList.data} />

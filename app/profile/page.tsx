@@ -8,7 +8,7 @@ import { ProfilePageTitle } from "../components/ProfilePageTitle/ProfilePageTitl
 import { ProfileForm } from "../components/ProfileForm/ProfileForm";
 import { DeleteForm } from "../components/DeleteForm/DeleteForm";
 import { ChangePasswordForm } from "../components/ChangePasswordForm/ChangePasswordForm";
-import DisplayNotification from "../components/DisplayNotification/DisplayNotification";
+import AuthErrorHandler from "../components/AuthErrorHandler/AuthErrorHandler";
 
 const Profile = async (): Promise<JSX.Element> => {
   const { name, email, error, google_id, is_password_existed } =
@@ -16,7 +16,7 @@ const Profile = async (): Promise<JSX.Element> => {
 
   return (
     <Suspense fallback={<Loading />}>
-      <DisplayNotification error={error} />
+      <AuthErrorHandler error={error} />
       <BackLink />
       <ProfilePageTitle />
       <ProfileForm

@@ -33,7 +33,7 @@ export const EventForm: FC<UpdateEventProps> = observer(
     const { t } = useTranslation();
     const { id } = useParams();
     const router = useRouter();
-    const { eventDataStore, eventsStore } = useStore();
+    const { eventDataStore, eventsStore, authStore } = useStore();
 
     useEffect(() => {
       setNewEvent(null);
@@ -105,6 +105,10 @@ export const EventForm: FC<UpdateEventProps> = observer(
           ? await updateEvent(id as string, newEvent)
           : await createEvent(eventForCreate as FormData);
 
+        if (error === "Unauthenticated.") {
+          await authStore.logout();
+          return;
+        }
         if (error) return;
 
         resetEventFormInputs();
