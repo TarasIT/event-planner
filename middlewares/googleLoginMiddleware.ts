@@ -1,7 +1,7 @@
 import { protectedPaths } from "@/app/data/protectedPaths";
 import { NextRequest, NextResponse } from "next/server";
 
-export function googleTokenMiddleware(request: NextRequest, response: NextResponse): NextResponse {
+export function googleLoginMiddleware(request: NextRequest, response: NextResponse): NextResponse {
   const url = new URL(request.url);
   const pathname = request.nextUrl.pathname;
   const homeUrl = new URL("/home", request.url);
