@@ -10,5 +10,5 @@ export const handleUnauthenticatedUser = async (error: string) => {
   authStore.setLoggedIn(false);
   authStore.deleteToken();
   await axios.post("/logout");
-  // toast.error(t(localizeResponses(error)));
+  toast.error(t(localizeResponses(error)));
 };
