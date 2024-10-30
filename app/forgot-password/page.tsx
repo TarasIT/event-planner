@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import { Suspense } from "react";
 import Loading from "../loading";
