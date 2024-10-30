@@ -8,7 +8,6 @@ import { poppins } from "@/app/assets/fonts";
 import { EmailInput } from "../EmailInput/EmailInput";
 import { AuthBtn, AuthForm, Spinner } from "@/app/styles/common.styled";
 import { useRouter } from "next/navigation";
-import { createQueryString } from "@/app/services/createQueryString";
 
 export const ForgotPasswordForm: FC = observer((): JSX.Element => {
   const { t } = useTranslation();
@@ -18,7 +17,7 @@ export const ForgotPasswordForm: FC = observer((): JSX.Element => {
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await authStore.sendResetPasswordLink();
-    router.push(`/home${createQueryString()}`);
+    router.push("/login");
   };
 
   return (
