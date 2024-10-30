@@ -40,14 +40,15 @@ export const EventForm: FC<UpdateEventProps> = observer(
       setNewEvent(null);
       eventsStore.setEvent(null);
       eventDataStore.resetEventFormInputs();
+      eventsStore.setLoading(false);
     }, []);
 
     useEffect(() => {
       if (eventForUpdate) eventsStore.setEvent(eventForUpdate);
       if (error && error !== "Unauthenticated.") {
         toast.error(t(localizeResponses(error as string)));
+        eventsStore.setError(error as string);
       }
-      eventsStore.setLoading(false);
     }, [eventForUpdate, error]);
 
     useEffect(() => {
@@ -108,8 +109,7 @@ export const EventForm: FC<UpdateEventProps> = observer(
           ? await updateEvent(id as string, newEvent)
           : await createEvent(eventForCreate as FormData);
 
-        if (error === "Unauthenticated.") {
-          await handleUnauthenticatedUser(error);
+        if (eventsStore.error === "Unauthenticated.") {
           return router.push("/");
         }
         if (error) return;

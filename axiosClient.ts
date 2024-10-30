@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from "js-cookie";
 import authStore from './app/mobX/stores/authStore';
 
 const axiosClient = axios.create({
@@ -13,7 +12,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('token') || authStore.token;
+    const token = authStore.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

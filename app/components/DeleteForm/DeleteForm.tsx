@@ -2,7 +2,6 @@
 
 import React, { FC, useState } from "react";
 import { observer } from "mobx-react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import {
   DeleteBtn,
@@ -19,8 +18,6 @@ import {
   ModalDescription,
   Spinner,
 } from "@/app/styles/common.styled";
-import { createQueryString } from "@/app/services/createQueryString";
-import { localizeResponses } from "@/app/services/localizeResponses";
 
 export const DeleteForm: FC = observer((): JSX.Element => {
   const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
@@ -52,17 +49,15 @@ export const DeleteForm: FC = observer((): JSX.Element => {
     setIsModalOpened(false);
 
     if (isDeleteEventsBtnActive) {
-      if (!eventsStore.events || !eventsStore.events.length) {
-        closeModal();
-        toast.error(t(localizeResponses("No events found.")));
-        return;
-      }
       await eventsStore.deleteAllEvents();
-      router.push(`/home${createQueryString()}`);
+      if (eventsStore.error === "Unauthenticated.") {
+        return router.push("/");
+      }
+      router.push("/home");
       router.refresh();
     } else {
       await authStore.deleteProfile();
-      router.push(`/${createQueryString()}`);
+      router.push("/");
     }
   };
 

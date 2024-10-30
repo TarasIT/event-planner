@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { googleLoginMiddleware } from "./middlewares/googleLoginMiddleware";
-import { authMiddleware } from "./middlewares/authMiddleware";
-import { googleLogoutMiddleware } from "./middlewares/googleLogoutMiddleware";
+import { loginMiddleware } from "./middlewares/loginMiddleware";
+import { authCheckMiddleware } from "./middlewares/authCheckMiddleware";
+import { logoutMiddleware } from "./middlewares/logoutMiddleware";
 import { headersMiddleware } from "./middlewares/headersMiddleware";
 
 export function middleware(request: NextRequest): NextResponse {
   let response = NextResponse.next();
 
-  response = googleLoginMiddleware(request, response);
+  response = loginMiddleware(request, response);
 
-  response = authMiddleware(request, response);
+  response = authCheckMiddleware(request, response);
 
-  response = googleLogoutMiddleware(request, response);
+  response = logoutMiddleware(request, response);
 
   response = headersMiddleware(response);
 

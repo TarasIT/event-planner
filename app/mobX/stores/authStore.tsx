@@ -1,6 +1,5 @@
 import axios from "axios";
 import { observable, action, makeAutoObservable } from "mobx";
-import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { t } from "i18next";
 import type {
@@ -12,6 +11,7 @@ import type {
 import authCredentials from "./authCredentials";
 import axiosClient from "@/axiosClient";
 import { localizeResponses } from "@/app/services/localizeResponses";
+import { handleUnauthenticatedUser } from "@/app/services/handleUnauthenticatedUser";
 
 class AuthStore {
   @observable
@@ -25,7 +25,6 @@ class AuthStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.getToken();
   }
 
   @action
@@ -49,26 +48,13 @@ class AuthStore {
   };
 
   @action
-  getToken = (): void => {
-    const token = Cookies.get("token");
-    if (token) this.token = token;
-  };
-
-  @action
   setToken = (token: string): void => {
     this.token = token;
-    Cookies.set("token", token, {
-      expires: 7,
-      secure: true,
-      sameSite: "none",
-      path: "/",
-    });
   };
 
   @action
   deleteToken = (): void => {
     this.token = null;
-    Cookies.remove("token", { path: "/" });
   };
 
   @action
@@ -121,7 +107,7 @@ class AuthStore {
     try {
       const response = await axiosClient.post("users/auth/login", credentials);
       const data: AuthResponseProps = response.data;
-
+      await axios.post(`/login?token=${data.token}`);
       this.setToken(data.token as string);
       this.setLoggedIn(true);
     } catch (error: unknown) {
@@ -171,6 +157,12 @@ class AuthStore {
         errorMessage = error.message;
       }
 
+      if (errorMessage === "Unauthenticated.") {
+        this.setError(errorMessage);
+        await handleUnauthenticatedUser(errorMessage);
+        return;
+      }
+
       toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
@@ -202,6 +194,12 @@ class AuthStore {
           errorMessage;
       } else if (error instanceof Error) {
         errorMessage = error.message;
+      }
+
+      if (errorMessage === "Unauthenticated.") {
+        this.setError(errorMessage);
+        await handleUnauthenticatedUser(errorMessage);
+        return;
       }
 
       toast.error(t(localizeResponses(errorMessage)));
@@ -236,6 +234,12 @@ class AuthStore {
           errorMessage;
       } else if (error instanceof Error) {
         errorMessage = error.message;
+      }
+
+      if (errorMessage === "Unauthenticated.") {
+        this.setError(errorMessage);
+        await handleUnauthenticatedUser(errorMessage);
+        return;
       }
 
       toast.error(t(localizeResponses(errorMessage)));

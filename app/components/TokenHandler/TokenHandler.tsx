@@ -3,24 +3,19 @@
 import { FC, useEffect } from "react";
 import { useStore } from "../../mobX/useStore";
 
-interface GoogleProps {
-  googleAccessToken: string | undefined;
+interface TokenProps {
+  token: string | undefined;
 }
 
-const TokenHandler: FC<GoogleProps> = ({ googleAccessToken }): null => {
+const TokenHandler: FC<TokenProps> = ({ token }): null => {
   const { authStore } = useStore();
 
   useEffect(() => {
-    const { getToken, setToken, token, setLoggedIn, isLoggedIn } = authStore;
-
-    getToken();
-    if (token && !isLoggedIn) setLoggedIn(true);
-
-    if (!isLoggedIn && !token && googleAccessToken) {
-      setToken(googleAccessToken);
-      setLoggedIn(true);
+    if (token) {
+      authStore.setToken(token);
+      authStore.setLoggedIn(true);
     }
-  }, [authStore.token, authStore.isLoggedIn, googleAccessToken]);
+  }, []);
 
   return null;
 };

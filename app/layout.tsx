@@ -24,13 +24,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const googleAccessToken = cookies().get("token")?.value;
+  const token = cookies().get("token")?.value;
 
   return (
     <html lang="en">
       <body>
         <StyledComponentsRegistry>
-          <TokenHandler googleAccessToken={googleAccessToken} />
+          <TokenHandler token={token} />
           <Header />
           <Main>
             <Section>{children}</Section>

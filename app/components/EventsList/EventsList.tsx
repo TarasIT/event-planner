@@ -56,6 +56,10 @@ const EventsList: FC<EventListProps> = observer(
     const { eventsStore, eventsSearch, categoryFilter } = useStore();
 
     useEffect(() => {
+      eventsStore.setLoading(false);
+    }, []);
+
+    useEffect(() => {
       if (eventsList) {
         setEvents(eventsList);
         eventsStore.setEvents(eventsList);

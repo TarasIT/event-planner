@@ -16,6 +16,8 @@ const EventsErrorHandler: FC<ErrorProps> = observer(({ error }) => {
   const { eventsStore } = useStore();
 
   useEffect(() => {
+    eventsStore.setError(null);
+
     if (error === "Unauthenticated.") return;
 
     switch (true) {

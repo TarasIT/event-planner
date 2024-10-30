@@ -8,7 +8,7 @@ const UpdateURLWithQueryParams = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace(createQueryString());
+    router.push(createQueryString());
   }, []);
 
   return null;

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { protectedPaths } from "../app/data/protectedPaths";
 
-export function authMiddleware(request: NextRequest, response: NextResponse): NextResponse {
+export function authCheckMiddleware(request: NextRequest, response: NextResponse): NextResponse {
   const startUrl = new URL("/", request.url);
   const homeUrl = new URL("/home", request.url);
   const pathname = request.nextUrl.pathname;

@@ -56,13 +56,18 @@ export const EventDetailsCard: FC<EventProps> = observer(
     const { eventsStore } = useStore();
 
     useEffect(() => {
-      if (error) toast.error(t(localizeResponses(error as string)));
+      if (error && error !== "Unauthenticated.") {
+        toast.error(t(localizeResponses(error as string)));
+      }
     }, [error]);
 
     const deleteEvent = async (id: string): Promise<void> => {
       setIsDeletionLoading(true);
       setIsModalOpened(false);
       await eventsStore.deleteEvent(id as string);
+      if (eventsStore.error === "Unauthenticated.") {
+        return router.push("/");
+      }
       if (!eventsStore.event) router.push(`/home${createQueryString()}`);
       router.refresh();
     };

@@ -6,6 +6,7 @@ import eventDataStore from "./eventDataStore";
 import axiosClient from "@/axiosClient";
 import { t } from "i18next";
 import { localizeResponses } from "@/app/services/localizeResponses";
+import { handleUnauthenticatedUser } from "@/app/services/handleUnauthenticatedUser";
 
 interface EventResponseProps {
   data?: NewEvent | null;
@@ -78,6 +79,12 @@ class EventsStore {
         errorMessage = error.message;
       }
 
+      if (errorMessage === "Unauthenticated.") {
+        this.setError(errorMessage);
+        await handleUnauthenticatedUser(errorMessage);
+        return;
+      }
+
       toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
@@ -106,6 +113,12 @@ class EventsStore {
           errorMessage;
       } else if (error instanceof Error) {
         errorMessage = error.message;
+      }
+
+      if (errorMessage === "Unauthenticated.") {
+        this.setError(errorMessage);
+        await handleUnauthenticatedUser(errorMessage);
+        return;
       }
 
       toast.error(t(localizeResponses(errorMessage)));
@@ -140,6 +153,12 @@ class EventsStore {
         errorMessage = error.message;
       }
 
+      if (errorMessage === "Unauthenticated.") {
+        this.setError(errorMessage);
+        await handleUnauthenticatedUser(errorMessage);
+        return;
+      }
+
       toast.error(t(localizeResponses(errorMessage)));
       this.setError(errorMessage);
     } finally {
@@ -170,6 +189,12 @@ class EventsStore {
           errorMessage;
       } else if (error instanceof Error) {
         errorMessage = error.message;
+      }
+
+      if (errorMessage === "Unauthenticated.") {
+        this.setError(errorMessage);
+        await handleUnauthenticatedUser(errorMessage);
+        return;
       }
 
       toast.error(t(localizeResponses(errorMessage)));

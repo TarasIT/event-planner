@@ -17,7 +17,6 @@ import { useStore } from "../../mobX/useStore";
 import { poppins } from "@/app/assets/fonts";
 import { createQueryString } from "@/app/services/createQueryString";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Preahvihear } from "next/font/google";
 
 const shouldForwardProp = (prop: string) => {
   return (

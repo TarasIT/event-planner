@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { PasswordInput } from "../PasswordInput/PasswordInput";
 import { Spinner } from "@/app/styles/common.styled";
+import { useRouter } from "next/navigation";
 
 export const ChangePasswordForm: FC = observer((): JSX.Element => {
   const [arePasswordsMatched, setArePasswordsMatched] =
@@ -22,6 +23,7 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
   const [isPasswordProvided, setIsPasswordProvided] = useState<boolean>(false);
   const { authCredentials, authStore } = useStore();
   const { t } = useTranslation();
+  const router = useRouter();
 
   useEffect(() => {
     const { is_password_existed } = authCredentials;
@@ -37,7 +39,7 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
       : setArePasswordsMatched(false);
   }, [authCredentials.newPassword, authCredentials.confirmPassword]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const { googleId, password, newPassword, confirmPassword, isPasswordLong } =
       authCredentials;
@@ -46,18 +48,22 @@ export const ChangePasswordForm: FC = observer((): JSX.Element => {
 
     switch (true) {
       case !!password && !!newPassword && !!confirmPassword:
-        authStore.changePassword({
+        await authStore.changePassword({
           current_password: password,
           new_password: newPassword,
           new_password_confirmation: confirmPassword,
         });
+        if (authStore.error === "Unauthenticated.") router.push("/");
         break;
+
       case googleId && !password && !!newPassword && !!confirmPassword:
-        authStore.changePassword({
+        await authStore.changePassword({
           new_password: newPassword,
           new_password_confirmation: confirmPassword,
         });
+        if (authStore.error === "Unauthenticated.") router.push("/");
         break;
+
       case newPassword !== confirmPassword:
         toast.error("Passwords are not matched");
         break;

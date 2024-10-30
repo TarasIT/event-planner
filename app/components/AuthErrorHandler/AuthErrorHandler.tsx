@@ -15,21 +15,15 @@ interface ErrorProps {
 
 const AuthErrorHandler: FC<ErrorProps> = observer(({ error }) => {
   const { t } = useTranslation();
-  const { authStore, eventsStore } = useStore();
+  const { authStore } = useStore();
   const pathname = usePathname();
   const router = useRouter();
 
-  const checkIsUnauthenticated = (err: string | undefined) =>
-    err === "Unauthenticated.";
-
   useEffect(() => {
-    const combinedError = error || authStore.error || eventsStore.error;
-
     (async () => {
-      if (checkIsUnauthenticated(combinedError as string)) {
-        await handleUnauthenticatedUser(combinedError as string);
-        router.push("/");
-        return;
+      if (error === "Unauthenticated.") {
+        await handleUnauthenticatedUser(error as string);
+        return router.push("/");
       } else if (
         error &&
         pathname === "/profile" &&
