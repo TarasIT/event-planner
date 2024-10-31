@@ -1,13 +1,14 @@
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export function loginMiddleware(request: NextRequest, response: NextResponse): NextResponse {
   const url = new URL(request.url);
-  const pathname = request.nextUrl.pathname;
   const homeUrl = new URL("/home", request.url);
 
+  const existedToken = cookies().get("token")?.value;
   const token = url.searchParams.get("token");
 
-  if (token && pathname === "/login") {
+  if (token && !existedToken) {
     response = NextResponse.redirect(homeUrl.toString(), 302);
     response.cookies.set("token", token, {
       maxAge: 60 * 60 * 24 * 7,
