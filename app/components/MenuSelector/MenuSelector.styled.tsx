@@ -67,7 +67,7 @@ export const MenuSelectorList = styled.ul<MenuProps>`
 
   @media (768px <= width < 1280px) {
     & {
-      left: -29px;
+      left: ${({ currentLang }) => (currentLang === "en" ? "-29px" : "-48px")};
     }
   }
 
