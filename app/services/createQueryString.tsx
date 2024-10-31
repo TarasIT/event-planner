@@ -22,7 +22,9 @@ export const createQueryString = (): string => {
   let page =
     (searchQuery || currentCategory) && lastPage !== currentPage
       ? 1
-      : currentPage;
+      : currentPage
+      ? currentPage
+      : 1;
   let sorter =
     currentSorter === "A-Z" || currentSorter === "Z-A"
       ? "title"
