@@ -6,7 +6,7 @@ export function authCheckMiddleware(request: NextRequest, response: NextResponse
   const pathname = request.nextUrl.pathname;
   const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
 
-  const token = request.cookies.get("token");
+  const token = request.cookies.get("token")?.value;
 
   if (token && !isProtectedPath) {
     response = NextResponse.redirect(homeUrl);
