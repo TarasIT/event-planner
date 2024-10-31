@@ -37,18 +37,22 @@ export const Pagination: FC<PaginationProps> = observer(
     const router = useRouter();
 
     useEffect(() => {
-      if (meta) {
-        paginationStore.setPaginationData(meta);
-        setLastPage(paginationStore.lastPage);
-        setCurrentPage(paginationStore.currentPage);
-        setPagination(paginationStore.pagination);
-
-        if (meta.last_page < meta.current_page) {
-          router.push(createQueryString());
-          eventsStore.setLoading(true);
-        }
+      if (meta) paginationStore.setPaginationData(meta);
+      if (meta && meta.last_page < meta.current_page) {
+        eventsStore.setLoading(true);
+        router.push(createQueryString());
       }
-    }, [meta, router.push]);
+    }, []);
+
+    useEffect(() => {
+      setLastPage(paginationStore.lastPage);
+      setCurrentPage(paginationStore.currentPage);
+      setPagination(paginationStore.pagination);
+    }, [
+      paginationStore.lastPage,
+      paginationStore.currentPage,
+      paginationStore.pagination,
+    ]);
 
     const onPrevPageClick = (): void => {
       if (currentPage && currentPage === 1) return;
