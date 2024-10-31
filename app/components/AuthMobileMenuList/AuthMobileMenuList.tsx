@@ -48,6 +48,7 @@ export const AuthMobileMenuList: FC<MobileMenuProps> = ({
         window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/google/redirect`;
         break;
     }
+    router.refresh();
   };
 
   return (

@@ -47,9 +47,7 @@ export const AuthSelector: FC = (): JSX.Element => {
   };
 
   const onAuthBtnClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    const id = e.currentTarget.id;
-
-    switch (id) {
+    switch (e.currentTarget.id) {
       case "login":
         if (pathname !== "/login") {
           setIsLoading(true);
@@ -67,6 +65,7 @@ export const AuthSelector: FC = (): JSX.Element => {
         window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/google/redirect`;
         break;
     }
+    router.refresh();
   };
 
   return (
