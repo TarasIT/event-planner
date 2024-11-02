@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { poppins } from "@/app/assets/fonts";
 import {
@@ -20,16 +20,9 @@ import {
   Subtitle,
   Title,
 } from "./StartPageContainer.styled";
-import { useSearchParams } from "next/navigation";
 
 export const StartPageContainer: FC = (): JSX.Element => {
-  const { t, i18n } = useTranslation();
-  const query = useSearchParams();
-  const currentLang = query.get("lang");
-
-  useEffect(() => {
-    if (currentLang) i18n.changeLanguage(currentLang);
-  }, [i18n.language, currentLang]);
+  const { t } = useTranslation();
 
   return (
     <>
